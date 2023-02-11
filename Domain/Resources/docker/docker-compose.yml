@@ -1,0 +1,13 @@
+﻿version: "3.2"
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: always
+    container_name: sql-server
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EYLA: "Y"
+      SA_PASSWORD: "Rasp123"

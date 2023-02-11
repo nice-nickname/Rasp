@@ -1,0 +1,7 @@
+﻿@using Incoding.Web.MvcContrib
+@using Domain
+@(Html.When(JqueryBind.InitIncoding)
+      .Ajax<Inc>(new {})
+      .OnSuccess(dsl => dsl.Window.Alert(1))
+      .AsHtmlAttributes()
+      .ToDiv())
