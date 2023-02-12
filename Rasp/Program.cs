@@ -1,3 +1,4 @@
+using FluentNHibernate.Cfg.Db;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Incoding.Core;
@@ -6,15 +7,11 @@ using Incoding.Core.Block.Caching.Providers;
 using Incoding.Core.Block.IoC;
 using Incoding.Core.Block.IoC.Provider;
 using Incoding.Core.Data;
-using Incoding.Core.Extensions;
 using Incoding.Data.EF;
 using Incoding.Web;
 using Incoding.Web.MvcContrib;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Options;
+using NUglify.JavaScript;
 
 namespace Rasp
 {
@@ -35,16 +32,28 @@ namespace Rasp
                    });
 
             builder.Services.ConfigureIncodingCoreServices();
+
+            builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase), null, b =>
+            {
+                var connectionString = @"Server=localhost,1433;Database=News;User Id=ahaha;Password=123;";
+				
+				var db = MsSqlConfiguration.MsSql2012.ConnectionString(connectionString).ShowSql();
+                b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
+                return b;
+            });
+
             builder.Services.ConfigureIncodingWebServices();
 
             builder.Services.AddWebOptimizer(pipeline =>
             {
                 // Main libraries
-                pipeline.AddJavaScriptBundle("/lib/jq.js",
+                pipeline.AddJavaScriptBundle("/lib/jq.js", new CodeSettings { MinifyCode = true },
                             "node_modules/jquery/dist/jquery.min.js",
+                            "wwwroot/lib/jquery.history.js",
                             "node_modules/**/dist/jquery.form.min.js",
                             "node_modules/**/dist/jquery.validate.js",
                             "node_modules/**/dist/jquery.validate.unobtrusive.min.js",
+                            "node_modules/**/dist/jquery.history.min.js",
                             "node_modules/underscore/underscore-min.js",
                             "wwwroot/lib/incoding.framework.js",
                             "node_modules/**/dist/handlebars.min.js")
@@ -65,8 +74,6 @@ namespace Rasp
 
             app.UseWebOptimizer();
             app.UseStaticFiles();
-
-            app.UseRouting();
 
             app.UseAuthorization();
             app.UseMvc(routes =>

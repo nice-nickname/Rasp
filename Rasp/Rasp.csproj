@@ -8,6 +8,8 @@
 
   <ItemGroup>
 	  <PackageReference Include="Incoding.Core" Version="1.2.5" />
+	  <PackageReference Include="Incoding.Data" Version="1.2.5" />
+	  <PackageReference Include="Incoding.Data.NHibernate" Version="1.2.5" />
 	  <PackageReference Include="Incoding.Web" Version="1.2.6" />
 	  <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.372" />
   </ItemGroup>
