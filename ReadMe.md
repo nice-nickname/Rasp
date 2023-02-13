@@ -21,3 +21,11 @@ Build application
 ```console
 dotnet build app.exe
 ```
+
+## Docker configuration
+You can use docker compose to create a Docker container with sql server installed and ready-to-work with Rasp
+
+Pull, create, run and attach docker
+```console
+docker compose up
+```
