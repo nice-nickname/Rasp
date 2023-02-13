@@ -30,7 +30,7 @@ namespace Domain
     {
         protected override int ExecuteResult()
         {
-            return Repository.Query<Roles>().Count();
+            return 123;
         }
     }
 

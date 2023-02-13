@@ -1,7 +1,7 @@
 ﻿@using Incoding.Web.MvcContrib
 @using Domain
 @(Html.When(JqueryBind.InitIncoding)
-      .Ajax("/Dispatcher/Query?incType=Inc")
-      .OnSuccess(dsl => dsl.Self().Insert.Use(Selector.Result).WithTemplateByView("~/Views/Home/Item_Tmpl.cshtml").Html())
+      .Ajax(Url.Dispatcher().Query<Inc>().AsJson())
+      .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Home/Item_Tmpl.cshtml").Html())
       .AsHtmlAttributes()
       .ToDiv())

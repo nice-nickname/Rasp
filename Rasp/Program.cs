@@ -10,20 +10,60 @@ using Incoding.Core.Data;
 using Incoding.Data.EF;
 using Incoding.Web;
 using Incoding.Web.MvcContrib;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Caching.Memory;
 using NUglify.JavaScript;
 
 namespace Rasp
 {
+    public static class Extentions
+    {
+        public static IApplicationBuilder UseMvd(this WebApplication app)
+        {
+            return app.UseEndpoints(routeBuilder =>
+            {
+                routeBuilder.MapControllerRoute("incodingCqrsQuery", "Cqrs/Query/{incType}", new
+                {
+                    controller = "Dispatcher",
+                    action = "Query"
+                });
+                routeBuilder.MapControllerRoute("incodingCqrsValidate", "Cqrs/Validate/{incType}", new
+                {
+                    controller = "Dispatcher",
+                    action = "Validate"
+                });
+                routeBuilder.MapControllerRoute("incodingCqrsCommand", "Cqrs/Command/{incTypes}", new
+                {
+                    controller = "Dispatcher",
+                    action = "Push"
+                });
+                routeBuilder.MapControllerRoute("incodingCqrsRender", "Cqrs/Render/{incType}", new
+                {
+                    controller = "Dispatcher",
+                    action = "Render"
+                });
+                routeBuilder.MapControllerRoute("incodingCqrsFile", "Cqrs/File/{incType}", new
+                {
+                    controller = "Dispatcher",
+                    action = "QueryToFile"
+                });
+                routeBuilder.MapDefaultControllerRoute();
+            });
+        }
+    }
+
     public class Program
     {
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
+            builder.Services.AddRazorPages();
+            builder.Services.AddRouting();
+
             builder.Services
-                   .AddControllersWithViews(o =>
+                   .AddMvc(o =>
                    {
                        o.Filters.Add(new IncodingErrorHandlingFilter());
-                       o.EnableEndpointRouting = false;
                    })
                    .AddFluentValidation(c =>
                    {
@@ -74,16 +114,10 @@ namespace Rasp
 
             app.UseWebOptimizer();
             app.UseStaticFiles();
-
+            
+            app.UseRouting();
             app.UseAuthorization();
-            app.UseMvc(routes =>
-            {
-                routes.ConfigureCQRS();
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
+            app.UseMvd();
 
             IoCFactory.Instance.Initialize(i => i.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
             CachingFactory.Instance.Initialize(init =>
