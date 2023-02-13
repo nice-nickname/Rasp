@@ -29,3 +29,4 @@ Pull, create, run and attach docker
 ```console
 docker compose up
 ```
+![Чурки](http://ii.yakuji.moe/b/src/1592057938362.png)
