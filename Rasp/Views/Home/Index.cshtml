@@ -1,7 +1,1 @@
-﻿@using Incoding.Web.MvcContrib
-@using Domain
-@(Html.When(JqueryBind.InitIncoding)
-      .Ajax(Url.Dispatcher().Query<Inc>().AsJson())
-      .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Home/Item_Tmpl.cshtml").Html())
-      .AsHtmlAttributes()
-      .ToDiv())
+﻿<div>Hello, world!</div>
