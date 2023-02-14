@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentMigrator" Version="3.3.2" />
     <PackageReference Include="Incoding.Core" Version="1.2.5" />
     <PackageReference Include="Incoding.Data" Version="1.2.5" />
     <PackageReference Include="Incoding.Data.NHibernate" Version="1.2.5" />

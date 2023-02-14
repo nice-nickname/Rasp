@@ -1,3 +1,4 @@
+using FluentMigrator.Runner;
 using FluentNHibernate.Cfg.Db;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -24,6 +25,13 @@ namespace Rasp
             builder.Services
                    .AddRazorPages()
                    .AddRazorRuntimeCompilation();
+
+            builder.Services
+                   .AddFluentMigratorCore()
+                   .ConfigureRunner(r =>
+                       r.AddSqlServer2012()
+                        .WithGlobalConnectionString(builder.Configuration["ConnectionString"])
+                        .ScanIn(typeof(Domain.Bootstrap).Assembly).For.Migrations());
 
             builder.Services.AddRouting();
 
@@ -110,6 +118,12 @@ namespace Rasp
                 });
                 routeBuilder.MapDefaultControllerRoute();
             });
+
+            app.Services
+               .CreateScope()
+               .ServiceProvider
+               .GetRequiredService<IMigrationRunner>()
+               .MigrateUp();
 
             IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
             CachingFactory.Instance.Initialize(cache => cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
