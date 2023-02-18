@@ -2,10 +2,10 @@ using FluentMigrator;
 
 namespace Domain.Migrations
 {
-	[Migration(1, "First migration")]
-	public class Step1 : Migration
-	{
-		public override void Up()
+    [Migration(1, "First migration")]
+    public class Step1 : Migration
+    {
+        public override void Up()
         {
             Create.Table("Building")
                   .WithColumn("Code").AsFixedLengthString(1).PrimaryKey();
@@ -22,10 +22,10 @@ namespace Domain.Migrations
                   .PrimaryColumn("Code");
         }
 
-		public override void Down()
+        public override void Down()
         {
             Delete.Table("Auditorium");
             Delete.Table("Building");
         }
-	}
+    }
 }
