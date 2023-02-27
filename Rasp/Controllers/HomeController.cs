@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Rasp.Controllers
+namespace UI.Controllers
 {
     public class HomeController : Controller
     {

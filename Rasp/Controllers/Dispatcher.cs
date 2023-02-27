@@ -1,7 +1,7 @@
 ﻿using Incoding.Web.MvcContrib;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Rasp.Controllers
+namespace UI.Controllers
 {
     public class Dispatcher : DispatcherControllerBase
     {
