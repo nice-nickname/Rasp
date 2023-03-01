@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "jquery": "3.6.3",
+    "jquery-validation": "1.19.5",
+    "jquery-validation-unobtrusive": "4.0.0",
+    "jquery-form": "4.3.0",
+    "underscore": "1.13.6",
+    "handlebars": "4.7.7"
+  }
+}

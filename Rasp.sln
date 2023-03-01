@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "Rasp\UI.csproj", "{67E7CCBB-CAF2-48B1-B57D-F56BA111AC98}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{63B9D497-9A57-47E7-9D54-DB008AD53C97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{97A578ED-0F58-4D55-BCF8-B0662C45745E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{67E7CCBB-CAF2-48B1-B57D-F56BA111AC98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67E7CCBB-CAF2-48B1-B57D-F56BA111AC98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67E7CCBB-CAF2-48B1-B57D-F56BA111AC98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67E7CCBB-CAF2-48B1-B57D-F56BA111AC98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63B9D497-9A57-47E7-9D54-DB008AD53C97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63B9D497-9A57-47E7-9D54-DB008AD53C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63B9D497-9A57-47E7-9D54-DB008AD53C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63B9D497-9A57-47E7-9D54-DB008AD53C97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A578ED-0F58-4D55-BCF8-B0662C45745E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A578ED-0F58-4D55-BCF8-B0662C45745E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A578ED-0F58-4D55-BCF8-B0662C45745E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A578ED-0F58-4D55-BCF8-B0662C45745E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
