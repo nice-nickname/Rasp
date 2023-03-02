@@ -1,6 +1,3 @@
-﻿namespace Domain
-{
-    public class Bootstrap
-    {
-    }
-}
+﻿namespace Domain;
+
+public class Bootstrap { }

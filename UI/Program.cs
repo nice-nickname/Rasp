@@ -126,7 +126,8 @@ namespace UI
                .MigrateUp();
 
             IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
-            CachingFactory.Instance.Initialize(cache => cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
+            CachingFactory.Instance.Initialize(cache =>
+                cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
 
             return app;
         }
