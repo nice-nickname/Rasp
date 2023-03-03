@@ -37,7 +37,7 @@ public class Step1 : Migration
               .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32()
               .WithColumn(nameof(Auditorium.Accessories)).AsInt32();
 
-        Create.ForeignKey("FK_Auditorium_Department")
+        Create.ForeignKey("FK_Auditorium_AuditoriumAccessory")
               .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.Accessories))
               .ToTable(nameof(AuditoriumAccessory)).PrimaryColumn(nameof(AuditoriumAccessory.Id))
               .OnDeleteOrUpdate(Rule.None);
