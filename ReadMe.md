@@ -13,13 +13,13 @@ Standart ASP.NET CORE commands are used to maintain project building
 Run application
 
 ```console
-dotnet run app.exe
+dotnet run
 ```
 
 Build application
 
 ```console
-dotnet build app.exe
+dotnet build
 ```
 
 ## Docker configuration

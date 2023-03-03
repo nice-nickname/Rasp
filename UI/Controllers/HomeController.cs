@@ -8,5 +8,13 @@ namespace UI.Controllers
         {
             return View();
         }
+
+		[Route("{*url}", Order = 999)]
+		public IActionResult PageNotFound()
+		{
+			// Global 404 NOT FOUND handler
+			Response.StatusCode = 404;
+			return View();
+		}
     }
 }
