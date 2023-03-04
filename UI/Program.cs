@@ -71,6 +71,9 @@ namespace UI
 
 				// Dev scripts
 				pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");
+
+				// Dev styles
+				pipeline.AddCssBundle("/css/styles.css", "/css/**/*.css");
 			});
 
 			return builder.Build();
