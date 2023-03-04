@@ -11,6 +11,12 @@ public class Auditorium : IncEntityBase
 
 	public virtual int? DepartmentId { get; set; }
 
+	public virtual int? AccessoriesId { get; set; }
+
+	public virtual int? BuildingId { get; set; }
+
+	public virtual Building? Building { get; set; }
+
 	public virtual Department? Department { get; set; }
 
 	public virtual AuditoriumAccessory? Accessories { get; set; }
@@ -22,6 +28,8 @@ public class Auditorium : IncEntityBase
 			Id(s => s.Id).GeneratedBy.Identity();
 			Map(s => s.Code);
 			Map(s => s.DepartmentId).Nullable();
+			Map(s => s.AccessoriesId).Nullable();
+			Map(s => s.BuildingId).Nullable();
 
 			References(s => s.Department).Column(nameof(DepartmentId))
 										 .Nullable()
@@ -29,9 +37,17 @@ public class Auditorium : IncEntityBase
 										 .Not.Update()
 										 .LazyLoad();
 
-			References(s => s.Accessories).Nullable()
+			References(s => s.Accessories).Column(nameof(AccessoriesId))
+										  .Nullable()
 										  .Not.Insert()
-										  .Not.Update();
+										  .Not.Update()
+										  .LazyLoad();
+
+			References(s => s.Building).Column(nameof(BuildingId))
+									   .Nullable()
+									   .Not.Insert()
+									   .Not.Update()
+									   .LazyLoad();
 		}
 	}
 }

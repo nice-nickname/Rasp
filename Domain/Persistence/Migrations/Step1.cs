@@ -31,20 +31,30 @@ public class Step1 : Migration
 			  .WithColumn(nameof(AuditoriumAccessory.Id)).AsInt32().PrimaryKey().Identity()
 			  .WithColumn(nameof(AuditoriumAccessory.Kinds)).AsInt64();
 
+		Create.Table(nameof(Building))
+			   .WithColumn(nameof(Building.Id)).AsInt32().PrimaryKey().Identity()
+			   .WithColumn(nameof(Building.Code)).AsString(1);
+
 		Create.Table(nameof(Auditorium))
 			  .WithColumn(nameof(Auditorium.Id)).AsInt32().PrimaryKey().Identity()
 			  .WithColumn(nameof(Auditorium.Code)).AsString(10)
-			  .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32()
-			  .WithColumn(nameof(Auditorium.Accessories)).AsInt32();
+			  .WithColumn(nameof(Auditorium.BuildingId)).AsInt32().Nullable()
+			  .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32().Nullable()
+			  .WithColumn(nameof(Auditorium.AccessoriesId)).AsInt32().Nullable();
 
 		Create.ForeignKey("FK_Auditorium_AuditoriumAccessory")
-			  .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.Accessories))
+			  .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.AccessoriesId))
 			  .ToTable(nameof(AuditoriumAccessory)).PrimaryColumn(nameof(AuditoriumAccessory.Id))
 			  .OnDeleteOrUpdate(Rule.None);
 
 		Create.ForeignKey("FK_Auditorium_Department")
 			  .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.DepartmentId))
 			  .ToTable(nameof(Department)).PrimaryColumn(nameof(Department.Id))
+			  .OnDeleteOrUpdate(Rule.None);
+
+		Create.ForeignKey("FK_Auditorium_Building")
+			  .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.BuildingId))
+			  .ToTable(nameof(Building)).PrimaryColumn(nameof(Building.Id))
 			  .OnDeleteOrUpdate(Rule.None);
 	}
 
@@ -54,6 +64,7 @@ public class Step1 : Migration
 		Delete.Table(nameof(Auditorium));
 		Delete.Table(nameof(AuditoriumAccessory));
 		Delete.Table(nameof(AuditoriumAccessoriesKind));
+		Delete.Table(nameof(Building));
 		Delete.Table(nameof(Department));
 	}
 }
