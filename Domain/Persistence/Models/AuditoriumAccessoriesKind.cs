@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
-namespace Domain.Persistance;
+namespace Domain.Persistence;
 
 public class AuditoriumAccessoriesKind : IncEntityBase
 {

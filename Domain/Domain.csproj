@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="App\Api\" />
+    <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
