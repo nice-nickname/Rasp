@@ -1,7 +1,7 @@
 using System.Data;
 using FluentMigrator;
 
-namespace Domain.Migrations;
+namespace Domain.Persistance;
 
 [Migration(1, "First migration")]
 public class Step1 : Migration

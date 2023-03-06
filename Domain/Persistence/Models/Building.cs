@@ -1,7 +1,7 @@
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
-namespace Domain;
+namespace Domain.Persistance;
 
 public class Building : IncEntityBase
 {
@@ -9,7 +9,7 @@ public class Building : IncEntityBase
 
 	public virtual string Code { get; set; }
 
-	public class Map : ClassMap<Building>
+	internal class Map : ClassMap<Building>
 	{
 		public Map()
 		{

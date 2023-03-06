@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
-namespace Domain;
+namespace Domain.Persistance;
 
 public class AuditoriumAccessory : IncEntityBase
 {
@@ -9,7 +9,7 @@ public class AuditoriumAccessory : IncEntityBase
 
 	public virtual long Kinds { get; set; }
 
-	public class Map : ClassMap<AuditoriumAccessory>
+	internal class Map : ClassMap<AuditoriumAccessory>
 	{
 		public Map()
 		{

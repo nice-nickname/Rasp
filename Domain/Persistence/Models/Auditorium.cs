@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
-namespace Domain;
+namespace Domain.Persistance;
 
 public class Auditorium : IncEntityBase
 {
@@ -21,7 +21,7 @@ public class Auditorium : IncEntityBase
 
 	public virtual AuditoriumAccessory? Accessories { get; set; }
 
-	public class Map : ClassMap<Auditorium>
+	internal class Map : ClassMap<Auditorium>
 	{
 		public Map()
 		{
