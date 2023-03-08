@@ -10,6 +10,7 @@
     <Folder Include="App\Api\" />
     <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Persistence\Migrations\" />
+    <Folder Include="Common\Extentions" />
   </ItemGroup>
 
   <ItemGroup>
