@@ -10,7 +10,7 @@ public class Step2 : Migration
 	public override void Up()
 	{
 		Create.Table(nameof(Class))
-			  .WithColumn(nameof(Class.Id)).AsInt32().PrimaryKey().Identity()
+			  .WithColumn(nameof(Class.Id)).AsIntPK()
 			  .WithColumn(nameof(Class.Name)).AsString(100);
 
 		Create.Table(nameof(ClassModule))

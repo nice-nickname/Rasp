@@ -1,4 +1,5 @@
 using System.Data;
+using Domain.Extentions;
 using FluentMigrator;
 
 namespace Domain.Persistence;
@@ -9,12 +10,12 @@ public class Step1 : Migration
 	public override void Up()
 	{
 		Create.Table(nameof(Department))
-			  .WithColumn(nameof(Department.Id)).AsInt32().PrimaryKey().Identity()
+			  .WithColumn(nameof(Department.Id)).AsIntPK()
 			  .WithColumn(nameof(Department.Name)).AsString(100)
 			  .WithColumn(nameof(Department.Code)).AsString(15);
 
 		Create.Table(nameof(Teacher))
-			  .WithColumn(nameof(Teacher.Id)).AsInt32().PrimaryKey().Identity()
+			  .WithColumn(nameof(Teacher.Id)).AsIntPK()
 			  .WithColumn(nameof(Teacher.Name)).AsString(150)
 			  .WithColumn(nameof(Teacher.DepartmentId)).AsInt32();
 
@@ -24,19 +25,19 @@ public class Step1 : Migration
 			  .OnDeleteOrUpdate(Rule.None);
 
 		Create.Table(nameof(AuditoriumAccessoriesKind))
-			  .WithColumn(nameof(AuditoriumAccessoriesKind.Id)).AsInt32().PrimaryKey()
+			  .WithColumn(nameof(AuditoriumAccessoriesKind.Id)).AsIntPK()
 			  .WithColumn(nameof(AuditoriumAccessoriesKind.Name)).AsString(30);
 
 		Create.Table(nameof(AuditoriumAccessory))
-			  .WithColumn(nameof(AuditoriumAccessory.Id)).AsInt32().PrimaryKey().Identity()
+			  .WithColumn(nameof(AuditoriumAccessory.Id)).AsIntPK()
 			  .WithColumn(nameof(AuditoriumAccessory.Kinds)).AsInt64();
 
 		Create.Table(nameof(Building))
-			   .WithColumn(nameof(Building.Id)).AsInt32().PrimaryKey().Identity()
+			   .WithColumn(nameof(Building.Id)).AsIntPK()
 			   .WithColumn(nameof(Building.Code)).AsString(1);
 
 		Create.Table(nameof(Auditorium))
-			  .WithColumn(nameof(Auditorium.Id)).AsInt32().PrimaryKey().Identity()
+			  .WithColumn(nameof(Auditorium.Id)).AsIntPK()
 			  .WithColumn(nameof(Auditorium.Code)).AsString(10)
 			  .WithColumn(nameof(Auditorium.BuildingId)).AsInt32().Nullable()
 			  .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32().Nullable()
