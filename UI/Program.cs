@@ -14,139 +14,138 @@ using Incoding.Web.MvcContrib;
 using Microsoft.Extensions.Caching.Memory;
 using NUglify.JavaScript;
 
-namespace UI
+namespace UI;
+
+public static class Startup
 {
-	public static class Startup
+	public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
 	{
-		public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
+		builder.Configuration.AddJsonFile("dbconfig.json", false, true);
+
+		builder.Services
+			   .AddRazorPages()
+			   .AddRazorRuntimeCompilation();
+
+		builder.Services
+			   .AddFluentMigratorCore()
+			   .ConfigureRunner(r =>
+				   r.AddSqlServer2012()
+					.WithGlobalConnectionString(builder.Configuration["ConnectionString"])
+					.ScanIn(typeof(Domain.Bootstrap).Assembly).For.Migrations());
+
+		builder.Services.AddRouting();
+
+		builder.Services
+			   .AddMvc(o => o.Filters.Add(new IncodingErrorHandlingFilter()))
+			   .AddFluentValidation(config =>
+			   {
+				   config.ValidatorFactory = new IncValidatorFactory();
+				   AssemblyScanner.FindValidatorsInAssembly(typeof(Domain.Bootstrap).Assembly);
+			   });
+
+		builder.Services.ConfigureIncodingCoreServices();
+
+		builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase), null, b =>
 		{
-			builder.Configuration.AddJsonFile("dbconfig.json", false, true);
+			var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
+			b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
+			return b;
+		});
 
-			builder.Services
-				   .AddRazorPages()
-				   .AddRazorRuntimeCompilation();
+		builder.Services.ConfigureIncodingWebServices();
 
-			builder.Services
-				   .AddFluentMigratorCore()
-				   .ConfigureRunner(r =>
-					   r.AddSqlServer2012()
-						.WithGlobalConnectionString(builder.Configuration["ConnectionString"])
-						.ScanIn(typeof(Domain.Bootstrap).Assembly).For.Migrations());
-
-			builder.Services.AddRouting();
-
-			builder.Services
-				   .AddMvc(o => o.Filters.Add(new IncodingErrorHandlingFilter()))
-				   .AddFluentValidation(config =>
-				   {
-					   config.ValidatorFactory = new IncValidatorFactory();
-					   AssemblyScanner.FindValidatorsInAssembly(typeof(Domain.Bootstrap).Assembly);
-				   });
-
-			builder.Services.ConfigureIncodingCoreServices();
-
-			builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase), null, b =>
-			{
-				var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
-				b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
-				return b;
-			});
-
-			builder.Services.ConfigureIncodingWebServices();
-
-			builder.Services.AddWebOptimizer(pipeline =>
-			{
-				// Main libraries
-				pipeline.AddJavaScriptBundle("/lib/jq.js", new CodeSettings { MinifyCode = true },
-							"node_modules/jquery/dist/jquery.min.js",
-							"wwwroot/lib/jquery.history.js",
-							"node_modules/**/dist/jquery.form.min.js",
-							"node_modules/**/dist/jquery.validate.js",
-							"node_modules/**/dist/jquery.validate.unobtrusive.min.js",
-							"node_modules/**/dist/jquery.history.min.js",
-							"node_modules/underscore/underscore-min.js",
-							"wwwroot/lib/incoding.framework.js",
-							"node_modules/**/dist/handlebars.min.js")
-						.UseContentRoot();
-
-				// Dev scripts
-				pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");
-
-				// Dev styles
-				pipeline.AddCssBundle("/css/styles.css", "/css/**/*.css");
-			});
-
-			return builder.Build();
-		}
-
-		public static WebApplication ConfigureApplication(this WebApplication app)
+		builder.Services.AddWebOptimizer(pipeline =>
 		{
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
+			// Main libraries
+			pipeline.AddJavaScriptBundle("/lib/jq.js", new CodeSettings { MinifyCode = true },
+						"node_modules/jquery/dist/jquery.min.js",
+						"wwwroot/lib/jquery.history.js",
+						"node_modules/**/dist/jquery.form.min.js",
+						"node_modules/**/dist/jquery.validate.js",
+						"node_modules/**/dist/jquery.validate.unobtrusive.min.js",
+						"node_modules/**/dist/jquery.history.min.js",
+						"node_modules/underscore/underscore-min.js",
+						"wwwroot/lib/incoding.framework.js",
+						"node_modules/**/dist/handlebars.min.js")
+					.UseContentRoot();
 
-			app.UseWebOptimizer();
-			app.UseStaticFiles();
+			// Dev scripts
+			pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");
 
-			app.UseRouting();
-			app.UseAuthorization();
-			app.UseEndpoints(routeBuilder =>
-			{
-				routeBuilder.MapControllerRoute("incodingCqrsQuery", "Cqrs/Query/{incType}", new
-				{
-					controller = "Dispatcher",
-					action = "Query"
-				});
-				routeBuilder.MapControllerRoute("incodingCqrsValidate", "Cqrs/Validate/{incType}", new
-				{
-					controller = "Dispatcher",
-					action = "Validate"
-				});
-				routeBuilder.MapControllerRoute("incodingCqrsCommand", "Cqrs/Command/{incTypes}", new
-				{
-					controller = "Dispatcher",
-					action = "Push"
-				});
-				routeBuilder.MapControllerRoute("incodingCqrsRender", "Cqrs/Render/{incType}", new
-				{
-					controller = "Dispatcher",
-					action = "Render"
-				});
-				routeBuilder.MapControllerRoute("incodingCqrsFile", "Cqrs/File/{incType}", new
-				{
-					controller = "Dispatcher",
-					action = "QueryToFile"
-				});
-				routeBuilder.MapDefaultControllerRoute();
-			});
+			// Dev styles
+			pipeline.AddCssBundle("/css/styles.css", "/css/**/*.css");
+		});
 
-			app.Services
-			   .CreateScope()
-			   .ServiceProvider
-			   .GetRequiredService<IMigrationRunner>()
-			   .MigrateUp();
-
-			IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
-			CachingFactory.Instance.Initialize(cache =>
-				cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
-
-			return app;
-		}
+		return builder.Build();
 	}
 
-	public class Program
+	public static WebApplication ConfigureApplication(this WebApplication app)
 	{
-		public static void Main(string[] args)
+		if (app.Environment.IsDevelopment())
 		{
-			WebApplication.CreateBuilder(args)
-						  .ConfigureServices()
-						  .ConfigureApplication()
-						  .Run();
+			app.UseDeveloperExceptionPage();
 		}
+		else
+		{
+			app.UseExceptionHandler("/Home/Error");
+		}
+
+		app.UseWebOptimizer();
+		app.UseStaticFiles();
+
+		app.UseRouting();
+		app.UseAuthorization();
+		app.UseEndpoints(routeBuilder =>
+		{
+			routeBuilder.MapControllerRoute("incodingCqrsQuery", "Cqrs/Query/{incType}", new
+			{
+				controller = "Dispatcher",
+				action = "Query"
+			});
+			routeBuilder.MapControllerRoute("incodingCqrsValidate", "Cqrs/Validate/{incType}", new
+			{
+				controller = "Dispatcher",
+				action = "Validate"
+			});
+			routeBuilder.MapControllerRoute("incodingCqrsCommand", "Cqrs/Command/{incTypes}", new
+			{
+				controller = "Dispatcher",
+				action = "Push"
+			});
+			routeBuilder.MapControllerRoute("incodingCqrsRender", "Cqrs/Render/{incType}", new
+			{
+				controller = "Dispatcher",
+				action = "Render"
+			});
+			routeBuilder.MapControllerRoute("incodingCqrsFile", "Cqrs/File/{incType}", new
+			{
+				controller = "Dispatcher",
+				action = "QueryToFile"
+			});
+			routeBuilder.MapDefaultControllerRoute();
+		});
+
+		app.Services
+		   .CreateScope()
+		   .ServiceProvider
+		   .GetRequiredService<IMigrationRunner>()
+		   .MigrateUp();
+
+		IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
+		CachingFactory.Instance.Initialize(cache =>
+			cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
+
+		return app;
+	}
+}
+
+public class Program
+{
+	public static void Main(string[] args)
+	{
+		WebApplication.CreateBuilder(args)
+					  .ConfigureServices()
+					  .ConfigureApplication()
+					  .Run();
 	}
 }
