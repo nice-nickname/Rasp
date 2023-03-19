@@ -11,6 +11,8 @@ public class Auditorium : IncEntityBase
 
     public virtual int? DepartmentId { get; set; }
 
+    public virtual int Capacity { get; set; }
+
     public virtual int? AccessoriesId { get; set; }
 
     public virtual int? BuildingId { get; set; }

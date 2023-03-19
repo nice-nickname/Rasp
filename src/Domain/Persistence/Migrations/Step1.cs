@@ -39,6 +39,7 @@ public class Step1 : Migration
         Create.Table(nameof(Auditorium))
               .WithColumn(nameof(Auditorium.Id)).AsIntPK()
               .WithColumn(nameof(Auditorium.Code)).AsString(10)
+              .WithColumn(nameof(Auditorium.Capacity)).AsInt16()
               .WithColumn(nameof(Auditorium.BuildingId)).AsInt32().Nullable()
               .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32().Nullable()
               .WithColumn(nameof(Auditorium.AccessoriesId)).AsInt32().Nullable();
