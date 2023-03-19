@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="App\Api\" />
+    <Folder Include="App\Api\ScheduleTable" />
     <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Persistence\Migrations\" />
     <Folder Include="Common\Extentions" />
