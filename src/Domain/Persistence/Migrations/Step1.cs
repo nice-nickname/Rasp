@@ -30,24 +30,29 @@ public class Step1 : Migration
 
         Create.Table(nameof(AuditoriumAccessory))
               .WithColumn(nameof(AuditoriumAccessory.Id)).AsIntPK()
-              .WithColumn(nameof(AuditoriumAccessory.Kinds)).AsInt64();
+              .WithColumn(nameof(AuditoriumAccessory.AuditoriumId)).AsInt32()
+              .WithColumn(nameof(AuditoriumAccessory.AccessoryKindId)).AsInt32();
+
+        Create.ForeignKey("FK_AuditoriumAccessory_Auditorium")
+              .FromTable(nameof(AuditoriumAccessory)).ForeignColumn(nameof(AuditoriumAccessory.AuditoriumId))
+              .ToTable(nameof(Auditorium)).PrimaryColumn(nameof(Auditorium.Id))
+              .OnDeleteOrUpdate(Rule.None);
+
+        Create.ForeignKey("FK_AuditoriumAccessory_AuditoriumAccessoryKind")
+              .FromTable(nameof(AuditoriumAccessory)).ForeignColumn(nameof(AuditoriumAccessory.AccessoryKindId))
+              .ToTable(nameof(AuditoriumAccessoriesKind)).PrimaryColumn(nameof(AuditoriumAccessoriesKind.Id))
+              .OnDeleteOrUpdate(Rule.None);
 
         Create.Table(nameof(Building))
-               .WithColumn(nameof(Building.Id)).AsIntPK()
-               .WithColumn(nameof(Building.Code)).AsString(1);
+              .WithColumn(nameof(Building.Id)).AsIntPK()
+              .WithColumn(nameof(Building.Code)).AsString(1);
 
         Create.Table(nameof(Auditorium))
               .WithColumn(nameof(Auditorium.Id)).AsIntPK()
               .WithColumn(nameof(Auditorium.Code)).AsString(10)
               .WithColumn(nameof(Auditorium.Capacity)).AsInt16()
               .WithColumn(nameof(Auditorium.BuildingId)).AsInt32().Nullable()
-              .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32().Nullable()
-              .WithColumn(nameof(Auditorium.AccessoriesId)).AsInt32().Nullable();
-
-        Create.ForeignKey("FK_Auditorium_AuditoriumAccessory")
-              .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.AccessoriesId))
-              .ToTable(nameof(AuditoriumAccessory)).PrimaryColumn(nameof(AuditoriumAccessory.Id))
-              .OnDeleteOrUpdate(Rule.None);
+              .WithColumn(nameof(Auditorium.DepartmentId)).AsInt32().Nullable();
 
         Create.ForeignKey("FK_Auditorium_Department")
               .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.DepartmentId))
