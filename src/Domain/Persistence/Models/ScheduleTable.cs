@@ -1,7 +1,7 @@
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
-using Domain.Persistence;
+namespace Domain.Persistence;
 
 public class ScheduleTable : IncEntityBase
 {
@@ -11,9 +11,9 @@ public class ScheduleTable : IncEntityBase
 
     public virtual DateTime EndTime { get; set; }
 
-    internal class ClassMap : ClassMap<ScheduleTable>
+    internal class Map : ClassMap<ScheduleTable>
     {
-        public ClassMap()
+        public Map()
         {
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.StartTime);

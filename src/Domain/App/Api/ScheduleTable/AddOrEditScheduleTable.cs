@@ -1,3 +1,4 @@
+using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.API;
