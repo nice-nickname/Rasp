@@ -37,6 +37,7 @@ Name        VARCHAR
 Id          INT PRIMARY KEY IDENTITY
 Start       TIME 
 END         TIME
+Order       TINYINT
 
 ```
 
@@ -59,6 +60,7 @@ Name        VARCHAR
 Id          INT Первыичный ключ
 Code        VARCHAR
 BuildingId  INT NULL REFERENCES Корпус
+DepartmentId INT NULL REFERENCES Кафедра
 Kinds       INT NULL REFERENCES Типы аудиторий
 
 ```
@@ -91,7 +93,7 @@ DepartmentId INT REFERENCES Кафедра
 Id          INT PRIMARY KEY
 Name        VARCHAR
 Type        'Зачет' | 'Дифференцированный зачет' | 'Экзамен'
-DisciplineId INT NULL REFERENCES Кафедра
+DepartmentId INT NULL REFERENCES Кафедра
 
 ```
 
@@ -100,7 +102,7 @@ DisciplineId INT NULL REFERENCES Кафедра
 ``` sql
 
 Id          INT PRIMARY KEY
-Type        'Лекция' | 'Практика' | 'Лабораторная работа' | 'Консультация'
+Type        'Лекция' | 'Практика' | 'Лабораторная работа' | 'Консультация' | 'Экзамен'
 Hours       SMALL INT 
 Teachers    INT REFERENCES Преподаватель
 
@@ -161,3 +163,4 @@ SubDisciplineId iNT REFERENCES Под-дисциплина
 
 ## 16. Предпочтения по дисциплинам (?)
 
+## 17. Забронированные аудитории в расписании (?)
