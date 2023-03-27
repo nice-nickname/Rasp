@@ -38,6 +38,7 @@ Id          INT PRIMARY KEY IDENTITY
 Start       TIME 
 END         TIME
 Order       TINYINT
+FacultyId   INT REFERENCES Институт
 
 ```
 
