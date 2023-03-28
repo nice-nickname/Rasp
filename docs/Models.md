@@ -95,6 +95,7 @@ Id          INT PRIMARY KEY
 Name        VARCHAR
 Type        'Зачет' | 'Дифференцированный зачет' | 'Экзамен'
 DepartmentId INT NULL REFERENCES Кафедра
+GroupsId INT REFERENCES Группы
 
 ```
 
@@ -106,6 +107,7 @@ Id          INT PRIMARY KEY
 Type        'Лекция' | 'Практика' | 'Лабораторная работа' | 'Консультация' | 'Экзамен'
 Hours       SMALL INT 
 Teachers    INT REFERENCES Преподаватель
+GroupsId    INT REFERENCES Группы
 
 ```
 
@@ -117,6 +119,7 @@ Id              INT PRIMARY KEY
 AuditoiumId     INT REFERENCES Аудитория
 SubDisciplineId INT REFERENCES Под-дисциплина
 ScheduleTableId INT REFERENCES Формат расписания 
+GroupId         INT REFERENCES Группы
 Day             DATE
 ```
 
@@ -155,6 +158,25 @@ SubDisciplineId iNT REFERENCES Под-дисциплина
 
 ```
 
+## 15. Группы к дисциплинам
+У дисциплины есть список преподавателей, которую они ведут
+```sql
+
+Id              INT PRIMARY KEY IDENTITY
+DisciplineId    INT REFERENCES Дисциплина
+TeacherId       INT REFERENCES Преподаватель
+
+```
+
+## 16. Группы к под-дисциплинам
+У под-дисциплин есть свой отдельный список преподавателей
+```sql
+
+Id              INT PRIMARY KEY IDENTITY
+SubDisciplineId INT REFERENCES Под-дисциплина
+TeacherId       INT REFERENCES Преподаватель
+
+```
 
 
 ---
