@@ -3,24 +3,28 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class Department : IncEntityBase
+public class ScheduleFormat : IncEntityBase
 {
     public new virtual int Id { get; set; }
 
-    public virtual string Name { get; set; }
+    public DateTime Start { get; set; }
+
+    public DateTime End { get; set; }
+
+    public virtual int Order { get; set; }
 
     public virtual int FacultyId { get; set; }
 
     public virtual Faculty Faculty { get; set; }
 
-    public class Mapping : ClassMap<Department>
+    public class Mapping : ClassMap<ScheduleFormat>
     {
         public Mapping()
         {
             Id(s => s.Id).GeneratedBy.Identity();
-            Map(s => s.Name);
+            Map(s => s.Start);
+            Map(s => s.End);
             Map(s => s.FacultyId);
-
             References(s => s.Faculty).Column(nameof(FacultyId))
                                       .ReadOnly()
                                       .LazyLoad();

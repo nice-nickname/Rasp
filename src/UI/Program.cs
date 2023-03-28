@@ -71,7 +71,7 @@ public static class Startup
 
             // Dev scripts
             pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");
-
+            
             // Dev styles
             pipeline.AddCssBundle("/css/styles.css", "/css/**/*.css");
         });

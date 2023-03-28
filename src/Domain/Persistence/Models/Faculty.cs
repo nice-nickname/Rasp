@@ -3,13 +3,13 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class Building : IncEntityBase
+public class Faculty : IncEntityBase
 {
     public new virtual int Id { get; set; }
 
-    public string Name { get; set; }
+    public virtual string Name { get; set; }
 
-    public class Mapping : ClassMap<Building>
+    public class Mapping : ClassMap<Faculty>
     {
         public Mapping()
         {

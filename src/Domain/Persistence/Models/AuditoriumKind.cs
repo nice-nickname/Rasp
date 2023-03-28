@@ -3,18 +3,18 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class Building : IncEntityBase
+public class AuditoriumKind : IncEntityBase
 {
     public new virtual int Id { get; set; }
 
-    public string Name { get; set; }
+    public string Kind { get; set; }
 
-    public class Mapping : ClassMap<Building>
+    public class Mapping : ClassMap<AuditoriumKind>
     {
         public Mapping()
         {
             Id(s => s.Id).GeneratedBy.Identity();
-            Map(s => s.Name);
+            Map(s => s.Kind);
         }
     }
 }
