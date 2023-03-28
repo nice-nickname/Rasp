@@ -91,11 +91,12 @@ DepartmentId INT REFERENCES Кафедра
 Список общих дисциплин
 ``` sql
 
-Id          INT PRIMARY KEY
-Name        VARCHAR
-Type        'Зачет' | 'Дифференцированный зачет' | 'Экзамен'
-DepartmentId INT NULL REFERENCES Кафедра
-GroupsId INT REFERENCES Группы
+Id              INT PRIMARY KEY
+Name            VARCHAR
+Type            'Зачет' | 'Дифференцированный зачет' | 'Экзамен'
+DepartmentId    INT NULL REFERENCES Кафедра
+GroupsId        INT REFERENCES Группы
+TeacherId       INT REFERENCES Преподаватели
 
 ```
 
@@ -106,7 +107,7 @@ GroupsId INT REFERENCES Группы
 Id          INT PRIMARY KEY
 Type        'Лекция' | 'Практика' | 'Лабораторная работа' | 'Консультация' | 'Экзамен'
 Hours       SMALL INT 
-Teachers    INT REFERENCES Преподаватель
+Teachers    INT REFERENCES Преподаватели
 GroupsId    INT REFERENCES Группы
 
 ```
@@ -138,22 +139,22 @@ AuditoriumId    INT REFERENCES Аудитория
 
 ```
 
-## 13. Преподаватели к под-дисциплинам
+## 13. Преподаватели к дисциплинам
 Связь многие-ко-многим между преподавателями и дисциплинами, которые они ведут
 ```sql
 
 Id              INT PRIMARY KEY IDENTITY
 TeacherId       INT REFERENCES Преподаватель
-SubDisciplineId iNT REFERENCES Под-дисциплина
+DisciplineId    INT REFERENCES Дисциплина
 
 ```
 
-## 14. Требования к типам аудиторий для дисциплин
-Связь многие-ко-многим между типом аудитории и под-дисциплиной отображает требование на наличие определенного типа аудитории при проведении занятия
+## 14. Преподаватели к под-дисциплинам
+Связь многие-ко-многим между преподавателями и дисциплинами, которые они ведут
 ```sql
 
 Id              INT PRIMARY KEY IDENTITY
-AccessoryId     INT REFERENCES Типы аудиторий
+TeacherId       INT REFERENCES Преподаватель
 SubDisciplineId iNT REFERENCES Под-дисциплина
 
 ```
@@ -182,8 +183,18 @@ TeacherId       INT REFERENCES Преподаватель
 ---
 ## Сущности, отвечающие за хранение предпочтений
 
-## 15. Предпочтения преподавателй (?)
+## 16. Требования к типам аудиторий для дисциплин
+Связь многие-ко-многим между типом аудитории и под-дисциплиной отображает требование на наличие определенного типа аудитории при проведении занятия
+```sql
 
-## 16. Предпочтения по дисциплинам (?)
+Id              INT PRIMARY KEY IDENTITY
+AccessoryId     INT REFERENCES Типы аудиторий
+SubDisciplineId iNT REFERENCES Под-дисциплина
 
-## 17. Забронированные аудитории в расписании (?)
+```
+
+## 17. Предпочтения преподавателй (?)
+
+## 18. Предпочтения по дисциплинам (?)
+
+## 19. Забронированные аудитории в расписании (?)
