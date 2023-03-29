@@ -8,6 +8,7 @@
     "jquery-validation-unobtrusive": "4.0.0",
     "jquery-form": "4.3.0",
     "underscore": "1.13.6",
-    "handlebars": "4.7.7"
+    "handlebars": "4.7.7",
+    "bootstrap": "5.2.3"
   }
 }
