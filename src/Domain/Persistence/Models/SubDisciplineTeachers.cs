@@ -21,22 +21,3 @@ public class SubDisciplineTeachers : IncEntityBase
         }
     }
 }
-
-public class SubDisciplineGroups : IncEntityBase
-{
-    public new virtual int Id { get; set; }
-
-    public virtual int GroupId { get; set; }
-
-    public virtual int SubDisciplineId { get; set; }
-
-    public class Mapping : ClassMap<SubDisciplineGroups>
-    {
-        public Mapping()
-        {
-            Id(s => s.Id).GeneratedBy.Identity();
-            Map(s => s.SubDisciplineId);
-            Map(s => s.GroupId);
-        }
-    }
-}

@@ -24,7 +24,9 @@ public class SubDiscipline : IncEntityBase
 
     public virtual OfType Type { get; set; }
 
-    public virtual IList<Group> Groups { get; set; }
+    public virtual int DisciplineId { get; set; }
+
+    public virtual Discipline Discipline { get; set; }
 
     public virtual IList<Teacher> Teachers { get; set; }
 
@@ -36,11 +38,9 @@ public class SubDiscipline : IncEntityBase
             Map(s => s.Type).CustomType<OfType>();
             Map(s => s.Hours);
 
-            HasManyToMany(s => s.Groups).Table(nameof(SubDisciplineGroups))
-                                        .ParentKeyColumn(nameof(SubDisciplineGroups.SubDisciplineId))
-                                        .ChildKeyColumn(nameof(SubDisciplineGroups.GroupId))
-                                        .LazyLoad()
-                                        .ReadOnly();
+            References(s => s.Discipline).Column(nameof(DisciplineId))
+                                         .LazyLoad()
+                                         .ReadOnly();
 
             HasManyToMany(s => s.Teachers).Table(nameof(SubDisciplineTeachers))
                                           .ParentKeyColumn(nameof(SubDisciplineTeachers.SubDisciplineId))

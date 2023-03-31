@@ -46,12 +46,12 @@ public static class Startup
 
         builder.Services.ConfigureIncodingCoreServices();
 
-        //builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase), null, b =>
-        //{
-        //    var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
-        //    b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
-        //    return b;
-        //});
+        builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase), null, b =>
+        {
+           var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
+           b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
+           return b;
+        });
 
         builder.Services.ConfigureIncodingWebServices();
 
@@ -132,11 +132,11 @@ public static class Startup
             routeBuilder.MapDefaultControllerRoute();
         });
 
-        //app.Services
-        //   .CreateScope()
-        //   .ServiceProvider
-        //   .GetRequiredService<IMigrationRunner>()
-        //   .MigrateUp();
+        app.Services
+          .CreateScope()
+          .ServiceProvider
+          .GetRequiredService<IMigrationRunner>()
+          .MigrateUp();
 
         IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
         CachingFactory.Instance.Initialize(cache =>
