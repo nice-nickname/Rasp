@@ -22,6 +22,7 @@
 
   <ItemGroup>
 	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\Resources\Resources.csproj" />
   </ItemGroup>
 
 
