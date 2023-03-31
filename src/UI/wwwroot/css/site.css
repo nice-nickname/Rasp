@@ -1,0 +1,16 @@
+.padding-16 {
+    padding: 16px;
+}
+
+.gap-16 {
+    gap: 16px;
+}
+
+ul.dropdown-menu {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+a.dropdown-item {
+    border-radius: 6px;
+}
