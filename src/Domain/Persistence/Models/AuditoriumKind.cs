@@ -26,7 +26,7 @@ public class AuditoriumKind : IncEntityBase
 {
     public new virtual int Id { get; set; }
 
-    public string Kind { get; set; }
+    public virtual string Kind { get; set; }
 
     public class Mapping : ClassMap<AuditoriumKind>
     {

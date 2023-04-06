@@ -16,4 +16,9 @@ public class HomeController : Controller
         Response.StatusCode = 404;
         return View();
     }
+
+    public IActionResult EditFaculty()
+    {
+        return View("~/Views/Edit/Faculty/Index.cshtml");
+    }
 }

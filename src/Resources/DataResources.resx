@@ -159,4 +159,16 @@
 	<data name="SignOut" xml:space="preserve">
     <value>Выйти из аккаунта</value>
   </data>
+	<data name="AddFaculty" xml:space="preserve">
+		<value>Добавить факультет</value>
+	</data>
+	<data name="Save" xml:space="preserve">
+		<value>Сохранить</value>
+	</data>
+	<data name="Placeholder_FacultyName" xml:space="preserve">
+		<value>Полное название факультета</value>
+	</data>
+	<data name="Placeholder_FacultyCode" xml:space="preserve">
+		<value>Факультет</value>
+	</data>
 </root>

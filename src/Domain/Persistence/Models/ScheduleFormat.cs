@@ -7,9 +7,9 @@ public class ScheduleFormat : IncEntityBase
 {
     public new virtual int Id { get; set; }
 
-    public DateTime Start { get; set; }
+    public virtual DateTime Start { get; set; }
 
-    public DateTime End { get; set; }
+    public virtual DateTime End { get; set; }
 
     public virtual int Order { get; set; }
 

@@ -114,7 +114,7 @@ function AjaxAdapter() {
                 if (options.global) {
                     $(self).trigger(jQuery.Event(IncSpecialBinds.IncAjaxSuccess), parseResult);
                 }
-                
+
                 if (isReadyForLocalCache) {
                     LocalStorageFactory.Set(key, JSON.stringify(data));
                 }
@@ -1177,7 +1177,7 @@ $.fn.extend({
     },
     sum: function () {
         var res = 0;
-        $(this).filter(':checked').each(function() {
+        $(this).filter(':checked').each(function () {
             res += parseFloat($(this).attr('value'));
         })
         return res;
@@ -1316,7 +1316,7 @@ function IncodingMetaElement(element) {
     this.getExecutables = function () {
         return JSON.parse(this.attr);
     };
-    this.bind = function(eventName, status) {
+    this.bind = function (eventName, status) {
 
         var strStatus = status.toString();
         var currentElement = this.element;
@@ -1329,7 +1329,7 @@ function IncodingMetaElement(element) {
                 eventName = eventName.replaceAll(docBind, ''); //remove document bind from element bind           
                 $(document)
                     .bind(docBind.toString(),
-                        function(e, result) { //docBind.toString() fixed for ie <10
+                        function (e, result) { //docBind.toString() fixed for ie <10
                             new IncodingMetaElement(currentElement)
                                 .invoke(e, result);
                             return false;
@@ -1343,7 +1343,7 @@ function IncodingMetaElement(element) {
 
         $(currentElement)
             .bind(eventName.toString(),
-                function(e, result) {
+                function (e, result) {
 
                     if (strStatus === '4' || eventName === IncSpecialBinds.Incoding) {
                         e.stopPropagation(); // if native js trigger
@@ -1489,9 +1489,9 @@ function IncodingResult(result) {
 
             if (!_.has(res, 'data'))
                 res.data = [];
-            
+
             return res;
-            
+
         }
         catch (e) {
             console.log('fail parse result:{0}'.f(json));
@@ -1511,7 +1511,7 @@ function IncodingResult(result) {
     this.success = this.isValid() ? this.parseJson.success : false;
 
     this.data = this.isValid() ? this.parseJson.data : '';
-    
+
 
 }
 
@@ -1586,7 +1586,7 @@ $(document).ready(function () {
 
     LocalStorageFactory.Clear();
     if ($.history) {
-        $.history.init(function() {
+        $.history.init(function () {
             if (initializedHistoryPlugin) {
                 $(document).trigger(jQuery.Event(IncSpecialBinds.IncChangeUrl));
             }
@@ -1778,7 +1778,7 @@ $.extend(ExecutableActionBase.prototype, {
                 }
 
                 console.log('Incoding exception: {0}'.f(e.message ? e.message : e));
-                $(executable.self).trigger(jQuery.Event(IncSpecialBinds.IncGlobalError));                
+                $(executable.self).trigger(jQuery.Event(IncSpecialBinds.IncGlobalError));
                 if (navigator.Ie8) {
                     return false; //stop execute
                 }
@@ -1894,23 +1894,23 @@ ExecutableSubmitAction.prototype.internalExecute = function (state) {
 
     var ajaxOptions = $.extend(true,
         {
-            data : [],
-            xhr : function() {
+            data: [],
+            xhr: function () {
                 var xhr = new window.XMLHttpRequest();
                 xhr.addEventListener("progress",
-                    function(evt) {
+                    function (evt) {
                         current.self.trigger(IncSpecialBinds.IncAjaxProgress);
                     },
                     false);
                 return xhr;
             },
-            error : function(error) {
-                var incodingResult = new IncodingResult(error.responseText).data;    
+            error: function (error) {
+                var incodingResult = new IncodingResult(error.responseText).data;
                 $(current.self)
-                    .trigger(jQuery.Event(IncSpecialBinds.IncAjaxError),incodingResult)
-                    .trigger(jQuery.Event(IncSpecialBinds.IncAjaxComplete),incodingResult);
+                    .trigger(jQuery.Event(IncSpecialBinds.IncAjaxError), incodingResult)
+                    .trigger(jQuery.Event(IncSpecialBinds.IncAjaxComplete), incodingResult);
             },
-            success : function(responseText, statusText, xhr, $form) {
+            success: function (responseText, statusText, xhr, $form) {
                 $(document)
                     .trigger(jQuery.Event(IncSpecialBinds.IncAjaxSuccess),
                         IncodingResult.Success(IncAjaxEvent.Create(xhr)));
@@ -1919,7 +1919,7 @@ ExecutableSubmitAction.prototype.internalExecute = function (state) {
                         IncodingResult.Success(IncAjaxEvent.Create(xhr)));
                 current.complete(new IncodingResult(responseText), state);
             },
-            beforeSubmit : function(formData, jqForm, options) {
+            beforeSubmit: function (formData, jqForm, options) {
                 var isValid = $(form).valid();
                 if (!isValid) {
                     $(form).validate().focusInvalid();
@@ -2418,21 +2418,21 @@ function ConditionalBase() {
 }
 
 ConditionalBase.prototype =
-    {
-        isSatisfied: function (data) {
-            this.self = this.executable.self;
-            this.target = this.executable.getTarget();
-            var isSatisfied = this.isInternalSatisfied(data);
-            return ExecutableHelper.ToBool(this.jsonData.inverse) ? !isSatisfied : isSatisfied;
-        },
-        // ReSharper disable UnusedParameter
-        isInternalSatisfied: function (data) {
-            // ReSharper restore UnusedParameter            
-        },
-        tryGetVal: function (variable) {
-            return this.executable.tryGetVal(variable);
-        }
-    };
+{
+    isSatisfied: function (data) {
+        this.self = this.executable.self;
+        this.target = this.executable.getTarget();
+        var isSatisfied = this.isInternalSatisfied(data);
+        return ExecutableHelper.ToBool(this.jsonData.inverse) ? !isSatisfied : isSatisfied;
+    },
+    // ReSharper disable UnusedParameter
+    isInternalSatisfied: function (data) {
+        // ReSharper restore UnusedParameter            
+    },
+    tryGetVal: function (variable) {
+        return this.executable.tryGetVal(variable);
+    }
+};
 
 //#endregion
 

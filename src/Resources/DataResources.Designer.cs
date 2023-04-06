@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить факультет.
+        /// </summary>
+        public static string AddFaculty {
+            get {
+                return ResourceManager.GetString("AddFaculty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rasp.
         /// </summary>
         public static string ApplicationName {
@@ -165,6 +174,33 @@ namespace Resources {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Факультет.
+        /// </summary>
+        public static string Placeholder_FacultyCode {
+            get {
+                return ResourceManager.GetString("Placeholder_FacultyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Полное название факультета.
+        /// </summary>
+        public static string Placeholder_FacultyName {
+            get {
+                return ResourceManager.GetString("Placeholder_FacultyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сохранить.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         

@@ -66,9 +66,11 @@ public static class Startup
                         "node_modules/**/dist/jquery.validate.unobtrusive.min.js",
                         "node_modules/**/dist/jquery.history.min.js",
                         "node_modules/underscore/underscore-min.js",
-                        "wwwroot/lib/incoding.framework.js",
                         "node_modules/**/dist/handlebars.min.js")
                     .UseContentRoot();
+
+            pipeline.AddJavaScriptBundle("/lib/inc.js", new CodeSettings { MinifyCode = false}, 
+                        "/lib/incoding.framework.js");
 
             // Dev scripts
             pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");

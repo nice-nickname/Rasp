@@ -30,7 +30,14 @@
 
   <ItemGroup>
     <Folder Include="Common\Models\" />
-    <Folder Include="Common\Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\EditFaculty.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
   </ItemGroup>
 
 

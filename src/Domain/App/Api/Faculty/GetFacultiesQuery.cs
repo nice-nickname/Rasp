@@ -14,6 +14,7 @@ public class GetFacultiesQuery : QueryBase<List<GetFacultiesQuery.Response>>
                              Code = s.Code,
                              Name = s.Name,
                          })
+                         .OrderBy(s => s.Code)
                          .ToList();
     }
 

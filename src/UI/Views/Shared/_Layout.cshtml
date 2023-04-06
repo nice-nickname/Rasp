@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="~/css/custom_bootstrap.css">
+    <link rel="stylesheet" href="~/icons/bootstrap-icons/font/bootstrap-icons.css"/>
     <title>@DataResources.ApplicationName</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -64,7 +65,7 @@
                     ИКТИБ
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Создать институт</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("EditFaculty", "Home")">Редактировать</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">ИКТИБ</a></li>
                     <li><a class="dropdown-item" href="#">ИВТиПТ</a></li>
@@ -94,6 +95,7 @@
     </footer>
 
     <script src="~/lib/jq.js"></script>
+    <script src="~/lib/inc.js"></script>
     <script src="~/lib/script.js"></script>
     <script src="~/lib/bootstrap.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
