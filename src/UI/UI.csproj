@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Models\NewFolder\**" />
+    <Content Remove="Common\Models\NewFolder\**" />
+    <EmbeddedResource Remove="Common\Models\NewFolder\**" />
+    <None Remove="Common\Models\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
 	  <PackageReference Include="Incoding.Core" Version="1.2.5" />
 	  <PackageReference Include="Incoding.Data" Version="1.2.5" />
@@ -17,12 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <Folder Include="Models\" />
+	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\Resources\Resources.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-	  <ProjectReference Include="..\Domain\Domain.csproj" />
-	  <ProjectReference Include="..\Resources\Resources.csproj" />
+    <Folder Include="Common\Models\" />
+    <Folder Include="Common\Helpers\" />
   </ItemGroup>
 
 

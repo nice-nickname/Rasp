@@ -27,7 +27,7 @@ public class MigrationsController : Controller
         return Ok($"migrated to {number}");
     }
 
-    [HttpGet("down")]
+    [Route("down")]
     public IActionResult Down()
     {
         this._migrator.MigrateDown(0);
