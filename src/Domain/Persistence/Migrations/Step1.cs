@@ -12,10 +12,12 @@ public class Step1 : Migration
     {
         Create.Table(nameof(Faculty))
               .WithColumn(nameof(Faculty.Id)).AsIntPK()
+              .WithColumn(nameof(Faculty.Code)).AsString(64)
               .WithColumn(nameof(Faculty.Name)).AsString(128);
 
         Create.Table(nameof(Department))
               .WithColumn(nameof(Department.Id)).AsIntPK()
+              .WithColumn(nameof(Department.Code)).AsString(64)
               .WithColumn(nameof(Department.Name)).AsString(128)
               .WithColumn(nameof(Department.FacultyId)).AsInt32();
 

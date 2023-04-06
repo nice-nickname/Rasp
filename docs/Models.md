@@ -7,6 +7,7 @@
 ``` sql
 
 Id          INT PRIMARY KEY IDENTITY
+Code        VARCHAR
 Name        VARCHAR
 
 ```
@@ -16,6 +17,7 @@ Name        VARCHAR
 ``` sql
 
 Id          INT PRIMARY KEY IDENTITY 
+Code        VARCHAR
 Name        VARCHAR
 FacultyId   INT REFERENCES Институт (факультет) 
 
