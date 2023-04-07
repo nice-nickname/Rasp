@@ -17,13 +17,23 @@ Rasp uses MS SQL SERVER as primary database. Application requres to have a Datab
     "ConnectionString": "Your=DB;Connection=String"
 }
 ```
+
+## Install dependecies
+To install all packages type in console
+```console
+> dotnet restore # Run this command for all Projects in solution
+
+> cd src/UI
+src/UI> npm install # This will install all js and css libraries 
+```
+
 ## Build and run
-Standart ASP.NET CORE commands are used to maintain project building
+Standart ASP.NET CORE commands are used to maintain project running
 
 Run application
 
 ```console
-dotnet run
+src/UI>dotnet run
 ```
 
 Build application
