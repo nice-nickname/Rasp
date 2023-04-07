@@ -23,11 +23,12 @@
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
                     @(Html.When(JqueryBind.Click)
+                          .PreventDefault()
                           .StopPropagation()
                           .OnSuccess(dsl => dsl.WithName($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Code)}")
                                                .Trigger.Focus())
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
-                          .ToDiv(@<i class="fs-6 bi-pen"></i>))
+                          .ToButton(@<i class="fs-6 bi-pen"></i>))
 
                     @(Html.When(JqueryBind.InitIncoding)
                           .OnSuccess(dsl =>
@@ -39,6 +40,7 @@
                               }
                           })
                           .When(JqueryBind.Click)
+                          .PreventDefault()
                           .StopPropagation()
                           .OnSuccess(dsl =>
                           {
@@ -47,7 +49,7 @@
                                  .JQuery.Attr.Val(true);
                           })
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
-                          .ToDiv(@<i class="fs-6 bi-trash"></i>))
+                          .ToButton(@<i class="fs-6 bi-trash"></i>))
                 </div>
             </div>
         </div>

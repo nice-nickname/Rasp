@@ -24,16 +24,17 @@
 
             @(Html.When(JqueryBind.Click)
                   .PreventDefault()
+                  .StopPropagation()
                   .OnSuccess(dsl =>
                   {
                       dsl.WithName(facultyContainerName).Trigger.Invoke(JqueryBind.Load);
                       dsl.WithName("LastIndex").Func.IncrementVal();
                   })
                   .AsHtmlAttributes(new { @class = "btn btn-light align-self-start mb-3" })
-                  .ToDiv(@<text>
-                             <i class="fs-6 bi-plus"></i>
-                             @DataResources.AddFaculty
-                          </text>))
+                  .ToButton(@<text>
+                                <i class="fs-6 bi-plus"></i>
+                                @DataResources.AddFaculty
+                            </text>))
 
             @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
                   .Ajax<GetFacultiesQuery>(new { })
@@ -51,10 +52,11 @@
                   .ToDiv())
 
             @(Html.When(JqueryBind.Click)
+                  .PreventDefault()
                   .StopPropagation()
                   .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Form)).Trigger.Submit())
                   .AsHtmlAttributes(new { @class = "btn btn-light align-self-end mt-3" })
-                  .ToDiv(DataResources.Save))
+                  .ToButton(DataResources.Save))
         </div>
     }
 }

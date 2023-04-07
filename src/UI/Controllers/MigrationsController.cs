@@ -14,7 +14,7 @@ public class MigrationsController : Controller
     }
 
     [Route("up")]
-    public IActionResult Migrate()
+    public IActionResult MigrateUp()
     {
         this._migrator.MigrateUp();
         return Ok("migrated");
@@ -28,16 +28,29 @@ public class MigrationsController : Controller
     }
 
     [Route("down")]
-    public IActionResult Down()
+    public IActionResult MigrateDown()
     {
         this._migrator.MigrateDown(0);
-        return Ok($"migrated down");
+        return Ok("migrated down");
     }
 
     [Route("down/{number:long}")]
     public IActionResult Down(long number)
     {
-        this._migrator.MigrateDown(number);
         return Ok($"migrated down to {number}");
     }
+
+    // [Route("down")]
+    // public IActionResult MigrateDown()
+    // {
+    //     this._migrator.MigrateDown(0);
+    //     return Ok($"migrated down");
+    // }
+
+    // [Route("down/{number:long}")]
+    // public IActionResult Down(long number)
+    // {
+    //     this._migrator.MigrateDown(number);
+    //     return Ok($"migrated down to {number}");
+    // }
 }

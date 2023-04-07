@@ -73,6 +73,10 @@ public class Step2 : Migration
 
     public override void Down()
     {
-        throw new NotImplementedException();
+        Delete.Table(nameof(SubDisciplineTeachers));
+        Delete.Table(nameof(DisciplineTeachers));
+        Delete.Table(nameof(DisciplineGroups));
+        Delete.Table(nameof(SubDiscipline));
+        Delete.Table(nameof(Discipline));
     }
 }

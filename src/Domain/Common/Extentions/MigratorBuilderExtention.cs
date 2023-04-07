@@ -1,4 +1,5 @@
 using FluentMigrator.Builders.Create.Table;
+using FluentMigrator.Builders.Delete;
 
 namespace Domain.Extentions;
 
