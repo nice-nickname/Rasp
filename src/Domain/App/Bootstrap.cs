@@ -1,3 +1,3 @@
 ﻿namespace Domain;
 
-public class Bootstrap { }
+public class Bootstrap  { }

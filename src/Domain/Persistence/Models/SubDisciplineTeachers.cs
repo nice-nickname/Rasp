@@ -15,6 +15,7 @@ public class SubDisciplineTeachers : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(SubDisciplineTeachers));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.SubDisciplineId);
             Map(s => s.TeacherId);

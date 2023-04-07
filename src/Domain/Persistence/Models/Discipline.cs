@@ -40,6 +40,7 @@ public class Discipline : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Discipline));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
             Map(s => s.Type).CustomType<OfType>();

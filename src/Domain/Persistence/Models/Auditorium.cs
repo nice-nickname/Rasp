@@ -28,6 +28,7 @@ public class Auditorium : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Auditorium));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.DepartmentId).Nullable();
             Map(s => s.BuildingId);

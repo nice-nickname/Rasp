@@ -21,7 +21,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">@DataResources.Building</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Faculty</a></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Department</a></li>
+                    <li><a class="dropdown-item" href='@Url.Action("EditDepartment", "Home")'>@DataResources.Department</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Teacher</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Discipline</a></li>
@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">@DataResources.Building</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Faculty</a></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Department</a></li>
+                    <li><a class="dropdown-item" href='@Url.Action("EditDepartment", "Home")'>@DataResources.Department</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Teacher</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Discipline</a></li>
@@ -63,16 +63,16 @@
                 Н
             </div>
             @using (Html.When(JqueryBind.InitIncoding)
-                  .Ajax<GetFacultiesQuery>(new {})
-                  .OnSuccess(dsl => dsl.WithSelf(s => s.Find(HtmlTag.Hr).Parent()).Insert.WithTemplateByView("~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml").Append())
-                  .AsHtmlAttributes()
-                  .ToBeginTag(HtmlTag.Div))
+                        .Ajax<GetFacultiesQuery>(new {})
+                        .OnSuccess(dsl => dsl.WithSelf(s => s.Find(HtmlTag.Hr).Parent()).Insert.WithTemplateByView("~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml").Append())
+                        .AsHtmlAttributes()
+                        .ToBeginTag(HtmlTag.Div))
             {
                 <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     ИКТИБ
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="@Url.Action("EditFaculty", "Home")">Редактировать</a></li>
+                    <li><a class="dropdown-item" href='@Url.Action("EditFaculty", "Home")'>Редактировать</a></li>
                     <li><hr class="dropdown-divider"></li>
                 </ul>
             }

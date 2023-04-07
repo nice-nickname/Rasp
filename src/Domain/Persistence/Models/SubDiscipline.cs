@@ -34,6 +34,7 @@ public class SubDiscipline : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(SubDiscipline));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Type).CustomType<OfType>();
             Map(s => s.Hours);

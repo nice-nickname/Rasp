@@ -19,6 +19,7 @@ public class Department : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Department));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Code);
             Map(s => s.Name);

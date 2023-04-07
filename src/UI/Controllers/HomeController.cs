@@ -21,4 +21,9 @@ public class HomeController : Controller
     {
         return View("~/Views/Edit/Faculty/Index.cshtml");
     }
+
+    public IActionResult EditDepartment()
+    {
+        return View("~/Views/Edit/Department/Index.cshtml");
+    }
 }

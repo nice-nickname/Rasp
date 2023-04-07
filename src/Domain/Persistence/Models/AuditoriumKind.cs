@@ -15,6 +15,7 @@ public class AuditoriumToKinds : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(AuditoriumToKinds));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.AuditoriumId);
             Map(s => s.AuditoriumKindId);
@@ -32,6 +33,7 @@ public class AuditoriumKind : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(AuditoriumKind));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Kind);
         }

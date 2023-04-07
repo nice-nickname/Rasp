@@ -15,6 +15,7 @@ public class DisciplineTeachers : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(DisciplineTeachers));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.DisciplineId);
             Map(s => s.TeacherId);
@@ -34,6 +35,7 @@ public class DisciplineGroups : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(DisciplineGroups));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.DisciplineId);
             Map(s => s.GroupId);

@@ -17,6 +17,7 @@ public class Group : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Group));
             Id(s => s.Id);
             Map(s => s.Code);
             Map(s => s.DepartmentId);

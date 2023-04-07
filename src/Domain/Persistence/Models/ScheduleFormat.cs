@@ -21,6 +21,7 @@ public class ScheduleFormat : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(ScheduleFormat));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Start);
             Map(s => s.End);

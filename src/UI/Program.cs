@@ -7,13 +7,14 @@ using Incoding.Core.Block.Caching;
 using Incoding.Core.Block.Caching.Providers;
 using Incoding.Core.Block.IoC;
 using Incoding.Core.Block.IoC.Provider;
+using Incoding.Core.CQRS;
 using Incoding.Core.Data;
 using Incoding.Data.EF;
 using Incoding.Web;
 using Incoding.Web.MvcContrib;
 using Microsoft.Extensions.Caching.Memory;
-using NUglify.Css;
 using NUglify.JavaScript;
+using Domain.Api;
 
 namespace UI;
 
@@ -146,6 +147,14 @@ public static class Startup
 
         return app;
     }
+
+    public static WebApplication ConfigureIncodingServices(this WebApplication app)
+    {
+        var d = new DefaultDispatcher();
+        d.Push(new PrepareFacultyIfNotExistCommand());
+
+        return app;
+    }
 }
 
 public class Program
@@ -155,6 +164,7 @@ public class Program
         WebApplication.CreateBuilder(args)
                       .ConfigureServices()
                       .ConfigureApplication()
+                      .ConfigureIncodingServices()
                       .Run();
     }
 }

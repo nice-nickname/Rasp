@@ -13,6 +13,7 @@ public class Building : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Building));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
         }

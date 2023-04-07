@@ -29,6 +29,7 @@ public class Class : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Class));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.GroupId);
             Map(s => s.AuditoriumId);

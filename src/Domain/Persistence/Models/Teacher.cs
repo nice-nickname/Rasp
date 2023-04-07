@@ -17,6 +17,7 @@ public class Teacher : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(Teacher));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
             Map(s => s.DepartmentId);
