@@ -3,6 +3,7 @@
 @using Resources
 @using UI.Common.Extensions
 @using UI.Common.Models
+@model List<GetFacultiesQuery.Response>
 @{
     Layout = "";
 
@@ -35,7 +36,7 @@
                         </text>))
 
         @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
-              .Ajax<GetFacultiesQuery>(new { })
+              .Direct(Model)
               .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByUrl(d => d.Model(new LastIndexModel()).AsView(itemTmpl)).Html())
               .OnComplete(dsl => dsl.WithName("LastIndex").JQuery.Attr.Val(Selector.Jquery.Self().Children(HtmlTag.Div).Length()))
               .When(JqueryBind.Load)

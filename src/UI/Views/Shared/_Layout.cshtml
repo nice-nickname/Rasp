@@ -21,6 +21,17 @@
           .AsHtmlAttributes()
           .ToDiv())
 
+    @(Html.When(JqueryBind.IncAjaxBefore)
+          .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
+          .When(JqueryBind.IncAjaxError)
+          .OnSuccess(dsl => dsl.Window.Alert("lol"))
+          .When(JqueryBind.IncAjaxComplete)
+          .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
+          .AsHtmlAttributes(new { @class = "vw-100 vh-100 position-absolute loader-background d-none" })
+          .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                 </div>))
+
     <header class="d-flex padding-16 justify-content-center">
         <div class="d-flex gap-16 w-50">
             <div class="dropdown">
@@ -83,7 +94,7 @@
                     ИКТИБ
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href='#@Url.Dispatcher().AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative()'>Редактировать</a></li>
+                    <li><a class="dropdown-item" href='#@Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative()'>Редактировать</a></li>
                     <li><hr class="dropdown-divider"></li>
                 </ul>
             }

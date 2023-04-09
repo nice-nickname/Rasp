@@ -19,6 +19,7 @@
             </div>
             <div class="col-6">
                 <input for="name" name="Items[@index].@(nameof(SaveFacultiesCommand.Item.Name))" type="text" class="form-control" placeholder="@DataResources.Placeholder_FacultyName" value="@faculty.For(s => s.Name)"/>
+                @Html.ValidationMessage($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Name)}")
             </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
