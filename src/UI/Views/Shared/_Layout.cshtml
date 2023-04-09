@@ -1,6 +1,7 @@
 ﻿@using Resources
 @using Incoding.Web.MvcContrib
 @using Domain.Api
+@using Domain.Extensions
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,14 @@
     <title>@DataResources.ApplicationName</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+    @(Html.When(JqueryBind.InitIncoding | JqueryBind.IncChangeUrl)
+          .HashPost()
+          .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
+          .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
+          .AsHtmlAttributes()
+          .ToDiv())
+
     <header class="d-flex padding-16 justify-content-center">
         <div class="d-flex gap-16 w-50">
             <div class="dropdown">
@@ -21,7 +30,9 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">@DataResources.Building</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Faculty</a></li>
-                    <li><a class="dropdown-item" href='@Url.Action("EditDepartment", "Home")'>@DataResources.Department</a></li>
+                    <li>
+                        <a class="dropdown-item" href='#@Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative()'>@DataResources.Department</a>
+                    </li>
                     <li><a class="dropdown-item" href="#">@DataResources.Teacher</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Discipline</a></li>
@@ -36,7 +47,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">@DataResources.Building</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Faculty</a></li>
-                    <li><a class="dropdown-item" href='@Url.Action("EditDepartment", "Home")'>@DataResources.Department</a></li>
+                    <li><a class="dropdown-item" href='#@Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative()'>@DataResources.Department</a></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Teacher</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">@DataResources.Discipline</a></li>
@@ -72,12 +83,13 @@
                     ИКТИБ
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href='@Url.Action("EditFaculty", "Home")'>Редактировать</a></li>
+                    <li><a class="dropdown-item" href='#@Url.Dispatcher().AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative()'>Редактировать</a></li>
                     <li><hr class="dropdown-divider"></li>
                 </ul>
             }
         </div>
     </header>
+    
     <main role="main" class="container flex-grow-1 d-flex flex-column gap-16 justify-content-center">
         @await RenderSectionAsync("Body")
     </main>

@@ -1,5 +1,5 @@
-using System.Data;
-using Domain.Extentions;
+﻿using System.Data;
+using Domain.Extensions;
 using FluentMigrator;
 
 namespace Domain.Persistence;

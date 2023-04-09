@@ -49,9 +49,9 @@ public static class Startup
 
         builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase), null, b =>
         {
-           var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
-           b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
-           return b;
+            var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
+            b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
+            return b;
         });
 
         builder.Services.ConfigureIncodingWebServices();
@@ -70,8 +70,8 @@ public static class Startup
                         "node_modules/**/dist/handlebars.min.js")
                     .UseContentRoot();
 
-            pipeline.AddJavaScriptBundle("/lib/inc.js", new CodeSettings { MinifyCode = false}, 
-                        "/lib/incoding.framework.js");
+            pipeline.AddJavaScriptBundle("/lib/inc.js", new CodeSettings { MinifyCode = false },
+                "/lib/incoding.framework.js");
 
             // Dev scripts
             pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");
@@ -79,9 +79,10 @@ public static class Startup
             pipeline.AddCssBundle("/css/bootstrap.css", "node_modules/bootstrap/dist/css/bootstrap.min.css")
                     .UseContentRoot();
 
-            pipeline.AddJavaScriptBundle("/lib/bootstrap.js", new CodeSettings { MinifyCode = true }, "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js")
+            pipeline.AddJavaScriptBundle("/lib/bootstrap.js", new CodeSettings { MinifyCode = true },
+                        "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js")
                     .UseContentRoot();
-            
+
             // Dev styles
             pipeline.AddCssBundle("/css/styles.css", "/css/**/*.css");
         });
@@ -136,10 +137,10 @@ public static class Startup
         });
 
         app.Services
-          .CreateScope()
-          .ServiceProvider
-          .GetRequiredService<IMigrationRunner>()
-          .MigrateUp();
+           .CreateScope()
+           .ServiceProvider
+           .GetRequiredService<IMigrationRunner>()
+           .MigrateUp();
 
         IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
         CachingFactory.Instance.Initialize(cache =>

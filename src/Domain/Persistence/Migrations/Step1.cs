@@ -1,7 +1,6 @@
-using System.Data;
-using Domain.Extentions;
+﻿using Domain.Extensions;
 using FluentMigrator;
-using Incoding.Core;
+using System.Data;
 
 namespace Domain.Persistence;
 
