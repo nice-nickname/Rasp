@@ -13,9 +13,9 @@ public class GetDepartmentsQuery : QueryBase<List<GetDepartmentsQuery.Response>>
                          .Where(s => s.FacultyId == FacultyId)
                          .Select(s => new Response
                          {
-                            Id = s.Id,
-                            Code = s.Code,
-                            Name = s.Name
+                             Id = s.Id,
+                             Code = s.Code,
+                             Name = s.Name
                          })
                          .ToList();
     }
