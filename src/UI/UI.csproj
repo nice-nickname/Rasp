@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Models\" />
+    <Folder Include="Common\Settings\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,21 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Footer_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Header_Layout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\DropDown_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_Header_Layout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Shared\_Footer_Layout.cshtml" />
   </ItemGroup>
 
 

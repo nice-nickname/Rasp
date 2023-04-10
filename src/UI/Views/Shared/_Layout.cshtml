@@ -1,12 +1,10 @@
-﻿@using Resources
-@using Incoding.Web.MvcContrib
-@using Domain.Api
-@using Domain.Extensions
+﻿@using Incoding.Web.MvcContrib
+@using Resources
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="~/css/custom_bootstrap.css">
     <link rel="stylesheet" href="~/icons/material-symbols/index.css"/>
@@ -14,113 +12,36 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    @(Html.When(JqueryBind.InitIncoding | JqueryBind.IncChangeUrl)
-          .HashPost()
-          .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
-          .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
-          .AsHtmlAttributes()
-          .ToDiv())
+@(Html.When(JqueryBind.InitIncoding | JqueryBind.IncChangeUrl)
+      .HashPost()
+      .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
+      .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
+      .AsHtmlAttributes()
+      .ToDiv())
 
-    @(Html.When(JqueryBind.IncAjaxBefore)
-          .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
-          .When(JqueryBind.IncAjaxError)
-          .OnSuccess(dsl => dsl.Window.Alert("lol"))
-          .When(JqueryBind.IncAjaxComplete)
-          .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
-          .AsHtmlAttributes(new { @class = "vw-100 vh-100 position-absolute loader-background d-none" })
-          .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
-                     <span class="visually-hidden">Loading...</span>
-                 </div>))
+@(Html.When(JqueryBind.IncAjaxBefore)
+      .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
+      .When(JqueryBind.IncAjaxError)
+      .OnSuccess(dsl => dsl.Window.Alert("lol"))
+      .When(JqueryBind.IncAjaxComplete)
+      .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
+      .AsHtmlAttributes(new { @class = "vw-100 vh-100 position-absolute loader-background d-none" })
+      .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
+                 <span class="visually-hidden">Loading...</span>
+             </div>))
 
-    <header class="d-flex p-3 justify-content-center">
-        <div class="d-flex gap-16 w-50">
-            <div class="dropdown">
-                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    @DataResources.Create
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">@DataResources.Building</a></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Faculty</a></li>
-                    <li>
-                        <a class="dropdown-item" href='#@Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative()'>@DataResources.Department</a>
-                    </li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Teacher</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Discipline</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Group</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    @DataResources.Edit
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">@DataResources.Building</a></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Faculty</a></li>
-                    <li><a class="dropdown-item" href='#@Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative()'>@DataResources.Department</a></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Teacher</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Discipline</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">@DataResources.Group</a></li>
-                </ul>
-            </div>
-        </div>
+@(await Html.PartialAsync("_Header_Layout"))
 
-        <div>
-            <a class="text-decoration-none text-black" href="@Url.Action("Index", "Home")">@DataResources.ApplicationName</a>
-        </div>
+<main role="main" class="container flex-grow-1 d-flex flex-column gap-16 justify-content-center">
+    @await RenderSectionAsync("Body")
+</main>
 
-        <div class="d-flex flex-row-reverse gap-16 w-50">
-            <div class="dropdown">
-                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Пользователь
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">@DataResources.SignOut</a></li>
-                </ul>
-            </div>
-            <div class="btn btn-light p-1">
-                <i class="material-symbols-rounded">settings</i>
-            </div>
-            @using (Html.When(JqueryBind.InitIncoding)
-                        .Ajax<GetFacultiesQuery>(new {})
-                        .OnSuccess(dsl => dsl.WithSelf(s => s.Find(HtmlTag.Hr).Parent()).Insert.WithTemplateByView("~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml").Append())
-                        .AsHtmlAttributes()
-                        .ToBeginTag(HtmlTag.Div))
-            {
-                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    ИКТИБ
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href='#@Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative()'>Редактировать</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                </ul>
-            }
-        </div>
-    </header>
-    
-    <main role="main" class="container flex-grow-1 d-flex flex-column gap-16 justify-content-center">
-        @await RenderSectionAsync("Body")
-    </main>
+@(await Html.PartialAsync("_Footer_Layout"))
 
-    <footer class="d-flex padding-16 justify-content-between">
-        <div></div>
-        <div class="d-flex gap-16 flex-row-reverse">
-            <div class="btn btn-light">
-                @DataResources.Documentation
-            </div>
-            <div class="btn btn-light">
-                @DataResources.Help
-            </div>
-        </div>
-    </footer>
-
-    <script src="~/lib/jq.js"></script>
-    <script src="~/lib/inc.js"></script>
-    <script src="~/lib/script.js"></script>
-    <script src="~/lib/bootstrap.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jq.js"></script>
+<script src="~/lib/inc.js"></script>
+<script src="~/lib/script.js"></script>
+<script src="~/lib/bootstrap.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

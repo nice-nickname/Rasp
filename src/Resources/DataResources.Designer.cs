@@ -160,6 +160,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ИКТИБ.
+        /// </summary>
+        public static string funny_institut {
+            get {
+                return ResourceManager.GetString("funny_institut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пользователь.
+        /// </summary>
+        public static string funny_userok {
+            get {
+                return ResourceManager.GetString("funny_userok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Группа.
         /// </summary>
         public static string Group {

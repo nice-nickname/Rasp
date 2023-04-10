@@ -171,4 +171,16 @@
 	<data name="Placeholder_FacultyCode" xml:space="preserve">
 		<value>Факультет</value>
 	</data>
+  
+  
+  <!--start funny moments-->
+  <data name="funny_userok" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="funny_institut" xml:space="preserve">
+    <value>ИКТИБ</value>
+  </data>
+  <!--end funny moments-->
+
+
 </root>

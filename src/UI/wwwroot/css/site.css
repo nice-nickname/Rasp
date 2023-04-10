@@ -56,3 +56,17 @@ a.dropdown-item:hover {
 .btn:hover .material-symbols-rounded {
     font-variation-settings: "FILL" 1;
 }
+
+ul > li {
+    unicode-bidi: unset;
+    font-variant-numeric: unset;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: unset !important;
+    text-align-last: unset !important;
+}
+
+ul ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+}

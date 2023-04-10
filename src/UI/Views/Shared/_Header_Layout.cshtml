@@ -1,0 +1,90 @@
+﻿@using UI.Common.Extensions
+@using UI.Common.Models
+@using Domain.Api
+@using Domain.Extensions
+@using Incoding.Web.MvcContrib
+@using Microsoft.AspNetCore.Html
+@using Resources
+<header class="d-flex p-3 justify-content-center">
+    <div class="d-flex gap-16 w-50">
+        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+        {
+            Text = DataResources.Create,
+            Title = DataResources.Create,
+            Items = new List<IHtmlContent>
+            {
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Building),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Faculty),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.Department;
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Teacher),
+                Html.Controls().Dropdown.Divider(),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Discipline),
+                Html.Controls().Dropdown.Divider(),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Group)
+            }
+        }))
+
+        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+        {
+            Text = DataResources.Edit,
+            Title = DataResources.Edit,
+            Items = new List<IHtmlContent>
+            {
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Building),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Faculty),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.Department;
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Teacher),
+                Html.Controls().Dropdown.Divider(),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Discipline),
+                Html.Controls().Dropdown.Divider(),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Group)
+            }
+        }))
+    </div>
+
+    <div>
+        <a class="text-decoration-none text-black" href="@Url.Action("Index", "Home")">@DataResources.ApplicationName</a>
+    </div>
+
+    <div class="d-flex flex-row-reverse gap-16 w-50">
+        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+        {
+            Text = DataResources.funny_userok,
+            Items = new List<IHtmlContent>
+            {
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.SignOut)
+            }
+        }))
+
+        <div class="btn btn-light p-1">
+            <i class="material-symbols-rounded">settings</i>
+        </div>
+
+        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+        {
+            Text = DataResources.funny_institut,
+            Items = new List<IHtmlContent>
+            {
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.Edit;
+                    settings.Href = Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Divider(),
+                Html.Controls().Dropdown.List(settings =>
+                {
+                    settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
+                    settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
+                })
+            }
+        }))
+    </div>
+</header>
