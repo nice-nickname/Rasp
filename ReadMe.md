@@ -5,7 +5,7 @@
     <img src="https://media.discordapp.net/attachments/490986273968881680/1086026627848339456/image.png" alText="Довольные_пользователи" width="500px" style="margin-top: 10px;">    
 </p>
 <h2 align=center>
-Grateful users of out application
+Grateful users of our application
 </h2>
 
 -----
@@ -15,6 +15,12 @@ Rasp uses MS SQL SERVER as primary database. Application requres to have a Datab
 ```json
 {
     "ConnectionString": "Your=DB;Connection=String"
+}
+```
+Example for *morons*
+```json
+{
+    "ConnectionString": "Data Source=localhost;Database=Rasp;Integrated Security=true;"
 }
 ```
 
