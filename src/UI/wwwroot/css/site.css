@@ -45,7 +45,8 @@ a.dropdown-item:hover {
 }
 
 .btn:has(> .material-symbols-rounded) {
-    line-height: 0;
+    display: inline-flex;
+    gap: 8px;
 }
 
 .material-symbols-rounded {

@@ -1,9 +1,9 @@
-﻿@using Incoding.Web.MvcContrib
-@using Domain.Api
-@using Resources
-@using UI.Common.Extensions
+﻿@using UI.Common.Extensions
 @using UI.Common.Models
-@model List<GetFacultiesQuery.Response>
+@using Domain.Api
+@using Incoding.Web.MvcContrib
+@using Resources
+@model List<Domain.Api.GetFacultiesQuery.Response>
 @{
     Layout = "";
 
@@ -12,11 +12,11 @@
     const string itemTmpl = "~/Views/Edit/Faculty/Item_Tmpl.cshtml";
 }
 
-@using (Html.Controls().Form(s => 
-                             {
-                                 s.Url = Url.Dispatcher().Push<SaveFacultiesCommand>();
-                                 s.OnSave = dsl => dsl.WithName(facultyContainerName).Trigger.None();
-                             }))
+@using (Html.Controls().Form(s =>
+{
+    s.Url = Url.Dispatcher().Push<SaveFacultiesCommand>();
+    s.OnSave = dsl => dsl.WithName(facultyContainerName).Trigger.None();
+}))
 {
     <div class="d-flex flex-column">
         <input type="hidden" name="LastIndex"/>
@@ -31,21 +31,25 @@
               })
               .AsHtmlAttributes(new { @class = "btn btn-light align-self-start mb-3" })
               .ToButton(@<text>
-                            <i class="fs-6 bi-plus"></i>
+                            <span class="material-symbols-rounded">add</span>
                             @DataResources.AddFaculty
-                        </text>))
+                         </text>))
 
-        @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+        @(Html.When(JqueryBind.InitIncoding)
               .Direct(Model)
+              .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByUrl(d => d.Model(new LastIndexModel()).AsView(itemTmpl)).Html())
+              .OnComplete(dsl => dsl.WithName("LastIndex").JQuery.Attr.Val(Selector.Jquery.Self().Children(HtmlTag.Div).Length()))
+              .When(JqueryBind.None)
+              .Ajax<GetFacultiesQuery>(new { })
               .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByUrl(d => d.Model(new LastIndexModel()).AsView(itemTmpl)).Html())
               .OnComplete(dsl => dsl.WithName("LastIndex").JQuery.Attr.Val(Selector.Jquery.Self().Children(HtmlTag.Div).Length()))
               .When(JqueryBind.Load)
               .StopPropagation()
               .Direct(new List<GetFacultiesQuery.Response> { new() })
               .OnSuccess(dsl => dsl.WithName(facultyContainerName).Insert.WithTemplateByUrl(d => d.Model<LastIndexModel>(new
-                                                                                                  {
-                                                                                                      LastIndex = Selector.Jquery.Name("LastIndex")
-                                                                                                  })
+              {
+                  LastIndex = Selector.Jquery.Name("LastIndex")
+              })
                                                                                                   .AsView(itemTmpl)).Append())
               .AsHtmlAttributes(new { @class = "d-flex flex-column gap-3", name = facultyContainerName })
               .ToDiv())

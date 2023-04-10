@@ -8,5 +8,5 @@ public class DropdownItemSettings
 
     public string Href { get; set; }
 
-    public Action<IIncodingMetaLanguageCallbackBodyDsl> OnSuccess { get; set; }
+    public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnSuccess { get; set; }
 }
