@@ -1,4 +1,4 @@
-using FluentMigrator.Runner;
+﻿using FluentMigrator.Runner;
 using FluentNHibernate.Cfg.Db;
 using FluentValidation;
 using FluentValidation.AspNetCore;

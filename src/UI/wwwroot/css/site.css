@@ -43,3 +43,16 @@ a.dropdown-item:hover {
     background: rgba(0, 0, 0, .5);
     z-index: 9999
 }
+
+.btn:has(> .material-symbols-rounded) {
+    line-height: 0;
+}
+
+.material-symbols-rounded {
+    transition: font-variation-settings .2s cubic-bezier(.2, 0, 0, 1);
+    font-variation-settings: "FILL" 0;
+}
+
+.btn:hover .material-symbols-rounded {
+    font-variation-settings: "FILL" 1;
+}

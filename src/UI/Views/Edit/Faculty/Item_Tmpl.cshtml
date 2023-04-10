@@ -29,7 +29,7 @@
                           .OnSuccess(dsl => dsl.WithName($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Code)}")
                                                .Trigger.Focus())
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
-                          .ToButton(@<i class="fs-6 bi-pen"></i>))
+                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
 
                     @(Html.When(JqueryBind.InitIncoding)
                           .OnSuccess(dsl =>
@@ -50,7 +50,7 @@
                                  .JQuery.Attr.Val(true);
                           })
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
-                          .ToButton(@<i class="fs-6 bi-trash"></i>))
+                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>
             </div>
         </div>
