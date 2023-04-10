@@ -30,7 +30,7 @@ To install all packages type in console
 > dotnet restore # Run this command for all Projects in solution
 
 > cd src/UI
-src/UI> npm install # This will install all js and css libraries 
+src/UI> npm ci # This will install all js and css libraries 
 ```
 
 ## Build and run
