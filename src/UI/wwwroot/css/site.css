@@ -44,6 +44,8 @@ a.dropdown-item:hover {
 .material-symbols-rounded {
     transition: font-variation-settings .2s cubic-bezier(.2, 0, 0, 1);
     font-variation-settings: "FILL" 0;
+
+    user-select: none;
 }
 
 .btn:hover .material-symbols-rounded {
@@ -62,4 +64,42 @@ ul > li {
 ul ul {
     list-style-type: none;
     padding-inline-start: 0;
+}
+
+.input > .material-symbols-rounded {
+    position: absolute;
+    padding: 4px 8px;
+    color: rgba(0, 0, 0, 0.6)
+}
+
+.input:has(> .addon-l) {
+    position: relative;
+}
+
+.input:has(> .addon-l) > input {
+    padding-left: 40px;
+}
+
+.input:has(> .addon-r) {
+    position: relative;
+}
+
+.input:has(> .addon-r) > input {
+    padding-right: 40px;
+}
+
+.input > .addon-l {
+    left: 0px;
+}
+
+.input > .addon-r {
+    right: 0px;
+}
+
+.w-30 {
+    width: 30%;
+}
+
+.w-40 {
+    width: 40%;
 }

@@ -35,7 +35,11 @@
             Items = new List<IHtmlContent>
             {
                 Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Building),
-                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Faculty),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.Faculty;
+                    settings.Href = Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
+                }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Department;

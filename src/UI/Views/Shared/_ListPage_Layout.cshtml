@@ -1,0 +1,13 @@
+﻿<div class="d-flex flex-column flex-grow-1 gap-3 align-items-center">
+    <div class="d-flex gap-3 justify-content-center w-100">
+        <div class="input w-30">
+            <input type="text" class="rounded search w-100 h-100"/>
+            <span class="material-symbols-rounded addon-r">search</span>
+        </div>
+
+        @await RenderSectionAsync("Filter")
+    </div>
+
+    @await RenderSectionAsync("List")
+
+</div>

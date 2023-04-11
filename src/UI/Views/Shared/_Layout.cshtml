@@ -30,13 +30,13 @@
                  <span class="visually-hidden">Loading...</span>
              </div>))
 
-@(await Html.PartialAsync("_Header_Layout"))
+@await Html.PartialAsync("_Header_Layout")
 
-<main role="main" class="container flex-grow-1 d-flex flex-column gap-3 justify-content-center">
+<main role="main" class="container flex-grow-1 d-flex flex-column">
     @await RenderSectionAsync("Body")
 </main>
 
-@(await Html.PartialAsync("_Footer_Layout"))
+@await Html.PartialAsync("_Footer_Layout")
 
 <script src="~/lib/jq.js"></script>
 <script src="~/lib/inc.js"></script>

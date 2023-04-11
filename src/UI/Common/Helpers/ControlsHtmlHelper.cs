@@ -31,7 +31,8 @@ public class ControlsHtmlHelper<T>
                     .AsHtmlAttributes(new
                     {
                             action = settings.Url,
-                            name = settings.Name
+                            name = settings.Name,
+                            @class = settings.Class
                     })
                     .ToBeginTag(HtmlTag.Form);
     }

@@ -181,6 +181,9 @@
     <value>ИКТИБ</value>
   </data>
   <!--end funny moments-->
-
-
+  
+  
+  <data name="Filter" xml:space="preserve">
+    <value>Фильтры</value>
+  </data>
 </root>
