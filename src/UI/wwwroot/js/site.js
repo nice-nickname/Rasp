@@ -4,9 +4,24 @@ function suggestInputValueByNamingCase(value, to) {
     if (!value) {
         return;
     }
+
     const val = value.split(' ')
-        .filter(s => s && s.length > 1)
-        .map(s => s[0].toUpperCase())
+        .filter(s => s)
+        .map((v, i, arr) => {
+            const c = v[0].toLowerCase()
+
+            if (v.length == 1) {
+                if (i + 1 != arr.length && c == arr[i + 1][0].toLowerCase()) {
+                    return ''
+                }
+                else {
+                    return c
+                }
+            }
+            else {
+                return с.toUpperCase()
+            }
+        })
         .join('')
 
     $(`[name="${to}"]`).val(val)
