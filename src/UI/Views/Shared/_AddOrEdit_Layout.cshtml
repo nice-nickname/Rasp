@@ -1,0 +1,26 @@
+﻿@using Incoding.Web.MvcContrib
+@using Resources
+@{
+    var formId = Guid.NewGuid().ToString();
+}
+
+<div class="d-flex flex-column gap-3 h-100 flex-grow-1">
+    <h2>
+        @await RenderSectionAsync("Title")
+    </h2>
+
+    <div class="flex-grow-1" id="@formId">
+        @await RenderSectionAsync("Body")
+    </div>
+
+    @(Html.When(JqueryBind.Click)
+          .StopPropagation()
+          .PreventDefault()
+          .OnSuccess(dsl => dsl.With(r => r.Id(formId).Find(HtmlTag.Form)).Trigger.Submit())
+          .AsHtmlAttributes(new
+          {
+              @class = "btn btn-light w-fit align-self-end",
+              id = GlobalSelectors.SaveButtonId
+          })
+          .ToButton(DataResources.Save))
+</div>

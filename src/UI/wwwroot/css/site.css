@@ -103,3 +103,14 @@ ul ul {
 .w-40 {
     width: 40%;
 }
+
+.w-fit {
+    width: fit-content;
+}
+
+form .form-divider {
+    height: 1px;
+    width: calc(100% - 16px);
+    margin: 0 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+}

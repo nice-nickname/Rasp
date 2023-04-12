@@ -186,4 +186,10 @@
   <data name="Filter" xml:space="preserve">
     <value>Фильтры</value>
   </data>
+  <data name="Abbreviation" xml:space="preserve">
+    <value>Аббревиатура</value>
+  </data>
+  <data name="FacultyName" xml:space="preserve">
+    <value>Наименование Института</value>
+  </data>
 </root>

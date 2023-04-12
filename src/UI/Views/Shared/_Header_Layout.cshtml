@@ -14,12 +14,12 @@
             Items = new List<IHtmlContent>
             {
                 Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Building),
-                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Faculty),
                 Html.Controls().Dropdown.Button(settings =>
                 {
-                    settings.Text = DataResources.Department;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
+                    settings.Text = DataResources.Faculty;
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditFacultyCommand.AsView()).AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml").ToRelative();
                 }),
+                Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Department),
                 Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Teacher),
                 Html.Controls().Dropdown.Divider(),
                 Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Discipline),
@@ -71,7 +71,7 @@
         <div class="btn btn-light p-1">
             <i class="material-symbols-rounded">settings</i>
         </div>
-        
+
         @Html.Hidden(GlobalSelectors.FacultyId)
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
@@ -88,10 +88,7 @@
                 {
                     settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
                     settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
-                    settings.OnSuccess = dsl =>
-                    {
-                        dsl.WithSelf(s => s.Find(c => c.Custom("li:first"))).Trigger.Click();
-                    };
+                    settings.OnSuccess = dsl => { dsl.WithSelf(s => s.Find(c => c.Custom("li:first"))).Trigger.Click(); };
                     settings.OnClick = dsl =>
                     {
                         Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));

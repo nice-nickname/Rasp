@@ -1,7 +1,7 @@
-﻿using Domain.Persistence;
-using Incoding.Core.CQRS.Core;
+﻿namespace Domain.Api;
 
-namespace Domain.Api;
+using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 
 public class AddOrEditFacultyCommand : CommandBase
 {
@@ -17,5 +17,22 @@ public class AddOrEditFacultyCommand : CommandBase
         faculty.Name = Name;
         faculty.Code = Code;
         Repository.SaveOrUpdate(faculty);
+    }
+
+    public class AsView : QueryBase<AddOrEditFacultyCommand>
+    {
+        public int? Id { get; set; }
+
+        protected override AddOrEditFacultyCommand ExecuteResult()
+        {
+            var faculty = Repository.GetById<Faculty>(Id.GetValueOrDefault()) ?? new Faculty();
+
+            return new AddOrEditFacultyCommand
+            {
+                    Id = faculty.Id,
+                    Code = faculty.Code,
+                    Name = faculty.Name
+            };
+        }
     }
 }

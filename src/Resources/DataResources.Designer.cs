@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Аббревиатура.
+        /// </summary>
+        public static string Abbreviation {
+            get {
+                return ResourceManager.GetString("Abbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавить факультет.
         /// </summary>
         public static string AddFaculty {
@@ -156,6 +165,15 @@ namespace Resources {
         public static string Faculty {
             get {
                 return ResourceManager.GetString("Faculty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование Института.
+        /// </summary>
+        public static string FacultyName {
+            get {
+                return ResourceManager.GetString("FacultyName", resourceCulture);
             }
         }
         

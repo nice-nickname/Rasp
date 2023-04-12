@@ -2,46 +2,46 @@
 @using Resources
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="~/css/site.css">
-    <link rel="stylesheet" href="~/css/custom_bootstrap.css">
-    <link rel="stylesheet" href="~/icons/material-symbols/index.css"/>
-    <title>@DataResources.ApplicationName</title>
-</head>
-<body class="d-flex flex-column min-vh-100">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="~/css/site.css">
+        <link rel="stylesheet" href="~/css/custom_bootstrap.css">
+        <link rel="stylesheet" href="~/icons/material-symbols/index.css"/>
+        <title>@DataResources.ApplicationName</title>
+    </head>
+    <body class="d-flex flex-column min-vh-100">
 
-@(Html.When(JqueryBind.InitIncoding | JqueryBind.IncChangeUrl)
-      .HashPost()
-      .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
-      .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
-      .AsHtmlAttributes()
-      .ToDiv())
+        @(Html.When(JqueryBind.InitIncoding | JqueryBind.IncChangeUrl)
+              .HashPost()
+              .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
+              .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
+              .AsHtmlAttributes()
+              .ToDiv())
 
-@(Html.When(JqueryBind.IncAjaxBefore)
-      .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
-      .When(JqueryBind.IncAjaxError)
-      .OnSuccess(dsl => dsl.Window.Alert("lol"))
-      .When(JqueryBind.IncAjaxComplete)
-      .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
-      .AsHtmlAttributes(new { @class = "vw-100 vh-100 position-absolute loader-background d-none" })
-      .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
-                 <span class="visually-hidden">Loading...</span>
-             </div>))
+        @(Html.When(JqueryBind.IncAjaxBefore)
+              .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
+              .When(JqueryBind.IncAjaxError)
+              .OnSuccess(dsl => dsl.Window.Alert("lol"))
+              .When(JqueryBind.IncAjaxComplete)
+              .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
+              .AsHtmlAttributes(new { @class = "vw-100 vh-100 position-absolute loader-background d-none" })
+              .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
+                         <span class="visually-hidden">Loading...</span>
+                     </div>))
 
-@await Html.PartialAsync("_Header_Layout")
+        @await Html.PartialAsync("_Header_Layout")
 
-<main role="main" class="container flex-grow-1 d-flex flex-column">
-    @await RenderSectionAsync("Body")
-</main>
+        <main role="main" class="container flex-grow-1 d-flex flex-column" id="@GlobalSelectors.MainId">
+            @await RenderSectionAsync("Body")
+        </main>
 
-@await Html.PartialAsync("_Footer_Layout")
+        @await Html.PartialAsync("_Footer_Layout")
 
-<script src="~/lib/jq.js"></script>
-<script src="~/lib/inc.js"></script>
-<script src="~/lib/script.js"></script>
-<script src="~/lib/bootstrap.js"></script>
-@await RenderSectionAsync("Scripts", required: false)
-</body>
+        <script src="~/lib/jq.js"></script>
+        <script src="~/lib/inc.js"></script>
+        <script src="~/lib/script.js"></script>
+        <script src="~/lib/bootstrap.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>
