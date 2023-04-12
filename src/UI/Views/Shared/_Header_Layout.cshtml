@@ -88,13 +88,15 @@
                 {
                     settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
                     settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
-                    settings.OnSuccess = dsl => dsl.WithSelf(s => s.Find(c => c.Custom("li:first"))).Trigger.Click();
+                    settings.OnSuccess = dsl =>
+                    {
+                        dsl.WithSelf(s => s.Find(c => c.Custom("li:first"))).Trigger.Click();
+                    };
                     settings.OnClick = dsl =>
                     {
                         Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
-
                         dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
-                        dsl.Document.RedirectToSelf();
+                        dsl.With(s => s.Document()).Trigger.Invoke(JqueryBind.IncChangeUrl);
                     };
                 })
             }
