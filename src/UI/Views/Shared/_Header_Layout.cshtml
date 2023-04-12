@@ -43,7 +43,7 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Department;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().Query(new GetDepartmentsQuery()).AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.Teacher),
                 Html.Controls().Dropdown.Divider(),

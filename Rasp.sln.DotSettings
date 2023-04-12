@@ -3839,6 +3839,7 @@ $SELECTION$&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=B5B7E2351C9DC141B3DAB924AD95F069/Name/@EntryValue">SerializeObject</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=B5B7E2351C9DC141B3DAB924AD95F069/Pattern/@EntryValue">(\W|^)(?&lt;TAG&gt;IsSerializeObject)(\W|$)(.*)</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=B5B7E2351C9DC141B3DAB924AD95F069/TodoIconStyle/@EntryValue">Normal</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Tmpl/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=_0420_0435_0434_0430_043A_0442_0438_0440_043E_0432_0430_0442_044C/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=_0421_043E_0437_0434_0430_0442_044C/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Autosave/@EntryIndexedValue">True</s:Boolean>

@@ -9,24 +9,35 @@
     @using (var faculty = template.ForEach())
     {
         var index = string.IsNullOrWhiteSpace(Model.LastIndex) ? faculty.Index().ToString() : Model.LastIndex;
+        var code = $"Items[{index}].{nameof(SaveFacultiesCommand.Item.Code)}";
+        var name = $"Items[{index}].{nameof(SaveFacultiesCommand.Item.Name)}";
+        var isDeleted = $"Items[{index}].{nameof(SaveFacultiesCommand.Item.IsDeleted)}";
 
         <div class="row border rounded p-2">
             @Html.Hidden($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Id)}", faculty.For(s => s.Id))
             @Html.Hidden($"Items[{index}].{nameof(SaveFacultiesCommand.Item.IsDeleted)}", false)
 
             <div class="col-2">
-                <input for="code" name="Items[@index].@(nameof(SaveFacultiesCommand.Item.Code))" type="text" class="form-control text-center" placeholder="@DataResources.Placeholder_FacultyCode" value="@faculty.For(s => s.Code)"/>
+                <input for="code" name="@code" type="text" class="form-control text-center" placeholder="@DataResources.Placeholder_FacultyCode" value="@faculty.For(s => s.Code)"/>
             </div>
-            <div class="col-6">
-                <input for="name" name="Items[@index].@(nameof(SaveFacultiesCommand.Item.Name))" type="text" class="form-control" placeholder="@DataResources.Placeholder_FacultyName" value="@faculty.For(s => s.Name)"/>
-                @Html.ValidationMessage($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Name)}")
+            <div class="col-7">
+                @(Html.When(JqueryBind.Change)
+                      .OnSuccess(dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), code))
+                      .AsHtmlAttributes(new
+                      {
+                          @class = "form-control", 
+                          name = name, 
+                          @for = name, 
+                          placeholder = DataResources.Placeholder_FacultyName
+                      })
+                      .ToInput(HtmlInputType.Text, faculty.For(s => s.Name)))
             </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
                     @(Html.When(JqueryBind.Click)
                           .PreventDefault()
                           .StopPropagation()
-                          .OnSuccess(dsl => dsl.WithName($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Code)}")
+                          .OnSuccess(dsl => dsl.WithName(name)
                                                .Trigger.Focus())
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
                           .ToButton(@<span class="material-symbols-rounded">edit</span>))
@@ -36,8 +47,7 @@
                           {
                               if (!string.IsNullOrWhiteSpace(Model.LastIndex))
                               {
-                                  dsl.WithName($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Code)}")
-                                     .Trigger.Focus();
+                                  dsl.WithName(name).Trigger.Focus();
                               }
                           })
                           .When(JqueryBind.Click)
@@ -46,8 +56,7 @@
                           .OnSuccess(dsl =>
                           {
                               dsl.WithSelf(s => s.Closest(p => p.Class("row"))).JQuery.Attr.AddClass("d-none");
-                              dsl.WithName($"Items[{index}].{nameof(SaveFacultiesCommand.Item.IsDeleted)}")
-                                 .JQuery.Attr.Val(true);
+                              dsl.WithName(isDeleted).JQuery.Attr.Val(true);
                           })
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
                           .ToButton(@<span class="material-symbols-rounded">delete</span>))

@@ -1,5 +1,16 @@
+@using Resources
 @{
-    Layout = "";
+    Layout = "_ListPage_Layout";
 }
 
-<div>Edit department</div>
+@section Filter
+    {
+    <div class="btn btn-light">
+        @DataResources.Filter
+    </div>
+}
+
+@section List
+{
+    <div>Edit department</div>
+}
