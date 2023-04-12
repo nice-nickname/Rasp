@@ -5,6 +5,8 @@ namespace Domain.Api;
 
 public class GetFacultiesQuery : QueryBase<List<GetFacultiesQuery.Response>>
 {
+    public int? FacultyId { get; set; }
+
     protected override List<Response> ExecuteResult()
     {
         return Repository.Query<Faculty>()

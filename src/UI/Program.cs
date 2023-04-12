@@ -101,6 +101,8 @@ public static class Startup
             app.UseExceptionHandler("/Home/Error");
         }
 
+        app.UseCookiePolicy();
+
         app.UseWebOptimizer();
         app.UseStaticFiles();
 
@@ -153,6 +155,12 @@ public static class Startup
     {
         var d = new DefaultDispatcher();
         d.Push(new PrepareFacultyIfNotExistCommand());
+
+        var ajaxDef = JqueryAjaxOptions.Default;
+        ajaxDef.Data = new RouteValueDictionary(new Dictionary<string, object>
+        {
+                { "FacultyId", Selector.Jquery.Name(GlobalSelectors.FacultyId) }
+        });
 
         return app;
     }

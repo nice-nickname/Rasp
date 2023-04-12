@@ -5,6 +5,14 @@
 {
     @using (var faculty = template.ForEach())
     {
-        <li><a class="dropdown-item" href="javascipt:void(0);">@faculty.For(s => s.Code)</a></li>
+        @(Html.When(JqueryBind.Click)
+              .Direct(new
+              {
+                  Id = faculty.For(s => s.Id).ToString(),
+                  Code = faculty.For(s => s.Code).ToString()
+              })
+              .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Ul)).Trigger.None())
+              .AsHtmlAttributes()
+              .ToTag(HtmlTag.Li, @<a class="dropdown-item" href="javascript:void(0);">@faculty.For(s => s.Code)</a>))
     }
 }

@@ -9,4 +9,6 @@ public class DropdownListSettings
     public string CustomTemplate { get; set; }
 
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnSuccess { get; set; }
+
+    public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnClick { get; set; }
 }

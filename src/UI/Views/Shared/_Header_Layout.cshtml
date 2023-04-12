@@ -71,10 +71,11 @@
         <div class="btn btn-light p-1">
             <i class="material-symbols-rounded">settings</i>
         </div>
-
+        
+        @Html.Hidden(GlobalSelectors.FacultyId)
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
-            Text = DataResources.funny_institut,
+            Text = DataResources.Faculty,
             Items = new List<IHtmlContent>
             {
                 Html.Controls().Dropdown.Button(settings =>
@@ -87,6 +88,14 @@
                 {
                     settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
                     settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
+                    settings.OnSuccess = dsl => dsl.WithSelf(s => s.Find(c => c.Custom("li:first"))).Trigger.Click();
+                    settings.OnClick = dsl =>
+                    {
+                        Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
+
+                        dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
+                        dsl.Document.RedirectToSelf();
+                    };
                 })
             }
         }))

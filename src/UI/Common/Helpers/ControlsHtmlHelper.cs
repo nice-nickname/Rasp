@@ -83,8 +83,17 @@ public class ControlsHtmlHelper<T>
                            dsl.Self().Insert.WithTemplateByView(template).Html();
                            settings.OnSuccess?.Invoke(dsl);
                        })
+                       .When(JqueryBind.None)
+                       .OnSuccess(dsl => settings.OnClick?.Invoke(dsl))
                        .AsHtmlAttributes()
                        .ToTag(HtmlTag.Ul);
+        }
+
+        public void SetTitle(IIncodingMetaLanguageCallbackBodyDsl dsl, Selector title)
+        {
+            dsl.WithSelf(s => s.Closest(p => p.EqualsAttribute("role", "dropdown"))
+                               .Find(c => c.EqualsAttribute("role", "title")))
+               .Insert.Use(title).Text();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿@using Incoding.Web.Extensions
 @model UI.Common.Models.DropdownModel
 
-<div class="dropdown">
+<div role="dropdown" class="dropdown">
     <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="@Model.Title">
-        @Model.Text
+        <span role="title">@Model.Text</span>
     </button>
     <ul class="dropdown-menu">
         @foreach (var item in Model.Items)
