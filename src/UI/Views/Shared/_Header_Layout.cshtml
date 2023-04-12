@@ -2,9 +2,14 @@
 @using UI.Common.Models
 @using Domain.Api
 @using Domain.Extensions
+@using Incoding.Web.CQRS.Common.Command
 @using Incoding.Web.MvcContrib
 @using Microsoft.AspNetCore.Html
 @using Resources
+@{
+    var facultyId = Context.Request.Cookies[GlobalSelectors.FacultyId];
+}
+
 <header class="d-flex p-3 justify-content-center">
     <div class="d-flex gap-3 w-50">
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
@@ -72,7 +77,18 @@
             <i class="material-symbols-rounded">settings</i>
         </div>
 
-        @Html.Hidden(GlobalSelectors.FacultyId)
+        @(Html.When(JqueryBind.Change)
+              .StopPropagation()
+              .PreventDefault()
+              .Ajax(Url.Dispatcher().Push(new AddCookieCommand
+              {
+                  Key = GlobalSelectors.FacultyId,
+                  Value = Selector.Jquery.Self().Val()
+              }))
+              .OnSuccess(dsl => dsl.Self())
+              .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
+              .ToInput(HtmlInputType.Hidden, facultyId))
+
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
             Text = DataResources.Faculty,
@@ -88,12 +104,13 @@
                 {
                     settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
                     settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
-                    settings.OnSuccess = dsl => { dsl.WithSelf(s => s.Find(c => c.Custom("li:first"))).Trigger.Click(); };
+                    settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));
                     settings.OnClick = dsl =>
                     {
                         Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
                         dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
-                        dsl.With(s => s.Document()).Trigger.Invoke(JqueryBind.IncChangeUrl);
+                        dsl.WithName(GlobalSelectors.FacultyId).Trigger.Change();
+                        dsl.Document.RedirectToSelf();
                     };
                 })
             }

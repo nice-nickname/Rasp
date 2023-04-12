@@ -12,7 +12,11 @@
                   Code = faculty.For(s => s.Code).ToString()
               })
               .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Ul)).Trigger.None())
-              .AsHtmlAttributes()
+              .AsHtmlAttributes(new
+              {
+                  key = faculty.For(s => s.Id),
+                  code = faculty.For(s => s.Code)
+              })
               .ToTag(HtmlTag.Li, @<a class="dropdown-item" href="javascript:void(0);">@faculty.For(s => s.Code)</a>))
     }
 }
