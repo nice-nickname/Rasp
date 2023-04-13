@@ -40,6 +40,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Home.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_AddOrEdit_Layout.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_Footer_Layout.cshtml" />
@@ -64,6 +65,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\Home.cshtml" />
   </ItemGroup>
 
 

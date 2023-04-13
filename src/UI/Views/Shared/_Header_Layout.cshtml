@@ -85,7 +85,6 @@
                   Key = GlobalSelectors.FacultyId,
                   Value = Selector.Jquery.Self().Val()
               }))
-              .OnSuccess(dsl => dsl.Self())
               .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
               .ToInput(HtmlInputType.Hidden, facultyId))
 

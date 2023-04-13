@@ -1,5 +1,6 @@
 ﻿@using Incoding.Web.MvcContrib
 @using Resources
+@using Domain.Extensions
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,16 +17,24 @@
               .HashPost()
               .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
               .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
+              .OnBreak(dsl =>
+              {
+                  dsl.WithId(GlobalSelectors.FacultyId).JQuery.Attr.ToggleDisabled();
+                  dsl.Document.RedirectTo("#" + Url.Dispatcher().AsView("~/Views/Home/Home.cshtml").ToRelative());
+                  dsl.WithId(GlobalSelectors.FacultyId).JQuery.Attr.ToggleDisabled();
+              })
               .AsHtmlAttributes()
               .ToDiv())
 
         @(Html.When(JqueryBind.IncAjaxBefore)
+              .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
               .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
               .When(JqueryBind.IncAjaxError)
               .OnSuccess(dsl => dsl.Window.Alert("lol"))
               .When(JqueryBind.IncAjaxComplete)
+              .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
               .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
-              .AsHtmlAttributes(new { @class = "vw-100 vh-100 position-absolute loader-background d-none" })
+              .AsHtmlAttributes(classes: "vw-100 vh-100 position-absolute loader-background d-none", id: GlobalSelectors.AjaxLoaderId)
               .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
                          <span class="visually-hidden">Loading...</span>
                      </div>))

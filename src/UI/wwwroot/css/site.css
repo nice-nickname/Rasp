@@ -114,3 +114,20 @@ form .form-divider {
     margin: 0 8px;
     background-color: rgba(0, 0, 0, 0.2);
 }
+
+.gradirent-animate {
+    background: linear-gradient(-45deg, #ffffff, #e3e3e3, #ffffff, #e3e3e3);
+    background-size: 400% 400%;
+    animation: gradient 2s ease-in-out infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 100% 70%;
+    }
+
+}
