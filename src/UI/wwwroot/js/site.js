@@ -19,7 +19,7 @@ function suggestInputValueByNamingCase(value, to) {
                 }
             }
             else {
-                return с.toUpperCase()
+                return c.toUpperCase()
             }
         })
         .join('')
