@@ -19,6 +19,7 @@
 
             <div class="col-2">
                 <input for="code" name="@code" type="text" class="form-control text-center" placeholder="@DataResources.Placeholder_FacultyCode" value="@faculty.For(s => s.Code)"/>
+                @Html.ValidationMessage(code)
             </div>
             <div class="col-7">
                 @(Html.When(JqueryBind.Change)
@@ -27,18 +28,17 @@
                       {
                           @class = "form-control", 
                           name = name, 
-                          @for = name, 
                           placeholder = DataResources.Placeholder_FacultyName
                       })
                       .ToInput(HtmlInputType.Text, faculty.For(s => s.Name)))
+                @Html.ValidationMessage(name)
             </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
                     @(Html.When(JqueryBind.Click)
                           .PreventDefault()
                           .StopPropagation()
-                          .OnSuccess(dsl => dsl.WithName(name)
-                                               .Trigger.Focus())
+                          .OnSuccess(dsl => dsl.WithName(name).Trigger.Focus())
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
                           .ToButton(@<span class="material-symbols-rounded">edit</span>))
 

@@ -1,6 +1,8 @@
 ﻿/// <reference path="../../node_modules/jquery/dist/jquery.js" />
 
 function suggestInputValueByNamingCase(value, to) {
+    'use strict'
+    
     if (!value) {
         return;
     }
