@@ -1,5 +1,6 @@
 ﻿@using UI.Common.Extensions
 @using Domain.Api
+@using Domain.Extensions
 @using Incoding.Web.MvcContrib
 @using Resources
 @model AddOrEditFacultyCommand
@@ -18,8 +19,7 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditFacultyCommand>();
-        settings.OnSave = dsl => dsl.WithId(GlobalSelectors.MainId).Insert
-                                    .WithTemplateByUrl(Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml")).Html();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative());
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
