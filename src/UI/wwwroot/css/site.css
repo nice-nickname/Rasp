@@ -139,7 +139,7 @@ form .form-divider {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.gradirent-animate {
+.gradient-animate {
     background: linear-gradient(-45deg, #ffffff, #e3e3e3, #ffffff, #e3e3e3);
     background-size: 400% 400%;
     animation: gradient 2s ease-in-out infinite;
@@ -198,4 +198,16 @@ form .form-divider {
 
 .w-90.mx-3.form-group {
     width: calc(90% - 2rem);
+}
+
+.h-1-rem {
+    height: 1rem;
+}
+
+.h-2-rem {
+    height: 2rem;
+}
+
+.gradient-animate {
+    color: transparent !important;
 }
