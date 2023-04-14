@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Список корпусов.
+        /// </summary>
+        public static string BuildingList {
+            get {
+                return ResourceManager.GetString("BuildingList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Продолжить.
         /// </summary>
         public static string Continue {
@@ -133,11 +142,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Список кафедр.
+        /// </summary>
+        public static string DepartmentList {
+            get {
+                return ResourceManager.GetString("DepartmentList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дисциплина.
         /// </summary>
         public static string Discipline {
             get {
                 return ResourceManager.GetString("Discipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Список дисциплин.
+        /// </summary>
+        public static string DisciplineList {
+            get {
+                return ResourceManager.GetString("DisciplineList", resourceCulture);
             }
         }
         
@@ -165,6 +192,15 @@ namespace Resources {
         public static string Faculty {
             get {
                 return ResourceManager.GetString("Faculty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Список институтов.
+        /// </summary>
+        public static string FacultyList {
+            get {
+                return ResourceManager.GetString("FacultyList", resourceCulture);
             }
         }
         
@@ -214,11 +250,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Список групп.
+        /// </summary>
+        public static string GroupList {
+            get {
+                return ResourceManager.GetString("GroupList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Помощь.
         /// </summary>
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Основная информация.
+        /// </summary>
+        public static string MainInformation {
+            get {
+                return ResourceManager.GetString("MainInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to На данный момент не реализовано.
+        /// </summary>
+        public static string NotImplementedForNow {
+            get {
+                return ResourceManager.GetString("NotImplementedForNow", resourceCulture);
             }
         }
         
@@ -264,6 +327,15 @@ namespace Resources {
         public static string Teacher {
             get {
                 return ResourceManager.GetString("Teacher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Список преподавателей.
+        /// </summary>
+        public static string TeacherList {
+            get {
+                return ResourceManager.GetString("TeacherList", resourceCulture);
             }
         }
     }

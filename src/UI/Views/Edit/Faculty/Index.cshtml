@@ -3,13 +3,18 @@
 @using Domain.Api
 @using Incoding.Web.MvcContrib
 @using Resources
-@model List<Domain.Api.GetFacultiesQuery.Response>
+@model List<GetFacultiesQuery.Response>
 @{
     Layout = "~/Views/Shared/_ListPage_Layout.cshtml";
 
     var facultyContainerName = Guid.NewGuid().ToString();
 
     const string itemTmpl = "~/Views/Edit/Faculty/Item_Tmpl.cshtml";
+}
+
+@section Title
+{
+    @DataResources.FacultyList
 }
 
 @section Filter

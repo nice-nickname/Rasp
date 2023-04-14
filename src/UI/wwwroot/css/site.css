@@ -132,7 +132,7 @@ ul ul {
     width: fit-content;
 }
 
-form .form-divider {
+.form-divider {
     height: 1px;
     width: calc(100% - 16px);
     margin: 0 8px;
@@ -210,4 +210,10 @@ form .form-divider {
 
 .gradient-animate {
     color: transparent !important;
+}
+
+*:has(> [name=not-implemented]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
