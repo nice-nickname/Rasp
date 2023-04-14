@@ -151,6 +151,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Кафедры в составе института.
+        /// </summary>
+        public static string DepartmentsInFaculty {
+            get {
+                return ResourceManager.GetString("DepartmentsInFaculty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дисциплина.
         /// </summary>
         public static string Discipline {

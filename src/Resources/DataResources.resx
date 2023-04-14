@@ -216,4 +216,7 @@
   <data name="GroupList" xml:space="preserve">
     <value>Список групп</value>
   </data>
+	<data name="DepartmentsInFaculty" xml:space="preserve">
+    <value>Кафедры в составе института</value>
+  </data>
 </root>
