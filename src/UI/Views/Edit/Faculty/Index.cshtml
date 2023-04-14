@@ -30,7 +30,7 @@
     {
         s.Url = Url.Dispatcher().Push<SaveFacultiesCommand>();
         s.OnSave = dsl => dsl.WithName(facultyContainerName).Trigger.None();
-        s.Class = "w-100 d-flex flex-column gap-3 flex-grow-1";
+        s.Class = "w-100 d-flex flex-column gap-3 flex-grow-1 px-3";
     }))
     {
         <div class="d-flex flex-column">

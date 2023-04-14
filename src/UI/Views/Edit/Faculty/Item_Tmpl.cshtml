@@ -1,8 +1,9 @@
-﻿@using Incoding.Web.MvcContrib
-@using Domain.Api
+﻿@using Domain.Api
+@using Incoding.Web.MvcContrib
 @using Resources
 @using UI.Common.Extensions
-@model UI.Common.Models.LastIndexModel
+@using UI.Common.Models
+@model LastIndexModel
 
 @using (var template = Html.Incoding().Template<GetFacultiesQuery.Response>())
 {
@@ -13,12 +14,12 @@
         var name = $"Items[{index}].{nameof(SaveFacultiesCommand.Item.Name)}";
         var isDeleted = $"Items[{index}].{nameof(SaveFacultiesCommand.Item.IsDeleted)}";
 
-        <div class="row border rounded p-2">
+        <div class="d-flex shadow gap-2 rounded p-1" role="item">
             @Html.Hidden($"Items[{index}].{nameof(SaveFacultiesCommand.Item.Id)}", faculty.For(s => s.Id))
             @Html.Hidden($"Items[{index}].{nameof(SaveFacultiesCommand.Item.IsDeleted)}", false)
 
             <div class="col-2">
-                <input for="code" name="@code" type="text" class="form-control text-center" placeholder="@DataResources.Placeholder_FacultyCode" value="@faculty.For(s => s.Code)"/>
+                <input for="code" name="@code" type="text" class="form-control text-center border-0" placeholder="@DataResources.Abbreviation" value="@faculty.For(s => s.Code)"/>
                 @Html.ValidationMessage(code)
             </div>
             <div class="col-7">
@@ -26,8 +27,8 @@
                       .OnSuccess(dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), code))
                       .AsHtmlAttributes(new
                       {
-                          @class = "form-control", 
-                          name = name, 
+                          @class = "form-control border-0",
+                          name = name,
                           placeholder = DataResources.Placeholder_FacultyName
                       })
                       .ToInput(HtmlInputType.Text, faculty.For(s => s.Name)))
@@ -55,7 +56,7 @@
                           .StopPropagation()
                           .OnSuccess(dsl =>
                           {
-                              dsl.WithSelf(s => s.Closest(p => p.Class("row"))).JQuery.Attr.AddClass("d-none");
+                              dsl.WithSelf(s => s.Closest(p => p.Role("item"))).JQuery.Attr.AddClass("d-none");
                               dsl.WithName(isDeleted).JQuery.Attr.Val(true);
                           })
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
