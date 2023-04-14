@@ -25,16 +25,19 @@
     {
         <div class="form-divider"></div>
 
-        @Html.ForGroup(r => r.Code).TextBox(control =>
-        {
-            control.AddClass("w-50");
-            control.Label.Name = DataResources.Abbreviation;
-        })
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.Code).TextBox(control =>
+            {
+                control.AddClass("w-20");
+                control.Label.Name = DataResources.Abbreviation;
+            })
 
-        @Html.ForGroup(r => r.Name).TextBox(control =>
-        {
-            control.AddClass("w-75");
-            control.Label.Name = DataResources.FacultyName;
-        })
+            @Html.ForGroup(r => r.Name).TextBox(control =>
+            {
+                control.AddClass("w-80");
+                control.Label.Name = DataResources.FacultyName;
+                control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
+            })
+        </div>
     }
 }
