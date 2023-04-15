@@ -1,8 +1,8 @@
-﻿namespace Domain.Api;
-
-using Domain.Persistence;
+﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 using Incoding.Core.ViewModel;
+
+namespace Domain.Api;
 
 public class GetFacultyForDDQuery : QueryBase<List<KeyValueVm>>
 {

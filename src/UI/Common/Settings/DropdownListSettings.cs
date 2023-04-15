@@ -1,6 +1,6 @@
-﻿namespace UI;
+﻿using Incoding.Web.MvcContrib;
 
-using Incoding.Web.MvcContrib;
+namespace UI;
 
 public class DropdownListSettings
 {

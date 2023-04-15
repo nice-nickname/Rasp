@@ -39,18 +39,4 @@ public class MigrationsController : Controller
     {
         return Ok($"migrated down to {number}");
     }
-
-    // [Route("down")]
-    // public IActionResult MigrateDown()
-    // {
-    //     this._migrator.MigrateDown(0);
-    //     return Ok($"migrated down");
-    // }
-
-    // [Route("down/{number:long}")]
-    // public IActionResult Down(long number)
-    // {
-    //     this._migrator.MigrateDown(number);
-    //     return Ok($"migrated down to {number}");
-    // }
 }

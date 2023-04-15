@@ -1,7 +1,7 @@
-﻿namespace UI.Common.Extensions;
-
-using Incoding.Web.MvcContrib;
+﻿using Incoding.Web.MvcContrib;
 using Microsoft.AspNetCore.Html;
+
+namespace UI.Common.Extensions;
 
 public static class ImlExtension
 {

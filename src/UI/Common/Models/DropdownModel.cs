@@ -1,6 +1,6 @@
-﻿namespace UI.Common.Models;
+﻿using Microsoft.AspNetCore.Html;
 
-using Microsoft.AspNetCore.Html;
+namespace UI.Common.Models;
 
 public class DropdownModel
 {

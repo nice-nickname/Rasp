@@ -1,7 +1,7 @@
-﻿namespace UI.Common.Extensions;
-
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using UI.Common.Helpers;
+
+namespace UI.Common.Extensions;
 
 public static class HtmlExtensions
 {

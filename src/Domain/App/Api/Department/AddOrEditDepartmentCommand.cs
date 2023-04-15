@@ -1,7 +1,7 @@
-﻿namespace Domain.Api;
-
-using Domain.Persistence;
+﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
+
+namespace Domain.Api;
 
 public class AddOrEditDepartmentCommand : CommandBase
 {
