@@ -96,6 +96,14 @@ ul ul {
     right: 0px;
 }
 
+.w-10 {
+    width: 10%;
+}
+
+.w-20 {
+    width: 20%;
+}
+
 .w-30 {
     width: 30%;
 }
@@ -104,18 +112,34 @@ ul ul {
     width: 40%;
 }
 
+.w-60 {
+    width: 60%;
+}
+
+.w-70 {
+    width: 70%;
+}
+
+.w-80 {
+    width: 80%;
+}
+
+.w-90 {
+    width: 90%;
+}
+
 .w-fit {
     width: fit-content;
 }
 
-form .form-divider {
+.form-divider {
     height: 1px;
     width: calc(100% - 16px);
     margin: 0 8px;
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.gradirent-animate {
+.gradient-animate {
     background: linear-gradient(-45deg, #ffffff, #e3e3e3, #ffffff, #e3e3e3);
     background-size: 400% 400%;
     animation: gradient 2s ease-in-out infinite;
@@ -130,4 +154,70 @@ form .form-divider {
         background-position: 100% 70%;
     }
 
+}
+
+.w-10.mx-3.form-group {
+    width: calc(10% - 2rem);
+}
+
+.w-20.mx-3.form-group {
+    width: calc(20% - 2rem);
+}
+
+.w-25.mx-3.form-group {
+    width: calc(25% - 2rem);
+}
+
+.w-30.mx-3.form-group {
+    width: calc(30% - 2rem);
+}
+
+.w-40.mx-3.form-group {
+    width: calc(40% - 2rem);
+}
+
+.w-50.mx-3.form-group {
+    width: calc(50% - 2rem);
+}
+
+.w-60.mx-3.form-group {
+    width: calc(60% - 2rem);
+}
+
+.w-70.mx-3.form-group {
+    width: calc(70% - 2rem);
+}
+
+.w-75.mx-3.form-group { 
+    width: calc(75% - 2rem);
+}
+
+.w-80.mx-3.form-group {
+    width: calc(80% - 2rem);
+}
+
+.w-90.mx-3.form-group {
+    width: calc(90% - 2rem);
+}
+
+.h-1-rem {
+    height: 1rem;
+}
+
+.h-2-rem {
+    height: 2rem;
+}
+
+.gradient-animate {
+    color: transparent !important;
+}
+
+*:has(> [name=not-implemented]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shadow {
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.25) !important;
 }

@@ -161,7 +161,6 @@ public static class Startup
         {
                 { "FacultyId", Selector.Jquery.Name(GlobalSelectors.FacultyId) }
         });
-
         return app;
     }
 }

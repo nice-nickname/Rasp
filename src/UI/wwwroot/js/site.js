@@ -1,6 +1,8 @@
 ﻿/// <reference path="../../node_modules/jquery/dist/jquery.js" />
 
 function suggestInputValueByNamingCase(value, to) {
+    'use strict'
+    
     if (!value) {
         return;
     }
@@ -19,7 +21,7 @@ function suggestInputValueByNamingCase(value, to) {
                 }
             }
             else {
-                return с.toUpperCase()
+                return c.toUpperCase()
             }
         })
         .join('')

@@ -3,13 +3,18 @@
 @using Domain.Api
 @using Incoding.Web.MvcContrib
 @using Resources
-@model List<Domain.Api.GetFacultiesQuery.Response>
+@model List<GetFacultiesQuery.Response>
 @{
     Layout = "~/Views/Shared/_ListPage_Layout.cshtml";
 
     var facultyContainerName = Guid.NewGuid().ToString();
 
     const string itemTmpl = "~/Views/Edit/Faculty/Item_Tmpl.cshtml";
+}
+
+@section Title
+{
+    @DataResources.FacultyList
 }
 
 @section Filter
@@ -25,7 +30,7 @@
     {
         s.Url = Url.Dispatcher().Push<SaveFacultiesCommand>();
         s.OnSave = dsl => dsl.WithName(facultyContainerName).Trigger.None();
-        s.Class = "w-100 d-flex flex-column gap-3 flex-grow-1";
+        s.Class = "w-100 d-flex flex-column gap-3 flex-grow-1 px-3";
     }))
     {
         <div class="d-flex flex-column">

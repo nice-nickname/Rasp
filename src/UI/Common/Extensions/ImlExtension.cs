@@ -9,4 +9,6 @@ public static class ImlExtension
     {
         return each.ForRaw("@index");
     }
+
+    public static JquerySelectorExtend Role(this JquerySelector selector, string role) => selector.ContainsAttribute("role", role);
 }

@@ -1,5 +1,6 @@
 ﻿@using UI.Common.Extensions
 @using Domain.Api
+@using Domain.Extensions
 @using Incoding.Web.MvcContrib
 @using Resources
 @model AddOrEditFacultyCommand
@@ -18,23 +19,33 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditFacultyCommand>();
-        settings.OnSave = dsl => dsl.WithId(GlobalSelectors.MainId).Insert
-                                    .WithTemplateByUrl(Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml")).Html();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative());
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
+        <h5>@DataResources.MainInformation</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.Code).TextBox(control =>
+            {
+                control.AddClass("w-20");
+                control.Label.Name = DataResources.Abbreviation;
+            })
+
+            @Html.ForGroup(r => r.Name).TextBox(control =>
+            {
+                control.AddClass("w-80");
+                control.Label.Name = DataResources.FacultyName;
+                control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
+            })
+        </div>
+
         <div class="form-divider"></div>
 
-        @Html.ForGroup(r => r.Code).TextBox(control =>
-        {
-            control.AddClass("w-50");
-            control.Label.Name = DataResources.Abbreviation;
-        })
+        <h5>@DataResources.DepartmentsInFaculty</h5>
 
-        @Html.ForGroup(r => r.Name).TextBox(control =>
-        {
-            control.AddClass("w-75");
-            control.Label.Name = DataResources.FacultyName;
-        })
+        <div class="mx-3 d-flex flex-column gap-3">
+
+        </div>
     }
 }

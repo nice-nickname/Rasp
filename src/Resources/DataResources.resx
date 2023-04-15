@@ -192,4 +192,31 @@
   <data name="FacultyName" xml:space="preserve">
     <value>Наименование Института</value>
   </data>
+  <data name="MainInformation" xml:space="preserve">
+    <value>Основная информация</value>
+  </data>
+	<data name="NotImplementedForNow" xml:space="preserve">
+    <value>На данный момент не реализовано</value>
+  </data>
+  <data name="FacultyList" xml:space="preserve">
+    <value>Список институтов</value>
+  </data>
+  <data name="BuildingList" xml:space="preserve">
+    <value>Список корпусов</value>
+  </data>
+  <data name="DepartmentList" xml:space="preserve">
+    <value>Список кафедр</value>
+  </data>
+  <data name="TeacherList" xml:space="preserve">
+    <value>Список преподавателей</value>
+  </data>
+  <data name="DisciplineList" xml:space="preserve">
+    <value>Список дисциплин</value>
+  </data>
+  <data name="GroupList" xml:space="preserve">
+    <value>Список групп</value>
+  </data>
+	<data name="DepartmentsInFaculty" xml:space="preserve">
+    <value>Кафедры в составе института</value>
+  </data>
 </root>
