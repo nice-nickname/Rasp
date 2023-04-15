@@ -18,6 +18,9 @@ using Domain.Api;
 
 namespace UI;
 
+using NHibernate.Dialect;
+using NHibernate.Tool.hbm2ddl;
+
 public static class Startup
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
@@ -48,11 +51,13 @@ public static class Startup
 
         builder.Services.ConfigureIncodingNhDataServices(typeof(IncEntityBase),
                                                          null,
-                                                         b =>
+                                                         fluentConfig =>
                                                          {
                                                              var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
-                                                             b = b.Database(db).Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly));
-                                                             return b;
+                                                             fluentConfig = fluentConfig.Database(db)
+                                                                                        .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly))
+                                                                                        .ExposeConfiguration(c => SchemaMetadataUpdater.QuoteTableAndColumns(c, new MsSql2012Dialect()));
+                                                             return fluentConfig;
                                                          });
 
         builder.Services.ConfigureIncodingWebServices();
@@ -159,8 +164,7 @@ public static class Startup
            .MigrateUp();
 
         IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
-        CachingFactory.Instance.Initialize(cache =>
-                                                   cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
+        CachingFactory.Instance.Initialize(cache => cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
 
         return app;
     }
@@ -168,7 +172,18 @@ public static class Startup
     public static WebApplication ConfigureIncodingServices(this WebApplication app)
     {
         var d = new DefaultDispatcher();
-        d.Push(new PrepareFacultyIfNotExistCommand());
+
+        try
+        {
+            d.Push(new PrepareFacultyIfNotExistCommand());
+            d.Push(new PrepareDepartmentIfNotExistCommand());
+            d.Push(new PrepareGroupsIfNotExistCommand());
+            d.Push(new PrepareTeachersIfNotExistCommand());
+        }
+        catch (Exception e)
+        {
+            app.Logger.LogError(e, e.Message);
+        }
 
         var ajaxDef = JqueryAjaxOptions.Default;
         ajaxDef.Data = new RouteValueDictionary(new Dictionary<string, object>

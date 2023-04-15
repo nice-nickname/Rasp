@@ -70,7 +70,7 @@ public class Step1 : Migration
 
         Create.ForeignKey("FK_Teacher_Department")
               .FromTable(nameof(Teacher)).ForeignColumn(nameof(Teacher.DepartmentId))
-              .ToTable(nameof(Teacher)).PrimaryColumn(nameof(Teacher.Id))
+              .ToTable(nameof(Department)).PrimaryColumn(nameof(Department.Id))
               .OnDeleteOrUpdate(Rule.None);
 
         Create.Table(nameof(Group))

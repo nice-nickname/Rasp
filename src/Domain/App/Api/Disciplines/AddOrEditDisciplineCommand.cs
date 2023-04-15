@@ -2,7 +2,7 @@
 
 namespace Domain.Api;
 
-public class AddDisciplineCommand : CommandBase
+public class AddOrEditDisciplineCommand : CommandBase
 {
     protected override void Execute()
     {
