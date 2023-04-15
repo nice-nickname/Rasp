@@ -1,3 +1,5 @@
+@using Domain.Api
+@using Incoding.Web.MvcContrib
 @using Resources
 @{
     Layout = "_ListPage_Layout";
@@ -17,5 +19,9 @@
 
 @section List
 {
-    @await Html.PartialAsync("~/Views/Shared/NotImplemented.cshtml")
+    @(Html.When(JqueryBind.InitIncoding)
+          .Ajax(Url.Dispatcher().Query(new GetDepartmentsQuery()).AsJson())
+          .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Edit/Department/Tmpl/Item_Tmpl.cshtml").Html())
+          .AsHtmlAttributes(classes: "w-100 d-flex flex-column gap-3 flex-grow-1 px-3")
+          .ToDiv())
 }

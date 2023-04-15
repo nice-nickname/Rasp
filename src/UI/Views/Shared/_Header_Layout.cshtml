@@ -31,7 +31,7 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Department;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/AddOrEdit.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditDepartmentCommand.AsView()).AsView("~/Views/Edit/Department/AddOrEdit.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {

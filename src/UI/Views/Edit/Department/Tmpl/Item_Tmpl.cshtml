@@ -1,0 +1,37 @@
+﻿@using Domain.Api
+@using Incoding.Web.MvcContrib
+@using Resources
+@using UI.Common.Extensions
+@using (var template = Html.Incoding().Template<GetDepartmentsQuery.Response>())
+{
+    @using (var each = template.ForEach())
+    {
+        var code = $"code[{each.Index()}]";
+
+        <div class="d-flex shadow gap-2 rounded p-1" role="item">
+            <div class="col-2 my-auto">
+                <input for="code" name="@code" type="text" class="form-control text-center border-0" placeholder="@DataResources.Abbreviation" value="@each.For(r => r.Code)"/>
+            </div>
+            <div class="col-7 my-auto">
+                @(Html.When(JqueryBind.Change)
+                      .OnSuccess(dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), code))
+                      .AsHtmlAttributes(new
+                      {
+                          @class = "form-control border-0",
+                          placeholder = DataResources.Placeholder_FacultyName
+                      })
+                      .ToInput(HtmlInputType.Text, each.For(s => s.Name)))
+            </div>
+            <div class="col d-flex">
+                <div class="my-auto ms-auto align-self-end">
+                    <div class="btn btn-light">
+                        <div class="material-symbols-rounded">edit</div>
+                    </div>
+                    <div class="btn btn-light">
+                        <div class="material-symbols-rounded">delete</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

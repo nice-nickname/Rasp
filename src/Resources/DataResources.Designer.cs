@@ -142,11 +142,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Принадлежность к кафедре.
+        /// </summary>
+        public static string DepartmentAttachment {
+            get {
+                return ResourceManager.GetString("DepartmentAttachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Список кафедр.
         /// </summary>
         public static string DepartmentList {
             get {
                 return ResourceManager.GetString("DepartmentList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование кафедры.
+        /// </summary>
+        public static string DepartmentName {
+            get {
+                return ResourceManager.GetString("DepartmentName", resourceCulture);
             }
         }
         
@@ -201,6 +219,15 @@ namespace Resources {
         public static string Faculty {
             get {
                 return ResourceManager.GetString("Faculty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Принадлежность к институту.
+        /// </summary>
+        public static string FacultyAttachment {
+            get {
+                return ResourceManager.GetString("FacultyAttachment", resourceCulture);
             }
         }
         

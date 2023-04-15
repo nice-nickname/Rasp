@@ -219,4 +219,13 @@
 	<data name="DepartmentsInFaculty" xml:space="preserve">
     <value>Кафедры в составе института</value>
   </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>Наименование кафедры</value>
+  </data>
+  <data name="DepartmentAttachment" xml:space="preserve">
+    <value>Принадлежность к кафедре</value>
+  </data>
+	<data name="FacultyAttachment" xml:space="preserve">
+    <value>Принадлежность к институту</value>
+  </data>
 </root>

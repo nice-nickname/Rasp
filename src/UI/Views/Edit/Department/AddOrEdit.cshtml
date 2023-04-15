@@ -1,4 +1,9 @@
-﻿@using Resources
+﻿@using UI.Common.Extensions
+@using Domain.Api
+@using Domain.Extensions
+@using Incoding.Web.MvcContrib
+@using Resources
+@model AddOrEditDepartmentCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -10,5 +15,41 @@
 
 @section Body
 {
-    @await Html.PartialAsync("~/Views/Shared/NotImplemented.cshtml")
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push<AddOrEditDepartmentCommand>();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetDepartmentsQuery()).AsView("~/Views/Edit/Department/Index.cshtml").ToRelative());
+        settings.Class = "d-flex flex-column gap-3";
+    }))
+    {
+        <h5>@DataResources.MainInformation</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.Code).TextBox(control =>
+            {
+                control.AddClass("w-20");
+                control.Label.Name = DataResources.Abbreviation;
+            })
+
+            @Html.ForGroup(r => r.Name).TextBox(control =>
+            {
+                control.AddClass("w-80");
+                control.Label.Name = DataResources.DepartmentName;
+                control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
+            })
+        </div>
+
+        <div class="form-divider"></div>
+
+        <h5>@DataResources.FacultyAttachment</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.FacultyId).DropDown(control =>
+            {
+                control.Label.Name = DataResources.Faculty;
+                control.Input.Data = Html.Dispatcher().Query(new GetFacultyForDDQuery());
+                control.AddClass("w-100");
+            })
+        </div>
+    }
 }
