@@ -22,13 +22,15 @@ public class HomeController : Controller
             return StatusCode(500, "Возможность работы без факультетов невозможна :(");
         }
 
+        var facultyId = HttpContext.Request.Cookies[GlobalSelectors.FacultyId] ?? string.Empty;
 
-        if (!HttpContext.Request.Cookies.ContainsKey(GlobalSelectors.FacultyId) ||
-            faculties.All(s => s.Id.ToString() != HttpContext.Request.Cookies[GlobalSelectors.FacultyId]))
+        if (!HttpContext.Request.Cookies.ContainsKey(GlobalSelectors.FacultyId) || faculties.All(s => s.Id.ToString() != HttpContext.Request.Cookies[GlobalSelectors.FacultyId]))
         {
             HttpContext.Response.Cookies.Append(GlobalSelectors.FacultyId, faculties.First().Id.ToString());
+            facultyId = faculties.First().Id.ToString();
         }
 
+        this.ViewData["FacultyId"] = facultyId;
         return View();
     }
 
