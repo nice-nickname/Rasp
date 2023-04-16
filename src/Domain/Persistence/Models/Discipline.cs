@@ -20,6 +20,8 @@ public class Discipline : IncEntityBase
 
     public virtual string Name { get; set; }
 
+    public virtual string Code { get; set; }
+
     public virtual OfType Type { get; set; }
 
     public virtual int? DepartmentId { get; set; }
@@ -43,6 +45,7 @@ public class Discipline : IncEntityBase
             Table(nameof(Discipline));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
+            Map(s => s.Code);
             Map(s => s.Type).CustomType<OfType>();
             Map(s => s.DepartmentId).Nullable();
 

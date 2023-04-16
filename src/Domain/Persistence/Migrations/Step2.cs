@@ -11,8 +11,15 @@ public class Step2 : Migration
     {
         Create.Table(nameof(Discipline))
               .WithColumn(nameof(Discipline.Id)).AsIntPK()
+              .WithColumn(nameof(Discipline.DepartmentId)).AsInt32()
+              .WithColumn(nameof(Discipline.Code)).AsString(32)
               .WithColumn(nameof(Discipline.Name)).AsString(128)
               .WithColumn(nameof(Discipline.Type)).AsByte();
+
+        Create.ForeignKey("FK_Discipline_Department")
+              .FromTable(nameof(Discipline)).ForeignColumn(nameof(Discipline.DepartmentId))
+              .ToTable(nameof(Department)).PrimaryColumn(nameof(Department.Id))
+              .OnDeleteOrUpdate(Rule.None);
 
         Create.Table(nameof(DisciplineGroups))
               .WithColumn(nameof(DisciplineGroups.Id)).AsIntPK()

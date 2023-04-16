@@ -304,6 +304,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Лабораторные работы.
+        /// </summary>
+        public static string Lab {
+            get {
+                return ResourceManager.GetString("Lab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Лекции.
+        /// </summary>
+        public static string Lecture {
+            get {
+                return ResourceManager.GetString("Lecture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Основная информация.
         /// </summary>
         public static string MainInformation {
@@ -336,6 +354,15 @@ namespace Resources {
         public static string Placeholder_FacultyName {
             get {
                 return ResourceManager.GetString("Placeholder_FacultyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Практические занятия.
+        /// </summary>
+        public static string Practice {
+            get {
+                return ResourceManager.GetString("Practice", resourceCulture);
             }
         }
         

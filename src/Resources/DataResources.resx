@@ -228,4 +228,13 @@
 	<data name="FacultyAttachment" xml:space="preserve">
     <value>Принадлежность к институту</value>
   </data>
+	<data name="Lecture" xml:space="preserve">
+		<value>Лекции</value>
+	</data>
+	<data name="Practice" xml:space="preserve">
+		<value>Практические занятия</value>
+	</data>
+	<data name="Lab" xml:space="preserve">
+		<value>Лабораторные работы</value>
+	</data>
 </root>
