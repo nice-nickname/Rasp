@@ -37,7 +37,8 @@ public class Step1 : Migration
 
         Create.ForeignKey("FK_Auditorium_Department")
               .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.DepartmentId))
-              .ToTable(nameof(Department)).PrimaryColumn(nameof(Department.Id));
+              .ToTable(nameof(Department)).PrimaryColumn(nameof(Department.Id))
+              .OnDeleteOrUpdate(Rule.None);
 
         Create.ForeignKey("FK_Auditorium_Building")
               .FromTable(nameof(Auditorium)).ForeignColumn(nameof(Auditorium.BuildingId))

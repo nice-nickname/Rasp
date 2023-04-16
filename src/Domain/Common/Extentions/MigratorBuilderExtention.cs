@@ -2,6 +2,8 @@
 
 namespace Domain.Extensions;
 
+using System.ComponentModel;
+
 public static partial class Extension
 {
     public static string ToRelative(this string uri)

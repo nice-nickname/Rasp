@@ -42,7 +42,7 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Discipline;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Discipline/AddOrEdit.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditDisciplineCommand.AsQuery()).AsView("~/Views/Edit/Discipline/AddOrEdit.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Divider(),
                 Html.Controls().Dropdown.Button(settings =>

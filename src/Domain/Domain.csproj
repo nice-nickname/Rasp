@@ -20,4 +20,8 @@
     <PackageReference Include="Incoding.Data.NHibernate" Version="1.2.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Resources\Resources.csproj" />
+  </ItemGroup>
+
 </Project>
