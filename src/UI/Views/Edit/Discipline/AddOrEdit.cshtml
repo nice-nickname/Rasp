@@ -1,9 +1,7 @@
-﻿@using Resources
+﻿@using UI.Common.Extensions
 @using Domain.Api
-@using Domain.Persistence
 @using Incoding.Web.MvcContrib
-@using UI.Common.Extensions
-@using System.ComponentModel
+@using Resources
 @model AddOrEditDisciplineCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
@@ -22,6 +20,75 @@
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
-        
+        <div class="row">
+            <div class="col-3">
+                @Html.ForGroup(s => s.Name).TextBox(control =>
+                {
+                    control.Label.Name = DataResources.DisciplineName;
+                    control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
+                })
+            </div>
+            <div class="col-2">
+                @Html.ForGroup(s => s.Code).TextBox(control => control.Label.Name = DataResources.Abbreviation)
+            </div>
+            <div class="col-2">
+                @Html.ForGroup(s => s.DepartmentId).DropDown(control =>
+                {
+                    control.Label.Name = DataResources.Department;
+                    control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery()
+                    {
+                        FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                    });
+                })
+            </div>
+            <div class="col-2">
+                @Html.ForGroup(s => s.KindId).DropDown(control =>
+                {
+                    control.Label.Name = DataResources.DisciplineType;
+                    control.Input.Data = Html.Dispatcher().Query(new GetDisciplineTypesForDDQuery());
+                })
+            </div>
+        </div>
+        <div class="form-divider"></div>
+        <div class="row">
+            <h5>Под-дисциплины</h5>
+            <div>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    @{
+                        var i = 0;
+                    }
+                    @foreach (var subDiscipline in Model.SubDisciplines)
+                    {
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link @(i == 0 ? "active" : "")" id="tab-@i" data-bs-toggle="tab" data-bs-target="#page-@i" type="button" role="tab" aria-controls="page-@i" aria-selected="@(i == 0 ? "true" : "false")">
+                                @subDiscipline.Name
+                            </button>
+                        </li>
+                        i++;
+                    }
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    @{
+                        i = 0;
+                    }
+                    @foreach (var subDiscipline in Model.SubDisciplines)
+                    {
+                        @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Id)}", subDiscipline.Id)
+                        @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.KindId)}", subDiscipline.KindId)
+                        <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="page-@i" role="tabpanel" aria-labelledby="tab-@i">
+                            <div class="row mt-3">
+                                <div class="form-group col-2">
+                                    <label class="form-label">@DataResources.Hours</label>
+                                    <input class="form-control" type="number" name="@($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")" placeholder="0" value="@subDiscipline.Hours" />
+                                    @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
+                                </div>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                </div>
+            </div>
+
+        </div>
     }
 }

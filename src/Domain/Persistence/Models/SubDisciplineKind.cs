@@ -3,19 +3,19 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class DisciplineKinds : IncEntityBase
+public class SubDisciplineKind : IncEntityBase
 {
-    public virtual int Id { get; set; }
+    public new virtual int Id { get; set; }
 
     public virtual string Name { get; set; }
 
     public virtual string Code { get; set; }
 
-    public class Mapping : ClassMap<DisciplineKinds>
+    public class Mapping : ClassMap<SubDisciplineKind>
     {
         public Mapping()
         {
-            Table(nameof(DisciplineKinds));
+            Table(nameof(SubDisciplineKind));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
             Map(s => s.Code);

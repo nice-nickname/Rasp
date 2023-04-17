@@ -4,29 +4,28 @@ using FluentMigrator;
 
 namespace Domain.Persistence;
 
-[Migration(4, "Added DisciplineKinds")]
+[Migration(4, "Added DisciplineKind")]
 public class Step4 : Migration
 {
     public override void Up()
     {
-        Create.Table(nameof(DisciplineKinds))
-              .WithColumn(nameof(DisciplineKinds.Id)).AsIntPK()
-              .WithColumn(nameof(DisciplineKinds.Name)).AsString(128)
-              .WithColumn(nameof(DisciplineKinds.Code)).AsString(32);
+        Create.Table(nameof(DisciplineKind))
+              .WithColumn(nameof(DisciplineKind.Id)).AsIntPK()
+              .WithColumn(nameof(DisciplineKind.Name)).AsString(128);
 
         Create.ForeignKey("FK_Discipline_DisciplineKind")
               .FromTable(nameof(Discipline)).ForeignColumn(nameof(Discipline.KindId))
-              .ToTable(nameof(DisciplineKinds)).PrimaryColumn(nameof(DisciplineKinds.Id))
+              .ToTable(nameof(DisciplineKind)).PrimaryColumn(nameof(DisciplineKind.Id))
               .OnDeleteOrUpdate(Rule.None);
 
-        Create.Table(nameof(SubDisciplineKinds))
-              .WithColumn(nameof(SubDisciplineKinds.Id)).AsIntPK()
-              .WithColumn(nameof(SubDisciplineKinds.Name)).AsString(128)
-              .WithColumn(nameof(SubDisciplineKinds.Code)).AsString(32);
+        Create.Table(nameof(SubDisciplineKind))
+              .WithColumn(nameof(SubDisciplineKind.Id)).AsIntPK()
+              .WithColumn(nameof(SubDisciplineKind.Name)).AsString(128)
+              .WithColumn(nameof(SubDisciplineKind.Code)).AsString(32);
 
         Create.ForeignKey("FK_SubDiscipline_SubDisciplineKind")
               .FromTable(nameof(SubDiscipline)).ForeignColumn(nameof(SubDiscipline.KindId))
-              .ToTable(nameof(SubDisciplineKinds)).PrimaryColumn(nameof(SubDisciplineKinds.Id))
+              .ToTable(nameof(SubDisciplineKind)).PrimaryColumn(nameof(SubDisciplineKind.Id))
               .OnDeleteOrUpdate(Rule.None);
     }
 
@@ -34,7 +33,7 @@ public class Step4 : Migration
     {
         Delete.ForeignKey("FK_Discipline_DisciplineKind");
         Delete.ForeignKey("FK_SubDiscipline_SubDisciplineKind");
-        Delete.Table(nameof(DisciplineKinds));
-        Delete.Table(nameof(SubDisciplineKinds));
+        Delete.Table(nameof(DisciplineKind));
+        Delete.Table(nameof(SubDisciplineKind));
     }
 }

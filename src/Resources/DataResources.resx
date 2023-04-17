@@ -237,4 +237,13 @@
 	<data name="Lab" xml:space="preserve">
 		<value>Лабораторные работы</value>
 	</data>
+	<data name="DisciplineName" xml:space="preserve">
+		<value>Наименование дисциплины</value>
+	</data>
+	<data name="DisciplineType" xml:space="preserve">
+		<value>Тип дисциплины</value>
+	</data>
+	<data name="Hours" xml:space="preserve">
+		<value>Количество часов</value>
+	</data>
 </root>

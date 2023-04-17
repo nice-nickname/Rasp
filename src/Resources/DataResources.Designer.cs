@@ -196,6 +196,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Наименование дисциплины.
+        /// </summary>
+        public static string DisciplineName {
+            get {
+                return ResourceManager.GetString("DisciplineName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Тип дисциплины.
+        /// </summary>
+        public static string DisciplineType {
+            get {
+                return ResourceManager.GetString("DisciplineType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Документация.
         /// </summary>
         public static string Documentation {
@@ -300,6 +318,15 @@ namespace Resources {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Количество часов.
+        /// </summary>
+        public static string Hours {
+            get {
+                return ResourceManager.GetString("Hours", resourceCulture);
             }
         }
         

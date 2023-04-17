@@ -176,9 +176,8 @@ public static class Startup
         try
         {
             d.Push(new PrepareFacultyIfNotExistCommand());
-            d.Push(new PrepareDepartmentIfNotExistCommand());
-            d.Push(new PrepareGroupsIfNotExistCommand());
-            d.Push(new PrepareTeachersIfNotExistCommand());
+            d.Push(new PrepareDisciplineKindsIfNotExistCommand());
+            d.Push(new PrepareSubDisciplineKindsIfNotExistCommand());
         }
         catch (Exception e)
         {

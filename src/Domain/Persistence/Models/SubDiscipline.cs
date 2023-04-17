@@ -13,7 +13,7 @@ public class SubDiscipline : IncEntityBase
 
     public virtual int DisciplineId { get; set; }
 
-    public virtual SubDisciplineKinds Kind { get; set; }
+    public virtual SubDisciplineKind Kind { get; set; }
 
     public virtual Discipline Discipline { get; set; }
 
