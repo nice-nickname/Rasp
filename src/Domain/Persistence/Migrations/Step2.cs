@@ -14,7 +14,7 @@ public class Step2 : Migration
               .WithColumn(nameof(Discipline.DepartmentId)).AsInt32()
               .WithColumn(nameof(Discipline.Code)).AsString(32)
               .WithColumn(nameof(Discipline.Name)).AsString(128)
-              .WithColumn(nameof(Discipline.Type)).AsByte();
+              .WithColumn(nameof(Discipline.KindId)).AsInt32();
 
         Create.ForeignKey("FK_Discipline_Department")
               .FromTable(nameof(Discipline)).ForeignColumn(nameof(Discipline.DepartmentId))
@@ -55,7 +55,7 @@ public class Step2 : Migration
               .WithColumn(nameof(SubDiscipline.Id)).AsIntPK()
               .WithColumn(nameof(SubDiscipline.Hours)).AsInt16()
               .WithColumn(nameof(SubDiscipline.DisciplineId)).AsInt32()
-              .WithColumn(nameof(SubDiscipline.Type)).AsByte();
+              .WithColumn(nameof(SubDiscipline.KindId)).AsInt32();
 
         Create.ForeignKey("FK_SubDiscipline_Discipline")
               .FromTable(nameof(SubDiscipline)).ForeignColumn(nameof(SubDiscipline.DisciplineId))

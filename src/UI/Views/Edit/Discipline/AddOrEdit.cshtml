@@ -22,61 +22,6 @@
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
-        <h5>@DataResources.MainInformation</h5>
-        <div class="mx-3 d-flex gap-3">
-            @Html.ForGroup(s => s.Name).TextBox(control =>
-            {
-                control.Label.Name = "Наименование дисциплины";
-                control.AddClass("w-70");
-                control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
-            })
-            @Html.ForGroup(s => s.Code).TextBox(control =>
-            {
-                control.Label.Name = DataResources.Abbreviation;
-                control.AddClass("w-30");
-            })
-        </div>
-        <div class="mx-3 d-flex gap-3">
-            @Html.ForGroup(s => s.DepartmentId).DropDown(o =>
-            {
-                o.Label.Name = DataResources.Department;
-                o.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery()
-                {
-                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
-                });
-            })
-            @Html.ForGroup(s => s.Type).DropDown(o =>
-            {
-                o.Label.Name = "Тип дисциплины";
-                o.Input.Data = typeof(Discipline.OfType).ToSelectList();
-            })
-        </div>
-
-        <div class="form-divider"></div>
-
-        <h5>Под-дисциплины</h5>
-
-        var i = 0;
-        @foreach (var subDiscipline in Model.SubDisciplines)
-        {
-            var id = nameof(Model.SubDisciplines) + $"[{i}].{nameof(AddOrEditDisciplineCommand.SubDisciplineItem.Id)}";
-            var type = nameof(Model.SubDisciplines) + $"[{i}].{nameof(AddOrEditDisciplineCommand.SubDisciplineItem.Type)}";
-            var hours = nameof(Model.SubDisciplines) + $"[{i}].{nameof(AddOrEditDisciplineCommand.SubDisciplineItem.Hours)}"; 
-
-            <div class="row border rounded p-3">
-                @Html.Hidden(id, subDiscipline.Id)
-                @Html.Hidden(type, subDiscipline.Type)
-
-                <h5>@subDiscipline.Type</h5>
-                <div class="form-group">
-                    <label class="form-label">Кол-во часов</label>
-                    <div>
-                        @Html.TextBox(hours, subDiscipline.Hours, new { @class = "form-control" })
-                    </div>
-                    @Html.ValidationMessage(hours)
-                </div>
-            </div>
-            i++;
-        }
+        
     }
 }

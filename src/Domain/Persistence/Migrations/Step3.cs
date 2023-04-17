@@ -1,7 +1,6 @@
-﻿namespace Domain.Persistence;
+﻿using FluentMigrator;
 
-using System.Data;
-using FluentMigrator;
+namespace Domain.Persistence;
 
 [Migration(3, "Fixed Teachers table. Removed column [Teacher], added missed column [Name]")]
 public class Step3 : Migration
@@ -21,8 +20,5 @@ public class Step3 : Migration
         }
     }
 
-    public override void Down()
-    {
-        
-    }
+    public override void Down() { }
 }

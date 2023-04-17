@@ -1,30 +1,21 @@
-﻿using System.ComponentModel;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
 public class Discipline : IncEntityBase
 {
-    public enum OfType
-    {
-        [Description("Зачет")] GRADE,
-
-        [Description("Дифференцированный зачет")]
-        DIFFERENTIAL_GRADE,
-
-        [Description("Экзамен")] EXAMINATION
-    }
-
     public new virtual int Id { get; set; }
 
     public virtual string Name { get; set; }
 
     public virtual string Code { get; set; }
 
-    public virtual OfType Type { get; set; }
+    public virtual int KindId { get; set; }
 
     public virtual int? DepartmentId { get; set; }
+
+    public virtual DisciplineKinds Kind { get; set; }
 
     public virtual Department? Department { get; set; }
 
@@ -46,12 +37,17 @@ public class Discipline : IncEntityBase
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
             Map(s => s.Code);
-            Map(s => s.Type).CustomType<OfType>();
             Map(s => s.DepartmentId).Nullable();
+;           Map(s => s.KindId);
 
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()
+                                         .Nullable()
                                          .LazyLoad();
+
+            References(s => s.Kind).Column(nameof(KindId))
+                                   .ReadOnly()
+                                   .LazyLoad();
 
             HasManyToMany(s => s.Groups).Table(nameof(DisciplineGroups))
                                         .ParentKeyColumn(nameof(DisciplineGroups.DisciplineId))
