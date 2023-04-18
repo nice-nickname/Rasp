@@ -246,4 +246,10 @@
 	<data name="Hours" xml:space="preserve">
 		<value>Количество часов</value>
 	</data>
+	<data name="Placeholder_BuildingName" xml:space="preserve">
+    <value>Название корпуса</value>
+  </data>
+	<data name="BuildingName" xml:space="preserve">
+    <value>Название корпуса</value>
+  </data>
 </root>

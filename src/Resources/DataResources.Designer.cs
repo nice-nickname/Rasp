@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Название корпуса.
+        /// </summary>
+        public static string BuildingName {
+            get {
+                return ResourceManager.GetString("BuildingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Продолжить.
         /// </summary>
         public static string Continue {
@@ -363,6 +372,15 @@ namespace Resources {
         public static string NotImplementedForNow {
             get {
                 return ResourceManager.GetString("NotImplementedForNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Название корпуса.
+        /// </summary>
+        public static string Placeholder_BuildingName {
+            get {
+                return ResourceManager.GetString("Placeholder_BuildingName", resourceCulture);
             }
         }
         

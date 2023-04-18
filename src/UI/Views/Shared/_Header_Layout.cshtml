@@ -1,6 +1,7 @@
 ﻿@using UI.Common.Extensions
 @using UI.Common.Models
 @using Domain.Api
+@using Domain.Api.Building
 @using Domain.Extensions
 @using Incoding.Web.CQRS.Common.Command
 @using Incoding.Web.MvcContrib
@@ -21,7 +22,7 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Building;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Building/AddOrEdit.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditBuildingCommand.AsView()).AsView("~/Views/Edit/Building/AddOrEdit.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
@@ -62,7 +63,7 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Building;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Building/Index.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Building/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {

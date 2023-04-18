@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="App\Api\Faculty\" />
+    <Folder Include="App\Api\Building\" />
     <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Common\Extentions" />
   </ItemGroup>

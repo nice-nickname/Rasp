@@ -41,6 +41,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Edit\Building\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Building\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Building\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
@@ -105,6 +106,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Building\Tmpl\Item_Tmpl.cshtml" />
   </ItemGroup>
 
 

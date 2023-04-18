@@ -15,6 +15,7 @@ using Incoding.Web.MvcContrib;
 using Microsoft.Extensions.Caching.Memory;
 using NUglify.JavaScript;
 using Domain.Api;
+using Domain.Api.Building;
 
 namespace UI;
 
@@ -181,6 +182,7 @@ public static class Startup
 
             // Автоматическое создание данных чтобы было удобно тестировать
 
+            // Кафедры
             //for (int i = 0; i < 10; i++)
             //{
             //    d.Push(new AddOrEditDepartmentCommand
@@ -188,6 +190,15 @@ public static class Startup
             //            Name = $"department-{i}",
             //            Code = $"d-{i}",
             //            FacultyId = d.Query(new GetFacultiesQuery()).First().Id
+            //    });
+            //}
+
+            // Корпуса
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    d.Push(new AddOrEditBuildingCommand
+            //    {
+            //            Name = $"building-{i}"
             //    });
             //}
         }
