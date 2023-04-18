@@ -1,0 +1,50 @@
+﻿@using Domain.Api
+@using Domain.Extensions
+@using Domain.Persistence
+@using Incoding.Web.MvcContrib
+@using Resources
+@using UI.Common.Extensions
+
+@using (var template = Html.Incoding().Template<GetFacultiesQuery.Response>())
+{
+    @using (var each = template.ForEach())
+    {
+        var code = $"code[{each.Index()}]";
+        var currentFacultyIdId = nameof(Faculty) + each.Index();
+        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditFacultyCommand.AsView>().AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml").ToRelative();
+
+        <div class="d-flex shadow gap-2 rounded p-1" role="item">
+            @Html.Hidden(currentFacultyIdId, each.For(r => r.Id))
+
+            <div class="col-2">
+                <input for="code" name="@code" type="text" class="form-control text-center border-0" placeholder="@DataResources.Abbreviation" value="@each.For(s => s.Code)"/>
+            </div>
+            <div class="col-7">
+                @(Html.When(JqueryBind.Change)
+                      .OnSuccess(dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), code))
+                      .AsHtmlAttributes(new
+                      {
+                          @class = "form-control border-0",
+                          placeholder = DataResources.Placeholder_FacultyName
+                      })
+                      .ToInput(HtmlInputType.Text, each.For(s => s.Name)))
+            </div>
+            <div class="col d-flex">
+                <div class="my-auto ms-auto align-self-end">
+                    <div class="btn btn-light">
+                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditFacultyCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
+                    </div>
+
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Push<DeleteFacultyCommand>(new
+                          {
+                              Id = Selector.Jquery.Name(currentFacultyIdId)
+                          }))
+                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
+                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
+                </div>
+            </div>
+        </div>
+    }
+}
