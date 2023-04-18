@@ -1,4 +1,5 @@
 ﻿@using Domain.Api
+@using Domain.Extensions
 @using Domain.Persistence
 @using Incoding.Web.MvcContrib
 @using Resources
@@ -9,6 +10,7 @@
     {
         var code = $"code[{each.Index()}]";
         var currentDepartmentName = nameof(Department) + each.Index();
+        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsView>().AsView("~/Views/Edit/Department/AddOrEdit.cshtml").ToRelative();
 
         <div class="d-flex shadow gap-2 rounded p-1" role="item">
             @Html.Hidden(currentDepartmentName, each.For(r => r.Id))
@@ -27,14 +29,9 @@
             </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
-                    @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsView>(new
-                          {
-                              Id = Selector.Jquery.Name(currentDepartmentName)
-                          }).AsView("~/Views/Edit/Department/AddOrEdit.cshtml"))
-                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.MainId).Insert.Html())
-                          .AsHtmlAttributes(new { @class = "btn btn-light" })
-                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
+                    <div class="btn btn-light">
+                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditDepartmentCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
+                    </div>
 
                     @(Html.When(JqueryBind.Click)
                           .Ajax(Url.Dispatcher().Push<DeleteDepartmentCommand>(new
