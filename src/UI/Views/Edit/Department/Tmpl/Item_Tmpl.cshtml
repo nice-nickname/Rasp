@@ -1,4 +1,5 @@
 ﻿@using Domain.Api
+@using Domain.Persistence
 @using Incoding.Web.MvcContrib
 @using Resources
 @using UI.Common.Extensions
@@ -7,8 +8,10 @@
     @using (var each = template.ForEach())
     {
         var code = $"code[{each.Index()}]";
+        var currentDepartmentName = nameof(Department) + each.Index();
 
         <div class="d-flex shadow gap-2 rounded p-1" role="item">
+            @Html.Hidden(currentDepartmentName, each.For(r => r.Id))
             <div class="col-2 my-auto">
                 <input for="code" name="@code" type="text" class="form-control text-center border-0" placeholder="@DataResources.Abbreviation" value="@each.For(r => r.Code)"/>
             </div>
@@ -24,12 +27,23 @@
             </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
-                    <div class="btn btn-light">
-                        <div class="material-symbols-rounded">edit</div>
-                    </div>
-                    <div class="btn btn-light">
-                        <div class="material-symbols-rounded">delete</div>
-                    </div>
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsView>(new
+                          {
+                              Id = Selector.Jquery.Name(currentDepartmentName)
+                          }).AsView("~/Views/Edit/Department/AddOrEdit.cshtml"))
+                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.MainId).Insert.Html())
+                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
+
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Push<DeleteDepartmentCommand>(new
+                          {
+                              Id = Selector.Jquery.Name(currentDepartmentName)
+                          }))
+                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
+                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>
             </div>
         </div>

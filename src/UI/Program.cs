@@ -178,6 +178,18 @@ public static class Startup
             d.Push(new PrepareFacultyIfNotExistCommand());
             d.Push(new PrepareDisciplineKindsIfNotExistCommand());
             d.Push(new PrepareSubDisciplineKindsIfNotExistCommand());
+
+            // Автоматическое создание данных чтобы было удобно тестировать
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    d.Push(new AddOrEditDepartmentCommand
+            //    {
+            //            Name = $"department-{i}",
+            //            Code = $"d-{i}",
+            //            FacultyId = d.Query(new GetFacultiesQuery()).First().Id
+            //    });
+            //}
         }
         catch (Exception e)
         {
