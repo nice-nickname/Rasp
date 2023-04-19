@@ -45,7 +45,7 @@ public partial class ControlsHtmlHelper<T>
                     ? "~/Views/Shared/DropDown_Item_Tmpl.cshtml"
                     : settings.CustomTemplate;
 
-            return this._html.When(JqueryBind.InitIncoding)
+            return this._html.When("initincoding refresh")
                        .Ajax(settings.Url)
                        .OnSuccess(dsl =>
                        {
@@ -55,7 +55,7 @@ public partial class ControlsHtmlHelper<T>
                        })
                        .When(JqueryBind.None)
                        .OnSuccess(dsl => settings.OnClick?.Invoke(dsl))
-                       .AsHtmlAttributes()
+                       .AsHtmlAttributes(id: settings.Id)
                        .ToTag(HtmlTag.Ul);
         }
 

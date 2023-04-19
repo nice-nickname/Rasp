@@ -4,7 +4,6 @@
 @using Incoding.Web.MvcContrib
 @using Resources
 @using UI.Common.Extensions
-
 @using (var template = Html.Incoding().Template<GetFacultiesQuery.Response>())
 {
     @using (var each = template.ForEach())
@@ -40,7 +39,11 @@
                           {
                               Id = Selector.Jquery.Name(currentFacultyIdId)
                           }))
-                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.Document.RedirectToSelf();
+                              dsl.WithId(GlobalSelectors.FacultyListId).Trigger.Invoke("refresh");
+                          })
                           .AsHtmlAttributes(new { @class = "btn btn-light" })
                           .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>

@@ -138,6 +138,7 @@
                 Html.Controls().Dropdown.Divider(),
                 Html.Controls().Dropdown.List(settings =>
                 {
+                    settings.Id = GlobalSelectors.FacultyListId;
                     settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
                     settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
                     settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));

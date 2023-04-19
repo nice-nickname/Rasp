@@ -4,6 +4,8 @@ namespace UI;
 
 public class DropdownListSettings
 {
+    public string Id { get; set; }
+
     public string Url { get; set; }
 
     public string CustomTemplate { get; set; }

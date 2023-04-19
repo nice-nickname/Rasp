@@ -19,7 +19,11 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditFacultyCommand>();
-        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative());
+        settings.OnSave = dsl =>
+        {
+            dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative());
+            dsl.WithId(GlobalSelectors.FacultyListId).Trigger.Invoke("refresh");
+        };
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
