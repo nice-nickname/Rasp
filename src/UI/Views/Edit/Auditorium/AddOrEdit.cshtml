@@ -1,0 +1,66 @@
+﻿@using UI.Common.Extensions
+@using Domain.Api
+@using Domain.Api.Auditorium
+@using Domain.Api.Building
+@using Domain.Extensions
+@using Incoding.Web.MvcContrib
+@using Resources
+@model AddOrEditAuditoriumCommand
+
+@{
+    Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
+}
+
+@section Title
+{
+    @DataResources.Auditorium
+}
+
+@section Body
+{
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push<AddOrEditAuditoriumCommand>();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetAuditoriumsQuery()).AsView("~/Views/Edit/Auditorium/Index.cshtml").ToRelative());
+        settings.Class = "d-flex flex-column gap-3";
+    }))
+    {
+        @Html.HiddenFor(r => r.Id)
+
+        <h5>@DataResources.MainInformation</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.BuildingId).DropDown(control =>
+            {
+                control.AddClass("w-50");
+                control.Label.Name = DataResources.Building;
+                control.Input.Data = Html.Dispatcher().Query(new GetBuildingsForDDQuery());
+            })
+            @Html.ForGroup(r => r.Code).TextBox(control =>
+            {
+                control.AddClass("w-50");
+                control.Label.Name = DataResources.Placeholder_AuditoriumNumber;
+            })
+        </div>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.DepartmentId).DropDown(control =>
+            {
+                control.AddClass("w-100");
+                control.Label.Name = DataResources.Department;
+                control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
+                {
+                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                });
+            })
+        </div>
+
+        <div class="form-divider"></div>
+
+        <h5>@DataResources.AuditoriumKind</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            ??
+        </div>
+    }
+}

@@ -1,0 +1,38 @@
+﻿@using UI.Common.Extensions
+@using Domain.Api.AuditoriumKind
+@using Domain.Extensions
+@using Incoding.Web.MvcContrib
+@using Resources
+@model AddOrEditAuditoriumKindCommand
+
+@{
+    Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
+}
+
+@section Title
+{
+    @DataResources.AuditoriumKind
+}
+
+@section Body
+{
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push<AddOrEditAuditoriumKindCommand>();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetAuditoriumKindsQuery()).AsView("~/Views/Edit/AuditoriumKind/Index.cshtml").ToRelative());
+        settings.Class = "d-flex flex-column gap-3";
+    }))
+    {
+        @Html.HiddenFor(r => r.Id)
+
+        <h5>@DataResources.MainInformation</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.Kind).TextBox(control =>
+            {
+                control.AddClass("w-100");
+                control.Label.Name = DataResources.AuditoriumKindName;
+            })
+        </div>
+    }
+}

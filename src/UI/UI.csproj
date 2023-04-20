@@ -31,6 +31,7 @@
   <ItemGroup>
     <Folder Include="Common\Models\" />
     <Folder Include="Common\Settings\" />
+    <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
     <Folder Include="Views\Edit\Discipline\" />
   </ItemGroup>
 
@@ -39,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Edit\AuditoriumKind\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Auditorium\AddOrEdit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Auditorium\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Building\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Building\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Building\Tmpl\Item_Tmpl.cshtml" />
@@ -115,6 +119,18 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Auditorium\Tmpl\Item_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Auditorium\AddOrEdit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\AuditoriumKind\Index.cshtml" />
   </ItemGroup>
 
 

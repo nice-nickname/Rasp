@@ -1,6 +1,8 @@
 ﻿@using UI.Common.Extensions
 @using UI.Common.Models
 @using Domain.Api
+@using Domain.Api.Auditorium
+@using Domain.Api.AuditoriumKind
 @using Domain.Api.Building
 @using Domain.Extensions
 @using Incoding.Web.CQRS.Common.Command
@@ -23,6 +25,16 @@
                 {
                     settings.Text = DataResources.Building;
                     settings.Href = Url.Dispatcher().Query(new AddOrEditBuildingCommand.AsView()).AsView("~/Views/Edit/Building/AddOrEdit.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.Auditorium;
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditAuditoriumCommand.AsView()).AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.AuditoriumKind;
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditAuditoriumKindCommand.AsView()).AsView("~/Views/Edit/AuditoriumKind/AddOrEdit.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
@@ -69,6 +81,16 @@
                 {
                     settings.Text = DataResources.Building;
                     settings.Href = Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Building/Index.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.Auditorium;
+                    settings.Href = Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Auditorium/Index.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.AuditoriumKind;
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/AuditoriumKind/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
