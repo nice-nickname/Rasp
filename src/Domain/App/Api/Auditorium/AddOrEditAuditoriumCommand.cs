@@ -13,7 +13,7 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
     public string Code { get; set; }
 
-    public List<AuditoriumKind> Kinds { get; set; }
+    public List<TempAuditoriumKind> Kinds { get; set; }
 
     protected override void Execute()
     {
@@ -22,7 +22,13 @@ public class AddOrEditAuditoriumCommand : CommandBase
         auditorium.DepartmentId = DepartmentId ?? 0;
         auditorium.BuildingId = BuildingId ?? 0;
         auditorium.Code = Code;
-        auditorium.Kinds = Kinds;
+        auditorium.Kinds = Kinds.Where(r => r.IsSelected)
+                                .Select(r => new AuditoriumKind
+                                {
+                                        Id = r.Id,
+                                        Kind = r.Kind
+                                })
+                                .ToList();
 
         Repository.SaveOrUpdate(auditorium);
     }
@@ -41,13 +47,19 @@ public class AddOrEditAuditoriumCommand : CommandBase
                     Code = auditorium.Code,
                     DepartmentId = auditorium.DepartmentId,
                     BuildingId = auditorium.BuildingId,
-                    Kinds = auditorium.Kinds.Select(r => new AuditoriumKind
+                    Kinds = auditorium.Kinds.Select(r => new TempAuditoriumKind
                                       {
                                               Id = r.Id,
-                                              Kind = r.Kind
+                                              Kind = r.Kind,
+                                              IsSelected = true
                                       })
                                       .ToList()
             };
         }
+    }
+
+    public class TempAuditoriumKind : AuditoriumKind
+    {
+        public bool IsSelected { get; set; }
     }
 }

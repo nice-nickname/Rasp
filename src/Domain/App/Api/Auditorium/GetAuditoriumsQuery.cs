@@ -14,8 +14,7 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
                                  BuildingName = r.Building.Name,
                                  DepartmentCode = r.Department != null ? r.Department.Code : string.Empty,
                                  Code = r.Code,
-                                 Kinds = r.Kinds.Select(q => q.Kind)
-                                          .ToList()
+                                 Kinds = r.Kinds.ToList()
                          })
                          .ToList();
     }
@@ -30,6 +29,6 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
 
         public string BuildingName { get; set; }
 
-        public List<string> Kinds { get; set; }
+        public List<AuditoriumKind> Kinds { get; set; }
     }
 }

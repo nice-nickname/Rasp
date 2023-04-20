@@ -57,8 +57,39 @@
 
         <h5>@DataResources.AuditoriumKind</h5>
 
-        <div class="mx-3 d-flex gap-3">
-            ??
+        <div class="mx-3 d-flex flex-column">
+            @{
+                var i = 0;
+            }
+            @foreach (var kind in Html.Dispatcher().Query(new GetAuditoriumKindsForMultiselectQuery
+            {
+                Ids = Model.Kinds.Select(r => r.Id).ToArray()
+            }))
+            {
+                var prefix = $"{nameof(Model.Kinds)}[{i}].";
+
+                <div class="form-check">
+                    @Html.Hidden(prefix + nameof(AddOrEditAuditoriumCommand.TempAuditoriumKind.Id), kind.Value)
+                    @Html.Hidden(prefix + nameof(AddOrEditAuditoriumCommand.TempAuditoriumKind.Kind), kind.Text)
+                    @Html.Hidden(prefix + nameof(AddOrEditAuditoriumCommand.TempAuditoriumKind.IsSelected), kind.Selected)
+                    @(Html.When(JqueryBind.Change)
+                          .OnSuccess(dsl => dsl.WithName(prefix + nameof(AddOrEditAuditoriumCommand.TempAuditoriumKind.IsSelected))
+                                               .JQuery.Attr.Val(Selector.Jquery.Self()))
+                          .AsHtmlAttributes(new
+                          {
+                              @class = "form-check-input",
+                              type = "checkbox",
+                              value = kind.Selected,
+                              id = $"auditorium-kind-{i}"
+                          })
+                          .ToTag(HtmlTag.Input))
+                    <label class="form-check-label" for="auditorium-kind-@i">
+                        @kind.Text
+                    </label>
+                </div>
+
+                i++;
+            }
         </div>
     }
 }
