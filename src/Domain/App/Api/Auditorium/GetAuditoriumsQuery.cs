@@ -1,13 +1,13 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.Auditorium;
+namespace Domain.Api;
 
 public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {
-        return Repository.Query<Persistence.Auditorium>()
+        return Repository.Query<Auditorium>()
                          .Select(r => new Response
                          {
                                  Id = r.Id,

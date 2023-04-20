@@ -1,12 +1,13 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.AuditoriumKind;
+namespace Domain.Api;
 
 public class GetAuditoriumKindsQuery : QueryBase<List<GetAuditoriumKindsQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {
-        return Repository.Query<Persistence.AuditoriumKind>()
+        return Repository.Query<AuditoriumKind>()
                          .Select(r => new Response
                          {
                                  Id = r.Id,

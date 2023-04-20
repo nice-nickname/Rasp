@@ -15,7 +15,6 @@ using Incoding.Web.MvcContrib;
 using Microsoft.Extensions.Caching.Memory;
 using NUglify.JavaScript;
 using Domain.Api;
-using Domain.Api.Building;
 
 namespace UI;
 

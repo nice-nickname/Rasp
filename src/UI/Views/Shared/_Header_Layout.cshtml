@@ -1,9 +1,6 @@
 ﻿@using UI.Common.Extensions
 @using UI.Common.Models
 @using Domain.Api
-@using Domain.Api.Auditorium
-@using Domain.Api.AuditoriumKind
-@using Domain.Api.Building
 @using Domain.Extensions
 @using Incoding.Web.CQRS.Common.Command
 @using Incoding.Web.MvcContrib
@@ -80,12 +77,12 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Building;
-                    settings.Href = Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Building/Index.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Building/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Auditorium;
-                    settings.Href = Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Auditorium/Index.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Auditorium/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
@@ -95,12 +92,12 @@
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Faculty;
-                    settings.Href = Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.Department;
-                    settings.Href = Url.Dispatcher().Query(new GetDepartmentsQuery()).AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Button(settings =>
                 {

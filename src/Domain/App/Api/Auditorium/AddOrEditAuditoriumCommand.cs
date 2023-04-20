@@ -1,7 +1,7 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.Auditorium;
+namespace Domain.Api;
 
 public class AddOrEditAuditoriumCommand : CommandBase
 {
@@ -13,11 +13,11 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
     public string Code { get; set; }
 
-    public List<Persistence.AuditoriumKind> Kinds { get; set; }
+    public List<AuditoriumKind> Kinds { get; set; }
 
     protected override void Execute()
     {
-        var auditorium = Repository.GetById<Persistence.Auditorium>(Id.GetValueOrDefault()) ?? new Persistence.Auditorium();
+        var auditorium = Repository.GetById<Auditorium>(Id.GetValueOrDefault()) ?? new Auditorium();
 
         auditorium.DepartmentId = DepartmentId ?? 0;
         auditorium.BuildingId = BuildingId ?? 0;
@@ -33,7 +33,7 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
         protected override AddOrEditAuditoriumCommand ExecuteResult()
         {
-            var auditorium = Repository.GetById<Persistence.Auditorium>(Id.GetValueOrDefault()) ?? new Persistence.Auditorium();
+            var auditorium = Repository.GetById<Auditorium>(Id.GetValueOrDefault()) ?? new Auditorium();
 
             return new AddOrEditAuditoriumCommand
             {
@@ -41,7 +41,7 @@ public class AddOrEditAuditoriumCommand : CommandBase
                     Code = auditorium.Code,
                     DepartmentId = auditorium.DepartmentId,
                     BuildingId = auditorium.BuildingId,
-                    Kinds = auditorium.Kinds.Select(r => new Persistence.AuditoriumKind
+                    Kinds = auditorium.Kinds.Select(r => new AuditoriumKind
                                       {
                                               Id = r.Id,
                                               Kind = r.Kind

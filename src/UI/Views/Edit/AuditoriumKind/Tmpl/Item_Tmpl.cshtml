@@ -1,9 +1,9 @@
-﻿@using Domain.Api.AuditoriumKind
-@using Domain.Extensions
+﻿@using Domain.Extensions
 @using Domain.Persistence
 @using Incoding.Web.MvcContrib
 @using Resources
 @using UI.Common.Extensions
+@using Domain.Api
 @using (var template = Html.Incoding().Template<GetAuditoriumKindsQuery.Response>())
 {
     using (var each = template.ForEach())

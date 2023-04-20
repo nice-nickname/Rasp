@@ -1,6 +1,7 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.AuditoriumKind;
+namespace Domain.Api;
 
 public class DeleteAuditoriumKindCommand : CommandBase
 {
@@ -8,6 +9,6 @@ public class DeleteAuditoriumKindCommand : CommandBase
 
     protected override void Execute()
     {
-        Repository.Delete<Persistence.AuditoriumKind>(Id);
+        Repository.Delete<AuditoriumKind>(Id);
     }
 }

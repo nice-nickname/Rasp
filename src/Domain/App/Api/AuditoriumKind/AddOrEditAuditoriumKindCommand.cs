@@ -1,6 +1,7 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.AuditoriumKind;
+namespace Domain.Api;
 
 public class AddOrEditAuditoriumKindCommand : CommandBase
 {
@@ -10,7 +11,7 @@ public class AddOrEditAuditoriumKindCommand : CommandBase
 
     protected override void Execute()
     {
-        var auditoriumKind = Repository.GetById<Persistence.AuditoriumKind>(Id.GetValueOrDefault()) ?? new Persistence.AuditoriumKind();
+        var auditoriumKind = Repository.GetById<AuditoriumKind>(Id.GetValueOrDefault()) ?? new AuditoriumKind();
 
         auditoriumKind.Kind = Kind;
 
@@ -23,7 +24,7 @@ public class AddOrEditAuditoriumKindCommand : CommandBase
 
         protected override AddOrEditAuditoriumKindCommand ExecuteResult()
         {
-            var auditoriumKind = Repository.GetById<Persistence.AuditoriumKind>(Id.GetValueOrDefault()) ?? new Persistence.AuditoriumKind();
+            var auditoriumKind = Repository.GetById<AuditoriumKind>(Id.GetValueOrDefault()) ?? new AuditoriumKind();
 
             return new AddOrEditAuditoriumKindCommand
             {

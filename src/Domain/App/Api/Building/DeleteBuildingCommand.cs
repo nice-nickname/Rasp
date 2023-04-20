@@ -1,6 +1,7 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.Building;
+namespace Domain.Api;
 
 public class DeleteBuildingCommand : CommandBase
 {
@@ -8,6 +9,6 @@ public class DeleteBuildingCommand : CommandBase
 
     protected override void Execute()
     {
-        Repository.Delete<Persistence.Building>(Id);
+        Repository.Delete<Building>(Id);
     }
 }

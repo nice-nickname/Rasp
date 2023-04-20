@@ -1,13 +1,14 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 using Incoding.Core.ViewModel;
 
-namespace Domain.Api.Building;
+namespace Domain.Api;
 
 public class GetBuildingsQuery : QueryBase<List<GetBuildingsQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {
-        return Repository.Query<Persistence.Building>()
+        return Repository.Query<Building>()
                          .Select(r => new Response
                          {
                                  Id = r.Id,
@@ -28,7 +29,7 @@ public class GetBuildingsForDDQuery : QueryBase<List<KeyValueVm>>
 {
     protected override List<KeyValueVm> ExecuteResult()
     {
-        return Repository.Query<Persistence.Building>()
+        return Repository.Query<Building>()
                          .Select(r => new KeyValueVm
                          {
                                  Value = r.Id.ToString(),
