@@ -1,6 +1,7 @@
 ﻿using Domain.Persistence;
 using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -18,12 +19,14 @@ public class AddOrEditDepartmentCommand : CommandBase
     {
         public Validator()
         {
-            RuleFor(r => r.Name).NotEmpty().NotNull()
-                                .WithMessage("name");
-            RuleFor(r => r.Code).NotEmpty().NotNull()
-                                .WithMessage("code");
-            RuleFor(r => r.FacultyId).NotEmpty().NotNull()
-                                     .WithMessage("faculty id");
+            RuleFor(r => r.Name)
+                    .NotEmpty().WithMessage(DataResources.InvalidEmpty);
+
+            RuleFor(r => r.Code)
+                    .NotEmpty().WithMessage(DataResources.InvalidEmpty);
+
+            RuleFor(r => r.FacultyId)
+                    .NotEmpty().WithMessage(DataResources.InvalidEmpty);
         }
     }
 

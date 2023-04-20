@@ -376,6 +376,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поле не может быть пустым.
+        /// </summary>
+        public static string InvalidEmpty {
+            get {
+                return ResourceManager.GetString("InvalidEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Некорректное значение аббревиатуры.
         /// </summary>
         public static string InvalidFacultyCode {

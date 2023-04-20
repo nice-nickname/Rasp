@@ -279,4 +279,7 @@
 	<data name="AuditoriumKindName" xml:space="preserve">
     <value>Наименование вида</value>
   </data>
+	<data name="InvalidEmpty" xml:space="preserve">
+    <value>Поле не может быть пустым</value>
+  </data>
 </root>
