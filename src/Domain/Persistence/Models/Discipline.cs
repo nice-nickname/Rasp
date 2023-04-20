@@ -3,6 +3,33 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
+public class FacultySettings : IncEntityBase
+{
+    public enum OfType
+    {
+        StartDate
+    }
+
+    public virtual int Id { get; set; }
+
+    public virtual string Value { get; set; }
+
+    public virtual OfType Type { get; set; }
+
+    public virtual int FacultyId { get; set; }
+
+    public class Mapping : ClassMap<FacultySettings>
+    {
+        public Mapping()
+        {
+            Id(s => s.Id).GeneratedBy.Identity();
+            Map(s => s.Type).CustomType<OfType>();
+            Map(s => s.Value);
+            Map(s => s.FacultyId);
+        }
+    }
+}
+
 public class Discipline : IncEntityBase
 {
     public new virtual int Id { get; set; }
@@ -43,7 +70,7 @@ public class Discipline : IncEntityBase
             Map(s => s.Name);
             Map(s => s.Code);
             Map(s => s.DepartmentId).Nullable();
-;           Map(s => s.KindId);
+            ; Map(s => s.KindId);
 
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()

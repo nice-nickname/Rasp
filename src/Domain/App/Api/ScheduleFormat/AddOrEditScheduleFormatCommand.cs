@@ -9,6 +9,8 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public int ItemsCount { get; set; }
 
+    public DateTime StartDate { get; set; }
+
     public List<ScheduleItem> Items { get; set; }
 
     protected override void Execute()
@@ -22,10 +24,17 @@ public class AddOrEditScheduleFormatCommand : CommandBase
             Repository.DeleteByIds<ScheduleFormat>(existedItems);
         }
 
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>
+        {
+            FacultyId = FacultyId,
+            Type = FacultySettings.OfType.StartDate,
+            Value = StartDate
+        });
+
         foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
         {
             Repository.Save(new ScheduleFormat
-            { 
+            {
                 Order = scheduleItem.Order,
                 Start = scheduleItem.Start.GetValueOrDefault(),
                 End = scheduleItem.End.GetValueOrDefault(),
@@ -62,8 +71,9 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
             return new AddOrEditScheduleFormatCommand
             {
-                    ItemsCount = schedulerItems.Count,
-                    Items = schedulerItems
+                ItemsCount = schedulerItems.Count,
+                Items = schedulerItems,
+                StartDate = Dispatcher.Query(new GetFacultyStartDateCommand { FacultyId = FacultyId })
             };
         }
     }
