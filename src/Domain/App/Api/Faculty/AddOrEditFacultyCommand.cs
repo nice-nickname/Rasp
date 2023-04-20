@@ -21,18 +21,6 @@ public class AddOrEditFacultyCommand : CommandBase
         Repository.SaveOrUpdate(faculty);
     }
 
-    public class Validator : AbstractValidator<AddOrEditFacultyCommand>
-    {
-        public Validator()
-        {
-            RuleFor(r => r.Code)
-                    .NotEmpty().NotNull()
-                    .WithMessage(DataResources.InvalidFacultyCode);
-            RuleFor(r => r.Name)
-                    .NotEmpty().NotNull()
-                    .WithMessage(DataResources.InvalidFacultyName);
-        }
-    }
 
     public class AsView : QueryBase<AddOrEditFacultyCommand>
     {
@@ -48,6 +36,20 @@ public class AddOrEditFacultyCommand : CommandBase
                     Code = faculty.Code,
                     Name = faculty.Name
             };
+        }
+    }
+    
+    public class Validator : AbstractValidator<AddOrEditFacultyCommand>
+    {
+        public Validator()
+        {
+            RuleFor(r => r.Code)
+                    .NotEmpty().WithMessage(DataResources.InvalidFacultyCode)
+                    .NotNull().WithMessage(DataResources.InvalidFacultyCode);
+
+            RuleFor(r => r.Name)
+                    .NotEmpty().WithMessage(DataResources.InvalidFacultyName)
+                    .NotNull().WithMessage(DataResources.InvalidFacultyName); 
         }
     }
 }

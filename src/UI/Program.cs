@@ -44,8 +44,13 @@ public static class Startup
                .AddMvc(o => o.Filters.Add(new IncodingErrorHandlingFilter()))
                .AddFluentValidation(config =>
                {
+                   config.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                    config.ValidatorFactory = new IncValidatorFactory();
-                   AssemblyScanner.FindValidatorsInAssembly(typeof(Domain.Bootstrap).Assembly);
+                   AssemblyScanner.FindValidatorsInAssembly(typeof(Domain.Bootstrap).Assembly).ForEach(r => 
+                   {    
+                        builder.Services.Add(ServiceDescriptor.Transient(r.InterfaceType, r.ValidatorType));
+                        builder.Services.Add(ServiceDescriptor.Transient(r.ValidatorType, r.ValidatorType));
+                   });
                });
 
         builder.Services.ConfigureIncodingCoreServices();
