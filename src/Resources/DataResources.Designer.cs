@@ -421,6 +421,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Формат расписания.
+        /// </summary>
+        public static string ScheduleFormat {
+            get {
+                return ResourceManager.GetString("ScheduleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выйти из аккаунта.
         /// </summary>
         public static string SignOut {

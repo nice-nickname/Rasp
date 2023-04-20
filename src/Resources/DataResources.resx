@@ -252,4 +252,7 @@
 	<data name="BuildingName" xml:space="preserve">
     <value>Название корпуса</value>
   </data>
+	<data name="ScheduleFormat" xml:space="preserve">
+		<value>Формат расписания</value>
+	</data>
 </root>

@@ -1,0 +1,68 @@
+﻿@using UI.Common.Extensions
+@using Incoding.Web.MvcContrib
+@using Domain.Api
+@model AddOrEditScheduleFormatCommand
+@{
+    Layout = "_AddOrEdit_Layout";
+
+    var maxScheduleItems = 10;
+}
+
+@section Title
+{
+    Формат расписания
+}
+
+@section Body
+{
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push(new AddOrEditScheduleFormatCommand
+        {
+            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+        });
+        settings.Class = "d-flex flex-column gap-3";
+    }))
+    {
+        <div class="row">
+            <div class="form-group col-2">
+                <label class="form-label">Общее кол-во пар</label>
+                @(Html.When(JqueryBind.Change | JqueryBind.InitIncoding)
+                      .StopPropagation()
+                      .PreventDefault()
+                      .OnSuccess(dsl => dsl.Self().JQuery.Call("hideByCompareValue", "data-index"))
+                      .AsHtmlAttributes(new
+                      {
+                          max = maxScheduleItems - 1, min = 1, step = 1, 
+                          name = nameof(AddOrEditScheduleFormatCommand.ItemsCount)
+                      })
+                      .ToInput(HtmlInputType.Number, (Model.ItemsCount == 0 ? 7 : Model.ItemsCount).ToString()))
+            </div>
+        </div>
+        <div class="form-divider"></div>
+        <h5>Расписание по парам</h5>
+        <div class="d-flex flex-row gap-3 flex-wrap">
+            @for (var i = 0; i < maxScheduleItems; i++)
+            {
+                <div class="rounded p-3 border" data-index="@i">
+                    <h4>@(i + 1) пара</h4>
+                    <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].Order" class="form-control border-0" type="hidden" value="@i" />
+                    <div class="d-flex gap-3">
+                        <div>
+                            <span>Начало</span>
+                            <div class="form-group">
+                                <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].Start" class="form-control border-0" type="time" value="@(i < Model.ItemsCount ? Model.Items[i].Start : "")"/>
+                            </div>
+                        </div>
+                        <div>
+                            <span>Конец</span>
+                            <div class="form-group">
+                                <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].End" class="form-control border-0" type="time" value="@(i < Model.ItemsCount ? Model.Items[i].End : "")" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
