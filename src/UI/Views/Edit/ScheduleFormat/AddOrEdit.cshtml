@@ -34,9 +34,18 @@
                       .AsHtmlAttributes(new
                       {
                           max = maxScheduleItems - 1, min = 1, step = 1, 
-                          name = nameof(AddOrEditScheduleFormatCommand.ItemsCount)
+                          name = nameof(AddOrEditScheduleFormatCommand.ItemsCount),
+                          @class = "form-control"
                       })
                       .ToInput(HtmlInputType.Number, (Model.ItemsCount == 0 ? 7 : Model.ItemsCount).ToString()))
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label">Дата начала семестра</label>
+                <input class="form-control" name="@nameof(Model.StartDate)" type="datetime" value="@Model.StartDate.Date.ToShortDateString()">
+            </div>
+            <div class="form-group col-2">
+                <label class="form-label">Количество недель</label>
+                <input class="form-control" name="" type="numeric" value="22">
             </div>
         </div>
         <div class="form-divider"></div>

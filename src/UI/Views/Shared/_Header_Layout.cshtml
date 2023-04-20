@@ -42,11 +42,6 @@
                 Html.Controls().Dropdown.Divider(),
                 Html.Controls().Dropdown.Button(settings =>
                 {
-                    settings.Text = DataResources.ScheduleFormat;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery()).AsView("~/Views/Edit/ScheduleFormat/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
                     settings.Text = DataResources.Discipline;
                     settings.Href = Url.Dispatcher().Query(new AddOrEditDisciplineCommand.AsQuery()).AsView("~/Views/Edit/Discipline/AddOrEdit.cshtml").ToRelative();
                 }),
@@ -90,6 +85,11 @@
                 {
                     settings.Text = DataResources.Discipline;
                     settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Discipline/Index.cshtml").ToRelative();
+                }),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = DataResources.ScheduleFormat;
+                    settings.Href = Url.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery()).AsView("~/Views/Edit/ScheduleFormat/AddOrEdit.cshtml").ToRelative();
                 }),
                 Html.Controls().Dropdown.Divider(),
                 Html.Controls().Dropdown.Button(settings =>
