@@ -3,22 +3,23 @@
 @using Domain.Extensions
 @using Incoding.Web.MvcContrib
 @using Resources
-@model AddOrEditBuildingCommand
+@model AddOrEditAuditoriumKindCommand
+
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
 
 @section Title
 {
-    @DataResources.Building
+    @DataResources.AuditoriumKind
 }
 
 @section Body
 {
     @using (Html.Controls().Form(settings =>
     {
-        settings.Url = Url.Dispatcher().Push<AddOrEditBuildingCommand>();
-        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Building/Index.cshtml").ToRelative());
+        settings.Url = Url.Dispatcher().Push<AddOrEditAuditoriumKindCommand>();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetAuditoriumKindsQuery()).AsView("~/Views/Edit/AuditoriumKind/Index.cshtml").ToRelative());
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
@@ -27,10 +28,10 @@
         <h5>@DataResources.MainInformation</h5>
 
         <div class="mx-3 d-flex gap-3">
-            @Html.ForGroup(r => r.Name).TextBox(control =>
+            @Html.ForGroup(r => r.Kind).TextBox(control =>
             {
                 control.AddClass("w-100");
-                control.Label.Name = DataResources.BuildingName;
+                control.Label.Name = DataResources.AuditoriumKindName;
             })
         </div>
     }

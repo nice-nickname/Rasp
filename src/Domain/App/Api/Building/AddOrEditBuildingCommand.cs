@@ -1,6 +1,7 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.Building;
+namespace Domain.Api;
 
 public class AddOrEditBuildingCommand : CommandBase
 {
@@ -10,7 +11,7 @@ public class AddOrEditBuildingCommand : CommandBase
 
     protected override void Execute()
     {
-        var building = Repository.GetById<Persistence.Building>(Id.GetValueOrDefault()) ?? new Persistence.Building();
+        var building = Repository.GetById<Building>(Id.GetValueOrDefault()) ?? new Building();
         building.Name = Name;
 
         Repository.SaveOrUpdate(building);
@@ -22,7 +23,7 @@ public class AddOrEditBuildingCommand : CommandBase
 
         protected override AddOrEditBuildingCommand ExecuteResult()
         {
-            var building = Repository.GetById<Persistence.Building>(Id.GetValueOrDefault()) ?? new Persistence.Building();
+            var building = Repository.GetById<Building>(Id.GetValueOrDefault()) ?? new Building();
 
             return new AddOrEditBuildingCommand
             {

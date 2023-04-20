@@ -7,7 +7,7 @@
 
 @section Title
 {
-    @DataResources.BuildingList
+    @DataResources.AuditoriumKindList
 }
 
 @section Filter
@@ -20,8 +20,8 @@
 @section List
 {
     @(Html.When(JqueryBind.InitIncoding)
-          .Ajax(Url.Dispatcher().Query(new GetBuildingsQuery()).AsJson())
-          .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Edit/Building/Tmpl/Item_Tmpl.cshtml").Html())
+          .Ajax(Url.Dispatcher().Query(new GetAuditoriumKindsQuery()).AsJson())
+          .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Edit/AuditoriumKind/Tmpl/Item_Tmpl.cshtml").Html())
           .AsHtmlAttributes(classes: "w-100 d-flex flex-column gap-3 flex-grow-1 px-3")
           .ToDiv())
 }

@@ -1,0 +1,43 @@
+﻿@using Domain.Api
+@using Domain.Extensions
+@using Domain.Persistence
+@using Incoding.Web.MvcContrib
+@using Resources
+@using UI.Common.Extensions
+@using (var template = Html.Incoding().Template<GetAuditoriumsQuery.Response>())
+{
+    using (var each = template.ForEach())
+    {
+        var currentAuditoriumIdId = nameof(Auditorium) + each.Index();
+        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsView>().AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml").ToRelative();
+
+        <div class="d-flex shadow gap-2 rounded p-1" role="item">
+            @Html.Hidden(currentAuditoriumIdId, each.For(r => r.Id))
+            <div class="col-2 my-auto">
+                <input class="form-control border-0" value="@each.For(r => r.BuildingName)"/>
+            </div>
+            <div class="col-2 my-auto">
+                <input class="form-control border-0" placeholder="@DataResources.Placeholder_AuditoriumNumber" value="@each.For(r => r.Code)"/>
+            </div>
+            <div class="col-5 my-auto">
+                <input class="form-control border-0" value="@each.For(r => r.DepartmentCode)"/>
+            </div>
+            <div class="col d-flex">
+                <div class="my-auto ms-auto align-self-end">
+                    <div class="btn btn-light">
+                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditAuditoriumCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
+                    </div>
+
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Push<DeleteAuditoriumCommand>(new
+                          {
+                              Id = Selector.Jquery.Name(currentAuditoriumIdId)
+                          }))
+                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
+                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
+                </div>
+            </div>
+        </div>
+    }
+}

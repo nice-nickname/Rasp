@@ -261,4 +261,25 @@
 	<data name="ScheduleFormat" xml:space="preserve">
 		<value>Формат расписания</value>
 	</data>
+	<data name="AuditoriumList" xml:space="preserve">
+    <value>Список аудиторий</value>
+  </data>
+	<data name="Placeholder_AuditoriumNumber" xml:space="preserve">
+    <value>Номер аудитории</value>
+  </data>
+	<data name="AuditoriumKind" xml:space="preserve">
+    <value>Вид аудитории</value>
+  </data>
+	<data name="AuditoriumKindList" xml:space="preserve">
+    <value>Список видов аудиторий</value>
+  </data>
+	<data name="Placeholder_AuditoriumKind" xml:space="preserve">
+    <value>Тип аудитории</value>
+  </data>
+	<data name="AuditoriumKindName" xml:space="preserve">
+    <value>Наименование вида</value>
+  </data>
+	<data name="InvalidEmpty" xml:space="preserve">
+    <value>Поле не может быть пустым</value>
+  </data>
 </root>

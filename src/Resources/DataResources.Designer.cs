@@ -97,6 +97,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вид аудитории.
+        /// </summary>
+        public static string AuditoriumKind {
+            get {
+                return ResourceManager.GetString("AuditoriumKind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Список видов аудиторий.
+        /// </summary>
+        public static string AuditoriumKindList {
+            get {
+                return ResourceManager.GetString("AuditoriumKindList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование вида.
+        /// </summary>
+        public static string AuditoriumKindName {
+            get {
+                return ResourceManager.GetString("AuditoriumKindName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Список аудиторий.
+        /// </summary>
+        public static string AuditoriumList {
+            get {
+                return ResourceManager.GetString("AuditoriumList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Корпус.
         /// </summary>
         public static string Building {
@@ -340,6 +376,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поле не может быть пустым.
+        /// </summary>
+        public static string InvalidEmpty {
+            get {
+                return ResourceManager.GetString("InvalidEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Некорректное значение аббревиатуры.
         /// </summary>
         public static string InvalidFacultyCode {
@@ -390,6 +435,24 @@ namespace Resources {
         public static string NotImplementedForNow {
             get {
                 return ResourceManager.GetString("NotImplementedForNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Тип аудитории.
+        /// </summary>
+        public static string Placeholder_AuditoriumKind {
+            get {
+                return ResourceManager.GetString("Placeholder_AuditoriumKind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер аудитории.
+        /// </summary>
+        public static string Placeholder_AuditoriumNumber {
+            get {
+                return ResourceManager.GetString("Placeholder_AuditoriumNumber", resourceCulture);
             }
         }
         
