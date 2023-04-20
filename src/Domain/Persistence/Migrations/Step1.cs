@@ -107,6 +107,5 @@ public class Step1 : Migration
         Delete.Table(nameof(Building));
         Delete.Table(nameof(Department));
         Delete.Table(nameof(Faculty));
-
     }
 }

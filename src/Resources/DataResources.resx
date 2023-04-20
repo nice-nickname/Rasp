@@ -258,4 +258,7 @@
 	<data name="InvalidFacultyName" xml:space="preserve">
     <value>Некорректное значение названия института</value>
   </data>
+	<data name="ScheduleFormat" xml:space="preserve">
+		<value>Формат расписания</value>
+	</data>
 </root>
