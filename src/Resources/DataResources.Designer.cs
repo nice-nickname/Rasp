@@ -340,6 +340,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Некорректное значение аббревиатуры.
+        /// </summary>
+        public static string InvalidFacultyCode {
+            get {
+                return ResourceManager.GetString("InvalidFacultyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Некорректное значение названия института.
+        /// </summary>
+        public static string InvalidFacultyName {
+            get {
+                return ResourceManager.GetString("InvalidFacultyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Лабораторные работы.
         /// </summary>
         public static string Lab {

@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -17,6 +19,19 @@ public class AddOrEditFacultyCommand : CommandBase
         faculty.Name = Name;
         faculty.Code = Code;
         Repository.SaveOrUpdate(faculty);
+    }
+
+    public class Validator : AbstractValidator<AddOrEditFacultyCommand>
+    {
+        public Validator()
+        {
+            RuleFor(r => r.Code)
+                    .NotEmpty().NotNull()
+                    .WithMessage(DataResources.InvalidFacultyCode);
+            RuleFor(r => r.Name)
+                    .NotEmpty().NotNull()
+                    .WithMessage(DataResources.InvalidFacultyName);
+        }
     }
 
     public class AsView : QueryBase<AddOrEditFacultyCommand>

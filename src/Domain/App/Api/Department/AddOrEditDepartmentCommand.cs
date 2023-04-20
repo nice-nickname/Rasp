@@ -1,4 +1,5 @@
 ﻿using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -13,12 +14,27 @@ public class AddOrEditDepartmentCommand : CommandBase
 
     public int FacultyId { get; set; }
 
+    public class Validator : AbstractValidator<AddOrEditDepartmentCommand>
+    {
+        public Validator()
+        {
+            RuleFor(r => r.Name).NotEmpty().NotNull()
+                                .WithMessage("name");
+            RuleFor(r => r.Code).NotEmpty().NotNull()
+                                .WithMessage("code");
+            RuleFor(r => r.FacultyId).NotEmpty().NotNull()
+                                     .WithMessage("faculty id");
+        }
+    }
+
     protected override void Execute()
     {
         var department = Repository.GetById<Department>(Id.GetValueOrDefault()) ?? new Department();
+        
         department.Code = Code;
         department.Name = Name;
         department.FacultyId = FacultyId;
+
         Repository.SaveOrUpdate(department);
     }
 

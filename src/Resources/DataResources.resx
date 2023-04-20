@@ -252,4 +252,10 @@
 	<data name="BuildingName" xml:space="preserve">
     <value>Название корпуса</value>
   </data>
+	<data name="InvalidFacultyCode" xml:space="preserve">
+    <value>Некорректное значение аббревиатуры</value>
+  </data>
+	<data name="InvalidFacultyName" xml:space="preserve">
+    <value>Некорректное значение названия института</value>
+  </data>
 </root>

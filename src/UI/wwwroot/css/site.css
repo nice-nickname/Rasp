@@ -226,3 +226,7 @@ a,
 a:hover {
     color: inherit;
 }
+
+.invalid-feedback {
+    display: block !important;
+}
