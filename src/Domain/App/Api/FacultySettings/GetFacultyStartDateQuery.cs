@@ -18,9 +18,35 @@ public class AddOrEditFacultySettingCommand<T> : CommandBase
                                 .Where(s => s.FacultyId == FacultyId &&
                                             s.Type == Type)
                                 .FirstOrDefault() ?? new FacultySettings { FacultyId = FacultyId, Type = Type };
-        
+
         setting.Value = Value.ToString();
         Repository.SaveOrUpdate(setting);
+    }
+}
+
+public class GetFacultyCountOfWeeksCommand : QueryBase<int>
+{
+    public int FacultyId { get; set; }
+
+    protected override int ExecuteResult()
+    {
+        var weeksSetting = Repository.Query<FacultySettings>()
+                                     .Where(s => s.Type == FacultySettings.OfType.CountOfWeeks &&
+                                                 s.FacultyId == FacultyId)
+                                     .FirstOrDefault();
+
+        if (weeksSetting == null)
+        {
+            var weeks = 17;
+            weeksSetting = new FacultySettings
+            {
+                FacultyId = FacultyId,
+                Value = weeks.ToString(),
+                Type = FacultySettings.OfType.CountOfWeeks
+            };
+            Repository.Save(weeksSetting);
+        }
+        return int.Parse(weeksSetting.Value);
     }
 }
 
@@ -31,9 +57,9 @@ public class GetFacultyStartDateCommand : QueryBase<DateTime>
     protected override DateTime ExecuteResult()
     {
         var dateSetting = Repository.Query<FacultySettings>()
-                                     .Where(s => s.Type == FacultySettings.OfType.StartDate &&
-                                                 s.FacultyId == FacultyId)
-                                     .FirstOrDefault();
+                                    .Where(s => s.Type == FacultySettings.OfType.StartDate &&
+                                                s.FacultyId == FacultyId)
+                                    .FirstOrDefault();
 
         if (dateSetting == null)
         {
@@ -41,7 +67,8 @@ public class GetFacultyStartDateCommand : QueryBase<DateTime>
             dateSetting = new FacultySettings
             {
                 FacultyId = FacultyId,
-                Value = now.ToString()
+                Value = now.ToString(),
+                Type = FacultySettings.OfType.StartDate
             };
             Repository.Save(dateSetting);
         }
