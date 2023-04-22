@@ -349,6 +349,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Наименование группы.
+        /// </summary>
+        public static string GroupCode {
+            get {
+                return ResourceManager.GetString("GroupCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Список групп.
         /// </summary>
         public static string GroupList {

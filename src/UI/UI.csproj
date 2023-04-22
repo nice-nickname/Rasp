@@ -50,6 +50,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
@@ -136,6 +137,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
   </ItemGroup>
 
 

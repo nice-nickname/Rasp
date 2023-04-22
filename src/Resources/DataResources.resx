@@ -285,4 +285,7 @@
 	<data name="TeacherName" xml:space="preserve">
     <value>ФИО преподавателя</value>
   </data>
+	<data name="GroupCode" xml:space="preserve">
+    <value>Наименование группы</value>
+  </data>
 </root>
