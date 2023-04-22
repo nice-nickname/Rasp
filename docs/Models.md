@@ -60,7 +60,7 @@ Name        VARCHAR
 ## 6. Аудитория
 ```sql
 
-Id          INT Первыичный ключ
+Id          INT Первичный ключ
 Code        VARCHAR
 BuildingId  INT NULL REFERENCES Корпус
 DepartmentId INT NULL REFERENCES Кафедра
