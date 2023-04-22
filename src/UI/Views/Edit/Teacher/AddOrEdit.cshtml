@@ -1,4 +1,9 @@
-﻿@using Resources
+﻿@using UI.Common.Extensions
+@using Domain.Api
+@using Domain.Extensions
+@using Incoding.Web.MvcContrib
+@using Resources
+@model AddOrEditTeacherCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -10,5 +15,35 @@
 
 @section Body
 {
-    @await Html.PartialAsync("~/Views/Shared/NotImplemented.cshtml")
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push<AddOrEditTeacherCommand>();
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().AsView("~/Views/Edit/Teacher/Index.cshtml").ToRelative());
+        settings.Class = "d-flex flex-column gap-3";
+    }))
+    {
+        @Html.HiddenFor(r => r.Id)
+
+        <h5>@DataResources.MainInformation</h5>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.Name).TextBox(control =>
+            {
+                control.AddClass("w-100");
+                control.Label.Name = DataResources.TeacherName;
+            })
+        </div>
+
+        <div class="mx-3 d-flex gap-3">
+            @Html.ForGroup(r => r.DepartmentId).DropDown(control =>
+            {
+                control.AddClass("w-100");
+                control.Label.Name = DataResources.Department;
+                control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
+                {
+                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                });
+            })
+        </div>
+    }
 }

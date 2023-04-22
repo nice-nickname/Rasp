@@ -282,4 +282,7 @@
 	<data name="InvalidEmpty" xml:space="preserve">
     <value>Поле не может быть пустым</value>
   </data>
+	<data name="TeacherName" xml:space="preserve">
+    <value>ФИО преподавателя</value>
+  </data>
 </root>
