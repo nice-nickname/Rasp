@@ -5,11 +5,6 @@ namespace Domain.Api;
 
 public class AddOrEditDisciplineCommand : CommandBase
 {
-    public AddOrEditDisciplineCommand()
-    {
-        SubDisciplines = new List<SubDisciplineItem>();
-    }
-
     public int? Id { get; set; }
 
     public string Name { get; set; }
@@ -26,27 +21,26 @@ public class AddOrEditDisciplineCommand : CommandBase
 
     protected override void Execute()
     {
+        SubDisciplines ??= new List<SubDisciplineItem>();
+        
         var discipline = Repository.GetById<Discipline>(Id) ?? new Discipline();
 
         discipline.Name = Name;
         discipline.Code = Code;
-        discipline.Kind = Repository.LoadById<DisciplineKind>(KindId);
+        discipline.KindId = KindId;
 
-        if (discipline.DepartmentId.HasValue)
-        {
-            discipline.Department = Repository.LoadById<Department>(DepartmentId);
-        }
+        discipline.DepartmentId = DepartmentId;
 
-        Repository.Save(discipline);
+        Repository.SaveOrUpdate(discipline);
 
         foreach (var sd in SubDisciplines)
         {
             var subDisciplineItem = Repository.GetById<SubDiscipline>(sd.Id) ?? new SubDiscipline();
             subDisciplineItem.Hours = sd.Hours;
             subDisciplineItem.DisciplineId = discipline.Id;
-            subDisciplineItem.Kind = Repository.LoadById<SubDisciplineKind>(sd.KindId);
+            subDisciplineItem.KindId = sd.KindId;
 
-            Repository.Save(subDisciplineItem);
+            Repository.SaveOrUpdate(subDisciplineItem);
         }
     }
 

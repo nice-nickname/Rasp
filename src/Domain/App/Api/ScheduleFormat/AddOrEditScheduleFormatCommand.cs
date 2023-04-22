@@ -9,6 +9,8 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public int ItemsCount { get; set; }
 
+    public int CountOfWeeks { get; set; }
+
     public DateTime StartDate { get; set; }
 
     public List<ScheduleItem> Items { get; set; }
@@ -29,6 +31,13 @@ public class AddOrEditScheduleFormatCommand : CommandBase
             FacultyId = FacultyId,
             Type = FacultySettings.OfType.StartDate,
             Value = StartDate
+        });
+
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
+        {
+            FacultyId = FacultyId,
+            Type = FacultySettings.OfType.CountOfWeeks,
+            Value = CountOfWeeks
         });
 
         foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
@@ -73,7 +82,8 @@ public class AddOrEditScheduleFormatCommand : CommandBase
             {
                 ItemsCount = schedulerItems.Count,
                 Items = schedulerItems,
-                StartDate = Dispatcher.Query(new GetFacultyStartDateCommand { FacultyId = FacultyId })
+                StartDate = Dispatcher.Query(new GetFacultyStartDateCommand { FacultyId = FacultyId }),
+                CountOfWeeks = Dispatcher.Query(new GetFacultyCountOfWeeksCommand { FacultyId = FacultyId }),
             };
         }
     }
