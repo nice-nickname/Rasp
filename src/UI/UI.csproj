@@ -52,6 +52,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\AddOrEdit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\Home.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
@@ -131,6 +132,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\AuditoriumKind\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
   </ItemGroup>
 
 

@@ -1,0 +1,39 @@
+﻿@using Domain.Api
+@using Domain.Extensions
+@using Domain.Persistence
+@using Incoding.Web.MvcContrib
+@using UI.Common.Extensions
+@using (var template = Html.Incoding().Template<GetTeachersQuery.Response>())
+{
+    using (var each = template.ForEach())
+    {
+        var currentTeacherIdId = nameof(Teacher) + each.Index();
+        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditTeacherCommand.AsView>().AsView("~/Views/Edit/Teacher/AddOrEdit.cshtml").ToRelative();
+
+        <div class="d-flex shadow gap-2 rounded p-1" role="item">
+            @Html.Hidden(currentTeacherIdId, each.For(r => r.Id))
+            <div class="col-4 my-auto">
+                <input class="form-control border-0" value="@each.For(r => r.Name)"/>
+            </div>
+            <div class="col-5 my-auto">
+                <input class="form-control border-0" value="@each.For(r => r.DepartmentCode)" title="@each.For(r => r.DepartmentName)"/>
+            </div>
+            <div class="col d-flex">
+                <div class="my-auto ms-auto align-self-end">
+                    <div class="btn btn-light">
+                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditTeacherCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
+                    </div>
+
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Push<DeleteTeacherCommand>(new
+                          {
+                              Id = Selector.Jquery.Name(currentTeacherIdId)
+                          }))
+                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
+                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
+                </div>
+            </div>
+        </div>
+    }
+}

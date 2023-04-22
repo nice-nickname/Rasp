@@ -536,5 +536,14 @@ namespace Resources {
                 return ResourceManager.GetString("TeacherList", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ФИО преподавателя.
+        /// </summary>
+        public static string TeacherName {
+            get {
+                return ResourceManager.GetString("TeacherName", resourceCulture);
+            }
+        }
     }
 }

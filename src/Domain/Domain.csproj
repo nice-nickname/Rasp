@@ -11,6 +11,7 @@
     <Folder Include="App\Api\Building\" />
     <Folder Include="App\Api\Auditorium\" />
     <Folder Include="App\Api\AuditoriumKind\" />
+    <Folder Include="App\Api\Teacher\" />
     <Folder Include="App\Api\ScheduleFormat\" />
     <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Common\Extentions" />
