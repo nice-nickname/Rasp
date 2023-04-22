@@ -1,13 +1,10 @@
-@using Incoding.Web.MvcContrib
-@using Domain.Api
-@using Domain.Extensions
 @using (var template = Html.Incoding().Template<GetDisciplinesQuery.Response>())
 {
     using (var each = template.ForEach())
     {
         var addOrEditUrl = Url.Dispatcher().Query<AddOrEditDisciplineCommand.AsQuery>().AsView("~/Views/Edit/Discipline/AddOrEdit.cshtml").ToRelative();
 
-         <div class="d-flex shadow gap-2 rounded p-1" role="item">
+        <div class="d-flex shadow gap-2 rounded p-1" role="item">
             @Html.Hidden(nameof(GetFacultiesQuery.Response.Id), each.For(s => s.Id))
             <div class="col-5 my-auto">
                 <input class="form-control border-0" value="@each.For(s => s.Name)"/>
@@ -27,6 +24,6 @@
                           .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>
             </div>
-         </div>
-    }   
+        </div>
+    }
 }

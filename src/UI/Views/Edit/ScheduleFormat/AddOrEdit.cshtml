@@ -1,7 +1,4 @@
-﻿@using UI.Common.Extensions
-@using Incoding.Web.MvcContrib
-@using Domain.Api
-@model AddOrEditScheduleFormatCommand
+﻿@model AddOrEditScheduleFormatCommand
 @{
     Layout = "_AddOrEdit_Layout";
 
@@ -33,7 +30,7 @@
                       .OnSuccess(dsl => dsl.Self().JQuery.Call("hideByCompareValue", "data-index"))
                       .AsHtmlAttributes(new
                       {
-                          max = maxScheduleItems - 1, min = 1, step = 1, 
+                          max = maxScheduleItems - 1, min = 1, step = 1,
                           name = nameof(AddOrEditScheduleFormatCommand.ItemsCount),
                           @class = "form-control"
                       })
@@ -55,7 +52,7 @@
             {
                 <div class="rounded p-3 border" data-index="@i">
                     <h4>@(i + 1) пара</h4>
-                    <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].Order" class="form-control border-0" type="hidden" value="@i" />
+                    <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].Order" class="form-control border-0" type="hidden" value="@i"/>
                     <div class="d-flex gap-3">
                         <div>
                             <span>Начало</span>
@@ -66,7 +63,7 @@
                         <div>
                             <span>Конец</span>
                             <div class="form-group">
-                                <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].End" class="form-control border-0" type="time" value="@(i < Model.ItemsCount ? Model.Items[i].End : "")" />
+                                <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].End" class="form-control border-0" type="time" value="@(i < Model.ItemsCount ? Model.Items[i].End : "")"/>
                             </div>
                         </div>
                     </div>

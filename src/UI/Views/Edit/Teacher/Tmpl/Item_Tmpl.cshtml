@@ -1,9 +1,4 @@
-﻿@using Domain.Api
-@using Domain.Extensions
-@using Domain.Persistence
-@using Incoding.Web.MvcContrib
-@using UI.Common.Extensions
-@using (var template = Html.Incoding().Template<GetTeachersQuery.Response>())
+﻿@using (var template = Html.Incoding().Template<GetTeachersQuery.Response>())
 {
     using (var each = template.ForEach())
     {

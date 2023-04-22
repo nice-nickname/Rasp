@@ -1,8 +1,4 @@
-﻿@using UI.Common.Extensions
-@using Domain.Api
-@using Incoding.Web.MvcContrib
-@using Resources
-@model AddOrEditDisciplineCommand
+﻿@model AddOrEditDisciplineCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -79,7 +75,7 @@
                             <div class="row mt-3">
                                 <div class="form-group col-2">
                                     <label class="form-label">@DataResources.Hours</label>
-                                    <input class="form-control" type="number" name="@($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")" placeholder="0" value="@subDiscipline.Hours" />
+                                    <input class="form-control" type="number" name="@($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")" placeholder="0" value="@subDiscipline.Hours"/>
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
                                 </div>
                             </div>
