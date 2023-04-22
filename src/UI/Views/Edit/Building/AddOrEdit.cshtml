@@ -13,7 +13,7 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditBuildingCommand>();
-        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().Query(new GetBuildingsQuery()).AsView("~/Views/Edit/Building/Index.cshtml").ToRelative());
+        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().AsView("~/Views/Edit/Building/Index.cshtml").ToRelative());
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
