@@ -89,12 +89,15 @@ public static class Startup
             // Dev scripts
             pipeline.AddJavaScriptBundle("/lib/script.js", new CodeSettings { MinifyCode = false }, "/js/**/*.js");
 
-            pipeline.AddCssBundle("/css/bootstrap.css", "node_modules/bootstrap/dist/css/bootstrap.min.css")
+            pipeline.AddCssBundle("/css/bootstrap-select.css", 
+                                  "node_modules/**/dist/css/bootstrap-select.min.css")
                     .UseContentRoot();
 
             pipeline.AddJavaScriptBundle("/lib/bootstrap.js",
                                          new CodeSettings { MinifyCode = true },
-                                         "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js")
+                                         "node_modules/@popperjs/**/umd/popper.min.js",
+                                         "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+                                         "node_modules/**/dist/js/bootstrap-select.min.js")
                     .UseContentRoot();
 
             // Dev styles

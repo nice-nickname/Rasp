@@ -15,12 +15,13 @@ public class AddOrEditDisciplineCommand : CommandBase
 
     public int? DepartmentId { get; set; }
 
-    //public List<int> GroupIds { get; set; }
+    public List<int>? GroupIds { get; set; }
 
-    public List<SubDisciplineItem> SubDisciplines { get; set; }
+    public List<SubDisciplineItem>? SubDisciplines { get; set; }
 
     protected override void Execute()
     {
+        GroupIds ??= new List<int>();
         SubDisciplines ??= new List<SubDisciplineItem>();
         
         var discipline = Repository.GetById<Discipline>(Id) ?? new Discipline();
@@ -32,6 +33,23 @@ public class AddOrEditDisciplineCommand : CommandBase
         discipline.DepartmentId = DepartmentId;
 
         Repository.SaveOrUpdate(discipline);
+
+        var disciplineGroups = Repository.Query(new DisciplineGroups.Where.ByDiscipline(discipline.Id))
+                                         .Select(s => s.Id)
+                                         .Cast<object>();
+        if (disciplineGroups.Any())
+        {
+            Repository.DeleteByIds<DisciplineGroups>(disciplineGroups);
+        }
+
+        foreach (var groupId in GroupIds)
+        {
+            Repository.Save(new DisciplineGroups
+            {
+                    GroupId = groupId,
+                    DisciplineId = discipline.Id
+            });
+        }
 
         foreach (var sd in SubDisciplines)
         {
@@ -97,7 +115,8 @@ public class AddOrEditDisciplineCommand : CommandBase
                     Code = discipline.Code,
                     DepartmentId = discipline.DepartmentId,
                     KindId = discipline.KindId,
-                    SubDisciplines = subDisciplines
+                    SubDisciplines = subDisciplines,
+                    GroupIds = discipline.Groups.Select(s => s.Id).ToList()
             };
         }
     }

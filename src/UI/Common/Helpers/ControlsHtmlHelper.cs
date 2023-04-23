@@ -1,4 +1,6 @@
-﻿using Incoding.Web.MvcContrib;
+﻿using Incoding.Core.ViewModel;
+using Incoding.Web.MvcContrib;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UI.Common.Helpers;
@@ -37,5 +39,24 @@ public partial class ControlsHtmlHelper<T>
                             @class = settings.Class
                     })
                     .ToBeginTag(HtmlTag.Form);
+    }
+
+    public IHtmlContent Select(Action<SelectSetting> action)
+    {
+        var settings = new SelectSetting();
+        action(settings);
+
+        return _html.When(JqueryBind.InitIncoding)
+                    .Direct(settings.Items)
+                    .OnBegin(dsl => dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect))
+                    .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Shared/Select/SelectItem_Tmpl.cshtml").Html())
+                    .OnComplete(dsl => dsl.Self().JQuery.PlugIn("selectpicker"))
+                    .AsHtmlAttributes(new
+                    {
+                            name = settings.Name,
+                            @class = settings.Class,
+                            placeholder = settings.Placeholder
+                    })
+                    .ToTag(HtmlTag.Select);
     }
 }

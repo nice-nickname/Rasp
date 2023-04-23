@@ -234,3 +234,12 @@ a:hover {
 .w-px-360 {
     width: 360px;
 }
+
+.form-group .dropdown.bootstrap-select {
+    height: 38px;
+}
+
+.form-group .dropdown.bootstrap-select > button {
+    height: 100%;
+    background: #fff;
+}

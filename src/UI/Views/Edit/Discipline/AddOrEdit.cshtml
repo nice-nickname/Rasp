@@ -42,7 +42,25 @@
                 {
                     control.Label.Name = DataResources.DisciplineType;
                     control.Input.Data = Html.Dispatcher().Query(new GetDisciplineTypesForDDQuery());
+                    control.Input.OnInit = dsl => dsl.Self().JQuery.PlugIn("selectpicker");
                 })
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>@DataResources.GroupList</label>
+                    @Html.Controls().Select(control =>
+                    {
+                        control.Class = "form-control";
+                        control.Name = nameof(Model.GroupIds);
+                        control.Items = Html.Dispatcher().Query(new GetGroupsForDDQuery
+                        {
+                            SelectedIds = Model.GroupIds.ToArray(),
+                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
+                        });
+                        control.IsMultiselect = true;
+                    })
+                    @Html.ValidationMessage(nameof(Model.GroupIds))
+                </div>
             </div>
         </div>
         <div class="form-divider"></div>
