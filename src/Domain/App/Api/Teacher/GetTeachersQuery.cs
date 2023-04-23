@@ -7,16 +7,35 @@ public class GetTeachersQuery : QueryBase<List<GetTeachersQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {
-        return Repository.Query<Teacher>()
-                         .Select(r => new Response
-                         {
-                                 Id = r.Id,
-                                 Name = r.Name,
-                                 DepartmentId = r.DepartmentId,
-                                 DepartmentCode = r.Department.Code,
-                                 DepartmentName = r.Department.Name
-                         })
-                         .ToList();
+        var data = Repository.Query<Teacher>()
+                             .Select(r => new
+                             {
+                                     r.Id,
+                                     r.Name,
+                                     r.DepartmentId,
+                                     DepartmentCode = r.Department.Code,
+                                     DepartmentName = r.Department.Name
+                             })
+                             .ToList();
+
+        var response = new List<Response>();
+
+        foreach (var teacher in data)
+        {
+            var name = teacher.Name.Split(" ");
+
+            response.Add(new Response
+            {
+                    Id = teacher.Id,
+                    Name = teacher.Name,
+                    DepartmentId = teacher.DepartmentId,
+                    DepartmentCode = teacher.DepartmentCode,
+                    DepartmentName = teacher.DepartmentName,
+                    Initials = $"{name[0]} {name[1].First()}. {name[2].First()}."
+            });
+        }
+
+        return response;
     }
 
     public class Response
@@ -26,6 +45,8 @@ public class GetTeachersQuery : QueryBase<List<GetTeachersQuery.Response>>
         public int DepartmentId { get; set; }
 
         public string Name { get; set; }
+
+        public string Initials { get; set; }
 
         public string DepartmentCode { get; set; }
 

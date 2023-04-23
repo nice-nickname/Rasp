@@ -21,14 +21,23 @@ public partial class ControlsHtmlHelper<T>
             var settings = new DropdownItemSettings();
             action(settings);
 
-            return this._html.When(JqueryBind.Click)
-                       .OnSuccess(dsl =>
-                       {
-                           dsl.Window.Console.Log("r-debug", "dropdown button successfully clicked");
-                           settings.OnSuccess?.Invoke(dsl);
-                       })
-                       .AsHtmlAttributes()
-                       .ToTag(HtmlTag.Li, $@"<a class=""dropdown-item"" href=""#{settings.Href}"">{settings.Text}</a>");
+            var href = string.IsNullOrWhiteSpace(settings.Href)
+                    ? string.Empty
+                    : @$"href=""#{settings.Href}""";
+
+            var button = this._html.When(JqueryBind.Click);
+
+            if (!string.IsNullOrWhiteSpace(settings.Url))
+                button.Ajax(settings.Url);
+
+            return button
+                   .OnSuccess(dsl =>
+                   {
+                       dsl.Window.Console.Log("r-debug", "dropdown button successfully clicked");
+                       settings.OnSuccess?.Invoke(dsl);
+                   })
+                   .AsHtmlAttributes(id: settings.Id)
+                   .ToTag(HtmlTag.Li, $@"<a class=""dropdown-item"" {href}>{settings.Text}</a>");
         }
 
         public IHtmlContent Divider()

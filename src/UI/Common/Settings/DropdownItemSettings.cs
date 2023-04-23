@@ -8,5 +8,9 @@ public class DropdownItemSettings
 
     public string Href { get; set; }
 
+    public string Url { get; set; }
+
+    public string Id { get; set; }
+
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnSuccess { get; set; }
 }

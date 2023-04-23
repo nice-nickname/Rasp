@@ -14,6 +14,7 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
                                  Capacity = r.Capacity,
                                  BuildingName = r.Building.Name,
                                  DepartmentCode = r.Department != null ? r.Department.Code : string.Empty,
+                                 DepartmentName = r.Department != null ? r.Department.Name : string.Empty,
                                  Code = r.Code,
                                  Kinds = Repository.GetById<Auditorium>(r.Id).Kinds.ToList()
                          })
@@ -29,6 +30,8 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
         public string Code { get; set; }
 
         public string DepartmentCode { get; set; }
+
+        public string DepartmentName { get; set; }
 
         public string BuildingName { get; set; }
 

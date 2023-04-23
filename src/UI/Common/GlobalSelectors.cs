@@ -11,4 +11,8 @@ public static class GlobalSelectors
     public static readonly string SaveButtonId = "AF486328-2A41-4B48-A029-BA0B309B2D0E";
 
     public static readonly string FacultyListId = "40D10F12-E46C-4470-B351-C36412E89666";
+
+    public static readonly string EditAreaId = "AFC8174F-08AB-4B8B-83A1-958EBE6CEF71";
+
+    public static readonly string EditListId = "59C072F0-DDF9-493B-8765-DF1AD7145ED2";
 }

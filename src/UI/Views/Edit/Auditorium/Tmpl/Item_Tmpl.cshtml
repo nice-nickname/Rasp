@@ -2,33 +2,40 @@
 {
     using (var each = template.ForEach())
     {
-        var currentAuditoriumIdId = nameof(Auditorium) + each.Index();
-        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsView>().AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml").ToRelative();
+        <div class="d-flex shadow gap-2 rounded py-1 px-2" role="item">
+            <div class="my-2" title="@DataResources.Building">
+                @each.For(r => r.BuildingName)
+            </div>
+            <div class="my-2">
+                -
+            </div>
+            <div class="my-2" title="@DataResources.AuditoriumCode">
+                @each.For(r => r.Code)
+            </div>
+            <div class="my-2 ms-3" title="@each.For(r => r.DepartmentName)">
+                @each.For(r => r.DepartmentCode)
+            </div>
 
-        <div class="d-flex shadow gap-2 rounded p-1" role="item">
-            @Html.Hidden(currentAuditoriumIdId, each.For(r => r.Id))
-            <div class="col-2 my-auto">
-                <input class="form-control border-0" value="@each.For(r => r.BuildingName)"/>
-            </div>
-            <div class="col-2 my-auto">
-                <input class="form-control border-0" placeholder="@DataResources.Placeholder_AuditoriumNumber" value="@each.For(r => r.Code)"/>
-            </div>
-            <div class="col-5 my-auto">
-                <input class="form-control border-0" value="@each.For(r => r.DepartmentCode)"/>
-            </div>
-            <div class="col d-flex">
-                <div class="my-auto ms-auto align-self-end">
-                    <div class="btn btn-light">
-                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditAuditoriumCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
-                    </div>
+            <div class="ms-auto d-flex">
+                <div class="m-auto align-self-end">
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsView>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml"))
+                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
+                          .AsHtmlAttributes(new
+                          {
+                              @class = "btn btn-light",
+                              title = DataResources.Edit
+                          })
+                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
 
                     @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Push<DeleteAuditoriumCommand>(new
+                          .Ajax(Url.Dispatcher().Push<DeleteAuditoriumCommand>(new { Id = each.For(r => r.Id) }))
+                          .OnSuccess(dsl => dsl.WithId(nameof(Auditorium)).Trigger.Click())
+                          .AsHtmlAttributes(new
                           {
-                              Id = Selector.Jquery.Name(currentAuditoriumIdId)
-                          }))
-                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
-                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                              @class = "btn btn-light",
+                              title = DataResources.Delete
+                          })
                           .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>
             </div>

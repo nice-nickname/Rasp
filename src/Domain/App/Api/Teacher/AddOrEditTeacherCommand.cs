@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -35,6 +37,16 @@ public class AddOrEditTeacherCommand : CommandBase
                     Name = teacher.Name,
                     DepartmentId = teacher.DepartmentId
             };
+        }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditTeacherCommand>
+    {
+        public Validator()
+        {
+            RuleFor(r => r.Name)
+                    .Must(r => r.Split(" ").Length == 3)
+                    .WithMessage(DataResources.InvalidTeacherName);
         }
     }
 }

@@ -4,10 +4,17 @@
 
 <header class="d-flex p-3 justify-content-center">
     <div class="d-flex gap-3 w-50">
+        <a class="btn btn-light" href="#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
+            @DataResources.Edit
+        </a>
+
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
-            Text = DataResources.Create,
-            Title = DataResources.Create,
+            Button = new DropdownModel.ButtonSettings
+            {
+                Text = DataResources.Create,
+                Title = DataResources.Create
+            },
             Items = new List<IHtmlContent>
             {
                 Html.Controls().Dropdown.Button(settings =>
@@ -57,46 +64,13 @@
 
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
-            Text = DataResources.Edit,
-            Title = DataResources.Edit,
+            Button = new DropdownModel.ButtonSettings
+            {
+                Text = DataResources.Edit,
+                Title = DataResources.Edit
+            },
             Items = new List<IHtmlContent>
             {
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Building;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Building/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Auditorium;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Auditorium/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.AuditoriumKind;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/AuditoriumKind/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Faculty;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Department;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Department/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Teacher;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Teacher/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Divider(),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Discipline;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Discipline/Index.cshtml").ToRelative();
-                }),
                 Html.Controls().Dropdown.Button(settings =>
                 {
                     settings.Text = DataResources.ScheduleFormat;
@@ -106,12 +80,6 @@
                 {
                     settings.Text = "Занятость";
                     settings.Href = Url.Dispatcher().AsView("~/Views/Edit/ItemBusyness/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Divider(),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Group;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Group/Index.cshtml").ToRelative();
                 })
             }
         }))
@@ -124,7 +92,10 @@
     <div class="d-flex flex-row-reverse gap-3 w-50">
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
-            Text = DataResources.funny_userok,
+            Button = new DropdownModel.ButtonSettings
+            {
+                Text = DataResources.funny_userok
+            },
             Items = new List<IHtmlContent>
             {
                 Html.Controls().Dropdown.Button(settings => settings.Text = DataResources.SignOut)
@@ -148,7 +119,10 @@
 
         @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
         {
-            Text = DataResources.Faculty,
+            Button = new DropdownModel.ButtonSettings
+            {
+                Text = DataResources.Faculty
+            },
             Items = new List<IHtmlContent>
             {
                 Html.Controls().Dropdown.Button(settings =>

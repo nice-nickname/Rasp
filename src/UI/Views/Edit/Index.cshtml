@@ -1,0 +1,109 @@
+﻿@{
+    var buttonTextId = Guid.NewGuid().ToString();
+
+    Action<IIncodingMetaLanguageCallbackBodyDsl, string, string> load = (dsl, template, text) =>
+    {
+        dsl.WithId(GlobalSelectors.EditListId).Insert.WithTemplateByView(template).Html();
+        dsl.WithId(GlobalSelectors.EditAreaId).Insert.WithTemplateByView("~/Views/Shared/Placeholder_Select.cshtml").Html();
+        dsl.WithId(buttonTextId).Insert.Use(text).Text();
+    };
+}
+
+<div class="d-flex flex-grow-1 gap-3 w-100 h-100">
+    <div class="w-px-360 flex-shrink-0 d-flex flex-column gap-2">
+        @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+               {
+                   Button = new DropdownModel.ButtonSettings
+                   {
+                       Text = DataResources.Choose,
+                       Title = DataResources.Choose,
+                       Classes = "w-100 btn-primary",
+                       Id = buttonTextId
+                   },
+                   DropdownMenu = new DropdownModel.DropdownMenuSettings
+                   {
+                       Classes = "w-100"
+                   },
+                   Items = new List<IHtmlContent>
+                   {
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Building;
+                           settings.Id = nameof(Building);
+                           settings.Url = Url.Dispatcher().Query(new GetBuildingsQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Building/Tmpl/Item_Tmpl.cshtml", DataResources.Building);
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Auditorium;
+                           settings.Id = nameof(Auditorium);
+                           settings.Url = Url.Dispatcher().Query(new GetAuditoriumsQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Auditorium/Tmpl/Item_Tmpl.cshtml", DataResources.Auditorium);
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.AuditoriumKind;
+                           settings.Id = nameof(AuditoriumKind);
+                           settings.Url = Url.Dispatcher().Query(new GetAuditoriumKindsQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/AuditoriumKind/Tmpl/Item_Tmpl.cshtml", DataResources.AuditoriumKind);
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Faculty;
+                           settings.Id = nameof(Faculty);
+                           settings.Url = Url.Dispatcher().Query(new GetFacultiesQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Faculty/Tmpl/Item_Tmpl.cshtml", DataResources.Faculty);
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Department;
+                           settings.Id = nameof(Department);
+                           settings.Url = Url.Dispatcher().Query(new GetDepartmentsQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Department/Tmpl/Item_Tmpl.cshtml", DataResources.Department);
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Teacher;
+                           settings.Id = nameof(Teacher);
+                           settings.Url = Url.Dispatcher().Query(new GetTeachersQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Teacher/Tmpl/Item_Tmpl.cshtml", DataResources.Teacher);
+                       }),
+                       Html.Controls().Dropdown.Divider(),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Discipline;
+                           settings.Id = nameof(Discipline);
+                           settings.Url = Url.Dispatcher().Query(new GetDisciplinesQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Discipline/Tmpl/Item_Tmpl.cshtml", DataResources.Discipline);
+                       }),
+                       Html.Controls().Dropdown.Divider(),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Group;
+                           settings.Id = nameof(Group);
+                           settings.Url = Url.Dispatcher().Query(new GetGroupsQuery()).AsJson();
+                           settings.OnSuccess = dsl => load(dsl, "~/Views/Edit/Group/Tmpl/Item_Tmpl.cshtml", DataResources.Group);
+                       })
+                   }
+               })
+
+        <div class="d-flex gap-2">
+            <div class="flex-grow-1 input">
+                <input type="text" class="rounded search w-100 h-100"/>
+                <span class="material-symbols-rounded addon-r">search</span>
+            </div>
+
+            <div class="btn btn-light flex-shrink-0">
+                @DataResources.Filter
+            </div>
+        </div>
+
+        <div class="w-100 h-100 d-flex flex-column gap-2" id="@GlobalSelectors.EditListId">
+            @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml")
+        </div>
+    </div>
+
+    <div class="d-flex flex-grow-1" id="@GlobalSelectors.EditAreaId">
+        @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml")
+    </div>
+</div>

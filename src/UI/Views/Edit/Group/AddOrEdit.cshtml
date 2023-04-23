@@ -13,7 +13,7 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditGroupCommand>();
-        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().AsView("~/Views/Edit/Group/Index.cshtml").ToRelative());
+        settings.OnSave = dsl => dsl.WithId(nameof(Group)).Trigger.Click();
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
@@ -27,7 +27,7 @@
                 control.AddClass("w-80");
                 control.Label.Name = DataResources.GroupCode;
             })
-            
+
             @Html.ForGroup(r => r.StudentCount).TextBox(control =>
             {
                 control.AddClass("w-20");

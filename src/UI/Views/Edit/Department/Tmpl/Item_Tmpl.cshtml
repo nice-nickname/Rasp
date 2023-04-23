@@ -2,38 +2,31 @@
 {
     @using (var each = template.ForEach())
     {
-        var code = $"code[{each.Index()}]";
-        var currentDepartmentName = nameof(Department) + each.Index();
-        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsView>().AsView("~/Views/Edit/Department/AddOrEdit.cshtml").ToRelative();
+        <div class="d-flex shadow gap-2 rounded py-1 px-2" role="item">
+            <div class="my-2" title="@each.For(r => r.Name)">
+                @each.For(r => r.Code)
+            </div>
 
-        <div class="d-flex shadow gap-2 rounded p-1" role="item">
-            @Html.Hidden(currentDepartmentName, each.For(r => r.Id))
-            <div class="col-2 my-auto">
-                <input for="code" name="@code" type="text" class="form-control text-center border-0" placeholder="@DataResources.Abbreviation" value="@each.For(r => r.Code)"/>
-            </div>
-            <div class="col-7 my-auto">
-                @(Html.When(JqueryBind.Change)
-                      .OnSuccess(dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), code))
-                      .AsHtmlAttributes(new
-                      {
-                          @class = "form-control border-0",
-                          placeholder = DataResources.Placeholder_FacultyName
-                      })
-                      .ToInput(HtmlInputType.Text, each.For(s => s.Name)))
-            </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
-                    <div class="btn btn-light">
-                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditDepartmentCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
-                    </div>
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsView>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Department/AddOrEdit.cshtml"))
+                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
+                          .AsHtmlAttributes(new
+                          {
+                              @class = "btn btn-light",
+                              title = DataResources.Edit
+                          })
+                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
 
                     @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Push<DeleteDepartmentCommand>(new
+                          .Ajax(Url.Dispatcher().Push<DeleteDepartmentCommand>(new { Id = each.For(r => r.Id) }))
+                          .OnSuccess(dsl => dsl.WithId(nameof(Department)).Trigger.Click())
+                          .AsHtmlAttributes(new
                           {
-                              Id = Selector.Jquery.Name(currentDepartmentName)
-                          }))
-                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
-                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                              @class = "btn btn-light",
+                              title = DataResources.Delete
+                          })
                           .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>
             </div>

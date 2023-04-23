@@ -1,10 +1,10 @@
 ﻿@model DropdownModel
 
-<div role="dropdown" class="dropdown">
-    <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="@Model.Title">
-        <span role="title">@Model.Text</span>
+<div role="dropdown" class="dropdown @Model.Classes">
+    <button class="btn @Model.Button?.Classes" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="@Model.Button?.Title" id="@Model.Button?.Id">
+        <span role="title">@Model.Button?.Text</span>
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu @Model.DropdownMenu?.Classes">
         @foreach (var item in Model.Items)
         {
             @item.ToHtmlString()

@@ -16,7 +16,7 @@
         settings.Url = Url.Dispatcher().Push<AddOrEditFacultyCommand>();
         settings.OnSave = dsl =>
         {
-            dsl.Document.RedirectTo('#' + Url.Dispatcher().AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative());
+            dsl.WithId(nameof(Faculty)).Trigger.Click();
             dsl.WithId(GlobalSelectors.FacultyListId).Trigger.Invoke("refresh");
         };
         settings.Class = "d-flex flex-column gap-3";

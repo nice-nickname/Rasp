@@ -40,16 +40,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Edit\AuditoriumKind\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Auditorium\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Auditorium\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Building\AddOrEdit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\Building\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Building\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\Group\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Auditorium\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
@@ -98,19 +95,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\Building\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Building\AddOrEdit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Teacher\AddOrEdit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\Group\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -131,10 +120,6 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Auditorium\AddOrEdit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\AuditoriumKind\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

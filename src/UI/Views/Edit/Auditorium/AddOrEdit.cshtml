@@ -14,7 +14,7 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditAuditoriumCommand>();
-        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().AsView("~/Views/Edit/Auditorium/Index.cshtml").ToRelative());
+        settings.OnSave = dsl => dsl.WithId(nameof(Auditorium)).Trigger.Click();
         settings.Class = "d-flex flex-column gap-3";
     }))
     {

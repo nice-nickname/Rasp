@@ -230,3 +230,7 @@ a:hover {
 .invalid-feedback {
     display: block !important;
 }
+
+.w-px-360 {
+    width: 360px;
+}

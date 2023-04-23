@@ -297,4 +297,19 @@
 	<data name="StudentCount" xml:space="preserve">
     <value>Количество студентов</value>
   </data>
+	<data name="Choose" xml:space="preserve">
+    <value>Выбрать</value>
+  </data>
+	<data name="AuditoriumCode" xml:space="preserve">
+    <value>Номер аудитории</value>
+  </data>
+	<data name="Delete" xml:space="preserve">
+		<value>Удалить</value>
+	</data>
+	<data name="NothingSelected" xml:space="preserve">
+    <value>Ничего не выбрано</value>
+  </data>
+	<data name="InvalidTeacherName" xml:space="preserve">
+    <value>Поле должно соответствовать формату "Фамилия Имя Отчество"</value>
+  </data>
 </root>

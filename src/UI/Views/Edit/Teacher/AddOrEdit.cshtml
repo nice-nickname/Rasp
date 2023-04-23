@@ -13,7 +13,7 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push<AddOrEditTeacherCommand>();
-        settings.OnSave = dsl => dsl.Document.RedirectTo('#' + Url.Dispatcher().AsView("~/Views/Edit/Teacher/Index.cshtml").ToRelative());
+        settings.OnSave = dsl => dsl.WithId(nameof(Teacher)).Trigger.Click();
         settings.Class = "d-flex flex-column gap-3";
     }))
     {

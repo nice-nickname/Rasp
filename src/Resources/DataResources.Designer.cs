@@ -97,6 +97,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Номер аудитории.
+        /// </summary>
+        public static string AuditoriumCode {
+            get {
+                return ResourceManager.GetString("AuditoriumCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вид аудитории.
         /// </summary>
         public static string AuditoriumKind {
@@ -169,6 +178,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выбрать.
+        /// </summary>
+        public static string Choose {
+            get {
+                return ResourceManager.GetString("Choose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Продолжить.
         /// </summary>
         public static string Continue {
@@ -183,6 +201,15 @@ namespace Resources {
         public static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
@@ -421,6 +448,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поле должно соответствовать формату &quot;Фамилия Имя Отчество&quot;.
+        /// </summary>
+        public static string InvalidTeacherName {
+            get {
+                return ResourceManager.GetString("InvalidTeacherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Лабораторные работы.
         /// </summary>
         public static string Lab {
@@ -444,6 +480,15 @@ namespace Resources {
         public static string MainInformation {
             get {
                 return ResourceManager.GetString("MainInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ничего не выбрано.
+        /// </summary>
+        public static string NothingSelected {
+            get {
+                return ResourceManager.GetString("NothingSelected", resourceCulture);
             }
         }
         

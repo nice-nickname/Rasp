@@ -2,30 +2,34 @@
 {
     using (var each = template.ForEach())
     {
-        var currentGroupIdId = nameof(Group) + each.Index();
-        var addOrEditUrl = Url.Dispatcher().Query<AddOrEditGroupCommand.AsView>().AsView("~/Views/Edit/Group/AddOrEdit.cshtml").ToRelative();
+        <div class="d-flex shadow gap-2 rounded py-1 px-2" role="item">
+            <div class="my-2" title="@each.For(r => r.Code)">
+                @each.For(r => r.Code)
+            </div>
+            <div class="my-2 ms-3" title="@each.For(r => r.DepartmentName)">
+                @each.For(r => r.DepartmentCode)
+            </div>
 
-        <div class="d-flex shadow gap-2 rounded p-1" role="item">
-            @Html.Hidden(currentGroupIdId, each.For(r => r.Id))
-            <div class="col-5 my-auto">
-                <input class="form-control border-0" value="@each.For(r => r.Code)"/>
-            </div>
-            <div class="col-5 my-auto">
-                <input class="form-control border-0" value="@each.For(r => r.DepartmentCode)" title="@each.For(r => r.DepartmentName)"/>
-            </div>
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
-                    <div class="btn btn-light">
-                        <a href="#@($"{addOrEditUrl}&{nameof(AddOrEditGroupCommand.Id)}={each.For(r => r.Id)}")" class="material-symbols-rounded text-decoration-none">edit</a>
-                    </div>
+                    @(Html.When(JqueryBind.Click)
+                          .Ajax(Url.Dispatcher().Query<AddOrEditGroupCommand.AsView>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Group/AddOrEdit.cshtml"))
+                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
+                          .AsHtmlAttributes(new
+                          {
+                              @class = "btn btn-light",
+                              title = DataResources.Edit
+                          })
+                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
 
                     @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Push<DeleteGroupCommand>(new
+                          .Ajax(Url.Dispatcher().Push<DeleteGroupCommand>(new { Id = each.For(r => r.Id) }))
+                          .OnSuccess(dsl => dsl.WithId(nameof(Group)).Trigger.Click())
+                          .AsHtmlAttributes(new
                           {
-                              Id = Selector.Jquery.Name(currentGroupIdId)
-                          }))
-                          .OnSuccess(dsl => dsl.Document.RedirectToSelf())
-                          .AsHtmlAttributes(new { @class = "btn btn-light" })
+                              @class = "btn btn-light",
+                              title = DataResources.Delete
+                          })
                           .ToButton(@<span class="material-symbols-rounded">delete</span>))
                 </div>
             </div>
