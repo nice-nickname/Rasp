@@ -31,8 +31,8 @@ public class Step4 : Migration
 
     public override void Down()
     {
-        Delete.ForeignKey("FK_Discipline_DisciplineKind");
-        Delete.ForeignKey("FK_SubDiscipline_SubDisciplineKind");
+        Delete.ForeignKey("FK_Discipline_DisciplineKind").OnTable(nameof(Discipline));
+        Delete.ForeignKey("FK_SubDiscipline_SubDisciplineKind").OnTable(nameof(SubDiscipline));
         Delete.Table(nameof(DisciplineKind));
         Delete.Table(nameof(SubDisciplineKind));
     }

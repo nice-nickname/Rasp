@@ -1,4 +1,4 @@
-using System.Data;
+﻿using System.Data;
 using Domain.Extensions;
 using FluentMigrator;
 
@@ -23,7 +23,7 @@ public class Step6 : Migration
 
     public override void Down()
     {
-        Delete.ForeignKey("FK_FacultySettings_Faculty");
+        Delete.ForeignKey("FK_FacultySettings_Faculty").OnTable(nameof(FacultySettings));
         Delete.Table(nameof(FacultySettings));
     }
 }

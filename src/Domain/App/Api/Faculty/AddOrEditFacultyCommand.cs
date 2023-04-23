@@ -19,6 +19,19 @@ public class AddOrEditFacultyCommand : CommandBase
         faculty.Name = Name;
         faculty.Code = Code;
         Repository.SaveOrUpdate(faculty);
+
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>.IfNotExist
+        {
+                FacultyId = faculty.Id,
+                Type = FacultySettings.OfType.StartDate,
+                Value = DateTime.Now
+        });
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<int>.IfNotExist
+        {
+                FacultyId = faculty.Id,
+                Type = FacultySettings.OfType.CountOfWeeks,
+                Value = 17
+        });
     }
 
 

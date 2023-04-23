@@ -82,8 +82,8 @@ public class AddOrEditScheduleFormatCommand : CommandBase
             {
                 ItemsCount = schedulerItems.Count,
                 Items = schedulerItems,
-                StartDate = Dispatcher.Query(new GetFacultyStartDateCommand { FacultyId = FacultyId }),
-                CountOfWeeks = Dispatcher.Query(new GetFacultyCountOfWeeksCommand { FacultyId = FacultyId }),
+                StartDate = Dispatcher.Query(new GetFacultySettingCommand<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
+                CountOfWeeks = Dispatcher.Query(new GetFacultySettingCommand<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
             };
         }
     }
