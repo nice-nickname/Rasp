@@ -9,6 +9,8 @@ public class AddOrEditGroupCommand : CommandBase
 
     public int DepartmentId { get; set; }
 
+    public int StudentCount { get; set; }
+
     public string Code { get; set; }
 
     protected override void Execute()
@@ -17,6 +19,7 @@ public class AddOrEditGroupCommand : CommandBase
 
         group.Code = Code;
         group.DepartmentId = DepartmentId;
+        group.StudentCount = StudentCount;
 
         Repository.SaveOrUpdate(group);
     }
@@ -33,7 +36,8 @@ public class AddOrEditGroupCommand : CommandBase
             {
                     Id = group.Id,
                     Code = group.Code,
-                    DepartmentId = group.DepartmentId
+                    DepartmentId = group.DepartmentId,
+                    StudentCount = group.StudentCount
             };
         }
     }

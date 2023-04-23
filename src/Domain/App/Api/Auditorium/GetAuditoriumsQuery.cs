@@ -11,6 +11,7 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
                          .Select(r => new Response
                          {
                                  Id = r.Id,
+                                 Capacity = r.Capacity,
                                  BuildingName = r.Building.Name,
                                  DepartmentCode = r.Department != null ? r.Department.Code : string.Empty,
                                  Code = r.Code,
@@ -22,6 +23,8 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
     public class Response
     {
         public int Id { get; set; }
+
+        public int Capacity { get; set; }
 
         public string Code { get; set; }
 

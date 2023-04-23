@@ -291,4 +291,10 @@
 	<data name="SubDisciplines" xml:space="preserve">
 		<value>Виды занятий</value>
 	</data>
+	<data name="Capacity" xml:space="preserve">
+    <value>Вместимость</value>
+  </data>
+	<data name="StudentCount" xml:space="preserve">
+    <value>Количество студентов</value>
+  </data>
 </root>

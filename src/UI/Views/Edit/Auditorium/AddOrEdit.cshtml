@@ -25,14 +25,21 @@
         <div class="mx-3 d-flex gap-3">
             @Html.ForGroup(r => r.BuildingId).DropDown(control =>
             {
-                control.AddClass("w-50");
+                control.AddClass("w-20");
                 control.Label.Name = DataResources.Building;
                 control.Input.Data = Html.Dispatcher().Query(new GetBuildingsForDDQuery());
             })
+
             @Html.ForGroup(r => r.Code).TextBox(control =>
             {
                 control.AddClass("w-50");
                 control.Label.Name = DataResources.Placeholder_AuditoriumNumber;
+            })
+
+            @Html.ForGroup(r => r.Capacity).TextBox(control =>
+            {
+                control.AddClass("w-30");
+                control.Label.Name = DataResources.Capacity;
             })
         </div>
 
@@ -70,11 +77,16 @@
                     @(Html.When(JqueryBind.Change)
                           .OnSuccess(dsl => dsl.WithName(prefix + nameof(AddOrEditAuditoriumCommand.TempAuditoriumKind.IsSelected))
                                                .JQuery.Attr.Val(Selector.Jquery.Self()))
+                          .When(JqueryBind.InitIncoding)
+                          .OnSuccess(dsl =>
+                          {
+                              if (kind.Selected)
+                                  dsl.Self().JQuery.Attr.Toggle(HtmlAttribute.Checked);
+                          })
                           .AsHtmlAttributes(new
                           {
                               @class = "form-check-input",
                               type = "checkbox",
-                              value = kind.Selected,
                               id = $"auditorium-kind-{i}"
                           })
                           .ToTag(HtmlTag.Input))

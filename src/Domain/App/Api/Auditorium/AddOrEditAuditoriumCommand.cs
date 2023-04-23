@@ -11,6 +11,8 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
     public int? BuildingId { get; set; }
 
+    public int Capacity { get; set; }
+
     public string Code { get; set; }
 
     public List<TempAuditoriumKind> Kinds { get; set; }
@@ -22,6 +24,7 @@ public class AddOrEditAuditoriumCommand : CommandBase
         auditorium.DepartmentId = DepartmentId ?? 0;
         auditorium.BuildingId = BuildingId ?? 0;
         auditorium.Code = Code;
+        auditorium.Capacity = Capacity;
         auditorium.Kinds = Kinds.Where(r => r.IsSelected)
                                 .Select(r => new AuditoriumKind
                                 {
@@ -53,7 +56,8 @@ public class AddOrEditAuditoriumCommand : CommandBase
                                               Kind = r.Kind,
                                               IsSelected = true
                                       })
-                                      .ToList()
+                                      .ToList(),
+                    Capacity = auditorium.Capacity
             };
         }
     }

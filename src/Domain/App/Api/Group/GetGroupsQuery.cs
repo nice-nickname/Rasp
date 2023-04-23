@@ -13,6 +13,7 @@ public class GetGroupsQuery : QueryBase<List<GetGroupsQuery.Response>>
                                  Id = r.Id,
                                  Code = r.Code,
                                  DepartmentId = r.DepartmentId,
+                                 StudentCount = r.StudentCount,
                                  DepartmentCode = r.Department.Code,
                                  DepartmentName = r.Department.Name
                          })
@@ -24,6 +25,8 @@ public class GetGroupsQuery : QueryBase<List<GetGroupsQuery.Response>>
         public int Id { get; set; }
 
         public int DepartmentId { get; set; }
+
+        public int StudentCount { get; set; }
 
         public string DepartmentCode { get; set; }
 
