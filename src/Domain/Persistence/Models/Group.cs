@@ -11,6 +11,8 @@ public class Group : IncEntityBase
 
     public virtual int DepartmentId { get; set; }
 
+    public virtual int StudentCount { get; set; }
+
     public virtual Department Department { get; set; }
 
     public class Mapping : ClassMap<Group>
@@ -21,6 +23,7 @@ public class Group : IncEntityBase
             Id(s => s.Id);
             Map(s => s.Code);
             Map(s => s.DepartmentId);
+            Map(s => s.StudentCount);
 
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()

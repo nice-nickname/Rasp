@@ -529,6 +529,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Виды занятий.
+        /// </summary>
+        public static string SubDisciplines {
+            get {
+                return ResourceManager.GetString("SubDisciplines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Преподаватель.
         /// </summary>
         public static string Teacher {

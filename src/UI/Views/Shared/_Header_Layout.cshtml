@@ -102,6 +102,11 @@
                     settings.Text = DataResources.ScheduleFormat;
                     settings.Href = Url.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery()).AsView("~/Views/Edit/ScheduleFormat/AddOrEdit.cshtml").ToRelative();
                 }),
+                Html.Controls().Dropdown.Button(settings =>
+                {
+                    settings.Text = "Занятость";
+                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/ItemBusyness/Index.cshtml").ToRelative();
+                }),
                 Html.Controls().Dropdown.Divider(),
                 Html.Controls().Dropdown.Button(settings =>
                 {

@@ -288,4 +288,7 @@
 	<data name="GroupCode" xml:space="preserve">
     <value>Наименование группы</value>
   </data>
+	<data name="SubDisciplines" xml:space="preserve">
+		<value>Виды занятий</value>
+	</data>
 </root>

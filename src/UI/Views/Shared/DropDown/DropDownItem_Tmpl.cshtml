@@ -1,6 +1,3 @@
-@using Domain.Api
-@using Incoding.Web.MvcContrib
-
 @using (var template = Html.Incoding().Template<GetFacultiesQuery.Response>())
 {
     @using (var faculty = template.ForEach())

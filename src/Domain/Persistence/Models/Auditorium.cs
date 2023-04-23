@@ -13,6 +13,8 @@ public class Auditorium : IncEntityBase
 
     public virtual int BuildingId { get; set; }
 
+    public virtual int Capacity { get; set; }
+
     public virtual Department? Department { get; set; }
 
     public virtual Building Building { get; set; }
@@ -33,6 +35,7 @@ public class Auditorium : IncEntityBase
             Map(s => s.DepartmentId).Nullable();
             Map(s => s.BuildingId);
             Map(s => s.Code);
+            Map(s => s.Capacity);
 
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()

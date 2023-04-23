@@ -1,4 +1,6 @@
-﻿using FluentMigrator.Runner;
+﻿using Domain;
+using Domain.Api;
+using FluentMigrator.Runner;
 using FluentNHibernate.Cfg.Db;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -13,13 +15,11 @@ using Incoding.Data.EF;
 using Incoding.Web;
 using Incoding.Web.MvcContrib;
 using Microsoft.Extensions.Caching.Memory;
-using NUglify.JavaScript;
-using Domain.Api;
-
-namespace UI;
-
 using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
+using NUglify.JavaScript;
+
+namespace UI;
 
 public static class Startup
 {
@@ -35,7 +35,7 @@ public static class Startup
                .AddFluentMigratorCore()
                .ConfigureRunner(r => r.AddSqlServer2012()
                                       .WithGlobalConnectionString(builder.Configuration["ConnectionString"])
-                                      .ScanIn(typeof(Domain.Bootstrap).Assembly).For.Migrations());
+                                      .ScanIn(typeof(Bootstrap).Assembly).For.Migrations());
 
         builder.Services.AddRouting();
 
@@ -45,10 +45,10 @@ public static class Startup
                {
                    config.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                    config.ValidatorFactory = new IncValidatorFactory();
-                   AssemblyScanner.FindValidatorsInAssembly(typeof(Domain.Bootstrap).Assembly).ForEach(r => 
-                   {    
-                        builder.Services.Add(ServiceDescriptor.Transient(r.InterfaceType, r.ValidatorType));
-                        builder.Services.Add(ServiceDescriptor.Transient(r.ValidatorType, r.ValidatorType));
+                   AssemblyScanner.FindValidatorsInAssembly(typeof(Bootstrap).Assembly).ForEach(r =>
+                   {
+                       builder.Services.Add(ServiceDescriptor.Transient(r.InterfaceType, r.ValidatorType));
+                       builder.Services.Add(ServiceDescriptor.Transient(r.ValidatorType, r.ValidatorType));
                    });
                });
 
@@ -60,7 +60,7 @@ public static class Startup
                                                          {
                                                              var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
                                                              fluentConfig = fluentConfig.Database(db)
-                                                                                        .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Domain.Bootstrap).Assembly))
+                                                                                        .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Bootstrap).Assembly))
                                                                                         .ExposeConfiguration(c => SchemaMetadataUpdater.QuoteTableAndColumns(c, new MsSql2012Dialect()));
                                                              return fluentConfig;
                                                          });
