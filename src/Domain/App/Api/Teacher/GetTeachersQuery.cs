@@ -31,7 +31,7 @@ public class GetTeachersQuery : QueryBase<List<GetTeachersQuery.Response>>
                     DepartmentId = teacher.DepartmentId,
                     DepartmentCode = teacher.DepartmentCode,
                     DepartmentName = teacher.DepartmentName,
-                    Initials = $"{name[0]} {name[1].First()}. {name[2].First()}."
+                    Initials = name.Length > 2 ? $"{name[0]} {name[1].First()}. {name[2].First()}." : teacher.Name
             });
         }
 
