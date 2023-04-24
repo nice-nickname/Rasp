@@ -312,4 +312,7 @@
 	<data name="InvalidTeacherName" xml:space="preserve">
     <value>Поле должно соответствовать формату "Фамилия Имя Отчество"</value>
   </data>
+	<data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
 </root>

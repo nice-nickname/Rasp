@@ -12,60 +12,6 @@
         {
             Button = new DropdownModel.ButtonSettings
             {
-                Text = DataResources.Create,
-                Title = DataResources.Create
-            },
-            Items = new List<IHtmlContent>
-            {
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Building;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditBuildingCommand.AsView()).AsView("~/Views/Edit/Building/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Auditorium;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditAuditoriumCommand.AsView()).AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.AuditoriumKind;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditAuditoriumKindCommand.AsView()).AsView("~/Views/Edit/AuditoriumKind/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Faculty;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditFacultyCommand.AsView()).AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Department;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditDepartmentCommand.AsView()).AsView("~/Views/Edit/Department/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Teacher;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Teacher/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Divider(),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Discipline;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditDisciplineCommand.AsQuery()).AsView("~/Views/Edit/Discipline/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Divider(),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.Group;
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/Group/AddOrEdit.cshtml").ToRelative();
-                })
-            }
-        }))
-
-        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-        {
-            Button = new DropdownModel.ButtonSettings
-            {
                 Text = DataResources.Edit,
                 Title = DataResources.Edit
             },
