@@ -8,6 +8,15 @@
     @DataResources.Department
 }
 
+@section RemoveButton
+    {
+    @(Html.When(JqueryBind.Click)
+              .Ajax(Url.Dispatcher().Push(new DeleteDepartmentCommand { Id = Model.Id ?? 0 }))
+              .OnSuccess(dsl => dsl.WithId(nameof(Department)).Trigger.Click())
+              .AsHtmlAttributes(classes: "btn btn-danger align-self-end h-fit " + (Model.Id == 0 ? "disabled" : string.Empty), title: DataResources.Delete)
+              .ToButton(@<span class="material-symbols-rounded">delete</span>))
+}
+
 @section Body
 {
     @using (Html.Controls().Form(settings =>

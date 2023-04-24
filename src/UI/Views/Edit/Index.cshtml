@@ -140,23 +140,27 @@
 
         <div class="d-flex gap-2">
             <div class="flex-grow-1 input">
-                <input type="text" class="rounded search w-100 h-100"/>
+                <input type="text" class="rounded search w-100 h-100" disabled/>
                 <span class="material-symbols-rounded addon-r">search</span>
             </div>
 
-            <div class="btn btn-light flex-shrink-0">
+            <div class="btn btn-light flex-shrink-0 disabled">
                 @DataResources.Filter
             </div>
         </div>
 
-        <div id="@addNewbuttonDivId" class="d-flex"></div>
+        <div id="@addNewbuttonDivId" class="d-flex">
+            <div class="btn btn-light flex-grow-1 disabled">
+                @DataResources.Add
+            </div>
+        </div>
 
-        <div class="w-100 h-100 d-flex flex-column gap-2" id="@GlobalSelectors.EditListId">
+        <div class="w-100 h-100 d-flex flex-column gap-2 rounded" id="@GlobalSelectors.EditListId">
             @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml")
         </div>
     </div>
 
-    <div class="d-flex flex-grow-1" id="@GlobalSelectors.EditAreaId">
+    <div class="d-flex flex-grow-1 rounded" id="@GlobalSelectors.EditAreaId">
         @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml")
     </div>
 </div>

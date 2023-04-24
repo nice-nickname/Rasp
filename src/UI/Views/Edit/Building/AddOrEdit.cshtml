@@ -1,4 +1,5 @@
 ﻿@model AddOrEditBuildingCommand
+
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -6,6 +7,15 @@
 @section Title
 {
     @DataResources.Building
+}
+
+@section RemoveButton
+{
+    @(Html.When(JqueryBind.Click)
+          .Ajax(Url.Dispatcher().Push(new DeleteBuildingCommand { Id = Model.Id ?? 0 }))
+          .OnSuccess(dsl => dsl.WithId(nameof(Building)).Trigger.Click())
+              .AsHtmlAttributes(classes: "btn btn-danger align-self-end h-fit " + (Model.Id == 0 ? "disabled" : string.Empty), title: DataResources.Delete)
+          .ToButton(@<span class="material-symbols-rounded">delete</span>))
 }
 
 @section Body

@@ -315,4 +315,7 @@
 	<data name="Add" xml:space="preserve">
     <value>Добавить</value>
   </data>
+	<data name="Clear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
 </root>
