@@ -253,3 +253,7 @@ a:hover {
 .h-fit {
     height: fit-content;
 }
+
+.w-px-324 {
+    width: 324px;
+}

@@ -394,6 +394,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сгенерировать.
+        /// </summary>
+        public static string Generate {
+            get {
+                return ResourceManager.GetString("Generate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Группа.
         /// </summary>
         public static string Group {
@@ -583,6 +592,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Расписание.
+        /// </summary>
+        public static string Schedule {
+            get {
+                return ResourceManager.GetString("Schedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Формат расписания.
         /// </summary>
         public static string ScheduleFormat {
@@ -642,6 +660,15 @@ namespace Resources {
         public static string TeacherName {
             get {
                 return ResourceManager.GetString("TeacherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to На главную.
+        /// </summary>
+        public static string ToHome {
+            get {
+                return ResourceManager.GetString("ToHome", resourceCulture);
             }
         }
     }

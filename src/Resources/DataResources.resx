@@ -318,4 +318,13 @@
 	<data name="Clear" xml:space="preserve">
     <value>Очистить</value>
   </data>
+	<data name="Schedule" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+	<data name="ToHome" xml:space="preserve">
+    <value>На главную</value>
+  </data>
+	<data name="Generate" xml:space="preserve">
+    <value>Сгенерировать</value>
+  </data>
 </root>
