@@ -11,7 +11,7 @@
                 <div class="my-auto ms-auto align-self-end">
 
                     @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsView>(new { Id = each.For(r => r.Id) }).AsView("~/Views/AuditoriumKind/AddOrEdit.cshtml"))
+                          .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsView>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/AuditoriumKind/AddOrEdit.cshtml"))
                           .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
                           .AsHtmlAttributes(new
                           {
