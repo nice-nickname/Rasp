@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 using Incoding.Core.Extensions.LinqSpecs;
 
 namespace Domain.Persistence;
 
-public class FacultySettings : IncEntityBase
+public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty
 {
     public enum OfType
     {
@@ -21,6 +22,8 @@ public class FacultySettings : IncEntityBase
 
     public virtual int FacultyId { get; set; }
 
+    public virtual Faculty Faculty { get; }
+
     public class Mapping : ClassMap<FacultySettings>
     {
         public Mapping()
@@ -29,6 +32,10 @@ public class FacultySettings : IncEntityBase
             Map(s => s.Type).CustomType<OfType>();
             Map(s => s.Value);
             Map(s => s.FacultyId);
+
+            References(s => s.Faculty).Column(nameof(FacultyId))
+                                      .ReadOnly()
+                                      .LazyLoad();
         }
     }
 

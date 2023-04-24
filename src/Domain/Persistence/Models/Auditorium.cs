@@ -1,9 +1,10 @@
-﻿using FluentNHibernate.Mapping;
+﻿using Domain.Persistence.Specification;
+using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class Auditorium : IncEntityBase
+public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment
 {
     public new virtual int Id { get; set; }
 

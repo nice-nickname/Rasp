@@ -1,4 +1,5 @@
 ﻿using Domain.Persistence;
+using Domain.Persistence.Specification;
 using Incoding.Core.CQRS.Core;
 using Incoding.Core.ViewModel;
 
@@ -13,8 +14,7 @@ public class GetGroupsForDDQuery : QueryBase<List<KeyValueVm>>
     protected override List<KeyValueVm> ExecuteResult()
     {
         SelectedIds ??= Array.Empty<int>();
-        return Repository.Query<Group>()
-                         .Where(s => s.Department.FacultyId == FacultyId)
+        return Repository.Query(new Share.Where.ByFacultyThoughDepartment<Group>(FacultyId))
                          .Select(s => new KeyValueVm(s.Id, s.Code, SelectedIds.Contains(s.Id)))
                          .ToList();
     }
