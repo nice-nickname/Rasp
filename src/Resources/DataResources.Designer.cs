@@ -214,6 +214,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Количество недель.
+        /// </summary>
+        public static string CountOfWeeks {
+            get {
+                return ResourceManager.GetString("CountOfWeeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Курс.
         /// </summary>
         public static string Course {
@@ -457,6 +466,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Некорректное значение.
+        /// </summary>
+        public static string IncorrectValue {
+            get {
+                return ResourceManager.GetString("IncorrectValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Поле не может быть пустым.
         /// </summary>
         public static string InvalidEmpty {
@@ -646,6 +664,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата начала семестра.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Количество студентов.
         /// </summary>
         public static string StudentCount {
@@ -696,6 +723,15 @@ namespace Resources {
         public static string ToHome {
             get {
                 return ResourceManager.GetString("ToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата начала этой пары перескается с прошлой парой.
+        /// </summary>
+        public static string Validation_ScheduleItemIntersectsWithPrevious {
+            get {
+                return ResourceManager.GetString("Validation_ScheduleItemIntersectsWithPrevious", resourceCulture);
             }
         }
     }

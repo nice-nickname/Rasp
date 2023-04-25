@@ -27,12 +27,9 @@ public partial class ControlsHtmlHelper<T>
                     .StopPropagation()
                     .PreventDefault()
                     .Submit()
-                    .OnError(dsl => 
-                    {
-                        settings.OnError?.Invoke(dsl);
-                        dsl.Self().Form.Validation.Refresh();
-                    })
+                    .OnError(dsl => settings.OnError?.Invoke(dsl))
                     .OnSuccess(dsl => settings.OnSave?.Invoke(dsl))
+                    .OnComplete(dsl => dsl.Self().Form.Validation.Refresh())
                     .AsHtmlAttributes(new
                     {
                             action = settings.Url,

@@ -8,6 +8,9 @@ ExecutableValidationRefresh.prototype.internalExecute = function () {
     const messageValidClass = 'valid-feedback';
     const attrSpan = 'data-valmsg-for';
     const result = ExecutableHelper.IsNullOrEmpty(this.result) ? [] : this.result;
+
+    $(`[${attrSpan}]`, this.target).removeClass(messageErrorClass).addClass(messageValidClass)
+
     let isWasRefresh = false;
     for (let i = 0; i < result.length; i++) {
         let item = result[i];
@@ -40,8 +43,9 @@ ExecutableValidationRefresh.prototype.internalExecute = function () {
                                 .html(item.errorMessage)
 
             let error = $('<div/>')
-                            .addClass(messageErrorClass)
-                            .html(errorMessage)
+                .addClass(messageErrorClass)
+                .attr(attrSpan, item.name)
+                .html(errorMessage)
 
             $(input).addClass(inputErrorClass);
             $(span).replaceWith(error)

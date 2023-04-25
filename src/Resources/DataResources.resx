@@ -336,4 +336,16 @@
 	<data name="Course" xml:space="preserve">
 		<value>Курс</value>
 	</data>
+	<data name="CountOfWeeks" xml:space="preserve">
+		<value>Количество недель</value>
+	</data>
+	<data name="StartDate" xml:space="preserve">
+		<value>Дата начала семестра</value>
+	</data>
+	<data name="IncorrectValue" xml:space="preserve">
+		<value>Некорректное значение</value>
+	</data>
+	<data name="Validation_ScheduleItemIntersectsWithPrevious" xml:space="preserve">
+		<value>Дата начала этой пары перескается с прошлой парой</value>
+	</data>
 </root>

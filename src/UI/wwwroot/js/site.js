@@ -29,22 +29,21 @@ function suggestInputValueByNamingCase(value, to) {
     $(`[name="${to}"]`).val(val)
 }
 
-//$.fn.extend({
-//    hideByCompareValue: function (compareAttr) {
-//        const val = $(this).val()
-//        $(`[${compareAttr}]`).each(function () {
-//            const attr = $(this).attr(compareAttr)
-//            attr >= val ? $(this).addClass('d-none') : $(this).removeClass('d-none')
-//        })
-//    }
-//})
+
 (function () {
     $.fn.hideByCompareValue = function (compareAttr) {
         const val = $(this).val()
 
         $(`[${compareAttr}]`).each(function () {
             const attr = $(this).attr(compareAttr)
-            attr >= val ? $(this).addClass('d-none') : $(this).removeClass('d-none')
+            if (attr >= val) {
+                $(this).addClass('d-none')
+                $(this).find('input').prop('disabled', true)
+            }
+            else {
+                $(this).removeClass('d-none')
+                $(this).find('input').prop('disabled', false)
+            }
         })
     }
 }(jQuery))
