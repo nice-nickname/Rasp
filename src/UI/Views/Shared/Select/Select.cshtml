@@ -1,0 +1,13 @@
+﻿@model SelectSetting
+
+@foreach (var group in Model.Items.GroupBy(s => s.Group))
+{
+    <optgroup label="@group.Key">
+        @foreach (var option in group)
+        {
+            <option value="@option.Value" data-tokens="@option.Search" @(option.Selected ? "selected='selected'" : "")>
+                @option.Text
+            </option>
+        }
+    </optgroup>
+}

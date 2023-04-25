@@ -1,4 +1,4 @@
-﻿using Incoding.Core.ViewModel;
+﻿using Domain.Api;
 
 namespace UI;
 
@@ -6,11 +6,11 @@ public class SelectSetting
 {
     public bool IsMultiselect { get; set; }
 
+    public bool IsSearchable { get; set; }
+
     public string Name { get; set; }
 
     public string Class { get; set; }
 
-    public string Placeholder { get; set; }
-
-    public IEnumerable<KeyValueVm> Items { get; set; }
+    public IEnumerable<DropDownItem> Items { get; set; }
 }

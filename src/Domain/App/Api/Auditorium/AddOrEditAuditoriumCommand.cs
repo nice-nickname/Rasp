@@ -36,7 +36,7 @@ public class AddOrEditAuditoriumCommand : CommandBase
         Repository.SaveOrUpdate(auditorium);
     }
 
-    public class AsView : QueryBase<AddOrEditAuditoriumCommand>
+    public class AsQuery : QueryBase<AddOrEditAuditoriumCommand>
     {
         public int? Id { get; set; }
 

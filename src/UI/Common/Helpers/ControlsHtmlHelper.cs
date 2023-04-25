@@ -2,6 +2,7 @@
 using Incoding.Web.MvcContrib;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Resources;
 
 namespace UI.Common.Helpers;
 
@@ -48,15 +49,20 @@ public partial class ControlsHtmlHelper<T>
 
         return _html.When(JqueryBind.InitIncoding)
                     .Direct(settings.Items)
-                    .OnBegin(dsl => dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect))
-                    .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Shared/Select/SelectItem_Tmpl.cshtml").Html())
-                    .OnComplete(dsl => dsl.Self().JQuery.PlugIn("selectpicker"))
+                    .OnBegin(dsl =>
+                    {
+                        dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect);
+                        dsl.Self().JQuery.Attr.Set("data-live-search", settings.IsSearchable);
+                        dsl.Self().JQuery.Attr.Set("data-live-search-placeholder", DataResources.SearchPlaceholder);
+                        dsl.Self().JQuery.Attr.Set("data-none-result-text", DataResources.NothingFound);
+                    })
+                    .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("selectpicker"))
                     .AsHtmlAttributes(new
                     {
                             name = settings.Name,
                             @class = settings.Class,
-                            placeholder = settings.Placeholder
+                            title = DataResources.NothingSelected
                     })
-                    .ToTag(HtmlTag.Select);
+                    .ToTag(HtmlTag.Select, this._html.Partial("~/Views/Shared/Select/Select.cshtml", settings));
     }
 }

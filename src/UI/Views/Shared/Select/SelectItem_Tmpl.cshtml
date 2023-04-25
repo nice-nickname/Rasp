@@ -1,9 +1,0 @@
-﻿@using Incoding.Core.ViewModel
-@using (var template = Html.Incoding().Template<KeyValueVm>())
-{
-    using (var each = template.ForEach())
-    {
-        var selected = each.IsInline(s => s.Selected, "selected='selected'");
-        <option @selected value="@each.For(s => s.Value)" title="@each.For(s => s.Title)">@each.For(s => s.Text)</option>
-    }
-}

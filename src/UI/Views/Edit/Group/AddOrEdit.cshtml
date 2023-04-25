@@ -33,8 +33,14 @@
         <div class="mx-3 d-flex gap-3">
             @Html.ForGroup(r => r.Code).TextBox(control =>
             {
-                control.AddClass("w-80");
+                control.AddClass("w-60");
                 control.Label.Name = DataResources.GroupCode;
+            })
+            
+            @Html.ForGroup(r => r.Course).TextBox(control =>
+            {
+                control.AddClass("w-20");
+                control.Label.Name = DataResources.Course;
             })
 
             @Html.ForGroup(r => r.StudentCount).TextBox(control =>

@@ -327,4 +327,13 @@
 	<data name="Generate" xml:space="preserve">
     <value>Сгенерировать</value>
   </data>
+	<data name="NothingFound" xml:space="preserve">
+		<value>Ничего не найдено</value>
+	</data>
+	<data name="SearchPlaceholder" xml:space="preserve">
+		<value>Группа, кафедра, курс...</value>
+	</data>
+	<data name="Course" xml:space="preserve">
+		<value>Курс</value>
+	</data>
 </root>

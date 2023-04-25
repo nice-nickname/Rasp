@@ -18,7 +18,7 @@ public class AddOrEditAuditoriumKindCommand : CommandBase
         Repository.SaveOrUpdate(auditoriumKind);
     }
 
-    public class AsView : QueryBase<AddOrEditAuditoriumKindCommand>
+    public class AsQuery : QueryBase<AddOrEditAuditoriumKindCommand>
     {
         public int? Id { get; set; }
 

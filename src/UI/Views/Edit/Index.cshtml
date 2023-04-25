@@ -53,7 +53,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/Building/Tmpl/Item_Tmpl.cshtml", DataResources.Building);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditBuildingCommand.AsView>().AsView("~/Views/Edit/Building/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditBuildingCommand.AsQuery>().AsView("~/Views/Edit/Building/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Button(settings =>
@@ -64,7 +64,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/Auditorium/Tmpl/Item_Tmpl.cshtml", DataResources.Auditorium);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsView>().AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsQuery>().AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Button(settings =>
@@ -75,7 +75,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/AuditoriumKind/Tmpl/Item_Tmpl.cshtml", DataResources.AuditoriumKind);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsView>().AsView("~/Views/Edit/AuditoriumKind/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsQuery>().AsView("~/Views/Edit/AuditoriumKind/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Button(settings =>
@@ -86,7 +86,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/Faculty/Tmpl/Item_Tmpl.cshtml", DataResources.Faculty);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditFacultyCommand.AsView>().AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditFacultyCommand.AsQuery>().AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Button(settings =>
@@ -97,7 +97,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/Department/Tmpl/Item_Tmpl.cshtml", DataResources.Department);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsView>().AsView("~/Views/Edit/Department/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsQuery>().AsView("~/Views/Edit/Department/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Button(settings =>
@@ -108,7 +108,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/Teacher/Tmpl/Item_Tmpl.cshtml", DataResources.Teacher);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditTeacherCommand.AsView>().AsView("~/Views/Edit/Teacher/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditTeacherCommand.AsQuery>().AsView("~/Views/Edit/Teacher/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Divider(),
@@ -132,7 +132,7 @@
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/Group/Tmpl/Item_Tmpl.cshtml", DataResources.Group);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditGroupCommand.AsView>().AsView("~/Views/Edit/Group/AddOrEdit.cshtml"));
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditGroupCommand.AsQuery>().AsView("~/Views/Edit/Group/AddOrEdit.cshtml"));
                            };
                        })
                    }

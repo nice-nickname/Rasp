@@ -13,7 +13,7 @@
             <div class="col d-flex">
                 <div class="my-auto ms-auto align-self-end">
                     @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Query<AddOrEditGroupCommand.AsView>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Group/AddOrEdit.cshtml"))
+                          .Ajax(Url.Dispatcher().Query<AddOrEditGroupCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Group/AddOrEdit.cshtml"))
                           .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
                           .AsHtmlAttributes(new
                           {

@@ -14,6 +14,8 @@ public class Group : IncEntityBase, Share.IEntityHasDepartment
 
     public virtual int StudentCount { get; set; }
 
+    public virtual int Course { get; set; }
+
     public virtual Department Department { get; set; }
 
     public class Mapping : ClassMap<Group>
@@ -25,6 +27,7 @@ public class Group : IncEntityBase, Share.IEntityHasDepartment
             Map(s => s.Code);
             Map(s => s.DepartmentId);
             Map(s => s.StudentCount);
+            Map(s => s.Course);
 
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()

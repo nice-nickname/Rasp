@@ -18,6 +18,7 @@ using Microsoft.Extensions.Caching.Memory;
 using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using NUglify.JavaScript;
+using System.Globalization;
 
 namespace UI;
 
@@ -43,6 +44,8 @@ public static class Startup
                .AddMvc(o => o.Filters.Add(new IncodingErrorHandlingFilter()))
                .AddFluentValidation(config =>
                {
+                   config.ValidatorOptions.LanguageManager.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+
                    config.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                    config.ValidatorFactory = new IncValidatorFactory();
                    AssemblyScanner.FindValidatorsInAssembly(typeof(Bootstrap).Assembly).ForEach(r =>
@@ -97,7 +100,7 @@ public static class Startup
                                          new CodeSettings { MinifyCode = true },
                                          "node_modules/@popperjs/**/umd/popper.min.js",
                                          "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-                                         "node_modules/**/dist/js/bootstrap-select.min.js")
+                                         "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js")
                     .UseContentRoot();
 
             // Dev styles

@@ -47,7 +47,7 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label>@DataResources.GroupList</label>
+                    @Html.LabelFor(s => s.GroupIds, DataResources.GroupList)
                     @Html.Controls().Select(control =>
                     {
                         control.Class = "form-control";
@@ -58,8 +58,9 @@
                             FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
                         });
                         control.IsMultiselect = true;
+                        control.IsSearchable = true;
                     })
-                    @Html.ValidationMessage(nameof(Model.GroupIds))
+                    @Html.ValidationMessageFor(s => s.GroupIds)
                 </div>
             </div>
         </div>

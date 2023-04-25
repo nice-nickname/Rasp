@@ -18,7 +18,7 @@
               .OnBreak(dsl =>
               {
                   dsl.WithId(GlobalSelectors.FacultyId).JQuery.Attr.ToggleDisabled();
-                  dsl.Document.RedirectTo("#" + Url.Dispatcher().AsView("~/Views/Home/Home.cshtml").ToRelative());
+                  dsl.Document.RedirectTo("#" + Url.Dispatcher().AsQuery("~/Views/Home/Home.cshtml").ToRelative());
                   dsl.WithId(GlobalSelectors.FacultyId).JQuery.Attr.ToggleDisabled();
               })
               .AsHtmlAttributes()
