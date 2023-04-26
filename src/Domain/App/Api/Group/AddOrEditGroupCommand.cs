@@ -24,6 +24,7 @@ public class AddOrEditGroupCommand : CommandBase
         group.Code = Code;
         group.DepartmentId = DepartmentId;
         group.StudentCount = StudentCount;
+        group.Course = Course;
 
         Repository.SaveOrUpdate(group);
     }

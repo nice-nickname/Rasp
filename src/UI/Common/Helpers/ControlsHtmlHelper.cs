@@ -46,14 +46,14 @@ public partial class ControlsHtmlHelper<T>
 
         return _html.When(JqueryBind.InitIncoding)
                     .Direct(settings.Items)
-                    .OnBegin(dsl =>
+                    .OnBegin(dsl => dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect))
+                    .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("selectpicker", new
                     {
-                        dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect);
-                        dsl.Self().JQuery.Attr.Set("data-live-search", settings.IsSearchable);
-                        dsl.Self().JQuery.Attr.Set("data-live-search-placeholder", DataResources.SearchPlaceholder);
-                        dsl.Self().JQuery.Attr.Set("data-none-result-text", DataResources.NothingFound);
-                    })
-                    .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("selectpicker"))
+                            liveSearch = settings.IsSearchable,
+                            size = settings.Size,
+                            liveSearchPlaceholder = DataResources.SearchPlaceholder,
+                            noneResultText = DataResources.NothingFound
+                    }))
                     .AsHtmlAttributes(new
                     {
                             name = settings.Name,
