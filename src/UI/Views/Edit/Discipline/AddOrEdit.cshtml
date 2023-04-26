@@ -108,7 +108,8 @@
                                         control.IsSearchable = true;
                                         control.Items = Html.Dispatcher().Query(new GetTeachersForDDQuery
                                         {
-                                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
+                                            SelectedIds = subDiscipline.TeacherIds
                                         });
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")

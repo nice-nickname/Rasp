@@ -15,10 +15,12 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
     public string Code { get; set; }
 
-    public List<TempAuditoriumKind> Kinds { get; set; }
+    public List<TempAuditoriumKind>? Kinds { get; set; }
 
     protected override void Execute()
     {
+        Kinds ??= new List<TempAuditoriumKind>();
+
         var auditorium = Repository.GetById<Auditorium>(Id.GetValueOrDefault()) ?? new Auditorium();
 
         auditorium.DepartmentId = DepartmentId ?? 0;

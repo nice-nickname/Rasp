@@ -109,11 +109,14 @@ public class AddOrEditDisciplineCommand : CommandBase
             if (Id.HasValue)
             {
                 subDisciplines = discipline.SubDisciplines
+                                           .ToList()
                                            .Select(s => new SubDisciplineItem
                                            {
                                                    Name = s.Kind.Name,
                                                    Hours = s.Hours,
-                                                   KindId = s.KindId
+                                                   KindId = s.KindId,
+                                                   TeacherIds = s.Teachers.Select(r => r.Id).ToList(),
+                                                   Id = s.Id
                                            })
                                            .ToList();
             }
@@ -124,7 +127,8 @@ public class AddOrEditDisciplineCommand : CommandBase
                                            {
                                                    KindId = Convert.ToInt32(s.Value),
                                                    Hours = 0,
-                                                   Name = s.Text
+                                                   Name = s.Text,
+                                                   TeacherIds = new List<int>()
                                            })
                                            .ToList();
             }

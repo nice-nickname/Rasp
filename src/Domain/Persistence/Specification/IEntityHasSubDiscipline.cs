@@ -7,7 +7,9 @@ public partial class Share
 {
     public interface IEntityHasSubDiscipline
     {
-        int SubDisciplineId { get; set; }
+        int SubDisciplineId { get; }
+
+        SubDiscipline SubDiscipline { get; }
     }
 
     public partial class Where

@@ -13,6 +13,7 @@
     <Folder Include="App\Api\AuditoriumKind\" />
     <Folder Include="App\Api\Group\" />
     <Folder Include="App\Api\Busyness\" />
+    <Folder Include="App\Api\DisciplinePlan\" />
     <Folder Include="App\Api\Teacher\" />
     <Folder Include="App\Api\ScheduleFormat\" />
     <Folder Include="Infrastructure\Identity\" />

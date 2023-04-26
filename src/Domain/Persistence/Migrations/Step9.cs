@@ -16,8 +16,5 @@ public class Step9 : Migration
         }
     }
 
-    public override void Down()
-    {
-        throw new NotImplementedException();
-    }
+    public override void Down() { }
 }
