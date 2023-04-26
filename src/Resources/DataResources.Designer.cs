@@ -214,6 +214,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Количество недель.
+        /// </summary>
+        public static string CountOfWeeks {
+            get {
+                return ResourceManager.GetString("CountOfWeeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Курс.
+        /// </summary>
+        public static string Course {
+            get {
+                return ResourceManager.GetString("Course", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Создать.
         /// </summary>
         public static string Create {
@@ -448,6 +466,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Некорректное значение.
+        /// </summary>
+        public static string IncorrectValue {
+            get {
+                return ResourceManager.GetString("IncorrectValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Поле не может быть пустым.
         /// </summary>
         public static string InvalidEmpty {
@@ -507,6 +534,15 @@ namespace Resources {
         public static string MainInformation {
             get {
                 return ResourceManager.GetString("MainInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ничего не найдено.
+        /// </summary>
+        public static string NothingFound {
+            get {
+                return ResourceManager.GetString("NothingFound", resourceCulture);
             }
         }
         
@@ -610,11 +646,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Группа, кафедра, курс....
+        /// </summary>
+        public static string SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выйти из аккаунта.
         /// </summary>
         public static string SignOut {
             get {
                 return ResourceManager.GetString("SignOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата начала семестра.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
             }
         }
         
@@ -669,6 +723,15 @@ namespace Resources {
         public static string ToHome {
             get {
                 return ResourceManager.GetString("ToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата начала этой пары перескается с прошлой парой.
+        /// </summary>
+        public static string Validation_ScheduleItemIntersectsWithPrevious {
+            get {
+                return ResourceManager.GetString("Validation_ScheduleItemIntersectsWithPrevious", resourceCulture);
             }
         }
     }

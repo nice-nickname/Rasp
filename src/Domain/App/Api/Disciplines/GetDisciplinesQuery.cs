@@ -1,4 +1,4 @@
-using Domain.Persistence;
+﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -11,8 +11,8 @@ public class GetDisciplinesQuery : QueryBase<List<GetDisciplinesQuery.Response>>
                          .Select(s => new Response
                          {
                              Id = s.Id,
-                             Name = s.Name,
-                             Kind = s.Kind.Name
+                             Name = s.Code,
+                             Kind = ""
                          })
                          .ToList();
 

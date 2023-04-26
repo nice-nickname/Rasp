@@ -1,0 +1,25 @@
+﻿@model SelectSetting
+
+@foreach (var group in Model.Items.GroupBy(s => s.Group))
+{
+    var isGrouped = !string.IsNullOrWhiteSpace(group.Key);
+    if (isGrouped)
+    {
+        @($"<optgroup label='{group.Key}'>".ToMvcHtmlString())
+    }
+
+    @foreach (var option in group)
+    {
+        <option value="@option.Value" 
+                data-tokens="@option.Search" 
+                data-subtext="@option.SubText"
+                @(option.Selected ? "selected='selected'" : "")>
+            @option.Text
+        </option>
+    }
+
+    @if (isGrouped)
+    {
+        @("</optgroup>".ToMvcHtmlString())
+    }
+}

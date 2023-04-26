@@ -58,7 +58,7 @@
     <_ContentIncludedByDefault Remove="Views\Home\Home.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\NotImplemented.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Shared\Select\SelectItem_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Select\Select.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_AddOrEdit_Layout.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_Footer_Layout.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_Header_Layout.cshtml" />
@@ -141,7 +141,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Shared\Select\SelectItem_Tmpl.cshtml" />
+    <UpToDateCheckInput Remove="Views\Shared\Select\Select.cshtml" />
   </ItemGroup>
 
 

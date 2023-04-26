@@ -35,14 +35,17 @@
                           @class = "form-control"
                       })
                       .ToInput(HtmlInputType.Number, (Model.ItemsCount == 0 ? 7 : Model.ItemsCount).ToString()))
+                @Html.ValidationMessageFor(s => s.ItemsCount)
             </div>
             <div class="form-group col-2">
-                <label class="form-label">Дата начала семестра</label>
-                <input class="form-control" name="@nameof(Model.StartDate)" type="datetime" value="@Model.StartDate.Date.ToShortDateString()">
+                <label class="form-label">@DataResources.StartDate</label>
+                <input class="form-control" name="@nameof(Model.StartDate)" type="datetime" value="@Model.StartDate.ToShortDateString()">
+                @Html.ValidationMessageFor(s => s.StartDate)
             </div>
             <div class="form-group col-2">
-                <label class="form-label">Количество недель</label>
+                <label class="form-label">@DataResources.CountOfWeeks</label>
                 <input class="form-control" name="@nameof(Model.CountOfWeeks)" type="numeric" value="@Model.CountOfWeeks">
+                @Html.ValidationMessageFor(s => s.CountOfWeeks)
             </div>
         </div>
         <div class="form-divider"></div>
@@ -67,6 +70,8 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="@($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")" name="@($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")" />
+                    @Html.ValidationMessage($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")
                 </div>
             }
         </div>

@@ -17,7 +17,7 @@ public class AddOrEditBuildingCommand : CommandBase
         Repository.SaveOrUpdate(building);
     }
 
-    public class AsView : QueryBase<AddOrEditBuildingCommand>
+    public class AsQuery : QueryBase<AddOrEditBuildingCommand>
     {
         public int? Id { get; set; }
 

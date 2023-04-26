@@ -41,7 +41,7 @@ public class AddOrEditDepartmentCommand : CommandBase
         Repository.SaveOrUpdate(department);
     }
 
-    public class AsView : QueryBase<AddOrEditDepartmentCommand>
+    public class AsQuery : QueryBase<AddOrEditDepartmentCommand>
     {
         public int? Id { get; set; }
 

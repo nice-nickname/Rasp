@@ -23,7 +23,7 @@ public class AddOrEditTeacherCommand : CommandBase
         Repository.SaveOrUpdate(teacher);
     }
 
-    public class AsView : QueryBase<AddOrEditTeacherCommand>
+    public class AsQuery : QueryBase<AddOrEditTeacherCommand>
     {
         public int? Id { get; set; }
 

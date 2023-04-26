@@ -1,5 +1,8 @@
-﻿using Domain.Persistence;
+﻿using System.Data;
+using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -59,6 +62,31 @@ public class AddOrEditScheduleFormatCommand : CommandBase
         public TimeSpan? Start { get; set; }
 
         public TimeSpan? End { get; set; }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditScheduleFormatCommand>
+    {
+        public Validator()
+        {
+            RuleFor(s => s.CountOfWeeks).GreaterThan(0).WithName(DataResources.CountOfWeeks);
+            RuleForEach(s => s.Items).Must((command, item) =>
+            {
+                var currentIndex = command.Items.IndexOf(item);
+
+                if (!(item.Start.HasValue || item.End.HasValue))
+                {
+                    return true;
+                }
+
+                if (currentIndex < 1)
+                {
+                    return true;
+                }
+
+                return command.Items[currentIndex].Start > command.Items[currentIndex - 1].End;
+            }).WithMessage(DataResources.Validation_ScheduleItemIntersectsWithPrevious);
+            RuleForEach(s => s.Items).Must(item => item.Start.HasValue && item.End.HasValue && item.Start < item.End).WithMessage(DataResources.IncorrectValue);
+        }
     }
 
     public class AsQuery : QueryBase<AddOrEditScheduleFormatCommand>

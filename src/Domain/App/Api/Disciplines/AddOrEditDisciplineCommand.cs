@@ -1,4 +1,5 @@
 ﻿using Domain.Persistence;
+using Domain.Persistence.Specification;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -23,7 +24,7 @@ public class AddOrEditDisciplineCommand : CommandBase
     {
         GroupIds ??= new List<int>();
         SubDisciplines ??= new List<SubDisciplineItem>();
-        
+
         var discipline = Repository.GetById<Discipline>(Id) ?? new Discipline();
 
         discipline.Name = Name;
@@ -53,12 +54,32 @@ public class AddOrEditDisciplineCommand : CommandBase
 
         foreach (var sd in SubDisciplines)
         {
+            sd.TeacherIds ??= new List<int>();
+
             var subDisciplineItem = Repository.GetById<SubDiscipline>(sd.Id) ?? new SubDiscipline();
             subDisciplineItem.Hours = sd.Hours;
             subDisciplineItem.DisciplineId = discipline.Id;
             subDisciplineItem.KindId = sd.KindId;
 
             Repository.SaveOrUpdate(subDisciplineItem);
+
+            var subDisciplineTeachers = Repository.Query(new Share.Where.BySubDiscipline<SubDisciplineTeachers>(subDisciplineItem.Id))
+                                                  .Select(s => s.Id)
+                                                  .Cast<object>();
+
+            if (subDisciplineTeachers.Any())
+            {
+                Repository.DeleteByIds<SubDisciplineTeachers>(subDisciplineTeachers);
+            }
+
+            foreach (var sdTeacherId in sd.TeacherIds)
+            {
+                Repository.Save(new SubDisciplineTeachers
+                {
+                        SubDisciplineId = subDisciplineItem.Id,
+                        TeacherId = sdTeacherId
+                });
+            }
         }
     }
 
@@ -72,7 +93,7 @@ public class AddOrEditDisciplineCommand : CommandBase
 
         public string Name { get; set; }
 
-        //public List<int> TeacherIds { get; set; }
+        public List<int>? TeacherIds { get; set; }
     }
 
     public class AsQuery : QueryBase<AddOrEditDisciplineCommand>

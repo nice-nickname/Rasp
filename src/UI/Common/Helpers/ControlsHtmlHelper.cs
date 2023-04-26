@@ -2,6 +2,7 @@
 using Incoding.Web.MvcContrib;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Resources;
 
 namespace UI.Common.Helpers;
 
@@ -26,12 +27,9 @@ public partial class ControlsHtmlHelper<T>
                     .StopPropagation()
                     .PreventDefault()
                     .Submit()
-                    .OnError(dsl => 
-                    {
-                        settings.OnError?.Invoke(dsl);
-                        dsl.Self().Form.Validation.Refresh();
-                    })
+                    .OnError(dsl => settings.OnError?.Invoke(dsl))
                     .OnSuccess(dsl => settings.OnSave?.Invoke(dsl))
+                    .OnComplete(dsl => dsl.Self().Form.Validation.Refresh())
                     .AsHtmlAttributes(new
                     {
                             action = settings.Url,
@@ -49,14 +47,19 @@ public partial class ControlsHtmlHelper<T>
         return _html.When(JqueryBind.InitIncoding)
                     .Direct(settings.Items)
                     .OnBegin(dsl => dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect))
-                    .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Shared/Select/SelectItem_Tmpl.cshtml").Html())
-                    .OnComplete(dsl => dsl.Self().JQuery.PlugIn("selectpicker"))
+                    .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("selectpicker", new
+                    {
+                            liveSearch = settings.IsSearchable,
+                            size = settings.Size,
+                            liveSearchPlaceholder = DataResources.SearchPlaceholder,
+                            noneResultText = DataResources.NothingFound
+                    }))
                     .AsHtmlAttributes(new
                     {
                             name = settings.Name,
                             @class = settings.Class,
-                            placeholder = settings.Placeholder
+                            title = DataResources.NothingSelected
                     })
-                    .ToTag(HtmlTag.Select);
+                    .ToTag(HtmlTag.Select, this._html.Partial("~/Views/Shared/Select/Select.cshtml", settings));
     }
 }

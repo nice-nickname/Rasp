@@ -16,6 +16,7 @@
         settings.Class = "d-flex flex-column gap-3";
     }))
     {
+        @Html.HiddenFor(s => s.Id)
         <div class="row">
             <div class="col-3">
                 @Html.ForGroup(s => s.Name).TextBox(control =>
@@ -47,7 +48,7 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label>@DataResources.GroupList</label>
+                    @Html.LabelFor(s => s.GroupIds, DataResources.GroupList)
                     @Html.Controls().Select(control =>
                     {
                         control.Class = "form-control";
@@ -58,8 +59,9 @@
                             FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
                         });
                         control.IsMultiselect = true;
+                        control.IsSearchable = true;
                     })
-                    @Html.ValidationMessage(nameof(Model.GroupIds))
+                    @Html.ValidationMessageFor(s => s.GroupIds)
                 </div>
             </div>
         </div>
@@ -95,6 +97,21 @@
                                     <label class="form-label">@DataResources.Hours</label>
                                     <input class="form-control" type="number" name="@($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")" placeholder="0" value="@subDiscipline.Hours"/>
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
+                                </div>
+                                <div class="form-group col-4">
+                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teacher, new { @class = "form-label" })
+                                    @Html.Controls().Select(control =>
+                                    {
+                                        control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}";
+                                        control.Class = "form-control";
+                                        control.IsMultiselect = true;
+                                        control.IsSearchable = true;
+                                        control.Items = Html.Dispatcher().Query(new GetTeachersForDDQuery
+                                        {
+                                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                                        });
+                                    })
+                                    @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
                                 </div>
                             </div>
                         </div>

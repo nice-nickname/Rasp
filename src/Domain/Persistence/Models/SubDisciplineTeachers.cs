@@ -1,9 +1,10 @@
-﻿using FluentNHibernate.Mapping;
+﻿using Domain.Persistence.Specification;
+using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class SubDisciplineTeachers : IncEntityBase
+public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDiscipline
 {
     public new virtual int Id { get; set; }
 

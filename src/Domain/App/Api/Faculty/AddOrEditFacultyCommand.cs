@@ -35,7 +35,7 @@ public class AddOrEditFacultyCommand : CommandBase
     }
 
 
-    public class AsView : QueryBase<AddOrEditFacultyCommand>
+    public class AsQuery : QueryBase<AddOrEditFacultyCommand>
     {
         public int? Id { get; set; }
 
