@@ -69,6 +69,7 @@ public class AddOrEditScheduleFormatCommand : CommandBase
         public Validator()
         {
             RuleFor(s => s.CountOfWeeks).GreaterThan(0).WithName(DataResources.CountOfWeeks);
+            RuleFor(s => s.StartDate).NotEmpty().NotNull().WithName(DataResources.StartDate);
             RuleForEach(s => s.Items).Must((command, item) =>
             {
                 var currentIndex = command.Items.IndexOf(item);
