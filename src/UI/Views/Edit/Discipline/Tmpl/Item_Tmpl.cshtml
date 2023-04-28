@@ -23,7 +23,7 @@
                           .ToButton(@<span class="material-symbols-rounded">edit</span>))
 
                     @(Html.When(JqueryBind.Click)
-                              // .Ajax(Url.Dispatcher().Push<DeleteDisciplineCommand>(new { Id = each.For(r => r.Id) }))
+                          .Ajax(Url.Dispatcher().Push<DeleteDisciplineCommand>(new { Id = each.For(r => r.Id) }))
                           .OnSuccess(dsl => dsl.WithId(nameof(Discipline)).Trigger.Click())
                           .AsHtmlAttributes(new
                           {

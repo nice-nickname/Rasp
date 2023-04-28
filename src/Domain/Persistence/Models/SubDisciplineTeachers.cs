@@ -23,7 +23,7 @@ public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDisciplin
             Map(s => s.SubDisciplineId);
             Map(s => s.TeacherId);
 
-            References(s => s.SubDiscipline).ForeignKey(nameof(SubDisciplineId))
+            References(s => s.SubDiscipline).Column(nameof(SubDisciplineId))
                                             .ReadOnly()
                                             .LazyLoad();
         }

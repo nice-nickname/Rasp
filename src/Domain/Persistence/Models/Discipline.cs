@@ -22,8 +22,6 @@ public class Discipline : IncEntityBase, Share.IEntityMayHaveDepartment
 
     public virtual IList<Group> Groups { get; set; }
 
-    public virtual IList<Teacher> Teachers { get; set; }
-
     public virtual IList<SubDiscipline> SubDisciplines { get; set; }
 
     public Discipline()
@@ -31,7 +29,6 @@ public class Discipline : IncEntityBase, Share.IEntityMayHaveDepartment
         Name = string.Empty;
         Code = string.Empty;
         Groups = new List<Group>();
-        Teachers = new List<Teacher>();
         SubDisciplines = new List<SubDiscipline>();
     }
 
@@ -44,7 +41,7 @@ public class Discipline : IncEntityBase, Share.IEntityMayHaveDepartment
             Map(s => s.Name);
             Map(s => s.Code);
             Map(s => s.DepartmentId).Nullable();
-            ; Map(s => s.KindId);
+            Map(s => s.KindId);
 
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()
@@ -64,12 +61,6 @@ public class Discipline : IncEntityBase, Share.IEntityMayHaveDepartment
                                         .ChildKeyColumn(nameof(DisciplineGroups.GroupId))
                                         .LazyLoad()
                                         .ReadOnly();
-
-            HasManyToMany(s => s.Teachers).Table(nameof(DisciplineTeachers))
-                                          .ParentKeyColumn(nameof(DisciplineTeachers.DisciplineId))
-                                          .ChildKeyColumn(nameof(DisciplineTeachers.TeacherId))
-                                          .LazyLoad()
-                                          .ReadOnly();
         }
     }
 }

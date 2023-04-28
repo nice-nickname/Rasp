@@ -30,11 +30,11 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
             Map(s => s.Week);
             Map(s => s.Hours);
 
-            References(s => s.SubDiscipline).ForeignKey(nameof(SubDisciplineId))
+            References(s => s.SubDiscipline).Column(nameof(SubDisciplineId))
                                             .ReadOnly()
                                             .LazyLoad();
 
-            References(s => s.Teacher).ForeignKey(nameof(TeacherId))
+            References(s => s.Teacher).Column(nameof(TeacherId))
                                       .ReadOnly()
                                       .LazyLoad();
         }

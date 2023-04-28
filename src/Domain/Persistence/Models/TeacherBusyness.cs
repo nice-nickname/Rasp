@@ -27,7 +27,7 @@ public class TeacherBusyness : IncEntityBase
             Map(s => s.End);
             Map(s => s.TeacherId);
 
-            References(s => s.Teacher).ForeignKey(nameof(TeacherId))
+            References(s => s.Teacher).Column(nameof(TeacherId))
                                       .ReadOnly()
                                       .LazyLoad();
         }
