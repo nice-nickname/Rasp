@@ -1,4 +1,5 @@
 ﻿@model SelectSetting
+@removeTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @foreach (var group in Model.Items.GroupBy(s => s.Group))
 {
@@ -10,10 +11,12 @@
 
     @foreach (var option in group)
     {
+        var selected = option.Selected ? "selected='selected'" : "";
+
         <option value="@option.Value" 
                 data-tokens="@option.Search" 
                 data-subtext="@option.SubText"
-                @(option.Selected ? "selected='selected'" : "")>
+                @selected >
             @option.Text
         </option>
     }

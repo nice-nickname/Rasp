@@ -1,4 +1,5 @@
-﻿using Resources;
+﻿using Incoding.Core.ViewModel;
+using Resources;
 
 namespace Domain;
 
@@ -36,5 +37,15 @@ public class DropDownItem
         Search = (string.IsNullOrWhiteSpace(group) ? "" : group) + " "
                                                                  + (string.IsNullOrWhiteSpace(subtext) ? "" : subtext) + " "
                                                                  + Text + " ";
+    }
+
+    public static implicit operator KeyValueVm(DropDownItem item)
+    {
+        return new KeyValueVm(item.Value, item.Text, item.Selected);
+    }
+
+    public static implicit operator DropDownItem(KeyValueVm item)
+    {
+        return new DropDownItem(item.Value, item.Text, item.Selected);
     }
 }

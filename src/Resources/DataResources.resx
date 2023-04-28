@@ -348,4 +348,16 @@
 	<data name="Validation_ScheduleItemIntersectsWithPrevious" xml:space="preserve">
 		<value>Дата начала этой пары перескается с прошлой парой</value>
 	</data>
+	<data name="SelectConbtrol_CountSelectedText" xml:space="preserve">
+		<value>{0} выбрано</value>
+	</data>
+	<data name="SelectControl_DeselectAll" xml:space="preserve">
+		<value>Отменить</value>
+	</data>
+	<data name="SelectControl_SelectAll" xml:space="preserve">
+		<value>Выбрать все</value>
+	</data>
+	<data name="Teachers" xml:space="preserve">
+		<value>Преподаватели</value>
+	</data>
 </root>

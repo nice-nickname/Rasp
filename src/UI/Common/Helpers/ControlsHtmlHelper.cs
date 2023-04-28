@@ -52,8 +52,17 @@ public partial class ControlsHtmlHelper<T>
                             liveSearch = settings.IsSearchable,
                             size = settings.Size,
                             liveSearchPlaceholder = DataResources.SearchPlaceholder,
-                            noneResultText = DataResources.NothingFound
+                            noneResultText = DataResources.NothingFound,
+                            noneSelectedText = DataResources.NothingSelected,
+                            selectedTextFormat = $"count > {settings.MaxVisibleElements - 1}",
+                            countSelectedText = DataResources.SelectConbtrol_CountSelectedText,
+                            actionsBox = settings.ActionBox,
+                            selectAllText = DataResources.SelectControl_SelectAll,
+                            deselectAllText = DataResources.SelectControl_DeselectAll,
                     }))
+                    .OnComplete(dsl => dsl.Self().JQuery.Call("selectpicker", "deselectAll").If(() => !settings.Items.Any(s => s.Selected)))
+                    .When(JqueryBind.Change)
+                    .OnSuccess(dsl => settings.OnChange?.Invoke(dsl))
                     .AsHtmlAttributes(new
                     {
                             name = settings.Name,

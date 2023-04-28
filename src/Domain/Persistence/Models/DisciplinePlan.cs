@@ -18,6 +18,8 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
 
     public virtual SubDiscipline SubDiscipline { get; set; }
 
+    public virtual Teacher Teacher { get; set; }
+
     public class Mapping : ClassMap<DisciplinePlan>
     {
         public Mapping()
@@ -31,6 +33,10 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
             References(s => s.SubDiscipline).ForeignKey(nameof(SubDisciplineId))
                                             .ReadOnly()
                                             .LazyLoad();
+
+            References(s => s.Teacher).ForeignKey(nameof(TeacherId))
+                                      .ReadOnly()
+                                      .LazyLoad();
         }
     }
 }

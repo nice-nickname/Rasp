@@ -1,4 +1,6 @@
-﻿@model AddOrEditDisciplineCommand
+﻿@using Incoding.Core.ViewModel
+@using Domain
+@model AddOrEditDisciplineCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -29,22 +31,37 @@
                 @Html.ForGroup(s => s.Code).TextBox(control => control.Label.Name = DataResources.Abbreviation)
             </div>
             <div class="col-2">
-                @Html.ForGroup(s => s.DepartmentId).DropDown(control =>
-                {
-                    control.Label.Name = DataResources.Department;
-                    control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery()
+                <div class="form-group">
+                    @Html.LabelFor(s => s.DepartmentId, DataResources.Department)
+                    @Html.Controls().Select(control =>
                     {
-                        FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
-                    });
-                })
+                        control.Class = "form-control";
+                        control.Name = nameof(Model.DepartmentId);
+                        control.Items = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
+                        {
+                            SelectedId = Model.DepartmentId.GetValueOrDefault(),
+                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                        }).Select(s => (DropDownItem)s);
+                        control.IsSearchable = true;
+                    })
+                    @Html.ValidationMessageFor(s => s.DepartmentId)
+                </div>
             </div>
             <div class="col-2">
-                @Html.ForGroup(s => s.KindId).DropDown(control =>
-                {
-                    control.Label.Name = DataResources.DisciplineType;
-                    control.Input.Data = Html.Dispatcher().Query(new GetDisciplineTypesForDDQuery());
-                    control.Input.OnInit = dsl => dsl.Self().JQuery.PlugIn("selectpicker");
-                })
+                <div class="form-group">
+                    @Html.LabelFor(s => s.KindId, DataResources.DisciplineType)
+                    @Html.Controls().Select(control =>
+                    {
+                        control.Class = "form-control";
+                        control.Name = nameof(Model.KindId);
+                        control.Items = Html.Dispatcher().Query(new GetDisciplineTypesForDDQuery
+                        {
+                            SelectedId = Model.KindId
+                        }).Select(s => (DropDownItem)s);
+                        control.IsSearchable = true;
+                    })
+                    @Html.ValidationMessageFor(s => s.KindId)
+                </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
@@ -60,6 +77,7 @@
                         });
                         control.IsMultiselect = true;
                         control.IsSearchable = true;
+                        control.ActionBox = true;
                     })
                     @Html.ValidationMessageFor(s => s.GroupIds)
                 </div>
@@ -99,7 +117,7 @@
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
                                 </div>
                                 <div class="form-group col-4">
-                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teacher, new { @class = "form-label" })
+                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teachers, new { @class = "form-label" })
                                     @Html.Controls().Select(control =>
                                     {
                                         control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}";
@@ -111,6 +129,7 @@
                                             FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
                                             SelectedIds = subDiscipline.TeacherIds
                                         });
+                                        control.MaxVisibleElements = 1;
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
                                 </div>

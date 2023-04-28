@@ -655,6 +655,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} выбрано.
+        /// </summary>
+        public static string SelectConbtrol_CountSelectedText {
+            get {
+                return ResourceManager.GetString("SelectConbtrol_CountSelectedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Отменить.
+        /// </summary>
+        public static string SelectControl_DeselectAll {
+            get {
+                return ResourceManager.GetString("SelectControl_DeselectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выбрать все.
+        /// </summary>
+        public static string SelectControl_SelectAll {
+            get {
+                return ResourceManager.GetString("SelectControl_SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выйти из аккаунта.
         /// </summary>
         public static string SignOut {
@@ -714,6 +741,15 @@ namespace Resources {
         public static string TeacherName {
             get {
                 return ResourceManager.GetString("TeacherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Преподаватели.
+        /// </summary>
+        public static string Teachers {
+            get {
+                return ResourceManager.GetString("Teachers", resourceCulture);
             }
         }
         

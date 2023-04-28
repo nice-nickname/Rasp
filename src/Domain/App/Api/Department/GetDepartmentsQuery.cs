@@ -1,4 +1,5 @@
 ﻿using Domain.Persistence;
+using Domain.Persistence.Specification;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -9,14 +10,12 @@ public class GetDepartmentsForDDQuery : QueryBase<List<KeyValueVm>>
 {
     public int FacultyId { get; set; }
 
+    public int SelectedId { get; set; }
+
     protected override List<KeyValueVm> ExecuteResult()
     {
-        return Repository.Query<Department>()
-                         .Where(s => s.FacultyId == FacultyId)
-                         .Select(s => new KeyValueVm(s.Id, s.Code)
-                         {
-                                 Title = s.Name
-                         })
+        return Repository.Query(new Share.Where.ByFaculty<Department>(FacultyId))
+                         .Select(s => new KeyValueVm(s.Id, s.Code, s.Id == SelectedId))
                          .ToList();
     }
 }
@@ -27,8 +26,7 @@ public class GetDepartmentsQuery : QueryBase<List<GetDepartmentsQuery.Response>>
 
     protected override List<Response> ExecuteResult()
     {
-        return Repository.Query<Department>()
-                         .Where(s => s.FacultyId == FacultyId)
+        return Repository.Query(new Share.Where.ByFaculty<Department>(FacultyId))
                          .Select(s => new Response
                          {
                              Id = s.Id,
