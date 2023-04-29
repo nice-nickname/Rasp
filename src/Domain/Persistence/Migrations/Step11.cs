@@ -23,7 +23,7 @@ public class Step11 : Migration
 
     public override void Down()
     {
-        Delete.ForeignKey("FK_DisciplinePlanByWeek_DisciplinePlan");
+        Delete.ForeignKey("FK_DisciplinePlanByWeek_DisciplinePlan").OnTable(nameof(DisciplinePlanByWeek));
         Delete.Table(nameof(DisciplinePlanByWeek));
     }
 }

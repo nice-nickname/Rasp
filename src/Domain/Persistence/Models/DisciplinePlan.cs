@@ -22,6 +22,8 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
 
     public virtual Group Group { get; set; }
 
+    public virtual IList<DisciplinePlanByWeek> WeekAssignments { get; set; }
+
     public class Mapping : ClassMap<DisciplinePlan>
     {
         public Mapping()
@@ -43,6 +45,10 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
             References(s => s.Group).Column(nameof(GroupId))
                                     .ReadOnly()
                                     .LazyLoad();
+
+            HasMany(s => s.WeekAssignments).KeyColumn(nameof(DisciplinePlanByWeek.DisciplinePlanId))
+                                           .ReadOnly()
+                                           .LazyLoad();
         }
     }
 }
