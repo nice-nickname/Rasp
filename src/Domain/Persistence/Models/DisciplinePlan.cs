@@ -14,9 +14,7 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
 
     public virtual int GroupId { get; set; }
 
-    public virtual int Week { get; set; }
-
-    public virtual int SubGroups { get; set; }
+    public virtual int SubGroupsCount { get; set; }
 
     public virtual SubDiscipline SubDiscipline { get; set; }
 
@@ -29,8 +27,7 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
         public Mapping()
         {
             Id(s => s.Id).GeneratedBy.Identity();
-            Map(s => s.Week);
-            Map(s => s.SubGroups);
+            Map(s => s.SubGroupsCount);
             Map(s => s.SubDisciplineId);
             Map(s => s.TeacherId);
             Map(s => s.GroupId);

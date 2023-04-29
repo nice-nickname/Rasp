@@ -12,6 +12,7 @@ public class Step11 : Migration
         Create.Table(nameof(DisciplinePlanByWeek))
               .WithColumn(nameof(DisciplinePlanByWeek.Id)).AsIntPK()
               .WithColumn(nameof(DisciplinePlanByWeek.AssignmentHours)).AsByte()
+              .WithColumn(nameof(DisciplinePlanByWeek.Week)).AsByte()
               .WithColumn(nameof(DisciplinePlanByWeek.DisciplinePlanId)).AsInt32();
 
         Create.ForeignKey("FK_DisciplinePlanByWeek_DisciplinePlan")

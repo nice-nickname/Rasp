@@ -11,8 +11,7 @@ public class Step10 : Migration
     {
         Create.Table(nameof(DisciplinePlan))
               .WithColumn(nameof(DisciplinePlan.Id)).AsIntPK()
-              .WithColumn(nameof(DisciplinePlan.Week)).AsByte()
-              .WithColumn(nameof(DisciplinePlan.SubGroups)).AsByte()
+              .WithColumn(nameof(DisciplinePlan.SubGroupsCount)).AsByte()
               .WithColumn(nameof(DisciplinePlan.SubDisciplineId)).AsInt32()
               .WithColumn(nameof(DisciplinePlan.TeacherId)).AsInt32()
               .WithColumn(nameof(DisciplinePlan.GroupId)).AsInt32();
@@ -26,12 +25,18 @@ public class Step10 : Migration
               .FromTable(nameof(DisciplinePlan)).ForeignColumn(nameof(DisciplinePlan.TeacherId))
               .ToTable(nameof(Teacher)).PrimaryColumn(nameof(Teacher.Id))
               .OnDeleteOrUpdate(Rule.None);
+
+        Create.ForeignKey("FK_DisciplinePlan_Group")
+              .FromTable(nameof(DisciplinePlan)).ForeignColumn(nameof(DisciplinePlan.GroupId))
+              .ToTable(nameof(Group)).PrimaryColumn(nameof(Group.Id))
+              .OnDeleteOrUpdate(Rule.None);
     }
 
     public override void Down()
     {
         Delete.ForeignKey("FK_DisciplinePlan_SubDiscipline").OnTable(nameof(DisciplinePlan));
         Delete.ForeignKey("FK_DisciplinePlan_Teacher").OnTable(nameof(DisciplinePlan));
+        Delete.ForeignKey("FK_DisciplinePlan_Group").OnTable(nameof(DisciplinePlan));
         Delete.Table(nameof(DisciplinePlan));
     }
 }

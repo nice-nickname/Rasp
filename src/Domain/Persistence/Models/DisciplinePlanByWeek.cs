@@ -9,6 +9,8 @@ public class DisciplinePlanByWeek : IncEntityBase
 
     public virtual int AssignmentHours { get; set; }
 
+    public virtual int Week { get; set; }
+
     public virtual int DisciplinePlanId { get; set; }
 
     public virtual DisciplinePlanByWeek DisciplinePlan { get; set; }
@@ -19,6 +21,7 @@ public class DisciplinePlanByWeek : IncEntityBase
         {
             Id(s => s.Id);
             Map(s => s.AssignmentHours);
+            Map(s => s.Week);
             Map(s => s.DisciplinePlanId);
 
             References(s => s.DisciplinePlan).Column(nameof(DisciplinePlanId))
