@@ -1,6 +1,8 @@
 ﻿using Domain.Persistence;
 using Domain.Persistence.Specification;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -143,6 +145,17 @@ public class AddOrEditDisciplineCommand : CommandBase
                     SubDisciplines = subDisciplines,
                     GroupIds = discipline.Groups.Select(s => s.Id).ToList()
             };
+        }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditDisciplineCommand>
+    {
+        public Validator()
+        {
+            RuleFor(s => s.Name).NotEmpty().NotNull().WithName(DataResources.DisciplineName);
+            RuleFor(s => s.Code).NotEmpty().NotNull().WithName(DataResources.Abbreviation);
+            RuleFor(s => s.KindId).NotEmpty().NotNull().WithName(DataResources.DisciplineType);
+            RuleFor(s => s.DepartmentId).NotEmpty().NotNull().WithName(DataResources.Department);
         }
     }
 }

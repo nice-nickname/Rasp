@@ -62,6 +62,8 @@ public partial class ControlsHtmlHelper<T>
                     }))
                     .OnComplete(dsl => dsl.Self().JQuery.Call("selectpicker", "deselectAll").If(() => !settings.Items.Any(s => s.Selected)))
                     .When(JqueryBind.Change)
+                    .OnSuccess(dsl => dsl.Self().JQuery.Call("triggerByTimeout", "none", settings.ChangeTimeout))
+                    .When(JqueryBind.None)
                     .OnSuccess(dsl => settings.OnChange?.Invoke(dsl))
                     .AsHtmlAttributes(new
                     {

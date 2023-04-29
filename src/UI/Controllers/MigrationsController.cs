@@ -37,7 +37,16 @@ public class MigrationsController : Controller
     [Route("down/{number:long}")]
     public IActionResult Down(long number)
     {
+        this._migrator.MigrateDown(number);
         return Ok($"migrated down to {number}");
+    }
+
+    [Route("refresh/{number:long}")]
+    public IActionResult Refresh(long number)
+    {
+        this._migrator.MigrateDown(number - 1);
+        this._migrator.MigrateUp();
+        return Ok($"migration {number} refreshed");
     }
 
     [Route("erase")]

@@ -1,7 +1,8 @@
-﻿/// <reference path="../../node_modules/jquery/dist/jquery.js" />
+﻿'use strict'
+
+/// <reference path="../../node_modules/jquery/dist/jquery.js" />
 
 function suggestInputValueByNamingCase(value, to) {
-    'use strict'
     
     if (!value) {
         return;
@@ -29,7 +30,6 @@ function suggestInputValueByNamingCase(value, to) {
     $(`[name="${to}"]`).val(val)
 }
 
-
 (function () {
     $.fn.hideByCompareValue = function (compareAttr) {
         const val = $(this).val()
@@ -45,5 +45,14 @@ function suggestInputValueByNamingCase(value, to) {
                 $(this).find('input').prop('disabled', false)
             }
         })
+    }
+
+    $.fn.triggerByTimeout = function (event, miliseconds) {
+        let timeout = $(this).attr('data-interval')
+        clearTimeout(timeout)
+        timeout = setTimeout(() => {
+            $(this).trigger(event)
+        }, miliseconds)
+        $(this).attr('data-interval', timeout)
     }
 }(jQuery))

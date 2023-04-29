@@ -1,27 +1,23 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Persistence;
+using Domain.Persistence.Specification;
+using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
 
-public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Response>>
+public class GetDisciplinePlanQuery : QueryBase<GetDisciplinePlanQuery.Response>
 {
-    public int DisciplineId { get; set; }
-
-    protected override List<Response> ExecuteResult()
+    protected override Response ExecuteResult()
     {
-        return new List<Response>();
+        throw new NotImplementedException();
     }
 
     public record Response
     {
-        public int SubDisciplineId { get; set; }
+       public int? SubDisciplineId { get; set; }
 
-        public List<Item> Items { get; set; }
+       public int WeeksCount { get; set; }
+
+       public List<int> AssignmentsByWeek { get; set; }
     }
 
-    public record Item
-    {
-        public int Hours { get; set; }
-
-        public int Week { get; set; }
-    }
 }

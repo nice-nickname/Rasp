@@ -19,6 +19,8 @@ public class SelectSetting
 
     public int MaxVisibleElements { get; set; } = 3;
 
+    public int ChangeTimeout { get; set; } = 0;
+
     public IEnumerable<DropDownItem> Items { get; set; } = new List<DropDownItem>();
 
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnChange { get; set; }

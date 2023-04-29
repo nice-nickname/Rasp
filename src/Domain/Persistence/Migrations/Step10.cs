@@ -11,10 +11,11 @@ public class Step10 : Migration
     {
         Create.Table(nameof(DisciplinePlan))
               .WithColumn(nameof(DisciplinePlan.Id)).AsIntPK()
-              .WithColumn(nameof(DisciplinePlan.Hours)).AsInt16()
               .WithColumn(nameof(DisciplinePlan.Week)).AsByte()
+              .WithColumn(nameof(DisciplinePlan.SubGroups)).AsByte()
               .WithColumn(nameof(DisciplinePlan.SubDisciplineId)).AsInt32()
-              .WithColumn(nameof(DisciplinePlan.TeacherId)).AsInt32();
+              .WithColumn(nameof(DisciplinePlan.TeacherId)).AsInt32()
+              .WithColumn(nameof(DisciplinePlan.GroupId)).AsInt32();
 
         Create.ForeignKey("FK_DisciplinePlan_SubDiscipline")
               .FromTable(nameof(DisciplinePlan)).ForeignColumn(nameof(DisciplinePlan.SubDisciplineId))

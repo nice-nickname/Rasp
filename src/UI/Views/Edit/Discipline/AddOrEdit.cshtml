@@ -130,6 +130,8 @@
                                             SelectedIds = subDiscipline.TeacherIds
                                         });
                                         control.MaxVisibleElements = 1;
+                                        control.OnChange = dsl => dsl.Window.Console.Log("hahaha", "hehehe");
+                                        control.ChangeTimeout = 1000;
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
                                 </div>
