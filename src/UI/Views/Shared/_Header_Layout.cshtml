@@ -7,29 +7,7 @@
         <a class="btn btn-light" href="#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
             @DataResources.Edit
         </a>
-
-        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-        {
-            Button = new DropdownModel.ButtonSettings
-            {
-                Text = DataResources.Edit,
-                Title = DataResources.Edit
-            },
-            Items = new List<IHtmlContent>
-            {
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = DataResources.ScheduleFormat;
-                    settings.Href = Url.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery()).AsView("~/Views/Edit/ScheduleFormat/AddOrEdit.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Button(settings =>
-                {
-                    settings.Text = "Занятость";
-                    settings.Href = Url.Dispatcher().AsView("~/Views/Edit/ItemBusyness/Index.cshtml").ToRelative();
-                })
-            }
-        }))
-
+        
         <a class="btn btn-light" href="@Url.Action("Index", "Schedule")">
             @DataResources.Schedule
         </a>

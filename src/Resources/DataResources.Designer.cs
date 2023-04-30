@@ -565,6 +565,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Занятость.
+        /// </summary>
+        public static string Occupation {
+            get {
+                return ResourceManager.GetString("Occupation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Тип аудитории.
         /// </summary>
         public static string Placeholder_AuditoriumKind {
@@ -763,7 +772,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата начала этой пары перескается с прошлой парой.
+        ///   Looks up a localized string similar to Недоступно.
+        /// </summary>
+        public static string Unavailable {
+            get {
+                return ResourceManager.GetString("Unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата начала этой пары пересекается с прошлой парой.
         /// </summary>
         public static string Validation_ScheduleItemIntersectsWithPrevious {
             get {

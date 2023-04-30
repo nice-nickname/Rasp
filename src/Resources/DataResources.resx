@@ -346,7 +346,7 @@
 		<value>Некорректное значение</value>
 	</data>
 	<data name="Validation_ScheduleItemIntersectsWithPrevious" xml:space="preserve">
-		<value>Дата начала этой пары перескается с прошлой парой</value>
+		<value>Дата начала этой пары пересекается с прошлой парой</value>
 	</data>
 	<data name="SelectControl_CountSelectedText" xml:space="preserve">
 		<value>{0} выбрано</value>
@@ -360,4 +360,10 @@
 	<data name="Teachers" xml:space="preserve">
 		<value>Преподаватели</value>
 	</data>
+	<data name="Occupation" xml:space="preserve">
+		<value>Занятость</value>
+    </data>
+	<data name="Unavailable" xml:space="preserve">
+		<value>Недоступно</value>
+    </data>
 </root>
