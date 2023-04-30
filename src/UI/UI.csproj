@@ -15,10 +15,10 @@
 
   <ItemGroup>
 	  <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
-	  <PackageReference Include="Incoding.Core" Version="1.2.5" />
+	  <PackageReference Include="Incoding.Core" Version="1.2.7" />
 	  <PackageReference Include="Incoding.Data" Version="1.2.5" />
 	  <PackageReference Include="Incoding.Data.NHibernate" Version="1.2.5" />
-	  <PackageReference Include="Incoding.Web" Version="1.2.6" />
+	  <PackageReference Include="Incoding.Web" Version="1.2.7" />
 	  <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.372" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.13" />
   </ItemGroup>
@@ -32,7 +32,6 @@
     <Folder Include="Common\Models\" />
     <Folder Include="Common\Settings\" />
     <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
-    <Folder Include="Views\Edit\Discipline\" />
     <Folder Include="Views\Schedule\" />
   </ItemGroup>
 
@@ -47,6 +46,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Building\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Discipline\Tmpl\GroupsItem_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Auditorium\Index.cshtml" />
@@ -142,6 +142,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Shared\Select\Select.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Discipline\Tmpl\GroupsItem_Tmpl.cshtml" />
   </ItemGroup>
 
 

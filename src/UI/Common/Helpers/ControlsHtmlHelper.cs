@@ -55,15 +55,21 @@ public partial class ControlsHtmlHelper<T>
                             noneResultText = DataResources.NothingFound,
                             noneSelectedText = DataResources.NothingSelected,
                             selectedTextFormat = $"count > {settings.MaxVisibleElements - 1}",
-                            countSelectedText = DataResources.SelectConbtrol_CountSelectedText,
+                            countSelectedText = DataResources.SelectControl_CountSelectedText,
                             actionsBox = settings.ActionBox,
                             selectAllText = DataResources.SelectControl_SelectAll,
                             deselectAllText = DataResources.SelectControl_DeselectAll,
                     }))
-                    .OnComplete(dsl => dsl.Self().JQuery.Call("selectpicker", "deselectAll").If(() => !settings.Items.Any(s => s.Selected)))
+                    .OnComplete(dsl =>
+                    {
+                        dsl.Self().JQuery.Call("selectpicker", "deselectAll").If(() => !settings.Items.Any(s => s.Selected));
+                        settings.OnInit?.Invoke(dsl);
+                    })
                     .When(JqueryBind.Change)
+                    .StopPropagation()
                     .OnSuccess(dsl => dsl.Self().JQuery.Call("triggerByTimeout", "none", settings.ChangeTimeout))
                     .When(JqueryBind.None)
+                    .StopPropagation()
                     .OnSuccess(dsl => settings.OnChange?.Invoke(dsl))
                     .AsHtmlAttributes(new
                     {

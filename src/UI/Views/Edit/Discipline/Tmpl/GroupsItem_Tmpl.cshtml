@@ -1,0 +1,67 @@
+﻿@using Domain.Common
+@model int
+
+@using (var template = Html.Incoding().Template<GetDisciplinePlanQuery.Response>())
+{
+    <ul class="nav nav-tabs" role="tablist">
+        @using (var each = template.ForEach())
+        {
+            <li class="nav-item" role="presentation">
+                <button id="group-plan-@Model-@each.Index()-nav"
+                        data-bs-toggle="tab"
+                        data-bs-target="#group-plan-@Model-@each.Index()-tab"
+                        type="button"
+                        role="tab"
+                        class="nav-link">
+                    @each.For(s => s.Group)
+                </button>
+            </li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        @using (var each = template.ForEach())
+        {
+            <div id="group-plan-@Model-@each.Index()-tab" class="tab-pane fade p-1">
+                <div class="form-group p-3">
+                    @Html.Label("qwd", "Деление на подгруппы")
+                    @Html.Controls().Select(control =>
+                    {
+                        control.Items = Html.Dispatcher().Query(new GetGroupDivisionForDDQuery());
+                        control.Name = "qwd";
+                        control.OnInit = dsl =>
+                        {
+                            dsl.Self().JQuery.Call("selectpicker", "val", each.For(s => s.SubGroupCount).ToString());
+                        };
+                    })
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            @using (var headerWeek = each.ForEach(s => s.Header))
+                            {
+                                <th>
+                                    @headerWeek.For(s => s.Week)
+                                </th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @using (var teacher = each.ForEach(s => s.TeacherHoursByWeeks))
+                        {
+                            <tr>
+                                <td>@teacher.For(s => s.Teacher)</td>
+                                @using (var weeks = teacher.ForEach(s => s.WeekItems))
+                                {
+                                    <td>@weeks.For(s => s.Hours)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        }
+    </div>
+}

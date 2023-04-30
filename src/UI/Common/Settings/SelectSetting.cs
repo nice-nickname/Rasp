@@ -23,5 +23,7 @@ public class SelectSetting
 
     public IEnumerable<DropDownItem> Items { get; set; } = new List<DropDownItem>();
 
+    public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnInit { get; set; }
+
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnChange { get; set; }
 }

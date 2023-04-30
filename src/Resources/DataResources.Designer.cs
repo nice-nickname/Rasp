@@ -657,9 +657,9 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} выбрано.
         /// </summary>
-        public static string SelectConbtrol_CountSelectedText {
+        public static string SelectControl_CountSelectedText {
             get {
-                return ResourceManager.GetString("SelectConbtrol_CountSelectedText", resourceCulture);
+                return ResourceManager.GetString("SelectControl_CountSelectedText", resourceCulture);
             }
         }
         
