@@ -260,6 +260,9 @@ function suggestInputValueByNamingCase(value, to) {
                         item.remove()
                     } else if (forOne) {
                         $(sourceContainer).append(item)
+                        let prev = $(sourceContainer).prev()
+                        if (prev.hasAttr('role', 'overlap'))
+                            prev.attr('role', 'overlap-busy')
                     } else {
                         let itemUnderDrop = $(document.elementFromPoint(ev.clientX, ev.clientY)).closest(params.item)
                         if (itemUnderDrop.length != 0) {
