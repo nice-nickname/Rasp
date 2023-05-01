@@ -35,7 +35,8 @@
                         .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
                         {
                             item = Selector.Jquery.Role("drag-element").ToSelector(),
-                            container = Selector.Jquery.Role("drag-container").ToSelector()
+                            container = Selector.Jquery.Role("drag-container").ToSelector(),
+                            forOne = true
                         }))
                         .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 gap-2")
                         .ToBeginTag(HtmlTag.Div))

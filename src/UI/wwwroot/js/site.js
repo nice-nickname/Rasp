@@ -68,7 +68,8 @@ function suggestInputValueByNamingCase(value, to) {
             container,
             ghostClass,
             forCopy,
-            dragButton
+            dragButton,
+            forOne
         } = params
 
         const INCODING_DRAGGING_ATTR = 'incoding-dragging',
@@ -114,6 +115,7 @@ function suggestInputValueByNamingCase(value, to) {
         let deltaY = 0
         let startX
         let startY
+        let sourceContainer
 
         $(item).each(function() {
             let item = $(this)
@@ -135,6 +137,8 @@ function suggestInputValueByNamingCase(value, to) {
                 if (forCopy) {
                     item = item.clone(true)
                     item.off('mousedown')
+                } else {
+                    sourceContainer = $(item).parent()
                 }
 
                 startX = ev.clientX
@@ -146,6 +150,15 @@ function suggestInputValueByNamingCase(value, to) {
                 }
 
                 $(item).trigger(INCODING_DRAG_START_EVENT, $(this).data())
+
+                if (forOne) {
+                    let overlapBusy = $(item).parent().prev()
+                    if (overlapBusy.attr('role') == 'overlap-busy') {
+                        overlapBusy
+                            .attr('role', 'overlap')
+                            .attr(INCODING_DROP_AREA_ATTR, '')
+                    }
+                }
 
                 item.attr(INCODING_DRAGGING_ATTR, '')
                     .css({
@@ -245,16 +258,23 @@ function suggestInputValueByNamingCase(value, to) {
                 } else {
                     if (forCopy) {
                         item.remove()
-                    }
-                    else {
+                    } else if (forOne) {
+                        $(sourceContainer).append(item)
+                    } else {
                         let itemUnderDrop = $(document.elementFromPoint(ev.clientX, ev.clientY)).closest(params.item)
                         if (itemUnderDrop.length != 0) {
                             $(itemUnderDrop).before(item)
-                        }
-                        else {
+                        } else {
                             $(item).appendTo(sourceContainer)
                         }
                     }
+                }
+
+                if (forOne) {
+                    $('[role=overlap].active.hover')
+                        .removeClass('active hover')
+                        .attr('role', 'overlap-busy')
+                        .removeAttr(INCODING_DROP_AREA_ATTR)
                 }
 
                 $('[role=overlap]').removeClass('active hover')
