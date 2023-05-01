@@ -2,7 +2,7 @@
 {
     using (var each = template.ForEach())
     {
-        <div class="d-flex shadow gap-2 rounded py-1 px-2" role="item">
+        <div class="d-flex shadow gap-2 rounded py-1 px-2 m-1" role="item">
             <div class="my-2" title="@each.For(r => r.Kind)">
                 @each.For(r => r.Kind)
             </div>
