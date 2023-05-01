@@ -257,3 +257,25 @@ a:hover {
 .w-px-324 {
     width: 324px;
 }
+
+
+[role=overlap] {
+    width: 100%;
+    height: 100%;
+    background-color: yellow;
+    opacity: 0;
+    transition: opacity ease-in-out .2s;
+}
+
+[role=overlap].active {
+    opacity: .6;
+}
+
+[role=overlap].active.hover {
+    opacity: .8;
+}
+
+.hidden { 
+    display: none;
+    visibility: hidden;
+}
