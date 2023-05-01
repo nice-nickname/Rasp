@@ -16,7 +16,7 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public DateTime StartDate { get; set; }
 
-    public List<ScheduleItem> Items { get; set; }
+    public List<ScheduleItem> Items { get; set; } = new();
 
     protected override void Execute()
     {
@@ -68,9 +68,10 @@ public class AddOrEditScheduleFormatCommand : CommandBase
     {
         public Validator()
         {
-            RuleFor(s => s.CountOfWeeks).GreaterThan(0).WithName(DataResources.CountOfWeeks);
+            RuleFor(s => s.ItemsCount).GreaterThanOrEqualTo(1).WithName(DataResources.ScheduleItemsCount);
+            RuleFor(s => s.CountOfWeeks).GreaterThanOrEqualTo(1).WithName(DataResources.CountOfWeeks);
             RuleFor(s => s.StartDate).NotEmpty().NotNull().WithName(DataResources.StartDate);
-            RuleForEach(s => s.Items).Must((command, item) =>
+            RuleForEach(s => s.Items).NotEmpty().NotNull().Must((command, item) =>
             {
                 var currentIndex = command.Items.IndexOf(item);
 

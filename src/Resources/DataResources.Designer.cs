@@ -664,11 +664,38 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Расписание по парам.
+        /// </summary>
+        public static string ScheduleByScheduleItem {
+            get {
+                return ResourceManager.GetString("ScheduleByScheduleItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Формат расписания.
         /// </summary>
         public static string ScheduleFormat {
             get {
                 return ResourceManager.GetString("ScheduleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to пара.
+        /// </summary>
+        public static string ScheduleItem {
+            get {
+                return ResourceManager.GetString("ScheduleItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Общее кол-во пар.
+        /// </summary>
+        public static string ScheduleItemsCount {
+            get {
+                return ResourceManager.GetString("ScheduleItemsCount", resourceCulture);
             }
         }
         
