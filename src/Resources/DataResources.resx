@@ -366,4 +366,13 @@
 	<data name="Unavailable" xml:space="preserve">
 		<value>Недоступно</value>
     </data>
+	<data name="ScheduleItemsCount" xml:space="preserve">
+		<value>Общее кол-во пар</value>
+	</data>
+	<data name="ScheduleByScheduleItem" xml:space="preserve">
+		<value>Расписание по парам</value>
+	</data>
+	<data name="ScheduleItem" xml:space="preserve">
+		<value>пара</value>
+	</data>
 </root>
