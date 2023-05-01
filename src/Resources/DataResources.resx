@@ -366,4 +366,10 @@
 	<data name="Unavailable" xml:space="preserve">
 		<value>Недоступно</value>
     </data>
+	<data name="ConfirmDelete" xml:space="preserve">
+		<value>Подтвердите удаление</value>
+    </data>
+	<data name="Deletion" xml:space="preserve">
+		<value>Удаление...</value>
+    </data>
 </root>

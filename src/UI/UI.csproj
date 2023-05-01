@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Models\" />
-    <Folder Include="Common\Settings\" />
     <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
     <Folder Include="Views\Schedule\" />
   </ItemGroup>

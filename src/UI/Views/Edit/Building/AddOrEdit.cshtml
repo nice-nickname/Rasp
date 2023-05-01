@@ -11,11 +11,12 @@
 
 @section RemoveButton
 {
-    @(Html.When(JqueryBind.Click)
-          .Ajax(Url.Dispatcher().Push(new DeleteBuildingCommand { Id = Model.Id ?? 0 }))
-          .OnSuccess(dsl => dsl.WithId(nameof(Building)).Trigger.Click())
-              .AsHtmlAttributes(classes: "btn btn-danger align-self-end h-fit " + (Model.Id == 0 ? "disabled" : string.Empty), title: DataResources.Delete)
-          .ToButton(@<span class="material-symbols-rounded">delete</span>))
+    @Html.Controls().DeleteConfirm(settings =>
+    {
+        settings.IsDisabled = Model.Id == 0;
+        settings.Url = Url.Dispatcher().Push(new DeleteBuildingCommand { Id = Model.Id ?? 0 });
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Building)).Trigger.Click();
+    })
 }
 
 @section Body
