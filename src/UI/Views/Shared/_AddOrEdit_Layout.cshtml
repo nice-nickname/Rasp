@@ -7,7 +7,7 @@
         <h2 class="flex-grow-1">
             @await RenderSectionAsync("Title")
         </h2>
-        
+
         @await RenderSectionAsync("RemoveButton", false)
     </div>
 
@@ -16,20 +16,22 @@
     <div class="flex-grow-1" id="@formId">
         @await RenderSectionAsync("Body")
     </div>
-    
-    <div class="d-flex flex-row-reverse gap-2">
-        @(Html.When(JqueryBind.Click)
-            .StopPropagation()
-            .PreventDefault()
-            .OnSuccess(dsl => dsl.With(r => r.Id(formId).Find(HtmlTag.Form)).Trigger.Submit())
-            .AsHtmlAttributes(classes: "btn btn-light", id: GlobalSelectors.SaveButtonId)
-            .ToButton(DataResources.Save))
 
+    <div class="d-flex flex-row-reverse gap-2">
         @(Html.When(JqueryBind.Click)
               .StopPropagation()
               .PreventDefault()
-              .OnSuccess(dsl => dsl.WithClass("form-control").JQuery.Attr.Val(string.Empty))
-              .AsHtmlAttributes(classes: "btn btn-light")
-              .ToButton(DataResources.Clear))
+              .OnSuccess(dsl => dsl.With(r => r.Id(formId).Find(HtmlTag.Form)).Trigger.Submit())
+              .AsHtmlAttributes(classes: "btn btn-light", id: GlobalSelectors.SaveButtonId)
+              .ToButton(DataResources.Save))
+
+        @Html.Controls().ButtonConfirm(settings =>
+        {
+            settings.OnSuccess = dsl => dsl.WithClass("form-control").JQuery.Attr.Val(string.Empty);
+            settings.Color = ConfirmSettings.ButtonColor.Light;
+            settings.Text = DataResources.Clear;
+            settings.TextConfirm = DataResources.ConfirmClear;
+            settings.TextInProcess = DataResources.Clearing;
+        })
     </div>
 </div>

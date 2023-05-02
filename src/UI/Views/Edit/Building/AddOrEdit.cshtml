@@ -1,5 +1,4 @@
 ﻿@model AddOrEditBuildingCommand
-
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -11,11 +10,16 @@
 
 @section RemoveButton
 {
-    @Html.Controls().DeleteConfirm(settings =>
+    @Html.Controls().ButtonConfirm(settings =>
     {
         settings.IsDisabled = Model.Id == 0;
         settings.Url = Url.Dispatcher().Push(new DeleteBuildingCommand { Id = Model.Id ?? 0 });
         settings.OnSuccess = dsl => dsl.WithId(nameof(Building)).Trigger.Click();
+        settings.Text = DataResources.Delete;
+        settings.Icon = "delete";
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Danger;
     })
 }
 

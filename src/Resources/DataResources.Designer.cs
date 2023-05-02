@@ -205,6 +205,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Очищение....
+        /// </summary>
+        public static string Clearing {
+            get {
+                return ResourceManager.GetString("Clearing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Подтвердите очищение.
+        /// </summary>
+        public static string ConfirmClear {
+            get {
+                return ResourceManager.GetString("ConfirmClear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Подтвердите удаление.
         /// </summary>
         public static string ConfirmDelete {

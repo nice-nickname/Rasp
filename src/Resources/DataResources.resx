@@ -381,4 +381,10 @@
 	<data name="ScheduleItem" xml:space="preserve">
 		<value>пара</value>
 	</data>
+	<data name="Clearing" xml:space="preserve">
+		<value>Очищение...</value>
+    </data>
+	<data name="ConfirmClear" xml:space="preserve">
+		<value>Подтвердите очищение</value>
+    </data>
 </root>
