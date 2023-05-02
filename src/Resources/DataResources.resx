@@ -118,47 +118,47 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<data name="Create" xml:space="preserve">
-    <value>Создать</value>
-  </data>
+		<value>Создать</value>
+	</data>
 	<data name="Edit" xml:space="preserve">
-    <value>Редактировать</value>
-  </data>
+		<value>Редактировать</value>
+	</data>
 	<data name="Help" xml:space="preserve">
-    <value>Помощь</value>
-  </data>
+		<value>Помощь</value>
+	</data>
 	<data name="Documentation" xml:space="preserve">
-    <value>Документация</value>
-  </data>
+		<value>Документация</value>
+	</data>
 	<data name="Continue" xml:space="preserve">
-    <value>Продолжить</value>
-  </data>
+		<value>Продолжить</value>
+	</data>
 	<data name="ApplicationName" xml:space="preserve">
-    <value>Rasp</value>
-  </data>
+		<value>Rasp</value>
+	</data>
 	<data name="Auditorium" xml:space="preserve">
-    <value>Аудитория</value>
-  </data>
+		<value>Аудитория</value>
+	</data>
 	<data name="Building" xml:space="preserve">
-    <value>Корпус</value>
-  </data>
+		<value>Корпус</value>
+	</data>
 	<data name="Department" xml:space="preserve">
-    <value>Кафедра</value>
-  </data>
+		<value>Кафедра</value>
+	</data>
 	<data name="Discipline" xml:space="preserve">
-    <value>Дисциплина</value>
-  </data>
+		<value>Дисциплина</value>
+	</data>
 	<data name="Faculty" xml:space="preserve">
-    <value>Институт</value>
-  </data>
+		<value>Институт</value>
+	</data>
 	<data name="Teacher" xml:space="preserve">
-    <value>Преподаватель</value>
-  </data>
+		<value>Преподаватель</value>
+	</data>
 	<data name="Group" xml:space="preserve">
-    <value>Группа</value>
-  </data>
+		<value>Группа</value>
+	</data>
 	<data name="SignOut" xml:space="preserve">
-    <value>Выйти из аккаунта</value>
-  </data>
+		<value>Выйти из аккаунта</value>
+	</data>
 	<data name="AddFaculty" xml:space="preserve">
 		<value>Добавить факультет</value>
 	</data>
@@ -174,60 +174,60 @@
   
   
   <!--start funny moments-->
-  <data name="funny_userok" xml:space="preserve">
-    <value>Пользователь</value>
-  </data>
-  <data name="funny_institut" xml:space="preserve">
-    <value>ИКТИБ</value>
-  </data>
+	<data name="funny_userok" xml:space="preserve">
+	    <value>Пользователь</value>
+	</data>
+	<data name="funny_institut" xml:space="preserve">
+		<value>ИКТИБ</value>
+	</data>
   <!--end funny moments-->
   
   
-  <data name="Filter" xml:space="preserve">
-    <value>Фильтры</value>
-  </data>
-  <data name="Abbreviation" xml:space="preserve">
-    <value>Аббревиатура</value>
-  </data>
-  <data name="FacultyName" xml:space="preserve">
-    <value>Наименование Института</value>
-  </data>
-  <data name="MainInformation" xml:space="preserve">
-    <value>Основная информация</value>
-  </data>
+	<data name="Filter" xml:space="preserve">
+	    <value>Фильтры</value>
+	</data>
+	<data name="Abbreviation" xml:space="preserve">
+		<value>Аббревиатура</value>
+	</data>
+	<data name="FacultyName" xml:space="preserve">
+	    <value>Наименование Института</value>
+	</data>
+	<data name="MainInformation" xml:space="preserve">
+		<value>Основная информация</value>
+    </data>
 	<data name="NotImplementedForNow" xml:space="preserve">
-    <value>На данный момент не реализовано</value>
-  </data>
-  <data name="FacultyList" xml:space="preserve">
-    <value>Список институтов</value>
-  </data>
-  <data name="BuildingList" xml:space="preserve">
-    <value>Список корпусов</value>
-  </data>
-  <data name="DepartmentList" xml:space="preserve">
-    <value>Список кафедр</value>
-  </data>
-  <data name="TeacherList" xml:space="preserve">
-    <value>Список преподавателей</value>
-  </data>
-  <data name="DisciplineList" xml:space="preserve">
-    <value>Список дисциплин</value>
-  </data>
-  <data name="GroupList" xml:space="preserve">
-    <value>Список групп</value>
-  </data>
+	    <value>На данный момент не реализовано</value>
+	</data>
+	<data name="FacultyList" xml:space="preserve">
+		<value>Список институтов</value>
+	</data>
+	<data name="BuildingList" xml:space="preserve">
+		<value>Список корпусов</value>
+	</data>
+	<data name="DepartmentList" xml:space="preserve">
+	    <value>Список кафедр</value>
+	</data>
+	<data name="TeacherList" xml:space="preserve">
+		<value>Список преподавателей</value>
+	</data>
+	<data name="DisciplineList" xml:space="preserve">
+		<value>Список дисциплин</value>
+	</data>
+	<data name="GroupList" xml:space="preserve">
+		<value>Список групп</value>
+    </data>
 	<data name="DepartmentsInFaculty" xml:space="preserve">
-    <value>Кафедры в составе института</value>
-  </data>
-  <data name="DepartmentName" xml:space="preserve">
-    <value>Наименование кафедры</value>
-  </data>
-  <data name="DepartmentAttachment" xml:space="preserve">
-    <value>Принадлежность к кафедре</value>
-  </data>
+		<value>Кафедры в составе института</value>
+    </data>
+    <data name="DepartmentName" xml:space="preserve">
+		<value>Наименование кафедры</value>
+    </data>
+    <data name="DepartmentAttachment" xml:space="preserve">
+		<value>Принадлежность к кафедре</value>
+    </data>
 	<data name="FacultyAttachment" xml:space="preserve">
-    <value>Принадлежность к институту</value>
-  </data>
+		<value>Принадлежность к институту</value>
+    </data>
 	<data name="Lecture" xml:space="preserve">
 		<value>Лекции</value>
 	</data>
@@ -247,86 +247,86 @@
 		<value>Количество часов</value>
 	</data>
 	<data name="Placeholder_BuildingName" xml:space="preserve">
-    <value>Название корпуса</value>
-  </data>
+		<value>Название корпуса</value>
+    </data>
 	<data name="BuildingName" xml:space="preserve">
-    <value>Название корпуса</value>
-  </data>
+		<value>Название корпуса</value>
+    </data>
 	<data name="InvalidFacultyCode" xml:space="preserve">
-    <value>Некорректное значение аббревиатуры</value>
-  </data>
+		<value>Некорректное значение аббревиатуры</value>
+    </data>
 	<data name="InvalidFacultyName" xml:space="preserve">
-    <value>Некорректное значение названия института</value>
-  </data>
+		<value>Некорректное значение названия института</value>
+    </data>
 	<data name="ScheduleFormat" xml:space="preserve">
 		<value>Формат расписания</value>
 	</data>
 	<data name="AuditoriumList" xml:space="preserve">
-    <value>Список аудиторий</value>
-  </data>
+		<value>Список аудиторий</value>
+    </data>
 	<data name="Placeholder_AuditoriumNumber" xml:space="preserve">
-    <value>Номер аудитории</value>
-  </data>
+		<value>Номер аудитории</value>
+    </data>
 	<data name="AuditoriumKind" xml:space="preserve">
-    <value>Вид аудитории</value>
-  </data>
+		<value>Вид аудитории</value>
+    </data>
 	<data name="AuditoriumKindList" xml:space="preserve">
-    <value>Список видов аудиторий</value>
-  </data>
+		<value>Список видов аудиторий</value>
+    </data>
 	<data name="Placeholder_AuditoriumKind" xml:space="preserve">
-    <value>Тип аудитории</value>
-  </data>
+		<value>Тип аудитории</value>
+    </data>
 	<data name="AuditoriumKindName" xml:space="preserve">
-    <value>Наименование вида</value>
-  </data>
+		<value>Наименование вида</value>
+    </data>
 	<data name="InvalidEmpty" xml:space="preserve">
-    <value>Поле не может быть пустым</value>
-  </data>
+		<value>Поле не может быть пустым</value>
+    </data>
 	<data name="TeacherName" xml:space="preserve">
-    <value>ФИО преподавателя</value>
-  </data>
+		<value>ФИО преподавателя</value>
+    </data>
 	<data name="GroupCode" xml:space="preserve">
-    <value>Наименование группы</value>
-  </data>
+		<value>Наименование группы</value>
+    </data>
 	<data name="SubDisciplines" xml:space="preserve">
 		<value>Виды занятий</value>
 	</data>
 	<data name="Capacity" xml:space="preserve">
-    <value>Вместимость</value>
-  </data>
+		<value>Вместимость</value>
+    </data>
 	<data name="StudentCount" xml:space="preserve">
-    <value>Количество студентов</value>
-  </data>
+		<value>Количество студентов</value>
+    </data>
 	<data name="Choose" xml:space="preserve">
-    <value>Выбрать</value>
-  </data>
+		<value>Выбрать</value>
+    </data>
 	<data name="AuditoriumCode" xml:space="preserve">
-    <value>Номер аудитории</value>
-  </data>
+		<value>Номер аудитории</value>
+    </data>
 	<data name="Delete" xml:space="preserve">
 		<value>Удалить</value>
 	</data>
 	<data name="NothingSelected" xml:space="preserve">
-    <value>Ничего не выбрано</value>
-  </data>
+		<value>Ничего не выбрано</value>
+    </data>
 	<data name="InvalidTeacherName" xml:space="preserve">
-    <value>Поле должно соответствовать формату "Фамилия Имя Отчество"</value>
-  </data>
+		<value>Поле должно соответствовать формату "Фамилия Имя Отчество"</value>
+    </data>
 	<data name="Add" xml:space="preserve">
-    <value>Добавить</value>
-  </data>
+		<value>Добавить</value>
+    </data>
 	<data name="Clear" xml:space="preserve">
-    <value>Очистить</value>
-  </data>
+		<value>Очистить</value>
+    </data>
 	<data name="Schedule" xml:space="preserve">
-    <value>Расписание</value>
-  </data>
+		<value>Расписание</value>
+    </data>
 	<data name="ToHome" xml:space="preserve">
-    <value>На главную</value>
-  </data>
+		<value>На главную</value>
+    </data>
 	<data name="Generate" xml:space="preserve">
-    <value>Сгенерировать</value>
-  </data>
+		<value>Сгенерировать</value>
+    </data>
 	<data name="NothingFound" xml:space="preserve">
 		<value>Ничего не найдено</value>
 	</data>
