@@ -29,7 +29,7 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                             SubDisciplineId = disciplinePlan.SubDiscipline.Id,
                             DisciplineId = disciplinePlan.SubDiscipline.DisciplineId,
                             GroupId = disciplinePlan.GroupId,
-                            SubGroupNo = i++,
+                            SubGroupNo = subGroupCount == 1 ? 0 : i + 1,
                             Discipline = disciplinePlan.SubDiscipline.Discipline.Code,
                             SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,
                             Group = disciplinePlan.Group.Code
