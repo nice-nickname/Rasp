@@ -1,56 +1,28 @@
 ﻿@{
     Layout = "~/Views/Shared/_Schedule_Layout.cshtml";
+
+    var unallocatedPanelId = Guid.NewGuid().ToString();
+    var unallocatedSearchId = Guid.NewGuid().ToString();
+    var unallocatedFilterId = Guid.NewGuid().ToString();
+    var unallocatedClassesId = Guid.NewGuid().ToString();
 }
 
 @section Body
 {
-    <div class="w-px-324 d-flex flex-column flex-shrink-0 gap-2">
-        <div class="d-flex gap-2 flex-shrink-0">
-            <a class="btn btn-light w-50 flex-grow-1" href="@Url.Action("Index", "Home")">
-                @DataResources.ToHome
-            </a>
+    <div class="d-flex gap-3">
+        <div class="w-px-324 d-flex flex-column flex-shrink-0 gap-2">
+            <div class="d-flex gap-2 flex-shrink-0">
+                <a class="btn btn-light w-50 flex-grow-1" href="@Url.Action("Index", "Home")">
+                    @DataResources.ToHome
+                </a>
 
-            <div class="btn btn-light w-50 flex-grow-1">
-                e
+                <div class="btn btn-light w-50 flex-grow-1">
+                    e
+                </div>
             </div>
         </div>
 
-        <div class="rounded bg-light flex-grow-1 p-2 d-flex flex-column gap-2">
-            <div class="mb-1 d-flex gap-2">
-                <div class="flex-grow-1 input">
-                    <input type="text" class="rounded search w-100 h-100"/>
-                    <span class="material-symbols-rounded addon-r">search</span>
-                </div>
-
-                <div class="btn btn-light flex-shrink-0 p-1">
-                    <span class="material-symbols-rounded">filter_alt</span>
-                </div>
-
-                <div class="btn btn-light flex-shrink-0 p-1">
-                    <span class="material-symbols-rounded">chevron_left</span>
-                </div>
-            </div>
-
-            @using (Html.When(JqueryBind.InitIncoding)
-                        .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
-                        {
-                            item = Selector.Jquery.Role("drag-element").ToSelector(),
-                            container = Selector.Jquery.Role("drag-container").ToSelector(),
-                            forOne = true
-                        }))
-                        .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 gap-2")
-                        .ToBeginTag(HtmlTag.Div))
-            {
-                <div class="w-100 h-100 bg-danger rounded" role="drag-element"></div>
-                <div class="w-100 h-100 bg-success rounded" role="drag-element"></div>
-                <div class="w-100 h-100 bg-warning rounded" role="drag-element"></div>
-                <div class="w-100 h-100 bg-primary rounded" role="drag-element"></div>
-            }
-        </div>
-    </div>
-
-    <div class="d-flex flex-column flex-grow-1 gap-2">
-        <div class="d-flex gap-3">
+        <div class="d-flex gap-3 flex-grow-1">
             <div class="bg-light d-flex gap-2 rounded flex-grow-1">
                 <div class="btn btn-light">
                     @DataResources.Generate
@@ -80,112 +52,164 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="d-flex">
-            <div class="d-flex gap-2">
-                <div class="btn btn-light p-1">
-                    <span class="material-symbols-rounded">filter_alt</span>
+    <div class="d-flex flex-grow-1 gap-2">
+        <div class="mw-px-324 w-100 d-flex flex-column flex-shrink-0 gap-2 w-animate" id="@unallocatedPanelId">
+            <div class="rounded bg-light flex-grow-1 p-2 d-flex flex-column gap-2">
+                <div class="mb-1 d-flex gap-2">
+                    <div class="flex-grow-1 input" id="@unallocatedSearchId">
+                        <input type="text" class="rounded search w-100 h-100"/>
+                        <span class="material-symbols-rounded addon-r">search</span>
+                    </div>
+
+                    <div class="btn btn-light flex-shrink-0 p-1" id="@unallocatedFilterId">
+                        <span class="material-symbols-rounded">filter_alt</span>
+                    </div>
+
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.WithId(unallocatedPanelId).JQuery.Attr.ToggleClass("mw-px-324 mw-px-48");
+
+                              dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_left</span>).Html()
+                                 .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-324"));
+                              dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_right</span>).Html()
+                                 .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-48"));
+
+                              dsl.WithId(unallocatedSearchId).JQuery.Attr.ToggleClass("hidden");
+                              dsl.WithId(unallocatedFilterId).JQuery.Attr.ToggleClass("hidden");
+                              dsl.WithId(unallocatedClassesId).JQuery.Attr.ToggleClass("hidden");
+                          })
+                          .AsHtmlAttributes(classes: "btn btn-light flex-shrink-0 p-1")
+                          .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
                 </div>
 
-                <div class="btn btn-light">
-                    @DataResources.Teacher
-                </div>
-
-                <div class="btn btn-light">
-                    @DataResources.Auditorium
-                </div>
-
-                <span class="align-self-center">
-                    КТбо4-8
-                </span>
-            </div>
-
-            <div class="ms-auto d-flex gap-2 bg-light rounded">
-                <div class="btn btn-light p-1">
-                    <span class="material-symbols-rounded">arrow_back</span>
-                </div>
-
-                <div class="btn btn-light">
-                    4
-                </div>
-
-                <div class="btn btn-light p-1">
-                    <span class="material-symbols-rounded">arrow_forward</span>
-                </div>
+                @using (Html.When(JqueryBind.InitIncoding)
+                            .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
+                            {
+                                item = Selector.Jquery.Role("drag-element").ToSelector(),
+                                container = Selector.Jquery.Role("drag-container").ToSelector(),
+                                forOne = true
+                            }))
+                            .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 gap-2 ", id: unallocatedClassesId)
+                            .ToBeginTag(HtmlTag.Div))
+                {
+                    <div class="w-100 h-100 bg-danger rounded" role="drag-element"></div>
+                    <div class="w-100 h-100 bg-success rounded" role="drag-element"></div>
+                    <div class="w-100 h-100 bg-warning rounded" role="drag-element"></div>
+                    <div class="w-100 h-100 bg-primary rounded" role="drag-element"></div>
+                }
             </div>
         </div>
 
-        <div class="flex-grow-1 d-flex flex-column gap-2">
-            @{
-                var scheduleFormat = Html.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
-            }
+        <div class="d-flex flex-column flex-grow-1">
+            <div class="d-flex">
+                <div class="d-flex gap-2">
+                    <div class="btn btn-light p-1">
+                        <span class="material-symbols-rounded">filter_alt</span>
+                    </div>
 
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
+                    <div class="btn btn-light">
+                        @DataResources.Teacher
+                    </div>
+
+                    <div class="btn btn-light">
+                        @DataResources.Auditorium
+                    </div>
+
+                    <span class="align-self-center">
+                        КТбо4-8
+                    </span>
+                </div>
+
+                <div class="ms-auto d-flex gap-2 bg-light rounded">
+                    <div class="btn btn-light p-1">
+                        <span class="material-symbols-rounded">arrow_back</span>
+                    </div>
+
+                    <div class="btn btn-light">
+                        4
+                    </div>
+
+                    <div class="btn btn-light p-1">
+                        <span class="material-symbols-rounded">arrow_forward</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-grow-1 d-flex flex-column gap-2">
+                @{
+                    var scheduleFormat = Html.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
+                }
+
+                <div class="d-flex flex-grow-1 gap-2">
+                    <div class="w-100 h-100"></div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-primary rounded"></div>
+                    }
+                </div>
+
+                <div class="d-flex flex-grow-1 gap-2">
                     <div class="w-100 h-100 bg-primary rounded"></div>
-                }
-            </div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-light rounded position-relative">
+                            <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                        </div>
+                    }
+                </div>
 
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100 bg-primary rounded"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 h-100 bg-light rounded position-relative">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
+                <div class="d-flex flex-grow-1 gap-2">
+                    <div class="w-100 h-100 bg-primary rounded"></div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-light rounded position-relative">
+                            <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                        </div>
+                    }
+                </div>
 
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100 bg-primary rounded"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 h-100 bg-light rounded position-relative">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
+                <div class="d-flex flex-grow-1 gap-2">
+                    <div class="w-100 h-100 bg-primary rounded"></div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-light rounded position-relative">
+                            <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                        </div>
+                    }
+                </div>
 
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100 bg-primary rounded"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 h-100 bg-light rounded position-relative">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
+                <div class="d-flex flex-grow-1 gap-2">
+                    <div class="w-100 h-100 bg-primary rounded"></div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-light rounded position-relative">
+                            <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                        </div>
+                    }
+                </div>
 
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100 bg-primary rounded"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 h-100 bg-light rounded position-relative">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
+                <div class="d-flex flex-grow-1 gap-2">
+                    <div class="w-100 h-100 bg-primary rounded"></div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-light rounded position-relative">
+                            <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                        </div>
+                    }
+                </div>
 
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100 bg-primary rounded"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 h-100 bg-light rounded position-relative">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex flex-grow-1 gap-2">
-                <div class="w-100 h-100 bg-primary rounded"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 h-100 bg-light rounded position-relative">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
-                    </div>
-                }
+                <div class="d-flex flex-grow-1 gap-2">
+                    <div class="w-100 h-100 bg-primary rounded"></div>
+                    @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+                    {
+                        <div class="w-100 h-100 bg-light rounded position-relative">
+                            <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>

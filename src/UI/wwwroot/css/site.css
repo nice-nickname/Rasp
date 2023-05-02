@@ -258,7 +258,6 @@ a:hover {
     width: 324px;
 }
 
-
 [role=overlap] {
     width: 100%;
     height: 100%;
@@ -288,8 +287,8 @@ a:hover {
 }
 
 .hidden { 
-    display: none;
-    visibility: hidden;
+    display: none !important;
+    visibility: hidden !important;
 }
 
 [incoding-dragging] {
@@ -302,4 +301,16 @@ a:hover {
 
 .mh-px-300 {
     max-height: 300px !important;
+}
+
+.mw-px-324 {
+    max-width: 324px;
+}
+
+.mw-px-48 {
+    max-width: 48px;
+}
+
+.w-animate {
+    transition: max-width ease-in-out .2s;
 }

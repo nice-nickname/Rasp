@@ -10,20 +10,6 @@
         <title>@DataResources.ApplicationName</title>
     </head>
     <body class="d-flex flex-column min-vh-100 overflow-hidden">
-
-        @*@(Html.When(JqueryBind.InitIncoding | JqueryBind.IncChangeUrl)
-              .HashPost()
-              .OnBegin(dsl => dsl.Break.If(() => Selector.JS.Location.Hash == ""))
-              .OnSuccess(dsl => dsl.With(s => s.EqualsAttribute("role", "main")).Insert.Html())
-              .OnBreak(dsl =>
-              {
-                  dsl.WithId(GlobalSelectors.FacultyId).JQuery.Attr.ToggleDisabled();
-                  dsl.Document.RedirectTo("#" + Url.Dispatcher().AsQuery("~/Views/Home/Home.cshtml").ToRelative());
-                  dsl.WithId(GlobalSelectors.FacultyId).JQuery.Attr.ToggleDisabled();
-              })
-              .AsHtmlAttributes()
-              .ToDiv())*@
-
         @(Html.When(JqueryBind.IncAjaxBefore)
               .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
               .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
@@ -37,7 +23,7 @@
                          <span class="visually-hidden">Loading...</span>
                      </div>))
 
-        <main role="main" class="m-2 flex-grow-1 d-flex gap-3" id="@GlobalSelectors.MainId">
+        <main role="main" class="m-2 flex-grow-1 d-flex flex-column gap-2" id="@GlobalSelectors.MainId">
             @await RenderSectionAsync("Body")
         </main>
 
