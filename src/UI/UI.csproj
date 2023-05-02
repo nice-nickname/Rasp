@@ -47,6 +47,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Discipline\Tmpl\GroupsItem_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Edit\Faculty\Tmpl\Department_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Auditorium\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
@@ -145,6 +146,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Discipline\Tmpl\GroupsItem_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Edit\Faculty\Tmpl\Department_Tmpl.cshtml" />
   </ItemGroup>
 
 

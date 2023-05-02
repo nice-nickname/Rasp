@@ -59,8 +59,8 @@
 
         <h5>@DataResources.DepartmentsInFaculty</h5>
 
-        <div class="mx-3 d-flex flex-column gap-3">
-
-        </div>
+        @(Html.When(JqueryBind.InitIncoding)
+              .AsHtmlAttributes(classes: "mx-3 d-flex flex-column mh-px-300 overflow-auto")
+              .ToDiv(Html.Dispatcher().AsViewFromQuery(new GetDepartmentsQuery { FacultyId = Model.Id ?? 0 }, "~/Views/Edit/Faculty/Tmpl/Department_Tmpl.cshtml")))
     }
 }
