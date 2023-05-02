@@ -15,7 +15,7 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public DateTime StartDate { get; set; }
 
-    public List<ScheduleItem> Items { get; set; } = new();
+    public List<ScheduleItem> Items { get; set; }
 
     protected override void Execute()
     {
