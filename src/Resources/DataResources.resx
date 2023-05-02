@@ -387,4 +387,10 @@
 	<data name="ConfirmClear" xml:space="preserve">
 		<value>Подтвердите очищение</value>
     </data>
+	<data name="Editing" xml:space="preserve">
+		<value>Редактирование</value>
+	</data>
+	<data name="EditingData" xml:space="preserve">
+		<value>Редактирование данных</value>
+	</data>
 </root>

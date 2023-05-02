@@ -385,6 +385,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Редактирование.
+        /// </summary>
+        public static string Editing {
+            get {
+                return ResourceManager.GetString("Editing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактирование данных.
+        /// </summary>
+        public static string EditingData {
+            get {
+                return ResourceManager.GetString("EditingData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Институт.
         /// </summary>
         public static string Faculty {
