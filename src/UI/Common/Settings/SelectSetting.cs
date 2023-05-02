@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Incoding.Web.MvcContrib;
+using Resources;
 
 namespace UI;
 
@@ -26,4 +27,19 @@ public class SelectSetting
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnInit { get; set; }
 
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnChange { get; set; }
+
+    public object @params => 
+            new
+            {
+                    liveSearch = this.IsSearchable,
+                    size = this.Size,
+                    liveSearchPlaceholder = DataResources.SearchPlaceholder,
+                    noneResultText = DataResources.NothingFound,
+                    noneSelectedText = DataResources.NothingSelected,
+                    selectedTextFormat = $"count > {this.MaxVisibleElements - 1}",
+                    countSelectedText = DataResources.SelectControl_CountSelectedText,
+                    actionsBox = this.ActionBox,
+                    selectAllText = DataResources.SelectControl_SelectAll,
+                    deselectAllText = DataResources.SelectControl_DeselectAll,
+            };
 }

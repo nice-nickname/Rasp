@@ -367,6 +367,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Деление на подгруппы.
+        /// </summary>
+        public static string DivideToSubGroups {
+            get {
+                return ResourceManager.GetString("DivideToSubGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Документация.
         /// </summary>
         public static string Documentation {

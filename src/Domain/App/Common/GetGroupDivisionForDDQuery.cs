@@ -4,14 +4,27 @@ namespace Domain.Common;
 
 public class GetGroupDivisionForDDQuery : QueryBase<List<DropDownItem>>
 {
+    public int Selected { get; set; }
+
     protected override List<DropDownItem> ExecuteResult()
     {
-        return new List<DropDownItem>
+        var items = new List<DropDownItem>
         {
-                new(1, "Без подгрупп", false),
-                new(2, "2", false),
-                new(3, "3", false),
-                new(4, "4", false)
+                new(1, "Без подгрупп"),
+                new(2, "2"),
+                new(3, "3"),
+                new(4, "4")
         };
+        var find = items.FirstOrDefault(s => s.Value.Equals(Selected));
+        if (find != null)
+        {
+            find.Selected = true;
+        }
+        else
+        {
+            items[0].Selected = true;
+        }
+
+        return items;
     }
 }

@@ -18,7 +18,7 @@ public class Step11 : Migration
         Create.ForeignKey("FK_DisciplinePlanByWeek_DisciplinePlan")
               .FromTable(nameof(DisciplinePlanByWeek)).ForeignColumn(nameof(DisciplinePlanByWeek.DisciplinePlanId))
               .ToTable(nameof(DisciplinePlan)).PrimaryColumn(nameof(DisciplinePlan.Id))
-              .OnDeleteOrUpdate(Rule.None);
+              .OnDeleteOrUpdate(Rule.Cascade);
     }
 
     public override void Down()

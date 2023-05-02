@@ -17,7 +17,7 @@ public class DropDownItem
 
     public bool Selected { get; set; }
 
-    public DropDownItem(object value, string text, bool selected, string group = "", string subtext = "")
+    public DropDownItem(object value, string text, bool selected = false, string group = "", string subtext = "")
     {
         this.Value = value;
         this.Text = text;

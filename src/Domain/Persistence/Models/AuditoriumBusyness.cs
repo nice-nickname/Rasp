@@ -19,6 +19,7 @@ public class AuditoriumBusyness : IncEntityBase
     {
         public Mapping()
         {
+            Table(nameof(AuditoriumBusyness));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Reason);
             Map(s => s.Start);

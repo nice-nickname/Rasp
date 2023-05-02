@@ -13,12 +13,13 @@ public class DisciplinePlanByWeek : IncEntityBase
 
     public virtual int DisciplinePlanId { get; set; }
 
-    public virtual DisciplinePlanByWeek DisciplinePlan { get; set; }
+    public virtual DisciplinePlan DisciplinePlan { get; set; }
 
     public class Mapping : ClassMap<DisciplinePlanByWeek>
     {
         public Mapping()
         {
+            Table(nameof(DisciplinePlanByWeek));
             Id(s => s.Id);
             Map(s => s.AssignmentHours);
             Map(s => s.Week);

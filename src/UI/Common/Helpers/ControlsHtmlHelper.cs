@@ -2,6 +2,7 @@
 using Incoding.Web.MvcContrib;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using Resources;
 
 namespace UI.Common.Helpers;
@@ -26,7 +27,7 @@ public partial class ControlsHtmlHelper<T>
         return _html.When(JqueryBind.Submit)
                     .StopPropagation()
                     .PreventDefault()
-                    .Submit()
+                    .Submit(o => o.Type = JqueryAjaxOptions.HttpVerbs.Post)
                     .OnError(dsl => settings.OnError?.Invoke(dsl))
                     .OnSuccess(dsl => settings.OnSave?.Invoke(dsl))
                     .OnComplete(dsl => dsl.Self().Form.Validation.Refresh())
@@ -44,26 +45,18 @@ public partial class ControlsHtmlHelper<T>
         var settings = new SelectSetting();
         action(settings);
 
+        var selected = settings.Items.Where(s => s is { Selected: true }).ToArray();
+        var selectedJson = JsonConvert.SerializeObject(selected.Select(s => s.Value.ToString()).ToArray());
+
         return _html.When(JqueryBind.InitIncoding)
                     .Direct(settings.Items)
                     .OnBegin(dsl => dsl.Self().JQuery.Attr.Set(HtmlAttribute.Multiple).If(() => settings.IsMultiselect))
-                    .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("selectpicker",
-                                                               new
-                                                               {
-                                                                       liveSearch = settings.IsSearchable,
-                                                                       size = settings.Size,
-                                                                       liveSearchPlaceholder = DataResources.SearchPlaceholder,
-                                                                       noneResultText = DataResources.NothingFound,
-                                                                       noneSelectedText = DataResources.NothingSelected,
-                                                                       selectedTextFormat = $"count > {settings.MaxVisibleElements - 1}",
-                                                                       countSelectedText = DataResources.SelectControl_CountSelectedText,
-                                                                       actionsBox = settings.ActionBox,
-                                                                       selectAllText = DataResources.SelectControl_SelectAll,
-                                                                       deselectAllText = DataResources.SelectControl_DeselectAll,
-                                                               }))
+                    .OnSuccess(dsl => dsl.Self().JQuery.PlugIn("selectpicker", settings.@params))
                     .OnComplete(dsl =>
                     {
-                        dsl.Self().JQuery.Call("selectpicker", "deselectAll").If(() => !settings.Items.Any(s => s.Selected));
+                        dsl.Self().JQuery.Call("selectpickerval", selectedJson);
+                        dsl.Self().Trigger.Change().If(() => selected.Any());
+
                         settings.OnInit?.Invoke(dsl);
                     })
                     .When(JqueryBind.Change)
