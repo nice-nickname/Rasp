@@ -1,67 +1,94 @@
 ﻿@using Domain.Common
-@model int
+@model LastIndexModel<GetDisciplinePlanQuery.Response>
+@{
+    Action<IIncodingMetaLanguageCallbackBodyDsl, int> controlOnChange = (dsl, i) => dsl.With(s => s.Role($"sg-{i}")).JQuery.Attr.Val(Selector.Jquery.Self());
 
-@using (var template = Html.Incoding().Template<GetDisciplinePlanQuery.Response>())
-{
-    <ul class="nav nav-tabs" role="tablist">
-        @using (var each = template.ForEach())
-        {
-            <li class="nav-item" role="presentation">
-                <button id="group-plan-@Model-@each.Index()-nav"
-                        data-bs-toggle="tab"
-                        data-bs-target="#group-plan-@Model-@each.Index()-tab"
-                        type="button"
-                        role="tab"
-                        class="nav-link">
-                    @each.For(s => s.Group)
-                </button>
-            </li>
-        }
-    </ul>
+    Func<int, string, string> name = (i, name) => $"SubDisciplines[{Model.LastIndex}].Plans[{i}].{name}";
 
-    <div class="tab-content">
-        @using (var each = template.ForEach())
-        {
-            <div id="group-plan-@Model-@each.Index()-tab" class="tab-pane fade p-1">
-                <div class="form-group p-3">
-                    @Html.Label("qwd", "Деление на подгруппы")
-                    @Html.Controls().Select(control =>
-                    {
-                        control.Items = Html.Dispatcher().Query(new GetGroupDivisionForDDQuery());
-                        control.Name = "qwd";
-                        control.OnInit = dsl =>
-                        {
-                            dsl.Self().JQuery.Call("selectpicker", "val", each.For(s => s.SubGroupCount).ToString());
-                        };
-                    })
-                </div>
-                <table class="table">
+    int i;
+}
+
+<ul class="nav nav-tabs" role="tablist">
+    @{
+        i = 0;
+    }
+    @foreach (var item in Model.Items)
+    {
+        <li class="nav-item" role="presentation">
+            <button id="group-plan-@Model.LastIndex-@i-nav"
+                    data-bs-toggle="tab"
+                    data-bs-target="#group-plan-@Model.LastIndex-@i-tab"
+                    type="button"
+                    role="tab"
+                    class="nav-link @(i == 0 ? "active" : "")">
+                @item.Group
+            </button>
+        </li>
+        i++;
+    }
+</ul>
+<div class="tab-content">
+    @{
+        i = 0;
+        int k = 0;
+    }
+
+    @foreach (var item in Model.Items)
+    {
+        <div id="group-plan-@Model.LastIndex-@i-tab" class="tab-pane fade @(i == 0 ? "show active" : "") p-1">
+            <div class="form-group p-3">
+                @Html.Label(name(i, nameof(item.SubGroupCount)), DataResources.DivideToSubGroups)
+                @Html.Controls().Select(control =>
+                {
+                    control.Items = Html.Dispatcher().Query(new GetGroupDivisionForDDQuery { Selected = item.SubGroupCount });
+                    control.Name = name(i, nameof(item.SubGroupCount));
+                    control.OnInit = dsl => controlOnChange(dsl, i);
+                    control.OnChange = dsl => controlOnChange(dsl, i);
+                })
+                @Html.ValidationMessage(name(i, nameof(item.SubGroupCount)))
+            </div>
+            <div class="overflow-auto">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th></th>
-                            @using (var headerWeek = each.ForEach(s => s.Header))
+                            <th class="tc-full-name"></th>
+                            @foreach (var th in item.Header)
                             {
-                                <th>
-                                    @headerWeek.For(s => s.Week)
-                                </th>
+                                <th class="tc-hours">@th.Week</th>
                             }
                         </tr>
                     </thead>
                     <tbody>
-                        @using (var teacher = each.ForEach(s => s.TeacherHoursByWeeks))
+                        @foreach (var td in item.TeacherHoursByWeeks)
                         {
                             <tr>
-                                <td>@teacher.For(s => s.Teacher)</td>
-                                @using (var weeks = teacher.ForEach(s => s.WeekItems))
+                                <td class="tc-full-name">
+                                    @Html.Hidden(name(k, nameof(td.Id)), td.Id)
+                                    @Html.Hidden(name(k, nameof(td.TeacherId)), td.TeacherId)
+                                    @Html.Hidden(name(k, nameof(item.GroupId)), item.GroupId)
+                                    @Html.Hidden(name(k, nameof(item.SubGroupCount)), "", new { role = $"sg-{i}" })
+                                    @td.Teacher
+                                </td>
+                                @{
+                                    var j = 0;
+                                }
+                                @foreach (var week in td.WeekItems)
                                 {
-                                    <td>@weeks.For(s => s.Hours)</td>
+                                    <td class="tc-hours tc-input">
+                                        @Html.Hidden(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Week)}", week.Week)
+                                        <input name='@(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Hours)}")'
+                                               value="@week.Hours"
+                                               type="number" step="1"/>
+                                    </td>
+                                    j++;
                                 }
                             </tr>
+                            k++;
                         }
                     </tbody>
                 </table>
-
             </div>
-        }
-    </div>
-}
+        </div>
+        i++;
+    }
+</div>

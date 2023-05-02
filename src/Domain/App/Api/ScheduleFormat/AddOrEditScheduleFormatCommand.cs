@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Domain.Persistence;
+﻿using Domain.Persistence;
 using FluentValidation;
 using Incoding.Core.CQRS.Core;
 using Resources;
@@ -25,34 +24,30 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                                      .Select(s => s.Id)
                                      .Cast<object>();
         if (existedItems.Any())
-        {
             Repository.DeleteByIds<ScheduleFormat>(existedItems);
-        }
 
         Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>
         {
-            FacultyId = FacultyId,
-            Type = FacultySettings.OfType.StartDate,
-            Value = StartDate
+                FacultyId = FacultyId,
+                Type = FacultySettings.OfType.StartDate,
+                Value = StartDate
         });
 
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
         {
-            FacultyId = FacultyId,
-            Type = FacultySettings.OfType.CountOfWeeks,
-            Value = CountOfWeeks
+                FacultyId = FacultyId,
+                Type = FacultySettings.OfType.CountOfWeeks,
+                Value = CountOfWeeks
         });
 
         foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
-        {
             Repository.Save(new ScheduleFormat
             {
-                Order = scheduleItem.Order,
-                Start = scheduleItem.Start.GetValueOrDefault(),
-                End = scheduleItem.End.GetValueOrDefault(),
-                FacultyId = FacultyId
+                    Order = scheduleItem.Order,
+                    Start = scheduleItem.Start.GetValueOrDefault(),
+                    End = scheduleItem.End.GetValueOrDefault(),
+                    FacultyId = FacultyId
             });
-        }
     }
 
     public record ScheduleItem
@@ -76,14 +71,10 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                 var currentIndex = command.Items.IndexOf(item);
 
                 if (!(item.Start.HasValue || item.End.HasValue))
-                {
                     return true;
-                }
 
                 if (currentIndex < 1)
-                {
                     return true;
-                }
 
                 return command.Items[currentIndex].Start > command.Items[currentIndex - 1].End;
             }).WithMessage(DataResources.Validation_ScheduleItemIntersectsWithPrevious);
@@ -102,18 +93,18 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                                            .OrderBy(s => s.Order)
                                            .Select(s => new ScheduleItem
                                            {
-                                               Start = s.Start,
-                                               End = s.End,
-                                               Order = s.Order
+                                                   Start = s.Start,
+                                                   End = s.End,
+                                                   Order = s.Order
                                            })
                                            .ToList();
 
             return new AddOrEditScheduleFormatCommand
             {
-                ItemsCount = schedulerItems.Count,
-                Items = schedulerItems,
-                StartDate = Dispatcher.Query(new GetFacultySettingCommand<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
-                CountOfWeeks = Dispatcher.Query(new GetFacultySettingCommand<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
+                    ItemsCount = schedulerItems.Count,
+                    Items = schedulerItems,
+                    StartDate = Dispatcher.Query(new GetFacultySettingCommand<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
+                    CountOfWeeks = Dispatcher.Query(new GetFacultySettingCommand<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
             };
         }
     }

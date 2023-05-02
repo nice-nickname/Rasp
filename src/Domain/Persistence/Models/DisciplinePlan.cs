@@ -28,6 +28,7 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline
     {
         public Mapping()
         {
+            Table(nameof(DisciplinePlan));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.SubGroupsCount);
             Map(s => s.SubDisciplineId);

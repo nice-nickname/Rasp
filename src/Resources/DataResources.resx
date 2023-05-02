@@ -375,4 +375,7 @@
 	<data name="ScheduleItem" xml:space="preserve">
 		<value>пара</value>
 	</data>
+	<data name="DivideToSubGroups" xml:space="preserve">
+		<value>Деление на подгруппы</value>
+	</data>
 </root>

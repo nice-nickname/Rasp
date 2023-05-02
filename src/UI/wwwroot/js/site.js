@@ -7,7 +7,7 @@ function suggestInputValueByNamingCase(value, to) {
     if (!value) {
         return;
     }
-
+    
     const val = value.split(' ')
         .filter(s => s)
         .map((v, i, arr) => {
@@ -26,7 +26,7 @@ function suggestInputValueByNamingCase(value, to) {
             }
         })
         .join('')
-
+    
     $(`[name="${to}"]`).val(val)
 }
 
@@ -54,6 +54,10 @@ function suggestInputValueByNamingCase(value, to) {
             $(this).trigger(event)
         }, miliseconds)
         $(this).attr('data-interval', timeout)
+    }
+
+    $.fn.selectpickerval = function (selected = "") {
+        $(this).selectpicker('val', JSON.parse(selected))
     }
 }(jQuery));
 

@@ -1,4 +1,5 @@
 ﻿@using Domain
+@using UI.Query
 @model AddOrEditDisciplineCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
@@ -77,6 +78,10 @@
                         control.IsMultiselect = true;
                         control.IsSearchable = true;
                         control.ActionBox = true;
+                        control.ChangeTimeout = 1000;
+                        control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
+                                                     .Trigger.None()
+                                                     .If(() => Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds) != null);
                     })
                     @Html.ValidationMessageFor(s => s.GroupIds)
                 </div>
@@ -132,7 +137,8 @@
                                         control.OnChange = dsl => dsl.Window.Console.Log("hahaha", "hehehe");
                                         control.ChangeTimeout = 1000;
                                         control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
-                                                                     .Trigger.None();
+                                                                     .Trigger.None()
+                                                                     .If(() => Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds) != null);
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
                                 </div>
@@ -140,12 +146,14 @@
                             <div class="row mt-3">
                                 <h5>Учебный план по неделям</h5>
                                 @(Html.When(JqueryBind.None)
-                                      .Ajax(Url.Dispatcher().Query<GetDisciplinePlanQuery>(new
+                                      .Ajax(Url.Dispatcher().Query<GetDisciplinePlansWEBQuery>(new
                                       {
                                           GroupIds = Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds),
-                                          TeacherIds = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
-                                      }).AsJson())
-                                      .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByUrl(d => d.Model(i).AsView("~/Views/Edit/Discipline/Tmpl/GroupsItem_Tmpl.cshtml")).Html())
+                                          TeacherIds = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}"),
+                                          LastIndex = i,
+                                          SubDisciplineId = subDiscipline.Id
+                                      }).AsView("~/Views/Edit/Discipline/Tmpl/GroupsItem_Tmpl.cshtml"))
+                                      .OnSuccess(dsl => dsl.Self().Insert.Html())
                                       .AsHtmlAttributes(new { name = "plan-container" })
                                       .ToDiv())
                             </div>

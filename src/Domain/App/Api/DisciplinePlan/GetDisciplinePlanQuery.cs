@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using Domain.Persistence;
+﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -39,6 +38,13 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                                     .Select(s => new WeekItem { Week = s, Hours = 0 })
                                     .ToList();
 
+        var defaultTeachers = TeacherIds.Select(q => new Item
+        { 
+                TeacherId = q,
+                Teacher = teachers[q].Name,
+                WeekItems = defaultWeek
+        }).ToList();
+
         var header = Enumerable.Range(1, weeksCount)
                                .Select(s => new HeaderWeek
                                {
@@ -53,17 +59,70 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                     GroupId = s,
                     Group = groups[s].Code,
                     SubGroupCount = 1,
-                    TeacherHoursByWeeks = TeacherIds.Select(q => new Item
-                    {
-                            TeacherId = q,
-                            Teacher = teachers[q].Name,
-                            WeekItems = defaultWeek
-                    }).ToList(),
+                    TeacherHoursByWeeks = defaultTeachers,
                     Header = header
             }).ToList();
         }
 
-        throw new NotImplementedException();
+        var result = new List<Response>();
+
+        var plans = Repository.Query<DisciplinePlan>()
+                              .Where(s => s.SubDisciplineId == SubDisciplineId)
+                              .GroupBy(s => new
+                              {
+                                      GroupId = s.GroupId,
+                                      SubGroupCount = s.SubGroupsCount
+                              })
+                              .ToList();
+        if (plans.Any())
+        {
+            result.AddRange(plans.Select(s =>
+            {
+                var teacherItems = s.Select(c => new Item
+                {
+                        Teacher = c.Teacher.Name,
+                        TeacherId = c.TeacherId,
+                        Id = c.Id,
+                        WeekItems = c.WeekAssignments.Select(w => new WeekItem
+                                     {
+                                             Hours = w.AssignmentHours, Week = w.Week
+                                     })
+                                     .ToList()
+                }).ToList();
+
+                teacherItems.AddRange(TeacherIds.Except(teacherItems.Select(с => с.TeacherId))
+                                                .Select(c => new Item
+                                                {
+                                                        Teacher = teachers[c].Name,
+                                                        TeacherId = c,
+                                                        WeekItems = defaultWeek
+                                                }));
+
+                return new Response
+                {
+                        Group = groups[s.Key.GroupId].Code,
+                        GroupId = s.Key.GroupId,
+                        Header = header,
+                        SubGroupCount = s.Key.SubGroupCount,
+                        TeacherHoursByWeeks = teacherItems
+                };
+            }).ToList());
+        }
+
+        result = result.FindAll(s => GroupIds.Contains(s.GroupId));
+
+        var missedGroups = GroupIds.Except(plans.Select(s => s.Key.GroupId));
+
+        result.AddRange(missedGroups.Select(group => new Response
+        {
+                GroupId = group,
+                Group = groups[group].Code,
+                Header = header,
+                SubGroupCount = 0,
+                TeacherHoursByWeeks = defaultTeachers
+        }));
+
+        return result;
     }
 
     public record Response
@@ -81,6 +140,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
 
     public record Item
     {
+        public int? Id { get; set; }
+
         public int TeacherId { get; set; }
 
         public string Teacher { get; set; }

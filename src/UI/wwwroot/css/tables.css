@@ -1,0 +1,23 @@
+﻿
+.table-fixed {
+    table-layout: fixed;
+}
+
+td.tc-input > input,
+td.tc-input > select {
+    width: 100%;
+}
+
+/* #region  columns styles */
+
+td.tc-full-name,
+th.tc-full-name {
+    width: 250px;
+}
+
+td.tc-hours,
+th.tc-hours {
+    width: 60px;
+}
+
+/* #endregion columns styles */

@@ -57,6 +57,7 @@ public class AddOrEditDisciplineCommand : CommandBase
         foreach (var sd in SubDisciplines)
         {
             sd.TeacherIds ??= new List<int>();
+            sd.Plans ??= new List<PlanItem>();
 
             var subDisciplineItem = Repository.GetById<SubDiscipline>(sd.Id) ?? new SubDiscipline();
             subDisciplineItem.Hours = sd.Hours;
@@ -82,12 +83,44 @@ public class AddOrEditDisciplineCommand : CommandBase
                         TeacherId = sdTeacherId
                 });
             }
+
+            var plans = sd.Plans
+                          .Where(s => s.Id.HasValue)
+                          .Select(s => (object)s.Id.GetValueOrDefault())
+                          .ToList();
+
+            if (plans.Any())
+            {
+                Repository.DeleteByIds<DisciplinePlan>(plans);
+            }
+
+            foreach (var plan in sd.Plans)
+            {
+                var planItem = new DisciplinePlan
+                {
+                        GroupId = plan.GroupId,
+                        TeacherId = plan.TeacherId,
+                        SubDisciplineId = subDisciplineItem.Id,
+                        SubGroupsCount = plan.SubGroupCount
+                };
+                Repository.Save(planItem);
+
+                foreach (var planWeek in plan.WeekItems)
+                {
+                    Repository.Save(new DisciplinePlanByWeek
+                    {
+                            DisciplinePlanId = planItem.Id,
+                            AssignmentHours = planWeek.Hours,
+                            Week = planWeek.Week
+                    });
+                }
+            }
         }
     }
 
     public record SubDisciplineItem
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int KindId { get; set; }
 
@@ -96,6 +129,28 @@ public class AddOrEditDisciplineCommand : CommandBase
         public string Name { get; set; }
 
         public List<int>? TeacherIds { get; set; }
+
+        public List<PlanItem>? Plans { get; set; }
+    }
+
+    public record PlanItem
+    {
+        public int? Id { get; set; }
+
+        public int GroupId { get; set; }
+
+        public int TeacherId { get; set; }
+
+        public int SubGroupCount { get; set; }
+
+        public List<WeekItem> WeekItems { get; set; }
+    }
+
+    public record WeekItem
+    {
+        public int Hours { get; set; }
+
+        public int Week { get; set; }
     }
 
     public class AsQuery : QueryBase<AddOrEditDisciplineCommand>
