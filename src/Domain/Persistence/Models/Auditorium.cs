@@ -39,6 +39,7 @@ public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment
             Map(s => s.Capacity);
 
             References(s => s.Department).Column(nameof(DepartmentId))
+                                         .Nullable()
                                          .ReadOnly()
                                          .LazyLoad();
 

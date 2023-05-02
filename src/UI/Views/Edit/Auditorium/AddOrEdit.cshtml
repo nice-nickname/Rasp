@@ -1,5 +1,4 @@
 ﻿@model AddOrEditAuditoriumCommand
-
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -11,11 +10,17 @@
 
 @section RemoveButton
 {
-    @(Html.When(JqueryBind.Click)
-          .Ajax(Url.Dispatcher().Push(new DeleteAuditoriumCommand { Id = Model.Id ?? 0 }))
-          .OnSuccess(dsl => dsl.WithId(nameof(Auditorium)).Trigger.Click())
-          .AsHtmlAttributes(classes: "btn btn-danger align-self-end h-fit " + (Model.Id == 0 ? "disabled" : string.Empty), title: DataResources.Delete)
-          .ToButton(@<span class="material-symbols-rounded">delete</span>))
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.IsDisabled = Model.Id == 0;
+        settings.Url = Url.Dispatcher().Push(new DeleteAuditoriumCommand { Id = Model.Id ?? 0 });
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Auditorium)).Trigger.Click();
+        settings.Text = DataResources.Delete;
+        settings.Icon = "delete";
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Danger;
+    })
 }
 
 @section Body
@@ -59,7 +64,8 @@
                 control.Label.Name = DataResources.Department;
                 control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
                 {
-                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
+                    Optional = "-"
                 });
             })
         </div>

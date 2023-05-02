@@ -299,3 +299,7 @@ a:hover {
 .max-vh-100 {
     max-height: 100vh !important;
 }
+
+.mh-px-300 {
+    max-height: 300px !important;
+}

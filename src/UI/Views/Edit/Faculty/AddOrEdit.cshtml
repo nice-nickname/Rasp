@@ -1,5 +1,4 @@
 ﻿@model AddOrEditFacultyCommand
-
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
 }
@@ -10,12 +9,18 @@
 }
 
 @section RemoveButton
+{
+    @Html.Controls().ButtonConfirm(settings =>
     {
-    @(Html.When(JqueryBind.Click)
-              .Ajax(Url.Dispatcher().Push(new DeleteFacultyCommand { Id = Model.Id ?? 0 }))
-              .OnSuccess(dsl => dsl.WithId(nameof(Faculty)).Trigger.Click())
-              .AsHtmlAttributes(classes: "btn btn-danger align-self-end h-fit " + (Model.Id == 0 ? "disabled" : string.Empty), title: DataResources.Delete)
-              .ToButton(@<span class="material-symbols-rounded">delete</span>))
+        settings.IsDisabled = Model.Id == 0;
+        settings.Url = Url.Dispatcher().Push(new DeleteFacultyCommand { Id = Model.Id ?? 0 });
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Faculty)).Trigger.Click();
+        settings.Text = DataResources.Delete;
+        settings.Icon = "delete";
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Danger;
+    })
 }
 
 @section Body
@@ -54,8 +59,8 @@
 
         <h5>@DataResources.DepartmentsInFaculty</h5>
 
-        <div class="mx-3 d-flex flex-column gap-3">
-
-        </div>
+        @(Html.When(JqueryBind.InitIncoding)
+              .AsHtmlAttributes(classes: "mx-3 d-flex flex-column mh-px-300 overflow-auto")
+              .ToDiv(Html.Dispatcher().AsViewFromQuery(new GetDepartmentsQuery { FacultyId = Model.Id ?? 0 }, "~/Views/Edit/Faculty/Tmpl/Department_Tmpl.cshtml")))
     }
 }

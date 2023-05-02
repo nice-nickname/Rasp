@@ -1,4 +1,4 @@
-﻿using Incoding.Core.ViewModel;
+﻿using Incoding.Core.Extensions;
 using Incoding.Web.MvcContrib;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -72,5 +72,72 @@ public partial class ControlsHtmlHelper<T>
                             title = DataResources.NothingSelected
                     })
                     .ToTag(HtmlTag.Select, this._html.Partial("~/Views/Shared/Select/Select.cshtml", settings));
+    }
+
+    public IHtmlContent ButtonConfirm(Action<ConfirmSettings> action)
+    {
+        var settings = new ConfirmSettings();
+        action(settings);
+
+        var disabled = settings.IsDisabled ? "disabled" : string.Empty;
+
+        var button = _html.When(JqueryBind.Click)
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.Self().Trigger.None()
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done")
+                                 .TimeOut(1500);
+
+                              dsl.Self().Insert.Use(@"<span class=""material-symbols-rounded"">done_all</span>")
+                                 .Append()
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done");
+                              dsl.WithSelf(r => r.Children().Last().Prev())
+                                 .JQuery.Dom.Remove()
+                                 .If(() => Selector.Jquery.Self().Children().Last().Prev() == "done");
+                              if (!string.IsNullOrWhiteSpace(settings.Icon))
+                                  dsl.WithSelf(r => r.Children().Expression(JqueryExpression.First))
+                                     .JQuery.Dom.Remove()
+                                     .If(() => Selector.Jquery.Self().Children().Last() == "done_all");
+                              dsl.Self().Insert.Use(@"<span class=""spinner-border spinner-border-sm mt-1"" role=""status"" aria-hidden=""true""></span>"
+                                                  + settings.TextInProcess
+                                                  + @"<span class=""material-symbols-rounded"">done_all</span>")
+                                 .Html()
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done_all");
+                              dsl.Self().JQuery.Attr.AddClass("disabled")
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done_all");
+
+                              dsl.Self().Insert.Use(@"<span class=""material-symbols-rounded"">done</span>")
+                                 .Append()
+                                 .If(() => Selector.Jquery.Self().Children().Last() != "done"
+                                        && Selector.Jquery.Self().Children().Last() != "done_all");
+
+                              dsl.Self().JQuery.Attr.Set("data-bs-toggle", "tooltip")
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done");
+                              dsl.Self().JQuery.Attr.Set("data-bs-placement", "top")
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done");
+                              dsl.Self().JQuery.Attr.Set("data-bs-title", settings.TextConfirm)
+                                 .If(() => Selector.Jquery.Self().Children().Last() == "done");
+
+                              dsl.Self().JQuery.Call("tooltip");
+                          })
+                          .When(JqueryBind.None);
+
+        if (!string.IsNullOrWhiteSpace(settings.Url))
+            button.Ajax(settings.Url);
+
+        var icon = !string.IsNullOrWhiteSpace(settings.Icon)
+                ? @$"<span class=""material-symbols-rounded"">{settings.Icon}</span>"
+                : string.Empty;
+
+        return button.OnSuccess(dsl =>
+                     {
+                         settings.OnSuccess?.Invoke(dsl);
+
+                         dsl.Self().Insert.Use(icon + settings.Text).Html().TimeOut(125);
+                         dsl.Self().JQuery.Attr.RemoveClass("disabled").TimeOut(125);
+                         dsl.Self().JQuery.Call("tooltip", "dispose").TimeOut(125);
+                     })
+                     .AsHtmlAttributes(classes: $"btn btn-{settings.Color.ToStringLower()} align-self-end h-fit {disabled}", id: settings.Id)
+                     .ToButton($"{icon}{settings.Text}");
     }
 }
