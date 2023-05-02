@@ -64,7 +64,8 @@
                 control.Label.Name = DataResources.Department;
                 control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
                 {
-                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                    FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
+                    Optional = "-"
                 });
             })
         </div>

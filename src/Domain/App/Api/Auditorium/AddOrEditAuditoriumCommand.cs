@@ -9,7 +9,7 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
     public int? DepartmentId { get; set; }
 
-    public int? BuildingId { get; set; }
+    public int BuildingId { get; set; }
 
     public int Capacity { get; set; }
 
@@ -23,8 +23,8 @@ public class AddOrEditAuditoriumCommand : CommandBase
 
         var auditorium = Repository.GetById<Auditorium>(Id.GetValueOrDefault()) ?? new Auditorium();
 
-        auditorium.DepartmentId = DepartmentId ?? 0;
-        auditorium.BuildingId = BuildingId ?? 0;
+        auditorium.DepartmentId = DepartmentId;
+        auditorium.BuildingId = BuildingId;
         auditorium.Code = Code;
         auditorium.Capacity = Capacity;
         auditorium.Kinds = Kinds.Where(r => r.IsSelected)
