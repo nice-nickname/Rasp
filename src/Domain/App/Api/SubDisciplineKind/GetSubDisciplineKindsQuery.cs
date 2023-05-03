@@ -1,21 +1,10 @@
 ﻿using System.Drawing;
 using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
-using Incoding.Core.ViewModel;
 
 namespace Domain.Api;
 
-public class GetSubDisciplineTypesForDDQuery : QueryBase<List<KeyValueVm>>
-{
-    protected override List<KeyValueVm> ExecuteResult()
-    {
-        return Repository.Query<SubDisciplineKind>()
-                         .Select(s => new KeyValueVm(s.Id, s.Name))
-                         .ToList();
-    }
-}
-
-public class GetSubDisciplineTypesQuery : QueryBase<List<GetSubDisciplineTypesQuery.Response>>
+public class GetSubDisciplineKindsQuery : QueryBase<List<GetSubDisciplineKindsQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {

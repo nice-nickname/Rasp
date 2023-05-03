@@ -179,7 +179,7 @@
                        {
                            settings.Text = DataResources.SubDisciplines;
                            settings.Id = nameof(SubDisciplineKind);
-                           settings.Url = Url.Dispatcher().Query(new GetSubDisciplineTypesQuery()).AsJson();
+                           settings.Url = Url.Dispatcher().Query(new GetSubDisciplineKindsQuery()).AsJson();
                            settings.OnSuccess = dsl =>
                            {
                                load(dsl, "~/Views/Edit/SubDisciplineKind/Tmpl/Item_Tmpl.cshtml", DataResources.SubDisciplines);

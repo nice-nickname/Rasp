@@ -340,6 +340,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дифф. зачет.
+        /// </summary>
+        public static string DiffGrade {
+            get {
+                return ResourceManager.GetString("DiffGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дисциплина.
         /// </summary>
         public static string Discipline {
@@ -430,6 +439,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Экзамен.
+        /// </summary>
+        public static string Exam {
+            get {
+                return ResourceManager.GetString("Exam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Институт.
         /// </summary>
         public static string Faculty {
@@ -498,6 +516,15 @@ namespace Resources {
         public static string Generate {
             get {
                 return ResourceManager.GetString("Generate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Зачет.
+        /// </summary>
+        public static string Grade {
+            get {
+                return ResourceManager.GetString("Grade", resourceCulture);
             }
         }
         
@@ -844,6 +871,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Тип вида занятия.
+        /// </summary>
+        public static string SubDisciplineType {
+            get {
+                return ResourceManager.GetString("SubDisciplineType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Преподаватель.
         /// </summary>
         public static string Teacher {
@@ -903,6 +939,15 @@ namespace Resources {
         public static string Validation_ScheduleItemIntersectsWithPrevious {
             get {
                 return ResourceManager.GetString("Validation_ScheduleItemIntersectsWithPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Недели.
+        /// </summary>
+        public static string Weeks {
+            get {
+                return ResourceManager.GetString("Weeks", resourceCulture);
             }
         }
     }

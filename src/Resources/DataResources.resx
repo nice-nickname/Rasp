@@ -405,4 +405,19 @@
 	<data name="Color" xml:space="preserve">
 		<value>Цвет</value>
 	</data>
+	<data name="Weeks" xml:space="preserve">
+		<value>Недели</value>
+	</data>
+	<data name="SubDisciplineType" xml:space="preserve">
+		<value>Тип вида занятия</value>
+	</data>
+	<data name="DiffGrade" xml:space="preserve">
+		<value>Дифф. зачет</value>
+	</data>
+	<data name="Grade" xml:space="preserve">
+		<value>Зачет</value>
+	</data>
+	<data name="Exam" xml:space="preserve">
+		<value>Экзамен</value>
+	</data>
 </root>

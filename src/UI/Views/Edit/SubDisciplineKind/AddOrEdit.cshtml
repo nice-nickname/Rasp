@@ -1,4 +1,6 @@
 ﻿@using System.Drawing
+@using Domain
+@using FluentNHibernate.Utils
 @model AddOrEditSubDisciplineKindCommand
 @{
     Layout = "_AddOrEdit_Layout";
@@ -20,22 +22,33 @@
     {
         @Html.HiddenFor(s => s.Id)
         <div class="row">
-            <div class="col-4">
-                @Html.ForGroup(s => s.Name).TextBox(control =>
-                {
-                    control.Label.Name = DataResources.SubDisciplineName;
-                })
-            </div>
             <div class="col-2">
                 @Html.ForGroup(s => s.Code).TextBox(control =>
                 {
                     control.Label.Name = DataResources.Abbreviation;
                 })
             </div>
+            <div class="col-3">
+                @Html.ForGroup(s => s.Name).TextBox(control =>
+                {
+                    control.Label.Name = DataResources.SubDisciplineName;
+                })
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    @Html.LabelFor(s => s.Type, DataResources.SubDisciplineType)
+                    @Html.Controls().Select(control =>
+                    {
+                        control.Items = Html.Dispatcher().Query(new GetSubDisciplineKindTypesQuery { Select = Model.Type }).Select(s => (DropDownItem)s);
+                        control.Name = nameof(Model.Type);
+                        control.Class = "form-control";
+                    })
+                </div>
+            </div>
             <div class="col-2">
                 <div class="form-group">
                     <label class="" asp-for="Color">@DataResources.Color</label>
-                    <input class="form-control" name="@nameof(Model.Color)" type="color" value="@ColorTranslator.ToHtml(Model.Color)" />
+                    <input class="form-control" name="@nameof(Model.Color)" type="color" value="@ColorTranslator.ToHtml(Model.Color)"/>
                 </div>
             </div>
         </div>

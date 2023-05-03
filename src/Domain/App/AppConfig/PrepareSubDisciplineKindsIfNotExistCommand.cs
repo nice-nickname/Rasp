@@ -1,4 +1,5 @@
-﻿using Domain.Persistence;
+﻿using System.Drawing;
+using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -12,22 +13,30 @@ public class PrepareSubDisciplineKindsIfNotExistCommand : CommandBase
             Repository.Save(new SubDisciplineKind
             {
                     Name = "Лекция",
-                    Code = "л."
+                    Code = "л.",
+                    Color = Color.Brown,
+                    Type = SubDisciplineKind.OfType.LECTURE
             });
             Repository.Save(new SubDisciplineKind
             {
                     Name = "Практика",
-                    Code = "пр."
+                    Code = "пр.",
+                    Color = Color.Violet,
+                    Type = SubDisciplineKind.OfType.PRACTICE
             });
             Repository.Save(new SubDisciplineKind
             {
                     Name = "Лабораторная работа",
-                    Code = "лаб."
+                    Code = "лаб.",
+                    Color = Color.DarkKhaki,
+                    Type = SubDisciplineKind.OfType.PRACTICE
             });
             Repository.Save(new SubDisciplineKind
             {
                     Name = "Экзамен",
-                    Code = "экз."
+                    Code = "экз.",
+                    Color = Color.DodgerBlue,
+                    Type = SubDisciplineKind.OfType.EXAM
             });
         }
     }

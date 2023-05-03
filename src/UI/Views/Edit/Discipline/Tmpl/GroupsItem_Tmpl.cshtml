@@ -47,11 +47,15 @@
                 })
                 @Html.ValidationMessage(name(i, nameof(item.SubGroupCount)))
             </div>
-            <div class="overflow-auto">
+            <div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="tc-full-name"></th>
+                            <th></th>
+                            <th colspan="@item.Header.Count">@DataResources.Weeks</th>
+                        </tr>
+                        <tr>
+                            <th class="tc-full-name">@DataResources.Teacher</th>
                             @foreach (var th in item.Header)
                             {
                                 <th class="tc-hours">@th.Week</th>

@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using FluentMigrator;
+﻿using FluentMigrator;
 
 namespace Domain.Persistence;
 

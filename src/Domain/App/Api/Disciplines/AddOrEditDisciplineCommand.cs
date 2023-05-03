@@ -179,7 +179,7 @@ public class AddOrEditDisciplineCommand : CommandBase
             }
             else
             {
-                subDisciplines = Dispatcher.Query(new GetSubDisciplineTypesForDDQuery())
+                subDisciplines = Dispatcher.Query(new GetSubDisciplineKindsForDDQuery())
                                            .Select(s => new SubDisciplineItem
                                            {
                                                    KindId = Convert.ToInt32(s.Value),
