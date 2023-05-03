@@ -30,12 +30,12 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                             DisciplineId = disciplinePlan.SubDiscipline.DisciplineId,
                             GroupId = disciplinePlan.GroupId,
                             TeacherId = disciplinePlan.TeacherId,
-                            SubGroupNo = i++,
+                            SubGroupNo = subGroupCount == 1 ? 0 : i + 1,
                             Discipline = disciplinePlan.SubDiscipline.Discipline.Name,
                             DisciplineCode = disciplinePlan.SubDiscipline.Discipline.Code,
                             SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,
                             Group = disciplinePlan.Group.Code,
-                            Teacher = disciplinePlan.Teacher.Name,
+                            Teacher = disciplinePlan.Teacher.ShortName,
                             Department = disciplinePlan.Teacher.Department.Name,
                             DepartmentCode = disciplinePlan.Teacher.Department.Code
                     });
