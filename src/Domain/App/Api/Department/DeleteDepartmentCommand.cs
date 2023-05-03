@@ -9,6 +9,6 @@ public class DeleteDepartmentCommand : CommandBase
 
     protected override void Execute()
     {
-            Repository.Delete<Department>(Id);
+        Repository.Delete<Department>(Id);
     }
 }

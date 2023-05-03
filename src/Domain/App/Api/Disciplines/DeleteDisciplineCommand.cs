@@ -26,6 +26,12 @@ public class DeleteDisciplineCommand : CommandBase
             {
                 Repository.DeleteByIds<SubDisciplineTeachers>(teachers.Select(s => (object)s.Id));
             }
+
+            var disciplinePlans = Repository.Query(new Share.Where.BySubDiscipline<DisciplinePlan>(subDiscipline.Id)).ToList();
+            if (disciplinePlans.Any())
+            {
+                Repository.DeleteByIds<DisciplinePlan>(disciplinePlans.Select(s => (object)s.Id));
+            }
         }
 
         if (discipline.SubDisciplines.Any())
