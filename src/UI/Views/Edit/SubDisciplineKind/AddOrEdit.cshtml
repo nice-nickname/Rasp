@@ -1,6 +1,5 @@
 ﻿@using System.Drawing
 @using Domain
-@using FluentNHibernate.Utils
 @model AddOrEditSubDisciplineKindCommand
 @{
     Layout = "_AddOrEdit_Layout";
@@ -48,7 +47,7 @@
             <div class="col-2">
                 <div class="form-group">
                     <label class="" asp-for="Color">@DataResources.Color</label>
-                    <input class="form-control" name="@nameof(Model.Color)" type="color" value="@ColorTranslator.ToHtml(Model.Color)"/>
+                    <input class="form-control" name="@nameof(Model.Color)" type="color" value="@Model.Color"/>
                 </div>
             </div>
         </div>

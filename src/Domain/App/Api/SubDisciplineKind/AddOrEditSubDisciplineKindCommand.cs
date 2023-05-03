@@ -12,7 +12,7 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
 
     public string Code { get; set; }
 
-    public Color Color { get; set; }
+    public string Color { get; set; }
 
     public SubDisciplineKind.OfType Type { get; set; }
 
@@ -21,7 +21,7 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
         var disciplineKind = Repository.GetById<SubDisciplineKind>(Id) ?? new SubDisciplineKind();
         disciplineKind.Name = Name;
         disciplineKind.Code = Code;
-        disciplineKind.Color = Color;
+        disciplineKind.Color = ColorTranslator.FromHtml(Color);
         disciplineKind.Type = Type;
         Repository.SaveOrUpdate(disciplineKind);
     }
@@ -38,7 +38,7 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
                     Id = kind.Id,
                     Name = kind.Name,
                     Code = kind.Code,
-                    Color = kind.Color,
+                    Color = ColorTranslator.ToHtml(kind.Color),
                     Type = kind.Type
             };
         }

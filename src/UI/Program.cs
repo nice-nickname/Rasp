@@ -19,12 +19,9 @@ using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using NUglify.JavaScript;
 using System.Globalization;
-using System.Net;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace UI;
 
@@ -42,11 +39,11 @@ public static class Startup
                })
                .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
-
         builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
                                                                 options =>
                                                                 {
                                                                     options.LoginPath = "/login";
+                                                                    options.LogoutPath = "/login";
                                                                     options.AccessDeniedPath = "/login";
                                                                 });
 
@@ -158,19 +155,6 @@ public static class Startup
 
         app.UseRouting();
         
-
-        app.UseStatusCodePages(context =>
-        {
-            var response = context.HttpContext.Response;
-
-            if (response.StatusCode == (int)HttpStatusCode.Unauthorized ||
-                response.StatusCode == (int)HttpStatusCode.Forbidden)
-            {
-                response.Redirect("/Authentication");
-            }
-
-            return Task.CompletedTask;
-        });
         app.UseAuthentication();
         app.UseAuthorization();
         
