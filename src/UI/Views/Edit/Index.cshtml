@@ -9,6 +9,9 @@
         dsl.WithId(GlobalSelectors.EditAreaId).Insert
            .WithTemplateByUrl(Url.Dispatcher().Model(string.Empty).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html();
         dsl.WithId(buttonTextId).Insert.Use(text).Text();
+        dsl.WithId(GlobalSelectors.EditListId).Insert
+           .WithTemplateByUrl(Url.Dispatcher().Model(DataResources.NoItemsAvailable).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html()
+           .If(() => Selector.Jquery.Id(GlobalSelectors.EditListId).Children().Length() == 0);
     };
 
     Action<IIncodingMetaLanguageCallbackBodyDsl, string> addNewButton = (dsl, url) =>

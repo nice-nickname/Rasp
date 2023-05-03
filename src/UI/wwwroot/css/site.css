@@ -319,3 +319,72 @@ input.form-control[type=color] {
     height: 38px;
     width: 49px;
 }
+
+.class-card {
+    max-height: 140px;
+}
+
+.schedule .class-card {
+    max-height: none;
+}
+
+.schedule .column-header {
+    height: 120px;
+}
+
+.schedule .row-header {
+    width: 180px;
+}
+
+.schedule .cell,
+.schedule .s-row {
+    flex: 0 1 100%;
+}
+
+.h-10 {
+    height: 10%;
+}
+
+.h-20 {
+    height: 20%;
+}
+
+.h-30 {
+    height: 30%;
+}
+
+.h-40 {
+    height: 40%;
+}
+
+.h-60 {
+    height: 60%;
+}
+
+.h-70 {
+    height: 70%;
+}
+
+.h-80 {
+    height: 80%;
+}
+
+.h-90 {
+    height: 90%;
+}
+
+.h-fit {
+    height: fit-content;
+}
+
+.flex-p-2 {
+    flex: .2;
+}
+
+.flex-p-15 {
+    flex: .15;
+}
+
+.flex-p-1 {
+    flex: .1;
+}

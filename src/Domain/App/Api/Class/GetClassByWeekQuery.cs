@@ -31,10 +31,13 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                             GroupId = disciplinePlan.GroupId,
                             TeacherId = disciplinePlan.TeacherId,
                             SubGroupNo = subGroupCount == 1 ? 0 : i + 1,
-                            Discipline = disciplinePlan.SubDiscipline.Discipline.Code,
+                            Discipline = disciplinePlan.SubDiscipline.Discipline.Name,
+                            DisciplineCode = disciplinePlan.SubDiscipline.Discipline.Code,
                             SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,
                             Group = disciplinePlan.Group.Code,
-                            Teacher = disciplinePlan.Teacher.ShortName
+                            Teacher = disciplinePlan.Teacher.ShortName,
+                            Department = disciplinePlan.Teacher.Department.Name,
+                            DepartmentCode = disciplinePlan.Teacher.Department.Code
                     });
                 }
             }
@@ -49,17 +52,23 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
         public string Discipline { get; set; }
 
+        public string DisciplineCode { get; set; }
+
         public string SubDiscipline { get; set; }
 
         public string Teacher { get; set; }
 
-        public int TeacherId { get; set; }
+        public string Department { get; set; }
+
+        public string DepartmentCode { get; set; }
 
         public int GroupId { get; set; }
 
         public int DisciplineId { get; set; }
 
         public int SubDisciplineId { get; set; }
+
+        public int TeacherId { get; set; }
 
         public int SubGroupNo { get; set; }
     }

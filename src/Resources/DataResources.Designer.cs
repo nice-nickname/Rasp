@@ -646,6 +646,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нет доступных элементов.
+        /// </summary>
+        public static string NoItemsAvailable {
+            get {
+                return ResourceManager.GetString("NoItemsAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ничего не найдено.
         /// </summary>
         public static string NothingFound {
@@ -822,6 +831,15 @@ namespace Resources {
         public static string SelectControl_SelectAll {
             get {
                 return ResourceManager.GetString("SelectControl_SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Войти с помощью.
+        /// </summary>
+        public static string SignInWith {
+            get {
+                return ResourceManager.GetString("SignInWith", resourceCulture);
             }
         }
         
