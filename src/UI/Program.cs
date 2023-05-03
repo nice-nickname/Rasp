@@ -19,10 +19,12 @@ using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using NUglify.JavaScript;
 using System.Globalization;
+using System.Net;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UI;
 
@@ -34,13 +36,18 @@ public static class Startup
         builder.Configuration.AddJsonFile("azureconfig.json", false, true);
 
         builder.Services
-               .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+               .AddAuthentication(o =>
+               {
+                   o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+               })
                .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+
 
         builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
                                                                 options =>
                                                                 {
-                                                                    options.AccessDeniedPath = builder.Configuration.GetSection("AzureAd")["AccessDeniedPath"];
+                                                                    options.LoginPath = "/login";
+                                                                    options.AccessDeniedPath = "/login";
                                                                 });
 
         builder.Services
@@ -150,9 +157,23 @@ public static class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+        
+
+        app.UseStatusCodePages(context =>
+        {
+            var response = context.HttpContext.Response;
+
+            if (response.StatusCode == (int)HttpStatusCode.Unauthorized ||
+                response.StatusCode == (int)HttpStatusCode.Forbidden)
+            {
+                response.Redirect("/Authentication");
+            }
+
+            return Task.CompletedTask;
+        });
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseStatusCodePages();
+        
         app.UseEndpoints(routeBuilder =>
         {
             routeBuilder.MapControllerRoute("incodingCqrsQuery",

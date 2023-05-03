@@ -44,18 +44,4 @@ public class HomeController : Controller
         Response.StatusCode = 404;
         return View();
     }
-
-    [AllowAnonymous]
-    [Route("/unauthorized")]
-    public IActionResult AccessDenied()
-    {
-        return View("Unauthorized");
-    }
-
-    [AllowAnonymous]
-    [Route("/login")]
-    public IActionResult Login()
-    {
-        return Ok("Please, login");
-    }
 }
