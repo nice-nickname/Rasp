@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Api;
 using Incoding.Core.CQRS.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UI.Controllers;
 
+[Authorize(Roles = "Rasp.Admin")]
 public class HomeController : Controller
 {
     private readonly IDispatcher _dispatcher;
@@ -34,11 +36,26 @@ public class HomeController : Controller
         return View();
     }
 
+    [AllowAnonymous]
     [Route("{*url}", Order = 999)]
     public IActionResult PageNotFound()
     {
         // Global 404 NOT FOUND handler
         Response.StatusCode = 404;
         return View();
+    }
+
+    [AllowAnonymous]
+    [Route("/unauthorized")]
+    public IActionResult AccessDenied()
+    {
+        return View("Unauthorized");
+    }
+
+    [AllowAnonymous]
+    [Route("/login")]
+    public IActionResult Login()
+    {
+        return Ok("Please, login");
     }
 }

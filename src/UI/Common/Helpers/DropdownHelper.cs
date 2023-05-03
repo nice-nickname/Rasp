@@ -16,6 +16,13 @@ public partial class ControlsHtmlHelper<T>
             this._html = html;
         }
 
+        public IHtmlContent Href(string? href, string text)
+        {
+            return this._html.When(JqueryBind.InitIncoding)
+                       .AsHtmlAttributes()
+                       .ToTag(HtmlTag.Li, $@"<a class=""dropdown-item"" href=""{href}"">{text}</a>");
+        }
+
         public IHtmlContent Button(Action<DropdownItemSettings> action)
         {
             var settings = new DropdownItemSettings();

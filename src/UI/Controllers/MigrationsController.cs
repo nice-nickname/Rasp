@@ -1,4 +1,5 @@
 ﻿using FluentMigrator.Runner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;

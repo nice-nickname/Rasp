@@ -401,3 +401,4 @@ FodyWeavers.xsd
 # Config files
 
 dbconfig.json
+azureconfig.json

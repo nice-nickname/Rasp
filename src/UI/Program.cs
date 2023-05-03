@@ -19,6 +19,10 @@ using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using NUglify.JavaScript;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace UI;
 
@@ -27,10 +31,28 @@ public static class Startup
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Configuration.AddJsonFile("dbconfig.json", false, true);
+        builder.Configuration.AddJsonFile("azureconfig.json", false, true);
+
+        builder.Services
+               .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+               .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+
+        builder.Services.Configure<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme,
+                                                                options =>
+                                                                {
+                                                                    options.AccessDeniedPath = builder.Configuration.GetSection("AzureAd")["AccessDeniedPath"];
+                                                                });
 
         builder.Services
                .AddRazorPages()
-               .AddRazorRuntimeCompilation();
+               .AddRazorRuntimeCompilation()
+               .AddMicrosoftIdentityUI();
+
+
+        builder.Services.Configure<CookiePolicyOptions>(options =>
+        {
+            options.Secure = CookieSecurePolicy.Always;
+        });
 
         builder.Services
                .AddFluentMigratorCore()
@@ -121,13 +143,16 @@ public static class Startup
             app.UseExceptionHandler("/Home/Error");
         }
 
+        
         app.UseCookiePolicy();
 
         app.UseWebOptimizer();
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseAuthentication();
         app.UseAuthorization();
+        app.UseStatusCodePages();
         app.UseEndpoints(routeBuilder =>
         {
             routeBuilder.MapControllerRoute("incodingCqrsQuery",
