@@ -31,7 +31,6 @@
   <ItemGroup>
     <Folder Include="Common\Models\" />
     <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
-    <Folder Include="Views\Schedule\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +55,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\Home.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Schedule\Tmpl\Class_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\NotImplemented.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\Select\Select.cshtml" />
@@ -150,6 +150,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\Faculty\Tmpl\Department_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Schedule\Tmpl\Class_Tmpl.cshtml" />
   </ItemGroup>
 
 

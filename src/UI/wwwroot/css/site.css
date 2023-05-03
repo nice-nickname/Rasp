@@ -314,3 +314,24 @@ a:hover {
 .w-animate {
     transition: max-width ease-in-out .2s;
 }
+
+.class-card {
+    max-height: 140px;
+}
+
+.schedule .class-card {
+    max-height: none;
+}
+
+.schedule .column-header {
+    height: 120px;
+}
+
+.schedule .row-header {
+    width: 180px;
+}
+
+.schedule .cell,
+.schedule .s-row {
+    flex: 0 1 100%;
+}

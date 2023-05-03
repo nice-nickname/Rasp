@@ -1,0 +1,20 @@
+﻿@using (var template = Html.Incoding().Template<GetClassByWeekQuery.Response>())
+{
+    using (var each = template.ForEach())
+    {
+        <div class="w-100 h-100 bg-secondary rounded class-card d-flex flex-column" role="drag-element">
+            <div title="@each.For(r => r.DisciplineCode)">
+                @each.For(r => r.Discipline)
+            </div>
+            <div>
+                @each.For(r => r.SubDiscipline)
+            </div>
+            <div>
+                @each.For(r => r.Teacher)
+            </div>
+            <div title="@each.For(r => r.Department)">
+                @each.For(r => r.DepartmentCode)
+            </div>
+        </div>
+    }
+}
