@@ -1,0 +1,43 @@
+﻿@using System.Drawing
+@model AddOrEditSubDisciplineKindCommand
+@{
+    Layout = "_AddOrEdit_Layout";
+}
+
+@section Title
+{
+    @DataResources.SubDisciplines
+}
+
+@section Body
+{
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push<AddOrEditSubDisciplineKindCommand>();
+        settings.Class = "d-flex flex-column gap-3";
+        settings.OnSave = dsl => dsl.WithId(nameof(SubDisciplineKind)).Trigger.Click();
+    }))
+    {
+        @Html.HiddenFor(s => s.Id)
+        <div class="row">
+            <div class="col-4">
+                @Html.ForGroup(s => s.Name).TextBox(control =>
+                {
+                    control.Label.Name = DataResources.SubDisciplineName;
+                })
+            </div>
+            <div class="col-2">
+                @Html.ForGroup(s => s.Code).TextBox(control =>
+                {
+                    control.Label.Name = DataResources.Abbreviation;
+                })
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label class="" asp-for="Color">@DataResources.Color</label>
+                    <input class="form-control" name="@nameof(Model.Color)" type="color" value="@ColorTranslator.ToHtml(Model.Color)" />
+                </div>
+            </div>
+        </div>
+    }
+}

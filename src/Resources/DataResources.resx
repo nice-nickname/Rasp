@@ -396,4 +396,13 @@
 	<data name="EditingData" xml:space="preserve">
 		<value>Редактирование данных</value>
 	</data>
+	<data name="DisciplinePlanByWeeks" xml:space="preserve">
+		<value>Учебный план по неделям</value>
+	</data>
+	<data name="SubDisciplineName" xml:space="preserve">
+		<value>Наименование под-дисциплины</value>
+	</data>
+	<data name="Color" xml:space="preserve">
+		<value>Color</value>
+	</data>
 </root>

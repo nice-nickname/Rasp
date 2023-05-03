@@ -214,7 +214,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подтвердите очищение.
+        ///   Looks up a localized string similar to Color.
+        /// </summary>
+        public static string Color {
+            get {
+                return ResourceManager.GetString("Color", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Подтвердите очистку.
         /// </summary>
         public static string ConfirmClear {
             get {
@@ -354,6 +363,15 @@ namespace Resources {
         public static string DisciplineName {
             get {
                 return ResourceManager.GetString("DisciplineName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Учебный план по неделям.
+        /// </summary>
+        public static string DisciplinePlanByWeeks {
+            get {
+                return ResourceManager.GetString("DisciplinePlanByWeeks", resourceCulture);
             }
         }
         
@@ -804,6 +822,15 @@ namespace Resources {
         public static string StudentCount {
             get {
                 return ResourceManager.GetString("StudentCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Наименование под-дисциплины.
+        /// </summary>
+        public static string SubDisciplineName {
+            get {
+                return ResourceManager.GetString("SubDisciplineName", resourceCulture);
             }
         }
         

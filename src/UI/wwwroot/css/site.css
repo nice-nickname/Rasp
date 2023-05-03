@@ -314,3 +314,8 @@ a:hover {
 .w-animate {
     transition: max-width ease-in-out .2s;
 }
+
+input.form-control[type=color] {
+    height: 38px;
+    width: 49px;
+}
