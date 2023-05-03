@@ -263,7 +263,7 @@ a:hover {
     height: 100%;
     max-width: 0;
     max-height: 0;
-    background-color: rgba(0, 0, 255, .9);
+    background-color: rgba(247, 154, 211, .9);
     opacity: 0;
     transition: all ease-out .2s;
     transition-property: opacity, margin, max-width, max-height;
