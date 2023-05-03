@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="~/css/custom_bootstrap.css">
+        <link rel="stylesheet" href="~/css/site.css">
+        <link rel="stylesheet" href="~/icons/material-symbols/index.css"/>
+        <link rel="stylesheet" href="~/css/bootstrap-select.css"/>
+        <title>@DataResources.ApplicationName</title>
+    </head>
+    <body class="d-flex flex-column min-vh-100 overflow-hidden">
+        @(Html.When(JqueryBind.IncAjaxBefore)
+              .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
+              .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
+              .When(JqueryBind.IncAjaxError)
+              .OnSuccess(dsl => dsl.Window.Alert("lol"))
+              .When(JqueryBind.IncAjaxComplete)
+              .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
+              .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
+              .AsHtmlAttributes(classes: "vw-100 vh-100 position-absolute loader-background d-none", id: GlobalSelectors.AjaxLoaderId)
+              .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
+                         <span class="visually-hidden">Loading...</span>
+                     </div>))
+
+        <main role="main" class="flex-grow-1 d-flex flex-column align-items-center justify-content-center" id="@GlobalSelectors.MainId">
+            @await RenderSectionAsync("Body")
+        </main>
+
+        <script src="~/lib/jq.js"></script>
+        <script src="~/lib/inc.js"></script>
+        <script src="~/lib/script.js"></script>
+        <script src="~/lib/bootstrap.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>

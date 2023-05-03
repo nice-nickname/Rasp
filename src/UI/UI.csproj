@@ -55,6 +55,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\Home.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Login\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Schedule\Tmpl\Class_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\NotImplemented.cshtml" />
@@ -154,6 +155,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Schedule\Tmpl\Class_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Login\Index.cshtml" />
   </ItemGroup>
 
 
