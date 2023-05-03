@@ -214,7 +214,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подтвердите очищение.
+        ///   Looks up a localized string similar to Подтвердите очистку.
         /// </summary>
         public static string ConfirmClear {
             get {
@@ -597,6 +597,15 @@ namespace Resources {
         public static string MainInformation {
             get {
                 return ResourceManager.GetString("MainInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нет доступных элементов.
+        /// </summary>
+        public static string NoItemsAvailable {
+            get {
+                return ResourceManager.GetString("NoItemsAvailable", resourceCulture);
             }
         }
         
