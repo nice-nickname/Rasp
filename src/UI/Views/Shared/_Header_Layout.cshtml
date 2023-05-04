@@ -56,12 +56,6 @@
                 },
                 Items = new List<IHtmlContent>
                 {
-                    Html.Controls().Dropdown.Button(settings =>
-                    {
-                        settings.Text = DataResources.Edit;
-                        settings.Href = Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
-                    }),
-                    Html.Controls().Dropdown.Divider(),
                     Html.Controls().Dropdown.List(settings =>
                     {
                         settings.Id = GlobalSelectors.FacultyListId;
