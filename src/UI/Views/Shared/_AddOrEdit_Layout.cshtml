@@ -17,14 +17,7 @@
         @await RenderSectionAsync("Body")
     </div>
 
-    <div class="d-flex flex-row-reverse gap-2">
-        @(Html.When(JqueryBind.Click)
-              .StopPropagation()
-              .PreventDefault()
-              .OnSuccess(dsl => dsl.With(r => r.Id(formId).Find(HtmlTag.Form)).Trigger.Submit())
-              .AsHtmlAttributes(classes: "btn btn-light", id: GlobalSelectors.SaveButtonId)
-              .ToButton(DataResources.Save))
-
+    <div class="d-flex flex-row gap-2 bg-base ms-auto rounded">
         @Html.Controls().ButtonConfirm(settings =>
         {
             settings.OnSuccess = dsl => dsl.WithClass("form-control").JQuery.Attr.Val(string.Empty);
@@ -33,5 +26,12 @@
             settings.TextConfirm = DataResources.ConfirmClear;
             settings.TextInProcess = DataResources.Clearing;
         })
+
+        @(Html.When(JqueryBind.Click)
+              .StopPropagation()
+              .PreventDefault()
+              .OnSuccess(dsl => dsl.With(r => r.Id(formId).Find(HtmlTag.Form)).Trigger.Submit())
+              .AsHtmlAttributes(classes: "btn btn-primary", id: GlobalSelectors.SaveButtonId)
+              .ToButton(DataResources.Save))
     </div>
 </div>
