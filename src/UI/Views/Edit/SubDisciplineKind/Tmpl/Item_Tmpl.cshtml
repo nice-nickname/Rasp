@@ -2,37 +2,23 @@
 {
     using (var each = template.ForEach())
     {
-        <div class="d-flex shadow gap-2 rounded py-1 px-2 m-1 position-relative" role="item">
-            <div class="position-absolute top-0 start-0 h-100 rounded-start" 
-                 style="background: @each.For(s => s.HtmlColor); width: 10px;"></div>
+        @using (Html.When(JqueryBind.Click)
+                    .Ajax(Url.Dispatcher().Query<AddOrEditSubDisciplineKindCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/SubDisciplineKind/AddOrEdit.cshtml"))
+                    .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
+                    .AsHtmlAttributes(new
+                    {
+                        @class = "d-flex shadow gap-2 rounded py-1 px-2 m-1 position-relative shadow-hover cursor-pointer",
+                        filter = $"{each.For(r => r.Code)} {each.For(r => r.Name)}"
+                    })
+                    .ToBeginTag(HtmlTag.Div))
+        {
+            <div class="position-absolute top-0 start-0 h-100 rounded-start"
+                 style="background: @each.For(s => s.HtmlColor); width: 10px;">
+            </div>
 
             <div class="my-2 ms-2" title="@each.For(r => r.Name)">
                 @each.For(r => r.Name)
             </div>
-
-            <div class="col d-flex">
-                <div class="my-auto ms-auto align-self-end">
-                    @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Query<AddOrEditSubDisciplineKindCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/SubDisciplineKind/AddOrEdit.cshtml"))
-                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
-                          .AsHtmlAttributes(new
-                          {
-                              @class = "btn btn-light",
-                              title = DataResources.Edit
-                          })
-                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
-
-                    @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Push<DeleteSubDisciplineKindCommand>(new { Id = each.For(r => r.Id) }))
-                          .OnSuccess(dsl => dsl.WithId(nameof(SubDisciplineKind)).Trigger.Click())
-                          .AsHtmlAttributes(new
-                          {
-                              @class = "btn btn-light",
-                              title = DataResources.Delete
-                          })
-                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
-                </div>
-            </div>
-        </div>
+        }
     }
 }

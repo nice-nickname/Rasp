@@ -60,3 +60,16 @@ function suggestInputValueByNamingCase(value, to) {
         $(this).selectpicker('val', JSON.parse(selected))
     }
 }(jQuery));
+
+(function() {
+    $.fn.search = function(list) {
+        let search = $(this).val()
+
+        $(list).find('[filter]').each(function() {
+            if ($(this).attr('filter').toLowerCase().includes(search.toLowerCase()))
+                $(this).removeClass('hidden')
+            else
+                $(this).addClass('hidden')
+        })
+    }
+}(jQuery));

@@ -7,11 +7,13 @@
         @await RenderSectionAsync("Filter")
 
         <div class="input w-30">
-            <input type="text" class="rounded search w-100 h-100"/>
+            @(Html.When(JqueryBind.KeyUp)
+                  .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Role("list").ToSelector()))
+                  .AsHtmlAttributes(classes: "rounded search w-100 h-100")
+                  .ToInput(HtmlInputType.Text, string.Empty))
             <span class="material-symbols-rounded addon-r">search</span>
         </div>
     </div>
 
     @await RenderSectionAsync("List")
-
 </div>

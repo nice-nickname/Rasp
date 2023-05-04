@@ -194,7 +194,10 @@
 
         <div class="d-flex gap-2">
             <div class="flex-grow-1 input">
-                <input type="text" class="rounded search w-100 h-100" disabled/>
+                @(Html.When(JqueryBind.KeyUp)
+                      .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Role("list").ToSelector()))
+                      .AsHtmlAttributes(classes: "rounded search w-100 h-100")
+                      .ToInput(HtmlInputType.Text, string.Empty))
                 <span class="material-symbols-rounded addon-r">search</span>
             </div>
 
@@ -209,7 +212,7 @@
             </div>
         </div>
 
-        <div class="w-100 h-100 d-flex flex-column rounded flex-grow-1 flex-shrink-1 overflow-auto" id="@GlobalSelectors.EditListId">
+        <div class="w-100 h-100 d-flex flex-column rounded flex-grow-1 flex-shrink-1 overflow-auto" role="list" id="@GlobalSelectors.EditListId">
             @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", string.Empty)
         </div>
     </div>

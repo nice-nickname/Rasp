@@ -404,3 +404,15 @@ input.form-control[type=color] {
 .btn-light.disabled {
     border: 1px solid #EEEEEE;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.shadow-hover {
+    transition: box-shadow .2s ease-in-out;
+}
+
+.shadow-hover:hover {
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
+}

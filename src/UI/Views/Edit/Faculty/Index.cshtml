@@ -19,6 +19,10 @@
     @(Html.When(JqueryBind.InitIncoding)
           .Ajax(Url.Dispatcher().Query(new GetFacultiesQuery()).AsJson())
           .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Edit/Faculty/Tmpl/Item_Tmpl.cshtml").Html())
-          .AsHtmlAttributes(classes: "w-100 d-flex flex-column gap-3 flex-grow-1 px-3")
+          .AsHtmlAttributes(new
+          {
+              @class = "w-100 d-flex flex-column gap-3 flex-grow-1 px-3",
+              role = "list"
+          })
           .ToDiv())
 }
