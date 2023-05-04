@@ -16,6 +16,8 @@ public class GetDisciplinePlansWEBQuery : QueryBase<LastIndexModel<GetDiscipline
 
     public int LastIndex { get; set; }
 
+    public int Hours { get; set; }
+
     protected override LastIndexModel<GetDisciplinePlanQuery.Response> ExecuteResult()
     {
         return new LastIndexModel<GetDisciplinePlanQuery.Response>
@@ -25,7 +27,8 @@ public class GetDisciplinePlansWEBQuery : QueryBase<LastIndexModel<GetDiscipline
                         FacultyId = FacultyId,
                         SubDisciplineId = SubDisciplineId,
                         GroupIds = GroupIds,
-                        TeacherIds = TeacherIds
+                        TeacherIds = TeacherIds,
+                        TotalHours = Hours
                 }),
                 LastIndex = LastIndex
         };

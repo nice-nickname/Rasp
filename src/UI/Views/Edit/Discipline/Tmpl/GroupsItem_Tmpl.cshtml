@@ -36,22 +36,26 @@
     @foreach (var item in Model.Items)
     {
         <div id="group-plan-@Model.LastIndex-@i-tab" class="tab-pane fade @(i == 0 ? "show active" : "") p-1">
-            <div class="form-group p-3">
-                @Html.Label(name(i, nameof(item.SubGroupCount)), DataResources.DivideToSubGroups)
-                @Html.Controls().Select(control =>
-                {
-                    control.Items = Html.Dispatcher().Query(new GetGroupDivisionForDDQuery { Selected = item.SubGroupCount });
-                    control.Name = name(i, nameof(item.SubGroupCount));
-                    control.OnInit = dsl => controlOnChange(dsl, i);
-                    control.OnChange = dsl => controlOnChange(dsl, i);
-                })
-                @Html.ValidationMessage(name(i, nameof(item.SubGroupCount)))
+            <div class="m-1 row">
+                <div class="col">
+                    <div class="form-group">
+                        @Html.Label(name(i, nameof(item.SubGroupCount)), DataResources.DivideToSubGroups)
+                        @Html.Controls().Select(control =>
+                        {
+                            control.Items = Html.Dispatcher().Query(new GetGroupDivisionForDDQuery { Selected = item.SubGroupCount });
+                            control.Name = name(i, nameof(item.SubGroupCount));
+                            control.OnInit = dsl => controlOnChange(dsl, i);
+                            control.OnChange = dsl => controlOnChange(dsl, i);
+                        })
+                        @Html.ValidationMessage(name(i, nameof(item.SubGroupCount)))
+                    </div>
+                </div>
             </div>
-            <div>
+            <div class="mt-3">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th class="fw-normal">Распределено <span role="assigned">@item.TotalAssignedHours</span> / <span role="total">@item.TotalHours</span></th>
                             <th colspan="@item.Header.Count">@DataResources.Weeks</th>
                         </tr>
                         <tr>
@@ -80,9 +84,15 @@
                                 {
                                     <td class="tc-hours tc-input">
                                         @Html.Hidden(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Week)}", week.Week)
-                                        <input name='@(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Hours)}")'
-                                               value="@week.Hours"
-                                               type="number" step="1"/>
+                                        @(Html.When(JqueryBind.Change)
+                                              .OnSuccess(dsl => dsl.Self().JQuery.Call("updateTableCellValue"))
+                                              .AsHtmlAttributes(new
+                                              {
+                                                  name = $"{name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems))}" + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Hours)}",
+                                                  step = 1,
+                                                  role = "hours"
+                                              })
+                                              .ToInput(HtmlInputType.Number, week.Hours.ToString()))
                                     </td>
                                     j++;
                                 }

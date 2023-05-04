@@ -426,4 +426,7 @@
 	<data name="SignInWith" xml:space="preserve">
 		<value>Войти с помощью</value>
 	</data>
+	<data name="CountOfClass" xml:space="preserve">
+		<value>Количество занятий</value>
+	</data>
 </root>

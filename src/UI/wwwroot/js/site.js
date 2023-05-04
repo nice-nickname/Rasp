@@ -1,6 +1,6 @@
-﻿'use strict'
+﻿/// <reference path="../../node_modules/jquery/dist/jquery.js" />
+'use strict'
 
-/// <reference path="../../node_modules/jquery/dist/jquery.js" />
 
 function suggestInputValueByNamingCase(value, to) {
     
@@ -58,5 +58,16 @@ function suggestInputValueByNamingCase(value, to) {
 
     $.fn.selectpickerval = function (selected = "") {
         $(this).selectpicker('val', JSON.parse(selected))
+    }
+
+    $.fn.updateTableCellValue = function () {
+        let val = $(this).val()
+        if (val < 0) {
+            val = 0
+            $(this).val(val)
+        }
+        const table = $(this).closest('table')
+        let totalHours = table.find('[role=hours]').toArray().reduce((sum, { value }) => sum += Number(value), 0)
+        table.find('[role=assigned]').text(totalHours)
     }
 }(jQuery));

@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Количество занятий.
+        /// </summary>
+        public static string CountOfClass {
+            get {
+                return ResourceManager.GetString("CountOfClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Количество недель.
         /// </summary>
         public static string CountOfWeeks {
