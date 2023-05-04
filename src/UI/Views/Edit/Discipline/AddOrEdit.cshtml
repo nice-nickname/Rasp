@@ -10,6 +10,21 @@
     @DataResources.Discipline
 }
 
+@section RemoveButton
+{
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.IsDisabled = !Model.Id.HasValue;
+        settings.Url = Url.Dispatcher().Push(new DeleteDisciplineCommand { Id = Model.Id ?? 0 });
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Discipline)).Trigger.Click();
+        settings.Text = DataResources.Delete;
+        settings.Icon = "delete";
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Danger;
+    })
+}
+
 @section Body
 {
     @using (Html.Controls().Form(settings =>
