@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Views/Shared/_Login_Layout.cshtml";
+}
+
+@section Body
+{
+    <div class="rounded shadow w-20 d-flex flex-column p-2">
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <div class="flex-grow-1 text-center mb-3">
+                Вы не обладаете необходимыми правами для доступа к этому ресурсу. Обратитесь к администратору приложения для решения данной проблемы.
+            </div>
+            <a class="btn btn-light col" href="@Url.Action("SignOut", "Account", new { Area = "MicrosoftIdentity" })">
+                @DataResources.SignOut
+            </a>
+        }
+        else
+        {
+            <div class="flex-grow-1 text-center mb-3">
+                Проходите
+            </div>
+            <a class="btn btn-light" href="@Url.Action("SignIn", "Account", new { Area = "MicrosoftIdentity" })">
+                @DataResources.SignInWith Sfedu
+            </a>
+        }
+
+        <div class="flex-shrink-0 text-center mt-2">
+            <a class="btn btn-sm btn-link" href="@Url.Action("Index", "Home")">
+                @DataResources.Help
+            </a>
+            <a class="btn btn-sm btn-link" href="@Url.Action("Index", "Home")">
+                @DataResources.ToHome
+            </a>
+        </div>
+    </div>
+}
