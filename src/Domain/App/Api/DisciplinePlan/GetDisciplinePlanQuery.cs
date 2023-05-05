@@ -1,4 +1,5 @@
 ﻿using Domain.Persistence;
+using Domain.Persistence.Specification;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -71,8 +72,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
 
         var result = new List<Response>();
 
-        var plans = Repository.Query<DisciplinePlan>()
-                              .Where(s => s.SubDisciplineId == SubDisciplineId)
+        var plans = Repository.Query(new Share.Where.BySubDiscipline<DisciplinePlan>(SubDisciplineId.Value))
+                              .Where(s => s.SubDisciplineId == SubDisciplineId && GroupIds.Contains(s.GroupId))
                               .GroupBy(s => new
                               {
                                       GroupId = s.GroupId,
