@@ -14,7 +14,7 @@ public partial class Share
 
     public partial class Where
     {
-        public class ByGroup : Specification<IEntityHasGroup>
+        public class ByGroup<T> : Specification<T> where T : IEntityHasGroup
         {
             private readonly int _groupId;
 
@@ -23,13 +23,13 @@ public partial class Share
                 this._groupId = groupId;
             }
 
-            public override Expression<Func<IEntityHasGroup, bool>> IsSatisfiedBy()
+            public override Expression<Func<T, bool>> IsSatisfiedBy()
             {
                 return s => s.GroupId == _groupId;
             }
         }
 
-        public class HasGroup : Specification<IEntityHasGroup>
+        public class HasGroup<T> : Specification<T> where T : IEntityHasGroup
         {
             private readonly int[] _groupIds;
 
@@ -38,7 +38,7 @@ public partial class Share
                 this._groupIds = groupIds;
             }
 
-            public override Expression<Func<IEntityHasGroup, bool>> IsSatisfiedBy()
+            public override Expression<Func<T, bool>> IsSatisfiedBy()
             {
                 return s => this._groupIds.Contains(s.GroupId);
             }

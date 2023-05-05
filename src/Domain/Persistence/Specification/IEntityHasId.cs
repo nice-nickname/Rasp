@@ -11,7 +11,7 @@ public partial class Share
         int Id { get; }
     }
 
-    public class ById : Specification<IEntityHasId>
+    public class ById<T> : Specification<T> where T : IEntityHasId
     {
         private readonly int _id;
 
@@ -20,13 +20,13 @@ public partial class Share
             this._id = id;
         }
 
-        public override Expression<Func<IEntityHasId, bool>> IsSatisfiedBy()
+        public override Expression<Func<T, bool>> IsSatisfiedBy()
         {
             return s => s.Id == this._id;
         }
     }
 
-    public class HasId : Specification<IEntityHasId>
+    public class HasId<T> : Specification<T> where T : IEntityHasId
     {
         private readonly int[] _ids;
 
@@ -35,7 +35,7 @@ public partial class Share
             this._ids = ids;
         }
 
-        public override Expression<Func<IEntityHasId, bool>> IsSatisfiedBy()
+        public override Expression<Func<T, bool>> IsSatisfiedBy()
         {
             return s => this._ids.Contains(s.Id);
         }
