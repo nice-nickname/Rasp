@@ -493,6 +493,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Распределить с конца.
+        /// </summary>
+        public static string FillFromEnd {
+            get {
+                return ResourceManager.GetString("FillFromEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Распределить с начала.
+        /// </summary>
+        public static string FillFromStart {
+            get {
+                return ResourceManager.GetString("FillFromStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Фильтры.
         /// </summary>
         public static string Filter {
@@ -750,6 +768,15 @@ namespace Resources {
         public static string Practice {
             get {
                 return ResourceManager.GetString("Practice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сбросить.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
             }
         }
         

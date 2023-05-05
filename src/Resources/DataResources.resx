@@ -432,4 +432,13 @@
 	<data name="TeacherOrGroupNotSelected" xml:space="preserve">
 		<value>Преподаватели или группы не введены</value>
 	</data>
+	<data name="Reset" xml:space="preserve">
+		<value>Сбросить</value>
+	</data>
+	<data name="FillFromStart" xml:space="preserve">
+		<value>Распределить с начала</value>
+	</data>
+	<data name="FillFromEnd" xml:space="preserve">
+		<value>Распределить с конца</value>
+	</data>
 </root>

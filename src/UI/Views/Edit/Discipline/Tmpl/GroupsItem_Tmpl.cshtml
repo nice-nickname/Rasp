@@ -95,7 +95,7 @@
                                                {
                                                    Html.Controls().Dropdown.Button(b =>
                                                    {
-                                                       b.Text = "Сбросить";
+                                                       b.Text = DataResources.Reset;
                                                        b.OnSuccess = dsl =>
                                                        {
                                                            dsl.WithSelf(s => s.Closest(HtmlTag.Tr).Find(c => c.Role("hours"))).JQuery.Attr.Val(0);
@@ -104,28 +104,20 @@
                                                    }),
                                                    Html.Controls().Dropdown.Button(b =>
                                                    {
-                                                       b.Text = "Распределить с начала";
+                                                       b.Text = DataResources.FillFromStart;
                                                        b.OnSuccess = dsl =>
                                                        {
-
+                                                           dsl.Self().JQuery.Call("disciplinePlanFill", "asc");
                                                        };
                                                    }),
                                                    Html.Controls().Dropdown.Button(b =>
                                                    {
-                                                       b.Text = "Распределить с конца";
+                                                       b.Text = DataResources.FillFromEnd;
                                                        b.OnSuccess = dsl =>
                                                        {
-                                                           
+                                                           dsl.Self().JQuery.Call("disciplinePlanFill", "desc");
                                                        };
                                                    }),
-                                                   Html.Controls().Dropdown.Button(b =>
-                                                   {
-                                                       b.Text = "Умное распределение";
-                                                       b.OnSuccess = dsl =>
-                                                       {
-                                                           
-                                                       };
-                                                   })
                                                },
                                                Button = new DropdownModel.ButtonSettings
                                                {
