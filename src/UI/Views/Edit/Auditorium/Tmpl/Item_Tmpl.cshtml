@@ -2,7 +2,16 @@
 {
     using (var each = template.ForEach())
     {
-        <div class="d-flex shadow gap-2 rounded py-1 px-2 m-1" role="item">
+        @using (Html.When(JqueryBind.Click)
+                    .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml"))
+                    .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
+                    .AsHtmlAttributes(new
+                    {
+                        @class = "d-flex shadow gap-2 rounded py-1 px-2 m-1 cursor-pointer shadow-hover",
+                        filter = $"{each.For(r => r.Code)} {each.For(r => r.DepartmentCode)} {each.For(r => r.BuildingName)} {each.For(r => r.DepartmentName)}"
+                    })
+                    .ToBeginTag(HtmlTag.Div))
+        {
             <div class="my-2" title="@DataResources.Building">
                 @each.For(r => r.BuildingName)
             </div>
@@ -15,30 +24,6 @@
             <div class="my-2 ms-3" title="@each.For(r => r.DepartmentName)">
                 @each.For(r => r.DepartmentCode)
             </div>
-
-            <div class="ms-auto d-flex">
-                <div class="m-auto align-self-end">
-                    @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml"))
-                          .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
-                          .AsHtmlAttributes(new
-                          {
-                              @class = "btn btn-light",
-                              title = DataResources.Edit
-                          })
-                          .ToButton(@<span class="material-symbols-rounded">edit</span>))
-
-                    @(Html.When(JqueryBind.Click)
-                          .Ajax(Url.Dispatcher().Push<DeleteAuditoriumCommand>(new { Id = each.For(r => r.Id) }))
-                          .OnSuccess(dsl => dsl.WithId(nameof(Auditorium)).Trigger.Click())
-                          .AsHtmlAttributes(new
-                          {
-                              @class = "btn btn-light",
-                              title = DataResources.Delete
-                          })
-                          .ToButton(@<span class="material-symbols-rounded">delete</span>))
-                </div>
-            </div>
-        </div>
+        }
     }
 }

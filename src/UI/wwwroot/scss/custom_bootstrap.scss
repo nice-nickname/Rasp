@@ -1,9 +1,11 @@
-$light: #fcdef3;
-$danger: #C1292E;
-$warning: #FFDA22;
-$success: #008148;
-$primary: #F79AD3;
-$secondary: #F7C7DB;
+$primary: #3d58f3;
+$secondary: #8baafa;
+$light: #ffffff;
+$black: #131c25;
+$danger: #FC3C2E;
+$warning: #FDC536;
+$success: #019C53;
+$base: #EEEEEEAA;
 
 $border-radius: 6px;
 $border-radius-sm: 6px;
@@ -15,4 +17,13 @@ $border-radius-pill: 6px;
 $btn-padding-y: 0.25rem;
 $btn-padding-x: 1rem;
 
+.bg-base {
+    background-color: $base;
+}
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+.btn-light:hover {
+    background-color: $light;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.125);
+}

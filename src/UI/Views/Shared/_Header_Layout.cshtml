@@ -4,76 +4,74 @@
 }
 
 <header class="d-flex p-3 justify-content-center">
-    <div class="d-flex gap-3 w-50">
-        <a class="btn btn-primary" href="@Url.Action("Index", "Schedule")">
-            @DataResources.Schedule
-        </a>
+    <div class="w-50">
+        <div class="d-flex gap-2 bg-base rounded w-fit">
+            <a class="btn btn-primary" href="@Url.Action("Index", "Schedule")">
+                @DataResources.Schedule
+            </a>
 
-        <a class="btn btn-light" href="#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
-            @DataResources.EditingData
-        </a>
+            <a class="btn btn-light" href="#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
+                @DataResources.EditingData
+            </a>
+        </div>
     </div>
 
     <div>
         <a class="text-decoration-none text-black" href="@Url.Action("Index", "Home")">@DataResources.ApplicationName</a>
     </div>
-    
-    <div class="d-flex flex-row-reverse gap-3 w-50">
-        @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-               {
-                   Button = new DropdownModel.ButtonSettings
-                   {
-                       Text = User.GetDisplayName()
-                   },
-                   Items = new List<IHtmlContent>
-                   {
-                       Html.Controls().Dropdown.Href(Url.Action("SignOut", "Account", new { Area = "MicrosoftIdentity" }), DataResources.SignOut)
-                   }
-               })
-        <div class="btn btn-light p-1">
-            <i class="material-symbols-rounded">settings</i>
-        </div>
 
-        @(Html.When(JqueryBind.Change)
-              .StopPropagation()
-              .PreventDefault()
-              .Ajax(Url.Dispatcher().Push(new AddCookieCommand
-              {
-                  Key = GlobalSelectors.FacultyId,
-                  Value = Selector.Jquery.Self().Val()
-              }))
-              .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
-              .ToInput(HtmlInputType.Hidden, facultyId))
+    <div class="w-50 d-flex flex-row-reverse">
+        <div class="d-flex flex-row-reverse gap-2 w-fit bg-base rounded">
+            @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                   {
+                       Button = new DropdownModel.ButtonSettings
+                       {
+                           Text = User.GetDisplayName()
+                       },
+                       Items = new List<IHtmlContent>
+                       {
+                           Html.Controls().Dropdown.Href(Url.Action("SignOut", "Account", new { Area = "MicrosoftIdentity" }), DataResources.SignOut)
+                       }
+                   })
+            <div class="btn btn-light p-1">
+                <i class="material-symbols-rounded">settings</i>
+            </div>
 
-        @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-        {
-            Button = new DropdownModel.ButtonSettings
+            @(Html.When(JqueryBind.Change)
+                  .StopPropagation()
+                  .PreventDefault()
+                  .Ajax(Url.Dispatcher().Push(new AddCookieCommand
+                  {
+                      Key = GlobalSelectors.FacultyId,
+                      Value = Selector.Jquery.Self().Val()
+                  }))
+                  .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
+                  .ToInput(HtmlInputType.Hidden, facultyId))
+
+            @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
             {
-                Text = DataResources.Faculty
-            },
-            Items = new List<IHtmlContent>
-            {
-                Html.Controls().Dropdown.Button(settings =>
+                Button = new DropdownModel.ButtonSettings
                 {
-                    settings.Text = DataResources.Edit;
-                    settings.Href = Url.Dispatcher().Query(new GetFacultiesQuery()).AsView("~/Views/Edit/Faculty/Index.cshtml").ToRelative();
-                }),
-                Html.Controls().Dropdown.Divider(),
-                Html.Controls().Dropdown.List(settings =>
+                    Text = DataResources.Faculty
+                },
+                Items = new List<IHtmlContent>
                 {
-                    settings.Id = GlobalSelectors.FacultyListId;
-                    settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
-                    settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
-                    settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));
-                    settings.OnClick = dsl =>
+                    Html.Controls().Dropdown.List(settings =>
                     {
-                        Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
-                        dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
-                        dsl.WithName(GlobalSelectors.FacultyId).Trigger.Change();
-                        dsl.Document.RedirectToSelf();
-                    };
-                })
-            }
-        }))
+                        settings.Id = GlobalSelectors.FacultyListId;
+                        settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
+                        settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
+                        settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));
+                        settings.OnClick = dsl =>
+                        {
+                            Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
+                            dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
+                            dsl.WithName(GlobalSelectors.FacultyId).Trigger.Change();
+                            dsl.Document.RedirectToSelf();
+                        };
+                    })
+                }
+            }))
+        </div>
     </div>
 </header>

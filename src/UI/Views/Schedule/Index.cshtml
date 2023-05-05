@@ -16,19 +16,19 @@
 {
     <div class="d-flex gap-3">
         <div class="w-px-324 d-flex flex-column flex-shrink-0 gap-2">
-            <div class="d-flex gap-2 flex-shrink-0">
-                <a class="btn btn-light w-50 flex-grow-1" href="@Url.Action("Index", "Home")">
+            <div class="d-flex gap-2 flex-shrink-0 bg-base">
+                <a class="btn btn-primary w-50 flex-grow-1" href="@Url.Action("Index", "Home")">
                     @DataResources.ToHome
                 </a>
 
                 <div class="btn btn-light w-50 flex-grow-1">
-                    e
+                    ?
                 </div>
             </div>
         </div>
 
         <div class="d-flex gap-3 flex-grow-1">
-            <div class="bg-light d-flex gap-2 rounded flex-grow-1">
+            <div class="d-flex gap-2 rounded flex-grow-1 bg-base">
                 <div class="btn btn-light">
                     @DataResources.Generate
                 </div>
@@ -47,7 +47,7 @@
                 <span class="material-symbols-rounded addon-r">search</span>
             </div>
 
-            <div class="flex-shrink-0 d-flex gap-2 bg-light rounded">
+            <div class="flex-shrink-0 d-flex gap-2 rounded bg-base">
                 <div class="btn btn-light p-1">
                     <span class="material-symbols-rounded">settings</span>
                 </div>
@@ -61,7 +61,7 @@
 
     <div class="d-flex flex-grow-1 gap-3">
     <div class="mw-px-324 w-100 d-flex flex-column flex-shrink-0 gap-2 w-animate" id="@unallocatedPanelId">
-        <div class="rounded bg-light flex-grow-1 p-2 d-flex flex-column gap-2">
+        <div class="rounded bg-base flex-grow-1 p-2 d-flex flex-column gap-2">
             <div class="mb-1 d-flex gap-2">
                 <div class="flex-grow-1 input" id="@unallocatedSearchId">
                     <input type="text" class="rounded search w-100 h-100"/>
@@ -113,7 +113,7 @@
 
     <div class="d-flex flex-column flex-grow-1 gap-3">
         <div class="d-flex">
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 bg-base rounded">
                 <div class="btn btn-light p-1">
                     <span class="material-symbols-rounded">filter_alt</span>
                 </div>
@@ -126,12 +126,12 @@
                     @DataResources.Auditorium
                 </div>
 
-                <span class="align-self-center">
+                <div class="btn btn-light">
                     КТбо4-8
-                </span>
+                </div>
             </div>
 
-            <div class="ms-auto d-flex gap-2 bg-light rounded">
+            <div class="ms-auto d-flex gap-2 bg-base rounded">
                 @(Html.When(JqueryBind.Click)
                       .OnSuccess(dsl =>
                       {
@@ -193,8 +193,8 @@
                 </div>
                 @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
                 {
-                    <div class="bg-light rounded position-relative cell">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                    <div class="bg-base rounded position-relative cell">
+                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
                     </div>
                 }
             </div>
@@ -205,8 +205,8 @@
                 </div>
                 @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
                 {
-                    <div class="bg-light rounded position-relative cell">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                    <div class="bg-base rounded position-relative cell">
+                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
                     </div>
                 }
             </div>
@@ -217,8 +217,8 @@
                 </div>
                 @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
                 {
-                    <div class="bg-light rounded position-relative cell">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                    <div class="bg-base rounded position-relative cell">
+                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
                     </div>
                 }
             </div>
@@ -229,8 +229,8 @@
                 </div>
                 @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
                 {
-                    <div class="bg-light rounded position-relative cell">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                    <div class="bg-base rounded position-relative cell">
+                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
                     </div>
                 }
             </div>
@@ -241,8 +241,8 @@
                 </div>
                 @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
                 {
-                    <div class="bg-light rounded position-relative cell">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                    <div class="bg-base rounded position-relative cell">
+                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
                     </div>
                 }
             </div>
@@ -253,8 +253,8 @@
                 </div>
                 @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
                 {
-                    <div class="bg-light rounded position-relative cell">
-                        <div class="w-100 h-100 bg-light rounded" role="drag-container"></div>
+                    <div class="bg-base rounded position-relative cell">
+                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
                     </div>
                 }
             </div>
