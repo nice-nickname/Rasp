@@ -74,7 +74,16 @@
                         {
                             SelectedId = Model.KindId
                         }).Select(s => (DropDownItem)s);
-                        control.IsSearchable = true;
+                        control.OnChange = dsl =>
+                        {
+                            dsl.With(s => s.EqualsAttribute("data-type", SubDisciplineKind.OfType.EXAM.ToString()))
+                               .JQuery.Attr.AddClass("d-none")
+                               .If(() => Selector.Jquery.Self() != 3);
+
+                            dsl.With(s => s.EqualsAttribute("data-type", SubDisciplineKind.OfType.EXAM.ToString()))
+                               .JQuery.Attr.RemoveClass("d-none")
+                               .If(() => Selector.Jquery.Self() == 3);
+                        };
                     })
                     @Html.ValidationMessageFor(s => s.KindId)
                 </div>
@@ -111,7 +120,7 @@
                     }
                     @foreach (var subDiscipline in Model.SubDisciplines)
                     {
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation" data-type="@subDiscipline.Type">
                             <button class="nav-link @(i == 0 ? "active" : "")" id="tab-@i" data-bs-toggle="tab" data-bs-target="#page-@i" type="button" role="tab" aria-controls="page-@i" aria-selected="@(i == 0 ? "true" : "false")">
                                 @subDiscipline.Name
                             </button>
@@ -125,7 +134,7 @@
                     }
                     @foreach (var subDiscipline in Model.SubDisciplines)
                     {
-                        <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="page-@i" role="tabpanel" aria-labelledby="tab-@i">
+                        <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="page-@i" role="tabpanel" aria-labelledby="tab-@i" data-type="@subDiscipline.Type">
                             @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Id)}", subDiscipline.Id)
                             @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.KindId)}", subDiscipline.KindId)
                             <div class="row mt-3">

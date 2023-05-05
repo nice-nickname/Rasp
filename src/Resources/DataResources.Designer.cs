@@ -880,7 +880,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Наименование под-дисциплины.
+        ///   Looks up a localized string similar to Наименование вида занятия.
         /// </summary>
         public static string SubDisciplineName {
             get {
@@ -930,6 +930,15 @@ namespace Resources {
         public static string TeacherName {
             get {
                 return ResourceManager.GetString("TeacherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Преподаватели или группы не введены.
+        /// </summary>
+        public static string TeacherOrGroupNotSelected {
+            get {
+                return ResourceManager.GetString("TeacherOrGroupNotSelected", resourceCulture);
             }
         }
         

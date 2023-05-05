@@ -400,7 +400,7 @@
 		<value>Учебный план по неделям</value>
 	</data>
 	<data name="SubDisciplineName" xml:space="preserve">
-		<value>Наименование под-дисциплины</value>
+		<value>Наименование вида занятия</value>
 	</data>
 	<data name="Color" xml:space="preserve">
 		<value>Цвет</value>
@@ -428,5 +428,8 @@
 	</data>
 	<data name="CountOfClass" xml:space="preserve">
 		<value>Количество занятий</value>
+	</data>
+	<data name="TeacherOrGroupNotSelected" xml:space="preserve">
+		<value>Преподаватели или группы не введены</value>
 	</data>
 </root>

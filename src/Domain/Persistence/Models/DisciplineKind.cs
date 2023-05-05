@@ -10,6 +10,8 @@ public class DisciplineKind : IncEntityBase, Share.IEntityHasId
 
     public virtual string Name { get; set; }
 
+    public virtual SubDisciplineKind.OfType? Type { get; set; } 
+
     public class Mapping : ClassMap<DisciplineKind>
     {
         public Mapping()
@@ -17,6 +19,7 @@ public class DisciplineKind : IncEntityBase, Share.IEntityHasId
             Table(nameof(DisciplineKind));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Name);
+            Map(s => s.Type).CustomType<SubDisciplineKind.OfType>().Nullable();
         }
     }
 }

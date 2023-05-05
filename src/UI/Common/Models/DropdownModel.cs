@@ -18,6 +18,8 @@ public class DropdownModel
 
         public string Title { get; set; }
 
+        public string? Icon { get; set; }
+
         public string Classes { get; set; } = "btn-light";
 
         public string Id { get; set; }
