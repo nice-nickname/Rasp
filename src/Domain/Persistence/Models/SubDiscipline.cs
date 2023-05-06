@@ -14,6 +14,8 @@ public class SubDiscipline : IncEntityBase, Share.IEntityHasDiscipline, Share.IE
 
     public virtual int DisciplineId { get; set; }
 
+    public virtual bool IsParallelHours { get; set; }
+
     public virtual SubDisciplineKind Kind { get; set; }
 
     public virtual Discipline Discipline { get; set; }
@@ -34,6 +36,7 @@ public class SubDiscipline : IncEntityBase, Share.IEntityHasDiscipline, Share.IE
             Map(s => s.Hours);
             Map(s => s.DisciplineId);
             Map(s => s.KindId);
+            Map(s => s.IsParallelHours);
 
             References(s => s.Kind).Column(nameof(KindId))
                                    .LazyLoad()

@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Скопировать для всех групп.
+        /// </summary>
+        public static string CopyForAllGroups {
+            get {
+                return ResourceManager.GetString("CopyForAllGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Количество занятий.
         /// </summary>
         public static string CountOfClass {
@@ -777,6 +786,15 @@ namespace Resources {
         public static string Reset {
             get {
                 return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сбросить все.
+        /// </summary>
+        public static string ResetAll {
+            get {
+                return ResourceManager.GetString("ResetAll", resourceCulture);
             }
         }
         

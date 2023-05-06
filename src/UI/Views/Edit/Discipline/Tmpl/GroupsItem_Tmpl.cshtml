@@ -61,19 +61,44 @@
                 </div>
             </div>
             <div class="mt-3">
-                <table class="table" role="st-@i">
+                <table class="table" role="st-@Model.LastIndex-@i">
                     <thead class="table-light shadow">
                         <tr>
-                            <th class="tc-options"></th>
-                            <th class="fw-normal">Распределено
+                            <th class="tc-options">
+                                @await Html.PartialAsync("DropDown_Tmpl", new DropdownModel
+                                       {
+                                           Items = new List<IHtmlContent>
+                                           {
+                                               Html.Controls().Dropdown.Button(b =>
+                                               {
+                                                   b.Text = DataResources.ResetAll;
+                                                   b.OnSuccess = dsl => dsl.Self().JQuery.Call("disciplinePlanReset");
+                                               }),
+                                               Html.Controls().Dropdown.Divider(),
+                                               Html.Controls().Dropdown.Button(b =>
+                                               {
+                                                   b.Text = DataResources.CopyForAllGroups;
+                                                   b.OnSuccess = dsl => dsl.Self().JQuery.Call("disciplinePlanCopy");
+                                               })
+                                           },
+                                           Button = new DropdownModel.ButtonSettings
+                                           {
+                                               Icon = "more_horiz",
+                                               Classes = "btn-light p-1"
+                                           }
+                                       })
+                            </th>
+                            <th class="fw-normal align-middle">
+                                Распределено
                                 @(Html.When(JqueryBind.Change)
                                       .StopPropagation()
-                                      .OnSuccess(dsl => dsl.Self().Insert.Use(Selector.JS.Sum(Selector.Jquery.Role("hours"), Selector.Jquery.Role($"st-{i}"))).Text())
+                                      .OnSuccess(dsl => dsl.Self().Insert.Use(Selector.JS.Sum(Selector.Jquery.Role("hours"), Selector.Jquery.Role($"st-{Model.LastIndex}-{i}"))).Text())
                                       .AsHtmlAttributes(new { role = "assigned" })
                                       .ToTag(HtmlTag.Span, item.TotalAssignedHours.ToString()))
-                                / 
-                                <span role="total">@item.TotalHours</span></th>
-                            <th colspan="@item.Header.Count">@DataResources.Weeks</th>
+                                /
+                                <span role="total">@item.TotalHours</span>
+                            </th>
+                            <th class="align-middle" colspan="@item.Header.Count">@DataResources.Weeks</th>
                         </tr>
                         <tr>
                             <th></th>
@@ -88,7 +113,7 @@
                         @foreach (var td in item.TeacherHoursByWeeks)
                         {
                             <tr>
-                                <td class="tc-options">
+                                <td class="tc-options" role="row-button">
                                     @await Html.PartialAsync("DropDown_Tmpl", new DropdownModel
                                            {
                                                Items = new List<IHtmlContent>
@@ -102,22 +127,17 @@
                                                            dsl.WithSelf(s => s.Closest(HtmlTag.Table).Find(c => c.Role("assigned"))).Trigger.Change();
                                                        };
                                                    }),
+                                                   Html.Controls().Dropdown.Divider(),
                                                    Html.Controls().Dropdown.Button(b =>
                                                    {
                                                        b.Text = DataResources.FillFromStart;
-                                                       b.OnSuccess = dsl =>
-                                                       {
-                                                           dsl.Self().JQuery.Call("disciplinePlanFill", "asc");
-                                                       };
+                                                       b.OnSuccess = dsl => { dsl.Self().JQuery.Call("disciplinePlanFill", "asc"); };
                                                    }),
                                                    Html.Controls().Dropdown.Button(b =>
                                                    {
                                                        b.Text = DataResources.FillFromEnd;
-                                                       b.OnSuccess = dsl =>
-                                                       {
-                                                           dsl.Self().JQuery.Call("disciplinePlanFill", "desc");
-                                                       };
-                                                   }),
+                                                       b.OnSuccess = dsl => { dsl.Self().JQuery.Call("disciplinePlanFill", "desc"); };
+                                                   })
                                                },
                                                Button = new DropdownModel.ButtonSettings
                                                {

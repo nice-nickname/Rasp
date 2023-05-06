@@ -63,6 +63,13 @@ public class AddOrEditDisciplineCommand : CommandBase
             subDisciplineItem.Hours = sd.Hours;
             subDisciplineItem.DisciplineId = discipline.Id;
             subDisciplineItem.KindId = sd.KindId;
+            subDisciplineItem.IsParallelHours = sd.IsParallelHours;
+
+            var sdKind = Repository.LoadById<SubDisciplineKind>(sd.KindId);
+            if (sdKind.Type == SubDisciplineKind.OfType.EXAM)
+            {
+                subDisciplineItem.IsParallelHours = false;
+            }
 
             Repository.SaveOrUpdate(subDisciplineItem);
 
@@ -136,6 +143,8 @@ public class AddOrEditDisciplineCommand : CommandBase
 
         public string Name { get; set; }
 
+        public bool IsParallelHours { get; set; }
+
         public List<int>? TeacherIds { get; set; }
 
         public List<PlanItem>? Plans { get; set; }
@@ -182,7 +191,8 @@ public class AddOrEditDisciplineCommand : CommandBase
                                                    KindId = s.KindId,
                                                    TeacherIds = s.Teachers.Select(r => r.Id).ToList(),
                                                    Id = s.Id,
-                                                   Type = s.Kind.Type
+                                                   Type = s.Kind.Type,
+                                                   IsParallelHours = s.IsParallelHours,
                                            })
                                            .ToList();
             }
@@ -195,7 +205,8 @@ public class AddOrEditDisciplineCommand : CommandBase
                                                    Hours = 0,
                                                    Name = s.Name,
                                                    TeacherIds = new List<int>(),
-                                                   Type = s.Type
+                                                   Type = s.Type,
+                                                   IsParallelHours = s.Type != SubDisciplineKind.OfType.EXAM
                                            })
                                            .ToList();
             }

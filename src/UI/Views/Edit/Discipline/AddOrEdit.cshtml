@@ -1,4 +1,5 @@
 ﻿@using Domain
+@using Domain.Common
 @using UI.Query
 @model AddOrEditDisciplineCommand
 @{
@@ -56,7 +57,8 @@
                         control.Items = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
                         {
                             SelectedId = Model.DepartmentId.GetValueOrDefault(),
-                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
+                            Optional = "Без кафедры"
                         }).Select(s => (DropDownItem)s);
                         control.IsSearchable = true;
                     })
@@ -151,7 +153,7 @@
                                           .ToInput(HtmlInputType.Number, subDiscipline.Hours.ToString()))
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
                                 </div>
-                                <div class="form-group col-4">
+                                <div class="form-group col-2">
                                     @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teachers, new { @class = "form-label" })
                                     @Html.Controls().Select(control =>
                                     {
@@ -167,11 +169,35 @@
                                         control.MaxVisibleElements = 1;
                                         control.ChangeTimeout = 1000;
                                         control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
-                                                                     .Trigger.None()
-                                                                     .If(() => Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds) != null);
+                                                                     .Trigger.None();
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
                                 </div>
+                                @if (subDiscipline.Type != SubDisciplineKind.OfType.EXAM)
+                                {
+                                    <div class="form-group col-4">
+                                        @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", "Деление занятий между преподавателями", new { @class = "form-label" })
+                                        @Html.Controls().Select(control =>
+                                        {
+                                            control.Class = "form-control";
+                                            control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}";
+                                            control.Items = Html.Dispatcher().Query(new GetSubDisciplineIsParallelOptionsForDDQuery
+                                            {
+                                                Selected = subDiscipline.IsParallelHours
+                                            });
+                                            control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
+                                                                         .Trigger.None();
+                                            control.OnInit = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
+                                                                       .Trigger.None()
+                                                                       .If(() => Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}") != null ||
+                                                                                 Selector.Jquery.Name(nameof(Model.GroupIds)) != null);
+                                        })
+                                    </div>
+                                }
+                                else
+                                {
+                                    @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", false)
+                                }
                             </div>
                             <div class="row mt-3">
                                 <h5>@DataResources.DisciplinePlanByWeeks</h5>

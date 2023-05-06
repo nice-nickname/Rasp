@@ -65,6 +65,27 @@ function suggestInputValueByNamingCase(value, to) {
         $(this).selectpicker('val', JSON.parse(selected))
     }
 
+    $.fn.disciplinePlanReset = function() {
+        const table = $(this).closest('table')
+        table.find('[role=hours]').each((i, input) => input.value = 0)
+        table.find('[role=assigned]').trigger('change')
+    }
+
+    $.fn.disciplinePlanCopy = function() {
+        let hours = $(this).closest('table')
+                           .find('[role=hours]')
+                           .toArray()
+                           .map(input => Number(input.value))
+
+        $(this).closest('.tab-content')
+               .children(':not(:visible)')
+               .each(function() {
+                   $(this).find('[role=hours]').toArray()
+                          .forEach((input, i) => input.value = hours[i])
+               })
+               .find('[role=assigned]').trigger('change')
+    }
+
     $.fn.disciplinePlanFill = function(order = 'asc') {
         const tr = $(this).closest('tr')
         const table = $(this).closest('table')

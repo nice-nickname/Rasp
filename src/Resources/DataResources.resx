@@ -441,4 +441,10 @@
 	<data name="FillFromEnd" xml:space="preserve">
 		<value>Распределить с конца</value>
 	</data>
+	<data name="ResetAll" xml:space="preserve">
+		<value>Сбросить все</value>
+	</data>
+	<data name="CopyForAllGroups" xml:space="preserve">
+		<value>Скопировать для всех групп</value>
+	</data>
 </root>

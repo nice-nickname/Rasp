@@ -55,7 +55,6 @@ public partial class ControlsHtmlHelper<T>
                     .OnComplete(dsl =>
                     {
                         dsl.Self().JQuery.Call("selectpickerval", selectedJson);
-                        dsl.Self().Trigger.Change().If(() => selected.Any());
 
                         settings.OnInit?.Invoke(dsl);
                     })
