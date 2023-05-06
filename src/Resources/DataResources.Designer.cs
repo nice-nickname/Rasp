@@ -259,6 +259,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Количество занятий.
+        /// </summary>
+        public static string CountOfClass {
+            get {
+                return ResourceManager.GetString("CountOfClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Количество недель.
         /// </summary>
         public static string CountOfWeeks {
@@ -489,6 +498,24 @@ namespace Resources {
         public static string FacultyName {
             get {
                 return ResourceManager.GetString("FacultyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Распределить с конца.
+        /// </summary>
+        public static string FillFromEnd {
+            get {
+                return ResourceManager.GetString("FillFromEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Распределить с начала.
+        /// </summary>
+        public static string FillFromStart {
+            get {
+                return ResourceManager.GetString("FillFromStart", resourceCulture);
             }
         }
         
@@ -772,6 +799,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сбросить.
+        /// </summary>
+        public static string Reset {
+            get {
+                return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Суббота.
         /// </summary>
         public static string Saturday {
@@ -907,7 +943,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Наименование под-дисциплины.
+        ///   Looks up a localized string similar to Наименование вида занятия.
         /// </summary>
         public static string SubDisciplineName {
             get {
@@ -975,6 +1011,15 @@ namespace Resources {
         public static string TeacherName {
             get {
                 return ResourceManager.GetString("TeacherName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Преподаватели или группы не введены.
+        /// </summary>
+        public static string TeacherOrGroupNotSelected {
+            get {
+                return ResourceManager.GetString("TeacherOrGroupNotSelected", resourceCulture);
             }
         }
         

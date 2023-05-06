@@ -4,7 +4,7 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class ScheduleFormat : IncEntityBase, Share.IEntityHasFaculty
+public class ScheduleFormat : IncEntityBase, Share.IEntityHasFaculty, Share.IEntityHasId
 {
     public new virtual int Id { get; set; }
 

@@ -6,7 +6,7 @@ using Incoding.Core.Extensions.LinqSpecs;
 
 namespace Domain.Persistence;
 
-public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty
+public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty, Share.IEntityHasId
 {
     public enum OfType
     {

@@ -1,6 +1,11 @@
-﻿'use strict'
+﻿/// <reference path="../../node_modules/jquery/dist/jquery.js" />
+'use strict'
 
-/// <reference path="../../node_modules/jquery/dist/jquery.js" />
+function sum(selector, root) {
+    return $(root).find(selector)
+                  .toArray()
+                  .reduce((s, { value }) => s += Number(value), 0)
+}
 
 function suggestInputValueByNamingCase(value, to) {
     
@@ -59,6 +64,38 @@ function suggestInputValueByNamingCase(value, to) {
     $.fn.selectpickerval = function (selected = "") {
         $(this).selectpicker('val', JSON.parse(selected))
     }
+
+    $.fn.disciplinePlanFill = function(order = 'asc') {
+        const tr = $(this).closest('tr')
+        const table = $(this).closest('table')
+        const assigned = table.find('[role=assigned]')
+        const total = table.find('[role=total]')
+
+        tr.find('[role=hours]').val(0)
+        assigned.trigger('change')
+
+        let hours = Number(total.text()) - Number(assigned.text())
+
+        if (hours <= 0) {
+            return;
+        }
+
+        let inputs = tr.find('[role=hours]').toArray()
+        if (order == 'desc') {
+            inputs = inputs.reverse()
+        }
+        
+        do {
+            for (let i = 0; i < inputs.length; i++, hours--) {
+                if (hours == 0) {
+                    return assigned.trigger('change');
+                }
+                const input = inputs[i];
+                input.value = Number(input.value) + 1
+            }
+        } while (hours > 0);
+    }
+
 }(jQuery));
 
 (function() {

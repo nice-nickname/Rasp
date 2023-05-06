@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.Common;
-using System.Drawing;
 using NHibernate;
 using NHibernate.Engine;
 using NHibernate.SqlTypes;
@@ -8,15 +7,16 @@ using NHibernate.UserTypes;
 
 namespace Domain.Persistence.Mappers;
 
-public class NHibernateColorType : IUserType
+public class NHibernateDateOnlyType : IUserType
 {
-    public bool Equals(object x, object y)
+    public bool Equals(object? x, object? y)
     {
         if (ReferenceEquals(x, y))
         {
             return true;
         }
 
+        ;
         if (x == null || y == null)
         {
             return false;
@@ -27,18 +27,17 @@ public class NHibernateColorType : IUserType
 
     public int GetHashCode(object? x)
     {
-        return x == null ? typeof(Color).GetHashCode() + 473 : x.GetHashCode();
+        return x == null ? typeof(DateOnly).GetHashCode() + 473 : x.GetHashCode();
     }
 
-    public object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner)
+    public object? NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner)
     {
-        var obj = NHibernateUtil.String.NullSafeGet(rs, names, session, owner);
-        if (obj == null)
+        if (NHibernateUtil.Date.NullSafeGet(rs, names, session, owner) is not DateTime obj)
         {
             return null;
         };
 
-        return ColorTranslator.FromHtml((string)obj);
+        return DateOnly.FromDateTime(obj);
     }
 
     public void NullSafeSet(DbCommand cmd, object? value, int index, ISessionImplementor session)
@@ -49,7 +48,7 @@ public class NHibernateColorType : IUserType
         }
         else
         {
-            ((IDataParameter)cmd.Parameters[index]).Value = ColorTranslator.ToHtml((Color)value);
+            ((IDataParameter)cmd.Parameters[index]).Value = ((DateOnly)value).ToDateTime(TimeOnly.MinValue);
         }
     }
 
@@ -73,12 +72,9 @@ public class NHibernateColorType : IUserType
         return value;
     }
 
-    public SqlType[] SqlTypes => new[]
-    { 
-            new SqlType(DbType.AnsiStringFixedLength),
-    };
+    public SqlType[] SqlTypes => new[] { new SqlType(DbType.Date) };
 
-    public Type ReturnedType => typeof(Color);
+    public Type ReturnedType => typeof(DateOnly);
 
     public bool IsMutable => true;
 }

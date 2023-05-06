@@ -94,6 +94,12 @@ public class AddOrEditDisciplineCommand : CommandBase
                 Repository.DeleteByIds<DisciplinePlan>(plans);
             }
 
+            if (discipline.Kind.Type.GetValueOrDefault() != SubDisciplineKind.OfType.EXAM &&
+                subDisciplineItem.Kind.Type == SubDisciplineKind.OfType.EXAM)
+            {
+                continue;
+            }
+
             foreach (var plan in sd.Plans)
             {
                 var planItem = new DisciplinePlan
@@ -123,6 +129,8 @@ public class AddOrEditDisciplineCommand : CommandBase
         public int? Id { get; set; }
 
         public int KindId { get; set; }
+
+        public SubDisciplineKind.OfType Type { get; set; }
 
         public int Hours { get; set; }
 
@@ -173,19 +181,21 @@ public class AddOrEditDisciplineCommand : CommandBase
                                                    Hours = s.Hours,
                                                    KindId = s.KindId,
                                                    TeacherIds = s.Teachers.Select(r => r.Id).ToList(),
-                                                   Id = s.Id
+                                                   Id = s.Id,
+                                                   Type = s.Kind.Type
                                            })
                                            .ToList();
             }
             else
             {
-                subDisciplines = Dispatcher.Query(new GetSubDisciplineKindsForDDQuery())
+                subDisciplines = Repository.Query<SubDisciplineKind>()
                                            .Select(s => new SubDisciplineItem
                                            {
-                                                   KindId = Convert.ToInt32(s.Value),
+                                                   KindId = Convert.ToInt32(s.Id),
                                                    Hours = 0,
-                                                   Name = s.Text,
-                                                   TeacherIds = new List<int>()
+                                                   Name = s.Name,
+                                                   TeacherIds = new List<int>(),
+                                                   Type = s.Type
                                            })
                                            .ToList();
             }

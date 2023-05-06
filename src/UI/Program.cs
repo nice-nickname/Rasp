@@ -43,8 +43,8 @@ public static class Startup
                                                                 options =>
                                                                 {
                                                                     options.LoginPath = "/login";
-                                                                    options.LogoutPath = "/login";
-                                                                    options.AccessDeniedPath = "/login";
+                                                                    options.LogoutPath = "/unauthorized";
+                                                                    options.AccessDeniedPath = "/unauthorized";
                                                                 });
 
         builder.Services

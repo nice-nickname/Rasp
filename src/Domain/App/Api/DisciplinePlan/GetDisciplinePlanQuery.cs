@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
+using Domain.Persistence.Specification;
 using Incoding.Core.CQRS.Core;
+using Incoding.Core.Extensions;
 
 namespace Domain.Api;
 
@@ -12,6 +14,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
     public int[]? GroupIds { get; set; }
 
     public int[]? TeacherIds { get; set; }
+
+    public int TotalHours { get; set; }
 
     protected override List<Response> ExecuteResult()
     {
@@ -42,7 +46,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
         { 
                 TeacherId = q,
                 Teacher = teachers[q].Name,
-                WeekItems = defaultWeek
+                WeekItems = defaultWeek,
+                HoursAssigned = 0,
         }).ToList();
 
         var header = Enumerable.Range(1, weeksCount)
@@ -60,14 +65,16 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                     Group = groups[s].Code,
                     SubGroupCount = 1,
                     TeacherHoursByWeeks = defaultTeachers,
-                    Header = header
+                    Header = header,
+                    TotalHours = TotalHours,
+                    TotalAssignedHours = 0
             }).ToList();
         }
 
         var result = new List<Response>();
 
-        var plans = Repository.Query<DisciplinePlan>()
-                              .Where(s => s.SubDisciplineId == SubDisciplineId)
+        var plans = Repository.Query(new Share.Where.BySubDiscipline<DisciplinePlan>(SubDisciplineId.Value)
+                                             .And(new Share.Where.HasGroup<DisciplinePlan>(GroupIds)))
                               .GroupBy(s => new
                               {
                                       GroupId = s.GroupId,
@@ -87,7 +94,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                                      {
                                              Hours = w.AssignmentHours, Week = w.Week
                                      })
-                                     .ToList()
+                                     .ToList(),
+                        HoursAssigned = c.WeekAssignments.Sum(s => s.AssignmentHours),
                 }).ToList();
 
                 teacherItems.AddRange(TeacherIds.Except(teacherItems.Select(с => с.TeacherId))
@@ -104,7 +112,9 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                         GroupId = s.Key.GroupId,
                         Header = header,
                         SubGroupCount = s.Key.SubGroupCount,
-                        TeacherHoursByWeeks = teacherItems
+                        TeacherHoursByWeeks = teacherItems,
+                        TotalHours = TotalHours,
+                        TotalAssignedHours = teacherItems.Sum(s => s.HoursAssigned)
                 };
             }).ToList());
         }
@@ -133,6 +143,10 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
 
         public int SubGroupCount { get; set; }
 
+        public int TotalAssignedHours { get; set; }
+
+        public int TotalHours { get; set; }
+
         public List<Item> TeacherHoursByWeeks { get; set; }
 
         public List<HeaderWeek> Header { get; set; }
@@ -145,6 +159,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
         public int TeacherId { get; set; }
 
         public string Teacher { get; set; }
+
+        public int HoursAssigned { get; set; }
 
         public List<WeekItem> WeekItems { get; set; }
     }

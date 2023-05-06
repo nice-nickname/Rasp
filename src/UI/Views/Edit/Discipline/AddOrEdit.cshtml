@@ -74,7 +74,16 @@
                         {
                             SelectedId = Model.KindId
                         }).Select(s => (DropDownItem)s);
-                        control.IsSearchable = true;
+                        control.OnChange = dsl =>
+                        {
+                            dsl.With(s => s.EqualsAttribute("data-type", SubDisciplineKind.OfType.EXAM.ToString()))
+                               .JQuery.Attr.AddClass("d-none")
+                               .If(() => Selector.Jquery.Self() != 3);
+
+                            dsl.With(s => s.EqualsAttribute("data-type", SubDisciplineKind.OfType.EXAM.ToString()))
+                               .JQuery.Attr.RemoveClass("d-none")
+                               .If(() => Selector.Jquery.Self() == 3);
+                        };
                     })
                     @Html.ValidationMessageFor(s => s.KindId)
                 </div>
@@ -95,9 +104,7 @@
                         control.IsSearchable = true;
                         control.ActionBox = true;
                         control.ChangeTimeout = 1000;
-                        control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
-                                                     .Trigger.None()
-                                                     .If(() => Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds) != null);
+                        control.OnChange = dsl => dsl.WithName("plan-container").Trigger.None();
                     })
                     @Html.ValidationMessageFor(s => s.GroupIds)
                 </div>
@@ -113,7 +120,7 @@
                     }
                     @foreach (var subDiscipline in Model.SubDisciplines)
                     {
-                        <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation" data-type="@subDiscipline.Type">
                             <button class="nav-link @(i == 0 ? "active" : "")" id="tab-@i" data-bs-toggle="tab" data-bs-target="#page-@i" type="button" role="tab" aria-controls="page-@i" aria-selected="@(i == 0 ? "true" : "false")">
                                 @subDiscipline.Name
                             </button>
@@ -127,13 +134,21 @@
                     }
                     @foreach (var subDiscipline in Model.SubDisciplines)
                     {
-                        <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="page-@i" role="tabpanel" aria-labelledby="tab-@i">
+                        <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="page-@i" role="tabpanel" aria-labelledby="tab-@i" data-type="@subDiscipline.Type">
                             @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Id)}", subDiscipline.Id)
                             @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.KindId)}", subDiscipline.KindId)
                             <div class="row mt-3">
                                 <div class="form-group col-2">
-                                    <label class="form-label">@DataResources.Hours</label>
-                                    <input class="form-control" type="number" name="@($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")" placeholder="0" value="@subDiscipline.Hours"/>
+                                    <label class="form-label">@DataResources.CountOfClass</label>
+                                    @(Html.When(JqueryBind.Change)
+                                          .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Role("total"))).Insert.Use(Selector.Jquery.Self()).Text())
+                                          .AsHtmlAttributes(new
+                                          {
+                                              @class = "form-control",
+                                              name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}",
+                                              placeholder = 0
+                                          })
+                                          .ToInput(HtmlInputType.Number, subDiscipline.Hours.ToString()))
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
                                 </div>
                                 <div class="form-group col-4">
@@ -150,7 +165,6 @@
                                             SelectedIds = subDiscipline.TeacherIds
                                         });
                                         control.MaxVisibleElements = 1;
-                                        control.OnChange = dsl => dsl.Window.Console.Log("hahaha", "hehehe");
                                         control.ChangeTimeout = 1000;
                                         control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
                                                                      .Trigger.None()
@@ -162,12 +176,14 @@
                             <div class="row mt-3">
                                 <h5>@DataResources.DisciplinePlanByWeeks</h5>
                                 @(Html.When(JqueryBind.None)
+                                      .StopPropagation()
                                       .Ajax(Url.Dispatcher().Query<GetDisciplinePlansWEBQuery>(new
                                       {
                                           GroupIds = Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds),
                                           TeacherIds = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}"),
                                           LastIndex = i,
-                                          SubDisciplineId = subDiscipline.Id
+                                          SubDisciplineId = subDiscipline.Id,
+                                          Hours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
                                       }).AsView("~/Views/Edit/Discipline/Tmpl/GroupsItem_Tmpl.cshtml"))
                                       .OnSuccess(dsl => dsl.Self().Insert.Html())
                                       .AsHtmlAttributes(new { name = "plan-container" })

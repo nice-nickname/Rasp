@@ -1,10 +1,11 @@
 ﻿using System.Drawing;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class SubDisciplineKind : IncEntityBase
+public class SubDisciplineKind : IncEntityBase, Share.IEntityHasId
 {
     public enum OfType
     {

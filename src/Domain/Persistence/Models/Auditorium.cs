@@ -4,7 +4,7 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment
+public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment, Share.IEntityHasId
 {
     public new virtual int Id { get; set; }
 

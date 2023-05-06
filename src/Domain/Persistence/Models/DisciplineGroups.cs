@@ -6,7 +6,7 @@ using Incoding.Core.Extensions.LinqSpecs;
 
 namespace Domain.Persistence;
 
-public class DisciplineGroups : IncEntityBase, Share.IEntityHasDiscipline
+public class DisciplineGroups : IncEntityBase, Share.IEntityHasDiscipline, Share.IEntityHasId
 {
     public new virtual int Id { get; set; }
 

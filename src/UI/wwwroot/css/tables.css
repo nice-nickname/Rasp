@@ -20,4 +20,9 @@ th.tc-hours {
     width: 60px;
 }
 
+th.tc-options,
+td.tc-options {
+    width: 60px;
+}
+
 /* #endregion columns styles */

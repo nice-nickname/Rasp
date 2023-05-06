@@ -2,7 +2,14 @@
 
 <div role="dropdown" class="dropdown @Model.Classes">
     <button class="btn @Model.Button?.Classes" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="@Model.Button?.Title" id="@Model.Button?.Id">
-        <span role="title">@Model.Button?.Text</span>
+        @if (string.IsNullOrWhiteSpace(Model.Button?.Icon))
+        {
+            <span role="title">@Model.Button?.Text</span>
+        }
+        else
+        {
+            <span class="material-symbols-rounded" role="title">@Model.Button.Icon</span>
+        }
     </button>
     <ul class="dropdown-menu @Model.DropdownMenu?.Classes">
         @foreach (var item in Model.Items)

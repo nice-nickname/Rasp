@@ -4,7 +4,7 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class SubDiscipline : IncEntityBase, Share.IEntityHasDiscipline
+public class SubDiscipline : IncEntityBase, Share.IEntityHasDiscipline, Share.IEntityHasId
 {
     public new virtual int Id { get; set; }
 
