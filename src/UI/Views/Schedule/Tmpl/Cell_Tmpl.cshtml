@@ -1,0 +1,35 @@
+﻿@using Domain.Api.Schedule
+@model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
+
+@{
+    var urlSave = Url.Dispatcher().Push<SaveScheduleCommand>(new
+    {
+        Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
+        ScheduleFormatId = Selector.Jquery.Self().Closest(r => r.Role("cell")).Find(r => r.Name<SaveScheduleCommand>(q => q.ScheduleFormatId)),
+        DisciplinePlanId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.DisciplinePlanId)),
+        Day = Selector.Jquery.Self().Closest(r => r.Role("row")).Find(r => r.Name<SaveScheduleCommand>(q => q.Day)),
+        SubGroupNo = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.SubGroupNo)),
+        AuditoriumId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.AuditoriumId)),
+        Id = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(r => r.Id))
+    });
+
+    Action<IIncodingMetaLanguageCallbackBodyDsl> saveSchedule = dsl => dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
+}
+
+<div class="bg-base rounded position-relative cell" role="cell">
+    @Html.Hidden(nameof(SaveScheduleCommand.ScheduleFormatId), Model.For(r => r.ScheduleFormatId))
+    @using (Html.When("incodingdropped")
+                .AjaxPost(urlSave)
+                .OnSuccess(dsl => saveSchedule(dsl))
+                .AsHtmlAttributes(new
+                {
+                    @class = "w-100 h-100 bg-base rounded",
+                    role = "drag-container"
+                })
+                .ToBeginTag(HtmlTag.Div))
+    {
+        @Model.NotInline(r => r.IsEmpty, @<text>
+                                             @await Html.PartialAsync("~/Views/Schedule/Tmpl/ScheduledClass_Tmpl.cshtml", Model)
+                                          </text>)
+    }
+</div>

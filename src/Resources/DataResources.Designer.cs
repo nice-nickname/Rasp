@@ -196,6 +196,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to занятие.
+        /// </summary>
+        public static string Class {
+            get {
+                return ResourceManager.GetString("Class", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Очистить.
         /// </summary>
         public static string Clear {
@@ -493,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Пятница.
+        /// </summary>
+        public static string Friday {
+            get {
+                return ResourceManager.GetString("Friday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ИКТИБ.
         /// </summary>
         public static string funny_institut {
@@ -646,6 +664,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Понедельник.
+        /// </summary>
+        public static string Monday {
+            get {
+                return ResourceManager.GetString("Monday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет доступных элементов.
         /// </summary>
         public static string NoItemsAvailable {
@@ -741,6 +768,15 @@ namespace Resources {
         public static string Practice {
             get {
                 return ResourceManager.GetString("Practice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Суббота.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
             }
         }
         
@@ -898,6 +934,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to подгруппа.
+        /// </summary>
+        public static string SubGroup {
+            get {
+                return ResourceManager.GetString("SubGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Воскресенье.
+        /// </summary>
+        public static string Sunday {
+            get {
+                return ResourceManager.GetString("Sunday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Преподаватель.
         /// </summary>
         public static string Teacher {
@@ -934,11 +988,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Четверг.
+        /// </summary>
+        public static string Thursday {
+            get {
+                return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to На главную.
         /// </summary>
         public static string ToHome {
             get {
                 return ResourceManager.GetString("ToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вторник.
+        /// </summary>
+        public static string Tuesday {
+            get {
+                return ResourceManager.GetString("Tuesday", resourceCulture);
             }
         }
         
@@ -957,6 +1029,15 @@ namespace Resources {
         public static string Validation_ScheduleItemIntersectsWithPrevious {
             get {
                 return ResourceManager.GetString("Validation_ScheduleItemIntersectsWithPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Среда.
+        /// </summary>
+        public static string Wednesday {
+            get {
+                return ResourceManager.GetString("Wednesday", resourceCulture);
             }
         }
         

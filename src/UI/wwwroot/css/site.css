@@ -327,11 +327,33 @@ input.form-control[type=color] {
 }
 
 .class-card {
-    max-height: 140px;
+    max-height: 115px;
+}
+
+.class-card .discipline-code,
+.class-card .subdiscipline-code {
+    visibility: hidden;
+    display: none;
 }
 
 .schedule .class-card {
     max-height: none;
+}
+
+.schedule .class-card .discipline-code,
+.schedule .class-card .subdiscipline-code,
+[incoding-dragging] .discipline-code,
+[incoding-dragging] .subdiscipline-code {
+    visibility: visible;
+    display: block;
+}
+
+.schedule .class-card .discipline,
+.schedule .class-card .subdiscipline,
+[incoding-dragging] .discipline,
+[incoding-dragging] .subdiscipline {
+    visibility: hidden;
+    display: none;
 }
 
 .schedule .column-header {
@@ -407,6 +429,14 @@ input.form-control[type=color] {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.cursor-grab {
+    cursor: grab;
+}
+
+.cursor-grabbing {
+    cursor: grabbing;
 }
 
 .shadow-hover {

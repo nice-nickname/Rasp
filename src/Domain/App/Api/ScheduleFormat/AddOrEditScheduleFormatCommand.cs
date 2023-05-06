@@ -52,6 +52,8 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public record ScheduleItem
     {
+        public int Id { get; set; }
+
         public int Order { get; set; }
 
         public TimeSpan? Start { get; set; }
@@ -95,7 +97,8 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                                            {
                                                    Start = s.Start,
                                                    End = s.End,
-                                                   Order = s.Order
+                                                   Order = s.Order,
+                                                   Id = s.Id
                                            })
                                            .ToList();
 

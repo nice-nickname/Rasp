@@ -15,4 +15,6 @@ public static class GlobalSelectors
     public static readonly string EditAreaId = "AFC8174F-08AB-4B8B-83A1-958EBE6CEF71";
 
     public static readonly string EditListId = "59C072F0-DDF9-493B-8765-DF1AD7145ED2";
+
+    public static readonly string ScheduleId = "D630729B-4E05-4AF4-ABFA-F9E874E1F7DE";
 }

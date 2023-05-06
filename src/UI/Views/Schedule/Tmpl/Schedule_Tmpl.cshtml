@@ -1,0 +1,38 @@
+﻿@using Domain.Api.Schedule
+@{
+    var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
+}
+
+@using (var template = Html.Incoding().Template<GetScheduleByWeekQuery.Response>())
+{
+    <div class="d-flex gap-2 s-row">
+        <div class="column-header row-header flex-shrink-0"></div>
+        @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
+        {
+            <div class="w-100 bg-light shadow rounded d-flex flex-column column-header align-items-center justify-content-center">
+                <div>
+                    @(scheduleFormat.Items[i].Order + 1) @DataResources.Class
+                </div>
+                <div class="">
+                    @($"{scheduleFormat.Items[i].Start?.Hours:00}:{scheduleFormat.Items[i].Start?.Minutes:00}")
+                    -
+                    @($"{scheduleFormat.Items[i].End?.Hours:00}:{scheduleFormat.Items[i].End?.Minutes:00}")
+                </div>
+            </div>
+        }
+    </div>
+
+    @using (var day = template.ForEach())
+    {
+        <div class="d-flex gap-2 s-row" role="row">
+            @Html.Hidden(nameof(SaveScheduleCommand.Day), day.For(r => r.Day))
+            <div class="bg-light shadow rounded row-header d-flex flex-shrink-0 justify-content-center align-items-center">
+                @day.For(r => r.DayString)
+            </div>
+            @using (var each = day.ForEach(r => r.Items))
+            {
+                @await Html.PartialAsync("~/Views/Schedule/Tmpl/Cell_Tmpl.cshtml", each)
+            }
+        </div>
+    }
+}

@@ -426,4 +426,31 @@
 	<data name="SignInWith" xml:space="preserve">
 		<value>Войти с помощью</value>
 	</data>
+	<data name="SubGroup" xml:space="preserve">
+		<value>подгруппа</value>
+	</data>
+	<data name="Class" xml:space="preserve">
+		<value>занятие</value>
+	</data>
+	<data name="Sunday" xml:space="preserve">
+		<value>Воскресенье</value>
+	</data>
+	<data name="Monday" xml:space="preserve">
+		<value>Понедельник</value>
+	</data>
+	<data name="Tuesday" xml:space="preserve">
+		<value>Вторник</value>
+	</data>
+	<data name="Wednesday" xml:space="preserve">
+		<value>Среда</value>
+	</data>
+	<data name="Thursday" xml:space="preserve">
+		<value>Четверг</value>
+	</data>
+	<data name="Friday" xml:space="preserve">
+		<value>Пятница</value>
+	</data>
+	<data name="Saturday" xml:space="preserve">
+		<value>Суббота</value>
+	</data>
 </root>

@@ -1,20 +1,68 @@
-﻿@using (var template = Html.Incoding().Template<GetClassByWeekQuery.Response>())
+﻿@using Domain.Api.Schedule
+@using (var template = Html.Incoding().Template<GetClassByWeekQuery.Response>())
 {
     using (var each = template.ForEach())
     {
-        <div class="w-100 h-100 bg-secondary rounded class-card d-flex flex-column" role="drag-element">
-            <div title="@each.For(r => r.DisciplineCode)">
-                @each.For(r => r.Discipline)
+        <div class="w-100 h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element">
+            @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), each.For(r => r.DisciplinePlanId))
+            @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), each.For(r => r.SubGroupNo))
+
+            <div class="w-100 rounded-top" style="height: 0.25rem; background-color: @each.For(r => r.Color)"></div>
+
+            <div class="d-flex mx-1 mt-1">
+                <div class="flex-grow-1 discipline-code" title="@each.For(r => r.Discipline)">
+                    @each.For(r => r.DisciplineCode)
+                </div>
+                <div class="flex-grow-1 discipline">
+                    @each.For(r => r.Discipline)
+                </div>
+
+                <div class="flex-shrink-0 subdiscipline-code" title="@each.For(r => r.SubDiscipline)">
+                    @each.For(r => r.SubDisciplineCode)
+                </div>
+                <div class="flex-shrink-0 subdiscipline">
+                    @each.For(r => r.SubDiscipline)
+                </div>
             </div>
-            <div>
-                @each.For(r => r.SubDiscipline)
+
+            <div class="mx-1">
+                @each.Inline(r => r.HasSubGroups,
+                             @<text>
+                                 @each.For(r => r.SubGroupNo) @DataResources.SubGroup
+                              </text>,
+                             @<text>
+                                 -
+                              </text>)
             </div>
-            <div>
-                @each.For(r => r.Teacher)
+
+            <div class="d-flex mx-1">
+                <div class="flex-grow-1">
+                    @each.For(r => r.Teacher)
+                </div>
+                <div class="flex-shrink-0" title="@each.For(r => r.Department)">
+                    @each.For(r => r.DepartmentCode)
+                </div>
             </div>
-            <div title="@each.For(r => r.Department)">
-                @each.For(r => r.DepartmentCode)
-            </div>
+
+            @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId))
+
+            @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                   {
+                       Button = new DropdownModel.ButtonSettings
+                       {
+                           Classes = "w-100 btn-light btn-sm",
+                           Text = "test"
+                       },
+                       Items = new List<IHtmlContent>
+                       {
+                           Html.Controls().Dropdown.List(settings =>
+                           {
+                               settings.Url = Url.Dispatcher().Query<GetAuditoriumsForDDQuery>().AsJson();
+                               settings.OnClick = dsl => { dsl.Window.Console.Log("r-debug", 1); };
+                           })
+                       },
+                       Classes = "mx-1 mb-1"
+                   })
         </div>
     }
 }

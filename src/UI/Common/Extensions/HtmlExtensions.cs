@@ -17,7 +17,6 @@ public static class Extension
 public static class HtmlExtensions
 {
     public static ControlsHtmlHelper<T> Controls<T>(this IHtmlHelper<T> helper)
-            where T : new()
     {
         return new ControlsHtmlHelper<T>(helper);
     }
