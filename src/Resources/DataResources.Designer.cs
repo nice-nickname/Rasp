@@ -826,20 +826,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Суббота.
-        /// </summary>
-        public static string Saturday {
-            get {
-                return ResourceManager.GetString("Saturday", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Сбросить все.
         /// </summary>
         public static string ResetAll {
             get {
                 return ResourceManager.GetString("ResetAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Суббота.
+        /// </summary>
+        public static string Saturday {
+            get {
+                return ResourceManager.GetString("Saturday", resourceCulture);
             }
         }
         
@@ -930,6 +930,24 @@ namespace Resources {
         public static string SelectControl_SelectAll {
             get {
                 return ResourceManager.GetString("SelectControl_SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Длительность сессии в неделях.
+        /// </summary>
+        public static string SessionDurationInWeeks {
+            get {
+                return ResourceManager.GetString("SessionDurationInWeeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Дата начала сессии.
+        /// </summary>
+        public static string SessionStartDate {
+            get {
+                return ResourceManager.GetString("SessionStartDate", resourceCulture);
             }
         }
         
@@ -1096,11 +1114,20 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата начала сессии должна быть после начала семестра.
+        /// </summary>
+        public static string Validatino_SessionStartDate_ShouldBeGreaterThanStartDate {
+            get {
+                return ResourceManager.GetString("Validatino_SessionStartDate_ShouldBeGreaterThanStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дата начала этой пары пересекается с прошлой парой.
         /// </summary>
-        public static string Validation_ScheduleItemIntersectsWithPrevious {
+        public static string Validation_ScheduleItem_IntersectsWithPrevious {
             get {
-                return ResourceManager.GetString("Validation_ScheduleItemIntersectsWithPrevious", resourceCulture);
+                return ResourceManager.GetString("Validation_ScheduleItem_IntersectsWithPrevious", resourceCulture);
             }
         }
         

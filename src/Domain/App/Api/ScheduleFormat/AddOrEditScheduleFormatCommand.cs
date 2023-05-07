@@ -15,6 +15,10 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public DateTime StartDate { get; set; }
 
+    public DateTime SessionStartDate { get; set; }
+
+    public int SessionDuration { get; set; }
+
     public List<ScheduleItem> Items { get; set; }
 
     protected override void Execute()
@@ -33,11 +37,18 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                 Value = StartDate
         });
 
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>
+        {
+                FacultyId = FacultyId,
+                Type = FacultySettings.OfType.SessionStartDate,
+                Value = SessionStartDate
+        });
+
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
         {
                 FacultyId = FacultyId,
-                Type = FacultySettings.OfType.CountOfWeeks,
-                Value = CountOfWeeks
+                Type = FacultySettings.OfType.SessionDurationInWeeks,
+                Value = SessionDuration
         });
 
         foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
@@ -65,6 +76,11 @@ public class AddOrEditScheduleFormatCommand : CommandBase
     {
         public Validator()
         {
+            RuleFor(s => s.SessionStartDate).GreaterThan(s => s.StartDate)
+                                            .WithMessage(DataResources.Validatino_SessionStartDate_ShouldBeGreaterThanStartDate)
+                                            .WithName(DataResources.SessionStartDate);
+
+            RuleFor(s => s.SessionDuration).GreaterThanOrEqualTo(1).WithName(DataResources.SessionDurationInWeeks);
             RuleFor(s => s.ItemsCount).GreaterThanOrEqualTo(1).WithName(DataResources.ScheduleItemsCount);
             RuleFor(s => s.CountOfWeeks).GreaterThanOrEqualTo(1).WithName(DataResources.CountOfWeeks);
             RuleFor(s => s.StartDate).NotEmpty().NotNull().WithName(DataResources.StartDate);
@@ -79,7 +95,7 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                     return true;
 
                 return command.Items[currentIndex].Start > command.Items[currentIndex - 1].End;
-            }).WithMessage(DataResources.Validation_ScheduleItemIntersectsWithPrevious);
+            }).WithMessage(DataResources.Validation_ScheduleItem_IntersectsWithPrevious);
             RuleForEach(s => s.Items).Must(item => item.Start.HasValue && item.End.HasValue && item.Start < item.End).WithMessage(DataResources.IncorrectValue);
         }
     }
@@ -107,7 +123,9 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                     ItemsCount = schedulerItems.Count,
                     Items = schedulerItems,
                     StartDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
-                    CountOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
+                    CountOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks }),
+                    SessionDuration = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.SessionDurationInWeeks }),
+                    SessionStartDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.SessionStartDate })
             };
         }
     }

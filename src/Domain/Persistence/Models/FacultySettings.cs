@@ -11,7 +11,9 @@ public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty, Share.IEn
     public enum OfType
     {
         StartDate,
-        CountOfWeeks
+        CountOfWeeks,
+        SessionStartDate,
+        SessionDurationInWeeks
     }
 
     public virtual int Id { get; set; }

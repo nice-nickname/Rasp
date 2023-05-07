@@ -345,7 +345,7 @@
 	<data name="IncorrectValue" xml:space="preserve">
 		<value>Некорректное значение</value>
 	</data>
-	<data name="Validation_ScheduleItemIntersectsWithPrevious" xml:space="preserve">
+	<data name="Validation_ScheduleItem_IntersectsWithPrevious" xml:space="preserve">
 		<value>Дата начала этой пары пересекается с прошлой парой</value>
 	</data>
 	<data name="SelectControl_CountSelectedText" xml:space="preserve">
@@ -476,5 +476,14 @@
 	</data>
 	<data name="AllTeachers" xml:space="preserve">
 		<value>Все преподаватели</value>
+	</data>
+	<data name="SessionDurationInWeeks" xml:space="preserve">
+		<value>Длительность сессии в неделях</value>
+	</data>
+	<data name="SessionStartDate" xml:space="preserve">
+		<value>Дата начала сессии</value>
+	</data>
+	<data name="Validatino_SessionStartDate_ShouldBeGreaterThanStartDate" xml:space="preserve">
+		<value>Дата начала сессии должна быть после начала семестра</value>
 	</data>
 </root>

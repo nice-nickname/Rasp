@@ -25,8 +25,8 @@ public class GetScheduleFormatQuery : QueryBase<GetScheduleFormatQuery.Response>
         {
                 ItemsCount = schedulerItems.Count,
                 Items = schedulerItems,
-                StartDate = Dispatcher.Query(new GetFacultySettingCommand<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
-                CountOfWeeks = Dispatcher.Query(new GetFacultySettingCommand<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
+                StartDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
+                CountOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
         };
     }
 
