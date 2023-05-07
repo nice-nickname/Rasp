@@ -15,7 +15,7 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public DateTime StartDate { get; set; }
 
-    public DateTime SessionStartDate { get; set; }
+    public int SessionStartWeek { get; set; }
 
     public int SessionDuration { get; set; }
 
@@ -30,6 +30,13 @@ public class AddOrEditScheduleFormatCommand : CommandBase
         if (existedItems.Any())
             Repository.DeleteByIds<ScheduleFormat>(existedItems);
 
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
+        {
+                FacultyId = FacultyId,
+                Type = FacultySettings.OfType.CountOfWeeks,
+                Value = CountOfWeeks
+        });
+
         Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>
         {
                 FacultyId = FacultyId,
@@ -37,11 +44,11 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                 Value = StartDate
         });
 
-        Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
         {
                 FacultyId = FacultyId,
-                Type = FacultySettings.OfType.SessionStartDate,
-                Value = SessionStartDate
+                Type = FacultySettings.OfType.SessionStartWeek,
+                Value = SessionStartWeek
         });
 
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
@@ -76,11 +83,9 @@ public class AddOrEditScheduleFormatCommand : CommandBase
     {
         public Validator()
         {
-            RuleFor(s => s.SessionStartDate).GreaterThan(s => s.StartDate)
-                                            .WithMessage(DataResources.Validatino_SessionStartDate_ShouldBeGreaterThanStartDate)
-                                            .WithName(DataResources.SessionStartDate);
-
-            RuleFor(s => s.SessionDuration).GreaterThanOrEqualTo(1).WithName(DataResources.SessionDurationInWeeks);
+            
+            RuleFor(s => s.SessionStartWeek).Must((command, week) => command.SessionStartWeek + command.SessionDuration <= command.CountOfWeeks + 1).WithMessage(DataResources.Validation_SessionStartWeek_SessionOverheadsSemester);
+            RuleFor(s => s.SessionDuration).GreaterThan(0).WithName(DataResources.SessionDurationInWeeks);
             RuleFor(s => s.ItemsCount).GreaterThanOrEqualTo(1).WithName(DataResources.ScheduleItemsCount);
             RuleFor(s => s.CountOfWeeks).GreaterThanOrEqualTo(1).WithName(DataResources.CountOfWeeks);
             RuleFor(s => s.StartDate).NotEmpty().NotNull().WithName(DataResources.StartDate);
@@ -125,7 +130,7 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                     StartDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
                     CountOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks }),
                     SessionDuration = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.SessionDurationInWeeks }),
-                    SessionStartDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.SessionStartDate })
+                    SessionStartWeek = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.SessionStartWeek })
             };
         }
     }

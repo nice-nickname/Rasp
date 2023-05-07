@@ -103,7 +103,7 @@ public class AddOrEditDisciplineCommand : CommandBase
                 Repository.DeleteByIds<DisciplinePlan>(plans);
             }
 
-            if (subDisciplineItem.Kind.Type == SubDisciplineKind.OfType.EXAM)
+            if (sdKind.Type == SubDisciplineKind.OfType.EXAM)
             {
                 continue;
             }
@@ -214,7 +214,7 @@ public class AddOrEditDisciplineCommand : CommandBase
                                                    Name = s.Name,
                                                    TeacherIds = new List<int>(),
                                                    Type = s.Type,
-                                                   IsParallelHours = s.Type != SubDisciplineKind.OfType.EXAM
+                                                   IsParallelHours = false
                                            })
                                            .ToList();
             }

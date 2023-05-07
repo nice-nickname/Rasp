@@ -480,10 +480,13 @@
 	<data name="SessionDurationInWeeks" xml:space="preserve">
 		<value>Длительность сессии в неделях</value>
 	</data>
-	<data name="SessionStartDate" xml:space="preserve">
-		<value>Дата начала сессии</value>
+	<data name="SessionStartWeek" xml:space="preserve">
+		<value>Неделя начала сессии</value>
 	</data>
-	<data name="Validatino_SessionStartDate_ShouldBeGreaterThanStartDate" xml:space="preserve">
-		<value>Дата начала сессии должна быть после начала семестра</value>
+	<data name="Validation_SessionStartWeek_SessionOverheadsSemester" xml:space="preserve">
+		<value>Сессия выходит за границы семестра</value>
+	</data>
+	<data name="Weekends" xml:space="preserve">
+		<value>Выходные</value>
 	</data>
 </root>

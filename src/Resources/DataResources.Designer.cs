@@ -943,11 +943,11 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата начала сессии.
+        ///   Looks up a localized string similar to Неделя начала сессии.
         /// </summary>
-        public static string SessionStartDate {
+        public static string SessionStartWeek {
             get {
-                return ResourceManager.GetString("SessionStartDate", resourceCulture);
+                return ResourceManager.GetString("SessionStartWeek", resourceCulture);
             }
         }
         
@@ -1114,15 +1114,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Дата начала сессии должна быть после начала семестра.
-        /// </summary>
-        public static string Validatino_SessionStartDate_ShouldBeGreaterThanStartDate {
-            get {
-                return ResourceManager.GetString("Validatino_SessionStartDate_ShouldBeGreaterThanStartDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Дата начала этой пары пересекается с прошлой парой.
         /// </summary>
         public static string Validation_ScheduleItem_IntersectsWithPrevious {
@@ -1132,11 +1123,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сессия выходит за границы семестра.
+        /// </summary>
+        public static string Validation_SessionStartWeek_SessionOverheadsSemester {
+            get {
+                return ResourceManager.GetString("Validation_SessionStartWeek_SessionOverheadsSemester", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Среда.
         /// </summary>
         public static string Wednesday {
             get {
                 return ResourceManager.GetString("Wednesday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выходные.
+        /// </summary>
+        public static string Weekends {
+            get {
+                return ResourceManager.GetString("Weekends", resourceCulture);
             }
         }
         

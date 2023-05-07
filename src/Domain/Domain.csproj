@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="App\Api\FacultySettings\Weekend\" />
     <Folder Include="App\Api\Faculty\" />
     <Folder Include="App\Api\Building\" />
     <Folder Include="App\Api\Auditorium\" />

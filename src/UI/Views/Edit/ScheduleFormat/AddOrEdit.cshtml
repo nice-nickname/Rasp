@@ -22,7 +22,7 @@
     }))
     {
         <div class="row">
-            <div class="form-group col-2">
+            <div class="form-group col">
                 <label class="form-label">@DataResources.ScheduleItemsCount</label>
                 @(Html.When(JqueryBind.Change | JqueryBind.InitIncoding)
                       .StopPropagation()
@@ -39,24 +39,24 @@
                       .ToInput(HtmlInputType.Number, (Model.ItemsCount == 0 ? 7 : Model.ItemsCount).ToString()))
                 @Html.ValidationMessageFor(s => s.ItemsCount)
             </div>
-            <div class="form-group col-2">
+            <div class="form-group col">
                 <label class="form-label" asp-for="StartDate">@DataResources.StartDate</label>
                 <input class="form-control" asp-for="StartDate" type="date">
                 @Html.ValidationMessageFor(s => s.StartDate)
             </div>
-            <div class="form-group col-2">
+            <div class="form-group col">
                 <label class="form-label" asp-for="CountOfWeeks">@DataResources.CountOfWeeks</label>
                 <input class="form-control" asp-for="CountOfWeeks" type="number">
                 @Html.ValidationMessageFor(s => s.CountOfWeeks)
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-3">
-                <label class="form-label" asp-for="SessionStartDate">@DataResources.SessionStartDate</label>
-                <input class="form-control" asp-for="SessionStartDate" type="date">
-                @Html.ValidationMessageFor(s => s.SessionStartDate)
+            <div class="form-group col">
+                <label class="form-label" asp-for="SessionStartWeek">@DataResources.SessionStartWeek</label>
+                <input class="form-control" asp-for="SessionStartWeek" type="number">
+                @Html.ValidationMessageFor(s => s.SessionStartWeek)
             </div>
-            <div class="form-group col-3">
+            <div class="form-group col">
                 <label class="form-label" asp-for="SessionDuration">@DataResources.SessionDurationInWeeks</label>
                 <input class="form-control" asp-for="SessionDuration" type="number">
                 @Html.ValidationMessageFor(s => s.SessionDuration)

@@ -12,7 +12,7 @@ public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty, Share.IEn
     {
         StartDate,
         CountOfWeeks,
-        SessionStartDate,
+        SessionStartWeek,
         SessionDurationInWeeks
     }
 
