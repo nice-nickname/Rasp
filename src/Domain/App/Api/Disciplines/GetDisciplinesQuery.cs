@@ -11,8 +11,8 @@ public class GetDisciplinesQuery : QueryBase<List<GetDisciplinesQuery.Response>>
                          .Select(s => new Response
                          {
                              Id = s.Id,
-                             Name = s.Code,
-                             Kind = ""
+                             Name = s.Name,
+                             Code = s.Code
                          })
                          .ToList();
 
@@ -24,6 +24,6 @@ public class GetDisciplinesQuery : QueryBase<List<GetDisciplinesQuery.Response>>
 
         public string Name { get; set; }
 
-        public string Kind { get; set; }
+        public string Code { get; set; }
     }
 }
