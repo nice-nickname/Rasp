@@ -46,7 +46,6 @@ public class AddOrEditFacultyCommand : CommandBase
         });
     }
 
-
     public class AsQuery : QueryBase<AddOrEditFacultyCommand>
     {
         public int? Id { get; set; }
@@ -63,7 +62,7 @@ public class AddOrEditFacultyCommand : CommandBase
             };
         }
     }
-    
+
     public class Validator : AbstractValidator<AddOrEditFacultyCommand>
     {
         public Validator()
@@ -74,7 +73,7 @@ public class AddOrEditFacultyCommand : CommandBase
 
             RuleFor(r => r.Name)
                     .NotEmpty().WithMessage(DataResources.InvalidFacultyName)
-                    .NotNull().WithMessage(DataResources.InvalidFacultyName); 
+                    .NotNull().WithMessage(DataResources.InvalidFacultyName);
         }
     }
 }

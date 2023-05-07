@@ -84,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="@($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")" name="@($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")" />
+                    <input type="hidden" id="@($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")" name="@($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")"/>
                     @Html.ValidationMessage($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}]")
                 </div>
             }
