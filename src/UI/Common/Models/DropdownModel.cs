@@ -22,6 +22,8 @@ public class DropdownModel
 
         public string Classes { get; set; } = "btn-light";
 
+        public bool IsDisabled { get; set; }
+
         public string Id { get; set; }
     }
 

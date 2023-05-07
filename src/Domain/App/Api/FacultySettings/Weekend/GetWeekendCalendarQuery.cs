@@ -7,41 +7,51 @@ namespace Domain.Api;
 
 public class GetWeekendCalendarQuery : QueryBase<GetWeekendCalendarQuery.Response>
 {
+    private static readonly Func<DateTime, int> _weekProjector = d => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(d,
+                                                                                                                       CalendarWeekRule.FirstFourDayWeek,
+                                                                                                                       DayOfWeek.Monday);
+
     public int FacultyId { get; set; }
 
     protected override Response ExecuteResult()
     {
-        var start = Dispatcher.Query(new GetFacultySettingQuery<DateTime>
-        {
-                FacultyId = FacultyId,
-                Type = FacultySettings.OfType.StartDate
-        });
+        var days = new List<DayItem>();
+
         var countOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int>
         {
                 FacultyId = FacultyId,
                 Type = FacultySettings.OfType.CountOfWeeks
         });
-
+        
+        var start = Dispatcher.Query(new GetFacultySettingQuery<DateTime>
+        {
+                FacultyId = FacultyId,
+                Type = FacultySettings.OfType.StartDate
+        });
+        
         var end = Dispatcher.Query(new GetDateFromWeekQuery
         {
                 FacultyId = FacultyId,
                 Week = countOfWeeks
         }).AddDays(6);
 
-        var days = new List<DayItem>();
+        var holidayDays = Repository.Query<Holidays>()
+                                    .Select(s => s.Date)
+                                    .ToList();
+        var current = start;
 
-        Func<DateTime, int> weekProjector = d => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(d,
-                                                                                                   CalendarWeekRule.FirstFourDayWeek,
-                                                                                                   DayOfWeek.Monday);
-
-        while (start <= end)
+        while (current <= end)
         {
             days.Add(new DayItem
             {
-                    Day = start,
-                    Type = start.DayOfWeek == DayOfWeek.Sunday ? DayItem.WeekendType.Weekend : DayItem.WeekendType.None
+                    Day = current,
+                    Type = current.DayOfWeek == DayOfWeek.Sunday 
+                            ? DayItem.WeekendType.Weekend 
+                            : holidayDays.Contains(DateOnly.FromDateTime(current))
+                                    ? DayItem.WeekendType.Holiday 
+                                    : DayItem.WeekendType.None
             });
-            start = start.AddDays(1);
+            current = current.AddDays(1);
         }
 
         return new Response
@@ -49,7 +59,7 @@ public class GetWeekendCalendarQuery : QueryBase<GetWeekendCalendarQuery.Respons
                 Months = days.GroupBy(s => s.Day.Month)
                              .Select(month => new MonthItem
                              {
-                                     Weeks = month.GroupBy(m => weekProjector(m.Day))
+                                     Weeks = month.GroupBy(m => _weekProjector(m.Day))
                                                   .Select(week => new WeekItem
                                                   {
                                                           Days = week.Select(day => new DayItem
@@ -62,12 +72,18 @@ public class GetWeekendCalendarQuery : QueryBase<GetWeekendCalendarQuery.Respons
                                                   .ToList(),
                                      Name = DateTimeFormatInfo.CurrentInfo.GetMonthName(month.Key)
                              })
-                             .ToList()
+                             .ToList(),
+                Start = DateOnly.FromDateTime(start),
+                End = DateOnly.FromDateTime(end),
         };
     }
 
     public record Response
     {
+        public DateOnly Start { get; set; }
+
+        public DateOnly End { get; set; }
+
         public List<MonthItem> Months { get; set; }
     }
 

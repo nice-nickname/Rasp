@@ -9,31 +9,69 @@
     @DataResources.Weekends
 }
 
+@section RemoveButton
+{
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push(new FetchWeekendDaysFromAPICommand());
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
+        settings.Text = DataResources.SetWeekendAutomatic;
+        settings.Icon = "cloud_download";
+        settings.TextConfirm = DataResources.ConfirmAction;
+        settings.TextInProcess = DataResources.Importing;
+        settings.Color = ConfirmSettings.ButtonColor.Secondary;
+    })
+
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push(new ResetAllWeekendsCommand());
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
+        settings.Text = DataResources.Reset;
+        settings.Icon = "delete";
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Danger;
+        settings.AdditionalClasses = "ms-3";
+    })
+}
+
 @section Body
 {
-    @using (Html.Controls().Form(settings =>
+    @using (Html.Controls().Form(settings => { settings.Class = "d-flex flex-column gap-3"; }))
     {
-        settings.Class = "d-flex flex-column gap-3";
-    }))
-    {
-        <div class="form-divider"></div>
-
         <div class="d-flex flex-row flex-wrap gap-3">
             @foreach (var month in Model.Months)
             {
-                <div class="schedule-month border rounded" style="width: 300px; height: 300px;">
-                    <table class="w-100 h-100">
+                <div class="schedule-month-card border rounded" style="width: 300px; height: 300px;">
+                    <table class="w-100 h-100 table-fixed">
                         <thead>
                             <tr>
-                                <th colspan="7">@month.Name</th>
+                                <th colspan="7">
+                                    <h5 class="px-3 pt-2">@month.Name</h5>
+                                </th>
                             </tr>
                             <tr>
-                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Monday)</th>
-                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Tuesday)</th>
-                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Wednesday)</th>
-                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Thursday)</th>
-                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Saturday)</th>
-                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Sunday)</th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Monday)</div>
+                                </th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Tuesday)</div>
+                                </th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Wednesday)</div>
+                                </th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Thursday)</div>
+                                </th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Friday)</div>
+                                </th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Saturday)</div>
+                                </th>
+                                <th class="text-center">
+                                    <div style="width: 42px;">@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Sunday)</div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,13 +81,59 @@
                                     @{
                                         var firstDayOfWeek = week.Days.First().Day.DayOfWeek;
                                     }
-                                    @if (firstDayOfWeek != DayOfWeek.Monday)
+                                    @if (firstDayOfWeek == DayOfWeek.Sunday)
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                    else if (firstDayOfWeek != DayOfWeek.Monday)
                                     {
                                         for (var i = 0; i < ((int)firstDayOfWeek - (int)DayOfWeek.Monday); i++)
                                         {
-
+                                            <td></td>
                                         }
                                     }
+                                    @foreach (var day in week.Days)
+                                    {
+                                        var color = day.Type != GetWeekendCalendarQuery.DayItem.WeekendType.None ? "btn-secondary" : "btn-light";
+                                        var url = Url.Dispatcher().Push(new ToggleMarkAsWeekendCommand
+                                        {
+                                            Day = day.Day.ToString()
+                                        });
+                                        var id = day.Day.Ticks.ToString();
+                                        <td class="text-center" data-day="@day.Day">
+                                            @await Html.PartialAsync("DropDown_Tmpl", new DropdownModel
+                                                   {
+                                                       Button = new DropdownModel.ButtonSettings
+                                                       {
+                                                           Id = id,
+                                                           Text = day.Day.Day.ToString(),
+                                                           Classes = $"btn-sm {color}",
+                                                           IsDisabled = day.Type == GetWeekendCalendarQuery.DayItem.WeekendType.Weekend
+                                                       },
+                                                       Items = new List<IHtmlContent>
+                                                       {
+                                                           Html.Controls().Dropdown.Button(control =>
+                                                           {
+                                                               control.Id = $"day-{id}";
+                                                               control.Text = DataResources.ToggleWeekend;
+                                                               control.Url = url;
+                                                               control.OnSuccess = dsl => dsl.WithId(id).JQuery.Attr.ToggleClass("btn-secondary btn-light");
+                                                           })
+                                                       }
+                                                   })
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                            @for (var i = 0; i < 5 - month.Weeks.Count; i++)
+                            {
+                                <tr>
+                                    <td colspan="7">&nbsp</td>
                                 </tr>
                             }
                         </tbody>

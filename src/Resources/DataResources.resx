@@ -489,4 +489,22 @@
 	<data name="Weekends" xml:space="preserve">
 		<value>Выходные</value>
 	</data>
+	<data name="SetWeekendDay" xml:space="preserve">
+		<value>Установить праздник</value>
+	</data>
+	<data name="RemoveWeekendDay" xml:space="preserve">
+		<value>Убрать праздник</value>
+	</data>
+	<data name="ToggleWeekend" xml:space="preserve">
+		<value>Установить/Снять праздник</value>
+	</data>
+	<data name="SetWeekendAutomatic" xml:space="preserve">
+		<value>Выставить автоматически</value>
+	</data>
+	<data name="Importing" xml:space="preserve">
+		<value>Импортируем</value>
+	</data>
+	<data name="ConfirmAction" xml:space="preserve">
+		<value>Подтвердите действие</value>
+	</data>
 </root>

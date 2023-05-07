@@ -8,6 +8,8 @@ public class ConfirmSettings
     {
         Primary,
 
+        Secondary,
+
         Light,
 
         Success,
@@ -30,6 +32,8 @@ public class ConfirmSettings
     public string Icon { get; set; }
 
     public bool IsDisabled { get; set; }
+
+    public string AdditionalClasses { get; set; }
 
     public ButtonColor Color { get; set; }
 
