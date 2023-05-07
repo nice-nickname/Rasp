@@ -817,6 +817,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Убрать праздник.
+        /// </summary>
+        public static string RemoveWeekendDay {
+            get {
+                return ResourceManager.GetString("RemoveWeekendDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Сбросить.
         /// </summary>
         public static string Reset {
@@ -952,6 +961,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Установить праздник.
+        /// </summary>
+        public static string SetWeekendDay {
+            get {
+                return ResourceManager.GetString("SetWeekendDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Войти с помощью.
         /// </summary>
         public static string SignInWith {
@@ -1083,6 +1101,15 @@ namespace Resources {
         public static string Thursday {
             get {
                 return ResourceManager.GetString("Thursday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Установить/Снять праздник.
+        /// </summary>
+        public static string ToggleWeekend {
+            get {
+                return ResourceManager.GetString("ToggleWeekend", resourceCulture);
             }
         }
         

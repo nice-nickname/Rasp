@@ -1,7 +1,9 @@
 ﻿@model DropdownModel
 
 <div role="dropdown" class="dropdown @Model.Classes">
-    <button class="btn @Model.Button?.Classes" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="@Model.Button?.Title" id="@Model.Button?.Id">
+    <button class="btn @Model.Button?.Classes" type="button"
+            data-bs-toggle="dropdown" aria-expanded="false" title="@Model.Button?.Title" id="@Model.Button?.Id"
+            @(Model.Button.IsDisabled ? "disabled" : "")>
         @if (string.IsNullOrWhiteSpace(Model.Button?.Icon))
         {
             <span role="title">@Model.Button?.Text</span>
