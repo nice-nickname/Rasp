@@ -1,0 +1,19 @@
+﻿@using Incoding.Core.ViewModel
+@using (var template = Html.Incoding().Template<KeyValueVm>())
+{
+    using (var each = template.ForEach())
+    {
+        <li>
+            @(Html.When(JqueryBind.Click)
+                  .StopPropagation()
+                  .PreventDefault()
+                  .OnSuccess(dsl => dsl.With(r => r.Self().Closest(HtmlTag.Ul)).Trigger.None())
+                  .AsHtmlAttributes(new
+                  {
+                      @class = "dropdown-item",
+                      href = "javascript:void(0);"
+                  })
+                  .ToTag(HtmlTag.A, each.For(r => r.Text)))
+        </li>
+    }
+}

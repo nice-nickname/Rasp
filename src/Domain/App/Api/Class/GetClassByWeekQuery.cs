@@ -1,5 +1,6 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
+using Incoding.Core.Extensions;
 
 namespace Domain.Api;
 
@@ -37,7 +38,11 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                             Group = disciplinePlan.Group.Code,
                             Teacher = disciplinePlan.Teacher.ShortName,
                             Department = disciplinePlan.Teacher.Department.Name,
-                            DepartmentCode = disciplinePlan.Teacher.Department.Code
+                            DepartmentCode = disciplinePlan.Teacher.Department.Code,
+                            Color = disciplinePlan.SubDiscipline.Kind.Color.ToHex(),
+                            SubDisciplineCode = disciplinePlan.SubDiscipline.Kind.Code,
+                            HasSubGroups = subGroupCount != 1,
+                            DisciplinePlanId = disciplinePlan.Id
                     });
                 }
             }
@@ -62,6 +67,10 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
         public string DepartmentCode { get; set; }
 
+        public string Color { get; set; }
+
+        public string SubDisciplineCode { get; set; }
+
         public int GroupId { get; set; }
 
         public int DisciplineId { get; set; }
@@ -71,5 +80,9 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
         public int TeacherId { get; set; }
 
         public int SubGroupNo { get; set; }
+
+        public int DisciplinePlanId { get; set; }
+
+        public bool HasSubGroups { get; set; }
     }
 }

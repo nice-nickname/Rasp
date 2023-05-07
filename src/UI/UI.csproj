@@ -61,6 +61,7 @@
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\Home.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Schedule\Tmpl\Class_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Schedule\Tmpl\ScheduledClass_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\DropDown_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\NotImplemented.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\Select\Select.cshtml" />

@@ -75,6 +75,11 @@
 
             function onMouseDown(ev) {
                 ev.preventDefault()
+
+                if ($(ev.target).is('select') || $(ev.target).is('input') || $(ev.target).is('button')) {
+                    return
+                }
+
                 if (forCopy) {
                     item = item.clone(true)
                     item.off('mousedown')
@@ -110,7 +115,8 @@
                         width: $(actualElement).width(),
                         height: $(actualElement).height(),
                         'max-width': $(actualElement).width(),
-                        'max-height': $(actualElement).height()
+                        'max-height': $(actualElement).height(),
+                        cursor: 'grabbing'
                     })
 
 

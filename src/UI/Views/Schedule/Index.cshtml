@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Domain.Api.Schedule
+@{
     Layout = "~/Views/Shared/_Schedule_Layout.cshtml";
 
     var unallocatedPanelId = Guid.NewGuid().ToString();
@@ -7,9 +8,13 @@
     var unallocatedClassesId = Guid.NewGuid().ToString();
     var currentWeekId = Guid.NewGuid().ToString();
 
-    var scheduleFormat = Html.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
+    var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
 
-    Action<IIncodingMetaLanguageCallbackBodyDsl> refreshWeek = dsl => { dsl.WithId(unallocatedClassesId).Trigger.None(); };
+    Action<IIncodingMetaLanguageCallbackBodyDsl> refreshWeek = dsl =>
+    {
+        dsl.WithId(unallocatedClassesId).Trigger.None();
+        dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
+    };
 }
 
 @section Body
@@ -60,205 +65,127 @@
     </div>
 
     <div class="d-flex flex-grow-1 gap-3">
-    <div class="mw-px-324 w-100 d-flex flex-column flex-shrink-0 gap-2 w-animate" id="@unallocatedPanelId">
-        <div class="rounded bg-base flex-grow-1 p-2 d-flex flex-column gap-2">
-            <div class="mb-1 d-flex gap-2">
-                <div class="flex-grow-1 input" id="@unallocatedSearchId">
-                    <input type="text" class="rounded search w-100 h-100"/>
-                    <span class="material-symbols-rounded addon-r">search</span>
+        <div class="mw-px-324 w-100 d-flex flex-column flex-shrink-0 gap-2 w-animate" id="@unallocatedPanelId">
+            <div class="rounded bg-base flex-grow-1 p-2 d-flex flex-column gap-2">
+                <div class="mb-1 d-flex gap-2">
+                    <div class="flex-grow-1 input" id="@unallocatedSearchId">
+                        <input type="text" class="rounded search w-100 h-100"/>
+                        <span class="material-symbols-rounded addon-r">search</span>
+                    </div>
+
+                    <div class="btn btn-light flex-shrink-0 p-1" id="@unallocatedFilterId">
+                        <span class="material-symbols-rounded">filter_alt</span>
+                    </div>
+
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.WithId(unallocatedPanelId).JQuery.Attr.ToggleClass("mw-px-324 mw-px-48");
+
+                              dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_left</span>).Html()
+                                 .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-324"));
+                              dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_right</span>).Html()
+                                 .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-48"));
+
+                              dsl.WithId(unallocatedSearchId).JQuery.Attr.ToggleClass("hidden");
+                              dsl.WithId(unallocatedFilterId).JQuery.Attr.ToggleClass("hidden");
+                              dsl.WithId(unallocatedClassesId).JQuery.Attr.ToggleClass("hidden");
+                          })
+                          .AsHtmlAttributes(classes: "btn btn-light flex-shrink-0 p-1")
+                          .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
                 </div>
 
-                <div class="btn btn-light flex-shrink-0 p-1" id="@unallocatedFilterId">
-                    <span class="material-symbols-rounded">filter_alt</span>
-                </div>
-
-                @(Html.When(JqueryBind.Click)
-                      .OnSuccess(dsl =>
+                @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+                      .Ajax<GetClassByWeekQuery>(new
                       {
-                          dsl.WithId(unallocatedPanelId).JQuery.Attr.ToggleClass("mw-px-324 mw-px-48");
-
-                          dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_left</span>).Html()
-                             .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-324"));
-                          dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_right</span>).Html()
-                             .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-48"));
-
-                          dsl.WithId(unallocatedSearchId).JQuery.Attr.ToggleClass("hidden");
-                          dsl.WithId(unallocatedFilterId).JQuery.Attr.ToggleClass("hidden");
-                          dsl.WithId(unallocatedClassesId).JQuery.Attr.ToggleClass("hidden");
+                          Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)
                       })
-                      .AsHtmlAttributes(classes: "btn btn-light flex-shrink-0 p-1")
-                      .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
-            </div>
-
-            @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
-                  .Ajax<GetClassByWeekQuery>(new
-                  {
-                      Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)
-                  })
-                  .OnSuccess(dsl =>
-                  {
-                      dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html();
-
-                      dsl.Self().JQuery.PlugIn("dragAndDrop", new
+                      .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html())
+                      .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
                       {
                           item = Selector.Jquery.Role("drag-element").ToSelector(),
                           container = Selector.Jquery.Role("drag-container").ToSelector(),
                           forOne = true
-                      });
-                  })
-                  .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 gap-2 ", id: unallocatedClassesId)
+                      }))
+                      .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 gap-2 ", id: unallocatedClassesId)
+                      .ToDiv())
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-grow-1 gap-3">
+            <div class="d-flex">
+                <div class="d-flex gap-2 bg-base rounded">
+                    <div class="btn btn-light p-1">
+                        <span class="material-symbols-rounded">filter_alt</span>
+                    </div>
+
+                    <div class="btn btn-light">
+                        @DataResources.Teacher
+                    </div>
+
+                    <div class="btn btn-light">
+                        @DataResources.Auditorium
+                    </div>
+
+                    <div class="btn btn-light">
+                        @Html.Hidden(nameof(GetScheduleByWeekQuery.GroupId), 2)
+                        КТбо4-8
+                    </div>
+                </div>
+
+                <div class="ms-auto d-flex gap-2 bg-base rounded">
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.DecrementVal()
+                                 .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) > 1);
+                              dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
+
+                              refreshWeek(dsl);
+                          })
+                          .AsHtmlAttributes(classes: "btn btn-light p-1")
+                          .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
+
+                    @(Html.When(JqueryBind.InitIncoding)
+                          .OnSuccess(dsl => { })
+                          .AsHtmlAttributes(new { name = nameof(GetClassByWeekQuery.Week) })
+                          .ToInput(HtmlInputType.Hidden, "1"))
+                    <div class="btn btn-light" id="@currentWeekId">
+                        1
+                    </div>
+                    @Html.Hidden(nameof(GetScheduleFormatQuery.Response.CountOfWeeks), scheduleFormat.CountOfWeeks)
+                    @Html.Hidden(nameof(GetScheduleFormatQuery.Response.StartDate), scheduleFormat.StartDate)
+
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.IncrementVal()
+                                 .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) < Selector.Jquery.Name<AddOrEditScheduleFormatCommand>(r => r.CountOfWeeks));
+                              dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
+
+                              refreshWeek(dsl);
+                          })
+                          .AsHtmlAttributes(classes: "btn btn-light p-1")
+                          .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
+                </div>
+            </div>
+
+            @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+                  .Ajax(Url.Dispatcher().Query<GetScheduleByWeekQuery>(new
+                  {
+                      GroupId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.GroupId),
+                      Week = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.Week),
+                      FacultyId = Selector.Incoding.Cookie(GlobalSelectors.FacultyId)
+                  }).AsJson())
+                  .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Schedule_Tmpl.cshtml").Html())
+                  .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
+                  {
+                      item = Selector.Jquery.Role("drag-element").ToSelector(),
+                      container = Selector.Jquery.Role("drag-container").ToSelector(),
+                      forOne = true
+                  }))
+                  .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule", id: GlobalSelectors.ScheduleId)
                   .ToDiv())
         </div>
-    </div>
-
-    <div class="d-flex flex-column flex-grow-1 gap-3">
-        <div class="d-flex">
-            <div class="d-flex gap-2 bg-base rounded">
-                <div class="btn btn-light p-1">
-                    <span class="material-symbols-rounded">filter_alt</span>
-                </div>
-
-                <div class="btn btn-light">
-                    @DataResources.Teacher
-                </div>
-
-                <div class="btn btn-light">
-                    @DataResources.Auditorium
-                </div>
-
-                <div class="btn btn-light">
-                    КТбо4-8
-                </div>
-            </div>
-
-            <div class="ms-auto d-flex gap-2 bg-base rounded">
-                @(Html.When(JqueryBind.Click)
-                      .OnSuccess(dsl =>
-                      {
-                          dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.DecrementVal()
-                             .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) > 1);
-                          dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
-
-                          refreshWeek(dsl);
-                      })
-                      .AsHtmlAttributes(classes: "btn btn-light p-1")
-                      .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
-
-                @(Html.When(JqueryBind.InitIncoding)
-                      .OnSuccess(dsl => { })
-                      .AsHtmlAttributes(new { name = nameof(GetClassByWeekQuery.Week) })
-                      .ToInput(HtmlInputType.Hidden, "1"))
-                <div class="btn btn-light" id="@currentWeekId">
-                    1
-                </div>
-                @Html.Hidden(nameof(AddOrEditScheduleFormatCommand.CountOfWeeks), scheduleFormat.CountOfWeeks)
-                @Html.Hidden(nameof(AddOrEditScheduleFormatCommand.StartDate), scheduleFormat.StartDate)
-
-                @(Html.When(JqueryBind.Click)
-                      .OnSuccess(dsl =>
-                      {
-                          dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.IncrementVal()
-                             .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) < Selector.Jquery.Name<AddOrEditScheduleFormatCommand>(r => r.CountOfWeeks));
-                          dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
-
-                          refreshWeek(dsl);
-                      })
-                      .AsHtmlAttributes(classes: "btn btn-light p-1")
-                      .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
-            </div>
-        </div>
-
-        <div class="flex-grow-1 d-flex flex-column gap-2 schedule">
-            <div class="d-flex gap-2 s-row">
-                <div class="column-header row-header flex-shrink-0"></div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="w-100 bg-primary rounded d-flex flex-column column-header">
-                        <div>
-                            @scheduleFormat.Items[i].Order
-                        </div>
-                        <div>
-                            @scheduleFormat.Items[i].Start
-                        </div>
-                        <div>
-                            @scheduleFormat.Items[i].End
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex gap-2 s-row">
-                <div class="bg-primary rounded row-header flex-shrink-0">
-                    Понедельник
-                </div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="bg-base rounded position-relative cell">
-                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex gap-2 s-row">
-                <div class="bg-primary rounded row-header flex-shrink-0">
-                    Вторник
-                </div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="bg-base rounded position-relative cell">
-                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex gap-2 s-row">
-                <div class="bg-primary rounded row-header flex-shrink-0">
-                    Среда
-                </div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="bg-base rounded position-relative cell">
-                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex gap-2 s-row">
-                <div class="bg-primary rounded row-header flex-shrink-0">
-                    Четверг
-                </div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="bg-base rounded position-relative cell">
-                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex gap-2 s-row">
-                <div class="bg-primary rounded row-header flex-shrink-0">
-                    Пятница
-                </div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="bg-base rounded position-relative cell">
-                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-
-            <div class="d-flex gap-2 s-row">
-                <div class="bg-primary rounded row-header flex-shrink-0">
-                    Суббота
-                </div>
-                @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
-                {
-                    <div class="bg-base rounded position-relative cell">
-                        <div class="w-100 h-100 bg-base rounded" role="drag-container"></div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
     </div>
 }

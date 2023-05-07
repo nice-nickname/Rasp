@@ -15,13 +15,13 @@ public class Class : IncEntityBase, Share.IEntityHasId
 
     public virtual int SubGroupNo { get; set; }
 
-    public virtual int AuditoriumId { get; set; }
+    public virtual int? AuditoriumId { get; set; }
 
     public virtual int ScheduleFormatId { get; set; }
 
     public virtual int DisciplinePlanId { get; set; }
 
-    public virtual Auditorium Auditorium { get; set; }
+    public virtual Auditorium? Auditorium { get; set; }
 
     public virtual ScheduleFormat ScheduleFormat { get; set; }
 
@@ -36,11 +36,12 @@ public class Class : IncEntityBase, Share.IEntityHasId
             Map(s => s.Week);
             Map(s => s.SubGroupNo);
             Map(s => s.Day).CustomType<NHibernateDayOfWeekEnumMapper>().Not.Nullable();
-            Map(s => s.AuditoriumId);
+            Map(s => s.AuditoriumId).Nullable();
             Map(s => s.ScheduleFormatId);
             Map(s => s.DisciplinePlanId);
 
             References(s => s.Auditorium).Column(nameof(AuditoriumId))
+                                         .Nullable()
                                          .ReadOnly()
                                          .LazyLoad();
 
