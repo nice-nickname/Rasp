@@ -1,0 +1,61 @@
+﻿@using System.Globalization
+@model GetWeekendCalendarQuery.Response
+@{
+    Layout = "_AddOrEdit_Layout";
+}
+
+@section Title
+{
+    @DataResources.Weekends
+}
+
+@section Body
+{
+    @using (Html.Controls().Form(settings =>
+    {
+        settings.Class = "d-flex flex-column gap-3";
+    }))
+    {
+        <div class="form-divider"></div>
+
+        <div class="d-flex flex-row flex-wrap gap-3">
+            @foreach (var month in Model.Months)
+            {
+                <div class="schedule-month border rounded" style="width: 300px; height: 300px;">
+                    <table class="w-100 h-100">
+                        <thead>
+                            <tr>
+                                <th colspan="7">@month.Name</th>
+                            </tr>
+                            <tr>
+                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Monday)</th>
+                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Tuesday)</th>
+                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Wednesday)</th>
+                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Thursday)</th>
+                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Saturday)</th>
+                                <th>@DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName(DayOfWeek.Sunday)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var week in month.Weeks)
+                            {
+                                <tr>
+                                    @{
+                                        var firstDayOfWeek = week.Days.First().Day.DayOfWeek;
+                                    }
+                                    @if (firstDayOfWeek != DayOfWeek.Monday)
+                                    {
+                                        for (var i = 0; i < ((int)firstDayOfWeek - (int)DayOfWeek.Monday); i++)
+                                        {
+
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    }
+}

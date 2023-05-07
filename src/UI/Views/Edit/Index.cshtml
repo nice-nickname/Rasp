@@ -161,6 +161,25 @@
                        }),
                        Html.Controls().Dropdown.Button(settings =>
                        {
+                           settings.Text = DataResources.Weekends;
+                           settings.Id = nameof(ScheduleFormat);
+                           settings.Url = Url.Dispatcher().Query(new GetWeekendCalendarQuery()).AsView("~/Views/Edit/ItemBusyness/Weekends/Weekend.cshtml");
+                           settings.OnSuccess = dsl =>
+                           {
+                               dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html();
+                               dsl.WithId(addNewButtonDivId).Insert.Use(@<text>
+                                                                            <div class="btn btn-light flex-grow-1 disabled">
+                                                                                @DataResources.Add
+                                                                            </div>
+                                                                         </text>)
+                                  .Html();
+                               dsl.WithId(buttonTextId).Insert.Use(DataResources.Weekends).Text();
+                               dsl.WithId(GlobalSelectors.EditListId).Insert
+                                  .WithTemplateByUrl(Url.Dispatcher().Model(DataResources.Unavailable).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html();
+                           };
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
                            settings.Text = DataResources.Occupation;
                            settings.Id = "B8710A44-3A5F-4ABF-8286-E760AB9C5382";
                            settings.Url = Url.Dispatcher().AsView("~/Views/Edit/ItemBusyness/Index.cshtml");

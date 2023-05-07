@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Common\Models\" />
     <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
+    <Folder Include="Views\Edit\ItemBusyness\Weekends\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,7 +52,6 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Faculty\Tmpl\Department_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Auditorium\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\SubDisciplineKind\AddOrEdit.cshtml" />
@@ -140,10 +140,6 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Edit\ItemBusyness\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\ItemBusyness\Auditorium\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -30,13 +30,13 @@ public class AddOrEditFacultyCommand : CommandBase
         {
                 FacultyId = faculty.Id,
                 Type = FacultySettings.OfType.CountOfWeeks,
-                Value = 17
+                Value = 18
         });
-        Dispatcher.Push(new AddOrEditFacultySettingCommand<DateTime>.IfNotExist
+        Dispatcher.Push(new AddOrEditFacultySettingCommand<int>.IfNotExist
         {
                 FacultyId = faculty.Id,
-                Type = FacultySettings.OfType.SessionStartDate,
-                Value = DateTime.Now
+                Type = FacultySettings.OfType.SessionStartWeek,
+                Value = 16
         });
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>.IfNotExist
         {
