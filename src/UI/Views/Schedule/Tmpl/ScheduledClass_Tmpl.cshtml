@@ -1,25 +1,25 @@
 ﻿@using Domain.Api.Schedule
 @model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
 
-<div class="w-100 h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element">
+<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element">
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
     @Html.Hidden(nameof(SaveScheduleCommand.Id), Model.For(r => r.Id))
 
-    <div class="w-100 rounded-top" style="height: 0.25rem; background-color: @Model.For(r => r.Color)"></div>
+    <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @Model.For(r => r.Color)"></div>
 
-    <div class="d-flex mx-1 mt-1">
+    <div class="d-flex mx-1 mt-1 gap-2">
         <div class="flex-grow-1 discipline-code" title="@Model.For(r => r.Discipline)">
             @Model.For(r => r.DisciplineCode)
         </div>
-        <div class="flex-grow-1 discipline">
+        <div class="flex-grow-1 discipline text-overflow-elipsis text-nowrap overflow-hidden" title="@Model.For(r => r.Discipline)">
             @Model.For(r => r.Discipline)
         </div>
 
         <div class="flex-shrink-0 subdiscipline-code" title="@Model.For(r => r.SubDiscipline)">
             @Model.For(r => r.SubDisciplineCode)
         </div>
-        <div class="flex-shrink-0 subdiscipline">
+        <div class="flex-shrink-0 subdiscipline" title="@Model.For(r => r.SubDiscipline)">
             @Model.For(r => r.SubDiscipline)
         </div>
     </div>

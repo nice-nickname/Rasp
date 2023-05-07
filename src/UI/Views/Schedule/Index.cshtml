@@ -21,7 +21,7 @@
 {
     <div class="d-flex gap-3">
         <div class="w-px-324 d-flex flex-column flex-shrink-0 gap-2">
-            <div class="d-flex gap-2 flex-shrink-0 bg-base">
+            <div class="d-flex gap-2 flex-shrink-0 bg-base rounded">
                 <a class="btn btn-primary w-50 flex-grow-1" href="@Url.Action("Index", "Home")">
                     @DataResources.ToHome
                 </a>
@@ -107,7 +107,7 @@
                           container = Selector.Jquery.Role("drag-container").ToSelector(),
                           forOne = true
                       }))
-                      .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 gap-2 ", id: unallocatedClassesId)
+                      .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0", id: unallocatedClassesId)
                       .ToDiv())
             </div>
         </div>

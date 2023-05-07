@@ -3,24 +3,24 @@
 {
     using (var each = template.ForEach())
     {
-        <div class="w-100 h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element">
+        <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element">
             @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), each.For(r => r.DisciplinePlanId))
             @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), each.For(r => r.SubGroupNo))
 
-            <div class="w-100 rounded-top" style="height: 0.25rem; background-color: @each.For(r => r.Color)"></div>
+            <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @each.For(r => r.Color)"></div>
 
-            <div class="d-flex mx-1 mt-1">
+            <div class="d-flex mx-1 mt-1 gap-2">
                 <div class="flex-grow-1 discipline-code" title="@each.For(r => r.Discipline)">
                     @each.For(r => r.DisciplineCode)
                 </div>
-                <div class="flex-grow-1 discipline">
+                <div class="flex-grow-1 discipline text-nowrap text-overflow-elipsis overflow-hidden" title="@each.For(r => r.Discipline)">
                     @each.For(r => r.Discipline)
                 </div>
 
                 <div class="flex-shrink-0 subdiscipline-code" title="@each.For(r => r.SubDiscipline)">
                     @each.For(r => r.SubDisciplineCode)
                 </div>
-                <div class="flex-shrink-0 subdiscipline">
+                <div class="flex-shrink-0 subdiscipline" title="@each.For(r => r.SubDiscipline)">
                     @each.For(r => r.SubDiscipline)
                 </div>
             </div>
