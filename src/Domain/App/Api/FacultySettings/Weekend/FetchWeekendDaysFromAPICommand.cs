@@ -6,6 +6,5 @@ public class FetchWeekendDaysFromAPICommand : CommandBase
 {
     protected override void Execute()
     {
-        throw new NotImplementedException();
     }
 }

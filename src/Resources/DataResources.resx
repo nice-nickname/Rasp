@@ -498,4 +498,13 @@
 	<data name="ToggleWeekend" xml:space="preserve">
 		<value>Установить/Снять праздник</value>
 	</data>
+	<data name="SetWeekendAutomatic" xml:space="preserve">
+		<value>Выставить автоматически</value>
+	</data>
+	<data name="Importing" xml:space="preserve">
+		<value>Импортируем</value>
+	</data>
+	<data name="ConfirmAction" xml:space="preserve">
+		<value>Подтвердите действие</value>
+	</data>
 </root>

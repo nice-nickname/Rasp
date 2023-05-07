@@ -162,7 +162,7 @@
                        Html.Controls().Dropdown.Button(settings =>
                        {
                            settings.Text = DataResources.Weekends;
-                           settings.Id = nameof(ScheduleFormat);
+                           settings.Id = nameof(Holidays);
                            settings.Url = Url.Dispatcher().Query(new GetWeekendCalendarQuery()).AsView("~/Views/Edit/ItemBusyness/Weekends/Weekend.cshtml");
                            settings.OnSuccess = dsl =>
                            {

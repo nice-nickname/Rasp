@@ -241,6 +241,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Подтвердите действие.
+        /// </summary>
+        public static string ConfirmAction {
+            get {
+                return ResourceManager.GetString("ConfirmAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Подтвердите очистку.
         /// </summary>
         public static string ConfirmClear {
@@ -637,6 +646,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Импортируем.
+        /// </summary>
+        public static string Importing {
+            get {
+                return ResourceManager.GetString("Importing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Некорректное значение.
         /// </summary>
         public static string IncorrectValue {
@@ -957,6 +975,15 @@ namespace Resources {
         public static string SessionStartWeek {
             get {
                 return ResourceManager.GetString("SessionStartWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выставить автоматически.
+        /// </summary>
+        public static string SetWeekendAutomatic {
+            get {
+                return ResourceManager.GetString("SetWeekendAutomatic", resourceCulture);
             }
         }
         

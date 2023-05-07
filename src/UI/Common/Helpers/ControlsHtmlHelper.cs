@@ -136,7 +136,7 @@ public partial class ControlsHtmlHelper<T>
                          dsl.Self().JQuery.Attr.RemoveClass("disabled").TimeOut(125);
                          dsl.Self().JQuery.Call("tooltip", "dispose").TimeOut(125);
                      })
-                     .AsHtmlAttributes(classes: $"btn btn-{settings.Color.ToStringLower()} align-self-end h-fit {disabled}", id: settings.Id)
+                     .AsHtmlAttributes(classes: $"btn btn-{settings.Color.ToStringLower()} align-self-end h-fit {disabled} {settings.AdditionalClasses}", id: settings.Id)
                      .ToButton($"{icon}{settings.Text}");
     }
 }

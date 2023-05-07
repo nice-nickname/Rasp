@@ -38,18 +38,20 @@ public class GetWeekendCalendarQuery : QueryBase<GetWeekendCalendarQuery.Respons
         var holidayDays = Repository.Query<Holidays>()
                                     .Select(s => s.Date)
                                     .ToList();
-        while (start <= end)
+        var current = start;
+
+        while (current <= end)
         {
             days.Add(new DayItem
             {
-                    Day = start,
-                    Type = start.DayOfWeek == DayOfWeek.Sunday 
+                    Day = current,
+                    Type = current.DayOfWeek == DayOfWeek.Sunday 
                             ? DayItem.WeekendType.Weekend 
-                            : holidayDays.Contains(DateOnly.FromDateTime(start))
+                            : holidayDays.Contains(DateOnly.FromDateTime(current))
                                     ? DayItem.WeekendType.Holiday 
                                     : DayItem.WeekendType.None
             });
-            start = start.AddDays(1);
+            current = current.AddDays(1);
         }
 
         return new Response
@@ -70,12 +72,18 @@ public class GetWeekendCalendarQuery : QueryBase<GetWeekendCalendarQuery.Respons
                                                   .ToList(),
                                      Name = DateTimeFormatInfo.CurrentInfo.GetMonthName(month.Key)
                              })
-                             .ToList()
+                             .ToList(),
+                Start = DateOnly.FromDateTime(start),
+                End = DateOnly.FromDateTime(end),
         };
     }
 
     public record Response
     {
+        public DateOnly Start { get; set; }
+
+        public DateOnly End { get; set; }
+
         public List<MonthItem> Months { get; set; }
     }
 

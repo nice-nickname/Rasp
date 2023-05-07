@@ -9,6 +9,32 @@
     @DataResources.Weekends
 }
 
+@section RemoveButton
+{
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push(new FetchWeekendDaysFromAPICommand());
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
+        settings.Text = DataResources.SetWeekendAutomatic;
+        settings.Icon = "cloud_download";
+        settings.TextConfirm = DataResources.ConfirmAction;
+        settings.TextInProcess = DataResources.Importing;
+        settings.Color = ConfirmSettings.ButtonColor.Secondary;
+    })
+
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push(new ResetAllWeekendsCommand());
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
+        settings.Text = DataResources.Reset;
+        settings.Icon = "delete";
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Danger;
+        settings.AdditionalClasses = "ms-3";
+    })
+}
+
 @section Body
 {
     @using (Html.Controls().Form(settings => { settings.Class = "d-flex flex-column gap-3"; }))
