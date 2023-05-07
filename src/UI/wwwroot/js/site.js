@@ -115,6 +115,7 @@ function suggestInputValueByNamingCase(value, to) {
                 input.value = Number(input.value) + 1
             }
         } while (hours > 0);
+        assigned.trigger('change')
     }
 
 }(jQuery));

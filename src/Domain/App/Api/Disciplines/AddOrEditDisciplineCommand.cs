@@ -3,6 +3,7 @@ using Domain.Persistence.Specification;
 using FluentValidation;
 using Incoding.Core.CQRS.Core;
 using Resources;
+using System.Numerics;
 
 namespace Domain.Api;
 
@@ -102,8 +103,7 @@ public class AddOrEditDisciplineCommand : CommandBase
                 Repository.DeleteByIds<DisciplinePlan>(plans);
             }
 
-            if (discipline.Kind.Type.GetValueOrDefault() != SubDisciplineKind.OfType.EXAM &&
-                subDisciplineItem.Kind.Type == SubDisciplineKind.OfType.EXAM)
+            if (subDisciplineItem.Kind.Type == SubDisciplineKind.OfType.EXAM)
             {
                 continue;
             }
