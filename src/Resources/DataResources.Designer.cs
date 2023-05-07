@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Все преподаватели.
+        /// </summary>
+        public static string AllTeachers {
+            get {
+                return ResourceManager.GetString("AllTeachers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rasp.
         /// </summary>
         public static string ApplicationName {

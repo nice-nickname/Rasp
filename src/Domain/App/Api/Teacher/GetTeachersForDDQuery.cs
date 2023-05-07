@@ -1,4 +1,5 @@
-﻿using Domain.Persistence;
+﻿using Domain.Common;
+using Domain.Persistence;
 using Domain.Persistence.Specification;
 using Incoding.Core.CQRS.Core;
 

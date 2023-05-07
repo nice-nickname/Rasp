@@ -1,6 +1,6 @@
-﻿@using Domain
+﻿@using UI.Query
 @using Domain.Common
-@using UI.Query
+@using Domain.App.Api
 @model AddOrEditDisciplineCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
@@ -209,7 +209,8 @@
                                           TeacherIds = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}"),
                                           LastIndex = i,
                                           SubDisciplineId = subDiscipline.Id,
-                                          Hours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
+                                          Hours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}"),
+                                          IsParallelHours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}")
                                       }).AsView("~/Views/Edit/Discipline/Tmpl/GroupsItem_Tmpl.cshtml"))
                                       .OnSuccess(dsl => dsl.Self().Insert.Html())
                                       .AsHtmlAttributes(new { name = "plan-container" })

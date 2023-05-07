@@ -1,7 +1,6 @@
 ﻿using Incoding.Core.ViewModel;
-using Resources;
 
-namespace Domain;
+namespace Domain.Common;
 
 public class DropDownItem
 {

@@ -1,6 +1,7 @@
-﻿using Incoding.Core.CQRS.Core;
+﻿using Domain.Common;
+using Incoding.Core.CQRS.Core;
 
-namespace Domain.Common;
+namespace Domain.App.Api;
 
 public class GetGroupDivisionForDDQuery : QueryBase<List<DropDownItem>>
 {

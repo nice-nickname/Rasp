@@ -447,4 +447,7 @@
 	<data name="CopyForAllGroups" xml:space="preserve">
 		<value>Скопировать для всех групп</value>
 	</data>
+	<data name="AllTeachers" xml:space="preserve">
+		<value>Все преподаватели</value>
+	</data>
 </root>

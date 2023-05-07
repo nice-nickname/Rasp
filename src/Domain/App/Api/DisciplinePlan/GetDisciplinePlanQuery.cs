@@ -17,6 +17,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
 
     public int TotalHours { get; set; }
 
+    public bool IsParallelHours { get; set; }
+
     protected override List<Response> ExecuteResult()
     {
         if (TeacherIds == null || GroupIds == null || !GroupIds.Any() || !TeacherIds.Any())
@@ -24,7 +26,7 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
             return new List<Response>();
         }
 
-        var weeksCount = Dispatcher.Query(new GetFacultySettingCommand<int>
+        var weeksCount = Dispatcher.Query(new GetFacultySettingQuery<int>
         {
                 FacultyId = FacultyId,
                 Type = FacultySettings.OfType.CountOfWeeks
@@ -67,7 +69,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                     TeacherHoursByWeeks = defaultTeachers,
                     Header = header,
                     TotalHours = TotalHours,
-                    TotalAssignedHours = 0
+                    TotalAssignedHours = 0,
+                    IsParallelHours = IsParallelHours
             }).ToList();
         }
 
@@ -106,6 +109,11 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                                                         WeekItems = defaultWeek
                                                 }));
 
+                var totalAssigned = teacherItems.Sum(s => s.HoursAssigned);
+                if (IsParallelHours)
+                {
+                    totalAssigned /= teacherItems.Count;
+                }
                 return new Response
                 {
                         Group = groups[s.Key.GroupId].Code,
@@ -114,7 +122,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                         SubGroupCount = s.Key.SubGroupCount,
                         TeacherHoursByWeeks = teacherItems,
                         TotalHours = TotalHours,
-                        TotalAssignedHours = teacherItems.Sum(s => s.HoursAssigned)
+                        TotalAssignedHours = totalAssigned,
+                        IsParallelHours = IsParallelHours
                 };
             }).ToList());
         }
@@ -129,7 +138,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                 Group = groups[group].Code,
                 Header = header,
                 SubGroupCount = 0,
-                TeacherHoursByWeeks = defaultTeachers
+                TeacherHoursByWeeks = defaultTeachers,
+                IsParallelHours = IsParallelHours
         }));
 
         return result;
@@ -146,6 +156,8 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
         public int TotalAssignedHours { get; set; }
 
         public int TotalHours { get; set; }
+
+        public bool IsParallelHours { get; set; }
 
         public List<Item> TeacherHoursByWeeks { get; set; }
 

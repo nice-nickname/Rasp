@@ -18,6 +18,8 @@ public class GetDisciplinePlansWEBQuery : QueryBase<LastIndexModel<GetDiscipline
 
     public int Hours { get; set; }
 
+    public bool IsParallelHours { get; set; }
+
     protected override LastIndexModel<GetDisciplinePlanQuery.Response> ExecuteResult()
     {
         return new LastIndexModel<GetDisciplinePlanQuery.Response>
@@ -28,7 +30,8 @@ public class GetDisciplinePlansWEBQuery : QueryBase<LastIndexModel<GetDiscipline
                         SubDisciplineId = SubDisciplineId,
                         GroupIds = GroupIds,
                         TeacherIds = TeacherIds,
-                        TotalHours = Hours
+                        TotalHours = Hours,
+                        IsParallelHours = IsParallelHours
                 }),
                 LastIndex = LastIndex
         };

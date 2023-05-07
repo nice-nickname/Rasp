@@ -17,7 +17,6 @@
     <Folder Include="App\Api\Class\" />
     <Folder Include="App\Api\Teacher\" />
     <Folder Include="App\Api\ScheduleFormat\" />
-    <Folder Include="App\Common\" />
     <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Common\Extentions" />
   </ItemGroup>

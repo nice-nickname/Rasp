@@ -3,7 +3,7 @@ using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
 
-public class GetFacultySettingCommand<T> : QueryBase<T> where T : struct
+public class GetFacultySettingQuery<T> : QueryBase<T> where T : struct
 {
     public int FacultyId { get; set; }
 

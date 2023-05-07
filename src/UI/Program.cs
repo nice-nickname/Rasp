@@ -22,6 +22,7 @@ using System.Globalization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 
 namespace UI;
 
@@ -138,6 +139,19 @@ public static class Startup
 
     public static WebApplication ConfigureApplication(this WebApplication app)
     {
+        app.UseRequestLocalization(o =>
+        {
+            var supportedCultures = new[]
+            {
+                    new CultureInfo("ru-RU"),
+                    new CultureInfo("ru"),
+            };
+
+            o.DefaultRequestCulture = new RequestCulture("ru-RU");
+            o.SupportedCultures = supportedCultures;
+            o.SupportedUICultures = supportedCultures;
+        });
+
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();

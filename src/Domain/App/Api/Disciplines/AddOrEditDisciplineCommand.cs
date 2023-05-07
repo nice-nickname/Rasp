@@ -56,6 +56,7 @@ public class AddOrEditDisciplineCommand : CommandBase
 
         foreach (var sd in SubDisciplines)
         {
+            // TODO 07.05.2023: Вынести это (под-дисциплины) в под-команду
             sd.TeacherIds ??= new List<int>();
             sd.Plans ??= new List<PlanItem>();
 
@@ -118,7 +119,14 @@ public class AddOrEditDisciplineCommand : CommandBase
                 };
                 Repository.Save(planItem);
 
-                foreach (var planWeek in plan.WeekItems)
+                // Копируем часы по первому плану для всех оставшихся
+                var actualPlan = plan;
+                if (subDisciplineItem.IsParallelHours)
+                {
+                    actualPlan = sd.Plans.First(s => s.GroupId == plan.GroupId);
+                }
+
+                foreach (var planWeek in actualPlan.WeekItems)
                 {
                     Repository.Save(new DisciplinePlanByWeek
                     {

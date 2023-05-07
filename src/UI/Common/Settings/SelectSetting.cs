@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.Common;
 using Incoding.Web.MvcContrib;
 using Resources;
 

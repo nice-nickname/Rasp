@@ -1,7 +1,8 @@
 ﻿@using Domain.Common
+@using Domain.App.Api
 @model LastIndexModel<GetDisciplinePlanQuery.Response>
 @{
-    Action<IIncodingMetaLanguageCallbackBodyDsl, int> controlOnChange = (dsl, i) => dsl.With(s => s.Role($"sg-{i}")).JQuery.Attr.Val(Selector.Jquery.Self());
+    Action<IIncodingMetaLanguageCallbackBodyDsl, int> controlOnChange = (dsl, i) => dsl.With(s => s.Role($"sg-{Model.LastIndex}-{i}")).JQuery.Attr.Val(Selector.Jquery.Self());
 
     Func<int, string, string> name = (i, name) => $"SubDisciplines[{Model.LastIndex}].Plans[{i}].{name}";
 
@@ -110,71 +111,89 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            var renderedTeacherWhenIsParallel = false;
+                        }
                         @foreach (var td in item.TeacherHoursByWeeks)
                         {
-                            <tr>
-                                <td class="tc-options" role="row-button">
-                                    @await Html.PartialAsync("DropDown_Tmpl", new DropdownModel
-                                           {
-                                               Items = new List<IHtmlContent>
-                                               {
-                                                   Html.Controls().Dropdown.Button(b =>
-                                                   {
-                                                       b.Text = DataResources.Reset;
-                                                       b.OnSuccess = dsl =>
-                                                       {
-                                                           dsl.WithSelf(s => s.Closest(HtmlTag.Tr).Find(c => c.Role("hours"))).JQuery.Attr.Val(0);
-                                                           dsl.WithSelf(s => s.Closest(HtmlTag.Table).Find(c => c.Role("assigned"))).Trigger.Change();
-                                                       };
-                                                   }),
-                                                   Html.Controls().Dropdown.Divider(),
-                                                   Html.Controls().Dropdown.Button(b =>
-                                                   {
-                                                       b.Text = DataResources.FillFromStart;
-                                                       b.OnSuccess = dsl => { dsl.Self().JQuery.Call("disciplinePlanFill", "asc"); };
-                                                   }),
-                                                   Html.Controls().Dropdown.Button(b =>
-                                                   {
-                                                       b.Text = DataResources.FillFromEnd;
-                                                       b.OnSuccess = dsl => { dsl.Self().JQuery.Call("disciplinePlanFill", "desc"); };
-                                                   })
-                                               },
-                                               Button = new DropdownModel.ButtonSettings
-                                               {
-                                                   Icon = "more_horiz",
-                                                   Classes = "btn-light p-1"
-                                               }
-                                           })
-                                </td>
-                                <td class="tc-full-name align-middle">
-                                    @Html.Hidden(name(k, nameof(td.Id)), td.Id)
-                                    @Html.Hidden(name(k, nameof(td.TeacherId)), td.TeacherId)
-                                    @Html.Hidden(name(k, nameof(item.GroupId)), item.GroupId)
-                                    @Html.Hidden(name(k, nameof(item.SubGroupCount)), "", new { role = $"sg-{i}" })
-                                    @td.Teacher
-                                </td>
-                                @{
-                                    var j = 0;
-                                }
-                                @foreach (var week in td.WeekItems)
-                                {
-                                    <td class="tc-hours tc-input">
-                                        @Html.Hidden(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Week)}", week.Week)
-                                        @(Html.When(JqueryBind.Change)
-                                              .StopPropagation()
-                                              .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Table).Find(c => c.Role("assigned"))).Trigger.Change())
-                                              .AsHtmlAttributes(new
-                                              {
-                                                  name = $"{name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems))}" + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Hours)}",
-                                                  step = 1,
-                                                  role = "hours",
-                                                  pattern = "[0-9]"
-                                              })
-                                              .ToInput(HtmlInputType.Number, week.Hours.ToString()))
+                            if (item.IsParallelHours && renderedTeacherWhenIsParallel)
+                            {
+                                <tr class="d-none">
+                                    <td>
+                                        @Html.Hidden(name(k, nameof(td.Id)), td.Id)
+                                        @Html.Hidden(name(k, nameof(td.TeacherId)), td.TeacherId)
+                                        @Html.Hidden(name(k, nameof(item.GroupId)), item.GroupId)
+                                        @Html.Hidden(name(k, nameof(item.SubGroupCount)), "", new { role = $"sg-{Model.LastIndex}-{i}" })
                                     </td>
-                                    j++;
-                                }
-                            </tr>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="tc-options" role="row-button">
+                                        @await Html.PartialAsync("DropDown_Tmpl", new DropdownModel
+                                               {
+                                                   Items = new List<IHtmlContent>
+                                                   {
+                                                       Html.Controls().Dropdown.Button(b =>
+                                                       {
+                                                           b.Text = DataResources.Reset;
+                                                           b.OnSuccess = dsl =>
+                                                           {
+                                                               dsl.WithSelf(s => s.Closest(HtmlTag.Tr).Find(c => c.Role("hours"))).JQuery.Attr.Val(0);
+                                                               dsl.WithSelf(s => s.Closest(HtmlTag.Table).Find(c => c.Role("assigned"))).Trigger.Change();
+                                                           };
+                                                       }),
+                                                       Html.Controls().Dropdown.Divider(),
+                                                       Html.Controls().Dropdown.Button(b =>
+                                                       {
+                                                           b.Text = DataResources.FillFromStart;
+                                                           b.OnSuccess = dsl => { dsl.Self().JQuery.Call("disciplinePlanFill", "asc"); };
+                                                       }),
+                                                       Html.Controls().Dropdown.Button(b =>
+                                                       {
+                                                           b.Text = DataResources.FillFromEnd;
+                                                           b.OnSuccess = dsl => { dsl.Self().JQuery.Call("disciplinePlanFill", "desc"); };
+                                                       })
+                                                   },
+                                                   Button = new DropdownModel.ButtonSettings
+                                                   {
+                                                       Icon = "more_horiz",
+                                                       Classes = "btn-light p-1"
+                                                   }
+                                               })
+                                    </td>
+                                    <td class="tc-full-name align-middle">
+                                        @Html.Hidden(name(k, nameof(td.Id)), td.Id)
+                                        @Html.Hidden(name(k, nameof(td.TeacherId)), td.TeacherId)
+                                        @Html.Hidden(name(k, nameof(item.GroupId)), item.GroupId)
+                                        @Html.Hidden(name(k, nameof(item.SubGroupCount)), "", new { role = $"sg-{Model.LastIndex}-{i}" })
+                                        @(item.IsParallelHours ? DataResources.AllTeachers : td.Teacher)
+                                    </td>
+                                    @{
+                                        var j = 0;
+                                    }
+                                    @foreach (var week in td.WeekItems)
+                                    {
+                                        <td class="tc-hours tc-input">
+                                            @Html.Hidden(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Week)}", week.Week)
+                                            @(Html.When(JqueryBind.Change)
+                                                  .StopPropagation()
+                                                  .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Table).Find(c => c.Role("assigned"))).Trigger.Change())
+                                                  .AsHtmlAttributes(new
+                                                  {
+                                                      name = $"{name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems))}" + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Hours)}",
+                                                      step = 1,
+                                                      role = "hours",
+                                                      pattern = "[0-9]"
+                                                  })
+                                                  .ToInput(HtmlInputType.Number, week.Hours.ToString()))
+                                        </td>
+                                        j++;
+                                    }
+                                </tr>
+                                renderedTeacherWhenIsParallel = true;
+                            }
                             k++;
                         }
                     </tbody>
