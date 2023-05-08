@@ -8,11 +8,12 @@
                     .AsHtmlAttributes(new
                     {
                         @class = "d-flex shadow gap-2 rounded py-1 px-2 m-1 cursor-pointer shadow-hover",
-                        filter = $"{each.For(r => r.Code)} {each.For(r => r.DepartmentCode)} {each.For(r => r.BuildingName)} {each.For(r => r.DepartmentName)}"
+                        filter = $"{each.For(r => r.Code)} {each.For(r => r.DepartmentCode)} {each.For(r => r.BuildingName)} {each.For(r => r.DepartmentName)} {each.For(r => r.BuildingName)}-{each.For(r => r.Code)}",
+                        title = $"{each.For(r => r.BuildingName)}-{each.For(r => r.Code)}"
                     })
                     .ToBeginTag(HtmlTag.Div))
         {
-            <div class="my-2" title="@DataResources.Building">
+            <div class="my-2">
                 @each.For(r => r.BuildingName)
             </div>
             <div class="my-2">

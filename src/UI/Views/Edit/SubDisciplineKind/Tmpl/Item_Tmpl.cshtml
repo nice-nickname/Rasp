@@ -8,7 +8,8 @@
                     .AsHtmlAttributes(new
                     {
                         @class = "d-flex shadow gap-2 rounded py-1 px-2 m-1 position-relative shadow-hover cursor-pointer",
-                        filter = $"{each.For(r => r.Code)} {each.For(r => r.Name)}"
+                        filter = $"{each.For(r => r.Code)} {each.For(r => r.Name)}",
+                        title = each.For(r => r.Name)
                     })
                     .ToBeginTag(HtmlTag.Div))
         {
@@ -16,7 +17,7 @@
                  style="background: @each.For(s => s.HtmlColor); width: 10px;">
             </div>
 
-            <div class="my-2 ms-2" title="@each.For(r => r.Name)">
+            <div class="my-2 ms-2">
                 @each.For(r => r.Name)
             </div>
         }

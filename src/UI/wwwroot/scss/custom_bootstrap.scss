@@ -29,6 +29,7 @@ $btn-padding-x: 1rem;
 }
 
 .btn-danger,
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-danger.disabled {
     color: #FFFFFF;
 }

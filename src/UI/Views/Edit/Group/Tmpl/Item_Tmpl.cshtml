@@ -7,15 +7,16 @@
                     .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
                     .AsHtmlAttributes(new
                     {
-                        @class = "d-flex shadow gap-2 rounded py-1 px-2 m-1 shadow-hover cursor-pointer",
-                        filter = $"{each.For(r => r.Code)} {each.For(r => r.DepartmentCode)} {each.For(r => r.DepartmentName)}"
+                        @class = "d-flex shadow gap-3 rounded py-1 px-2 m-1 shadow-hover cursor-pointer",
+                        filter = $"{each.For(r => r.Code)} {each.For(r => r.DepartmentCode)} {each.For(r => r.DepartmentName)} {each.For(r => r.Course)} {DataResources.Course}",
+                        title = each.For(r => r.Code)
                     })
                     .ToBeginTag(HtmlTag.Div))
         {
-            <div class="my-2" title="@each.For(r => r.Code)">
+            <div class="my-2">
                 @each.For(r => r.Code)
             </div>
-            <div class="my-2 ms-3" title="@each.For(r => r.DepartmentName)">
+            <div class="my-2 " title="@each.For(r => r.DepartmentName)">
                 @each.For(r => r.DepartmentCode)
             </div>
         }

@@ -10779,7 +10779,8 @@ textarea.form-control-lg {
 }
 
 .btn-danger,
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-danger.disabled {
   color: #FFFFFF;
 }
 
