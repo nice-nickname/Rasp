@@ -23,6 +23,8 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using UI.Infrastructure.ModelBinders;
 
 namespace UI;
 
@@ -68,10 +70,14 @@ public static class Startup
         builder.Services.AddRouting();
 
         builder.Services
-               .AddMvc(o => o.Filters.Add(new IncodingErrorHandlingFilter()))
+               .AddMvc(o =>
+               {
+                   o.Filters.Add(new IncodingErrorHandlingFilter());
+                   o.ModelBinderProviders.Insert(0, new LocalizableDateTimeModelBinderProvider());
+               })
                .AddFluentValidation(config =>
                {
-                   config.ValidatorOptions.LanguageManager.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+                   config.ValidatorOptions.LanguageManager.Culture = CultureInfo.CurrentCulture;
 
                    config.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
                    config.ValidatorFactory = new IncValidatorFactory();
@@ -139,19 +145,6 @@ public static class Startup
 
     public static WebApplication ConfigureApplication(this WebApplication app)
     {
-        app.UseRequestLocalization(o =>
-        {
-            var supportedCultures = new[]
-            {
-                    new CultureInfo("ru-RU"),
-                    new CultureInfo("ru"),
-            };
-
-            o.DefaultRequestCulture = new RequestCulture("ru-RU");
-            o.SupportedCultures = supportedCultures;
-            o.SupportedUICultures = supportedCultures;
-        });
-
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -160,8 +153,8 @@ public static class Startup
         {
             app.UseExceptionHandler("/Home/Error");
         }
-
         
+
         app.UseCookiePolicy();
 
         app.UseWebOptimizer();

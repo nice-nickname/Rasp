@@ -33,6 +33,8 @@
 
   <ItemGroup>
     <Folder Include="Common\Models\" />
+    <Folder Include="Infrastructure\ModelBinders\Binders\" />
+    <Folder Include="Infrastructure\ModelBinders\Providers\" />
     <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
     <Folder Include="Views\Edit\ItemBusyness\Weekends\" />
   </ItemGroup>
