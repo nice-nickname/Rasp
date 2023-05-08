@@ -102,7 +102,7 @@
                                         var color = day.Type != GetWeekendCalendarQuery.DayItem.WeekendType.None ? "btn-secondary" : "btn-light";
                                         var url = Url.Dispatcher().Push(new ToggleMarkAsWeekendCommand
                                         {
-                                            Day = day.Day.ToString()
+                                            Day = day.Day
                                         });
                                         var id = day.Day.Ticks.ToString();
                                         <td class="text-center" data-day="@day.Day">

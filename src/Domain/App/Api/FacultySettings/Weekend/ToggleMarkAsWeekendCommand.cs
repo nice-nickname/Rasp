@@ -6,11 +6,11 @@ namespace Domain.Api;
 
 public class ToggleMarkAsWeekendCommand : CommandBase
 {
-    public string Day { get; set; }
+    public DateTime Day { get; set; }
 
     protected override void Execute()
     {
-        var asDateOnly = DateOnly.FromDateTime(DateTime.Parse(Day, new CultureInfo("ru-RU")));
+        var asDateOnly = DateOnly.FromDateTime(Day);
 
         var day = Repository.Query<Holidays>()
                             .FirstOrDefault(s => s.Date == asDateOnly);
