@@ -3,7 +3,11 @@
 {
     using (var each = template.ForEach())
     {
-        <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element" name="card">
+        var filter = $"{each.For(r => r.Discipline)} {each.For(r => r.DisciplineCode)} {each.For(r => r.Teacher)} "
+                     + $"{each.For(r => r.Department)} {each.For(r => r.DepartmentCode)} {each.Inline(r => r.HasSubGroups, DataResources.WithSubGroups, DataResources.WithoutSubGroups)} "
+                     + $"{each.For(r => r.SubDiscipline)} {each.For(r => r.SubDisciplineCode)}";
+
+        <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element" name="card" filter="@filter">
             @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), each.For(r => r.DisciplinePlanId))
             @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), each.For(r => r.SubGroupNo))
 
@@ -37,44 +41,18 @@
 
             <div class="d-flex mx-1">
                 <div class="flex-grow-1">
-                    @each.For(r => r.Teacher)
+                    @each.IsInline(r => r.IsGroup, each.For(r => r.Teacher))
+                    @each.IsInline(r => r.IsAuditorium, each.For(r => r.Teacher))
+                    @each.IsInline(r => r.IsTeacher, each.For(r => r.Group))
                 </div>
-                <div class="flex-shrink-0" title="@each.For(r => r.Department)">
-                    @each.For(r => r.DepartmentCode)
+                <div class="flex-shrink-0" @(each.IsInline(r => r.IsGroup, $@"title=""{each.For(r => r.Department)}""")) @(each.IsInline(r => r.IsTeacher, $@"title=""{each.For(r => r.Department)}"""))>
+                    @each.IsInline(r => r.IsGroup, each.For(r => r.DepartmentCode))
+                    @each.IsInline(r => r.IsAuditorium, each.For(r => r.Group))
+                    @each.IsInline(r => r.IsTeacher, each.For(r => r.DepartmentCode))
                 </div>
             </div>
 
-            @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId))
-
-            @{
-                var auditoriumTextId = $"auditorium-{each.For(r => r.DisciplineId)}-{each.For(r => r.DisciplinePlanId)}-{each.For(r => r.SubDisciplineId)}";
-            }
-
-            @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-                   {
-                       Button = new DropdownModel.ButtonSettings
-                       {
-                           Classes = "w-100 btn-light btn-sm",
-                           Text = DataResources.ChooseAuditorium,
-                           Id = auditoriumTextId
-                       },
-                       Items = new List<IHtmlContent>
-                       {
-                           Html.Controls().Dropdown.List(settings =>
-                           {
-                               settings.Url = Url.Dispatcher().Query<GetAuditoriumsForDDQuery>().AsJson();
-                               settings.OnClick = dsl =>
-                               {
-                                   dsl.WithId(auditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
-                                   dsl.WithSelf(r => r.Closest(q => q.Name("card")).Find(q => q.Name<SaveScheduleCommand>(w => w.AuditoriumId)))
-                                      .JQuery.Attr.Val(Selector.Event.Data.For("value"));
-                                   dsl.WithSelf(r => r.Closest(q => q.Name("cell")))
-                                      .Trigger.None();
-                               };
-                           })
-                       },
-                       Classes = "mx-1 mb-1"
-                   })
+            @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId), each.For(r => r.AuditoriumId))
         </div>
     }
 }

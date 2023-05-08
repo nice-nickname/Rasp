@@ -6,7 +6,7 @@
             @(Model.Button.IsDisabled ? "disabled" : "")>
         @if (string.IsNullOrWhiteSpace(Model.Button?.Icon))
         {
-            <span role="title">@Model.Button?.Text</span>
+            <span role="title" id="@Model.Button?.TextId">@Model.Button?.Text</span>
         }
         else
         {

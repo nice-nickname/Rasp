@@ -25,6 +25,8 @@ public class DropdownModel
         public bool IsDisabled { get; set; }
 
         public string Id { get; set; }
+
+        public string TextId { get; set; }
     }
 
     public class DropdownMenuSettings

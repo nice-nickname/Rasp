@@ -8,6 +8,8 @@
     var unallocatedClassesId = Guid.NewGuid().ToString();
     var currentWeekId = Guid.NewGuid().ToString();
     var currentGroupTextId = Guid.NewGuid().ToString();
+    var currentAuditoriumTextId = Guid.NewGuid().ToString();
+    var currentTeacherTextId = Guid.NewGuid().ToString();
 
     var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
 
@@ -66,150 +68,238 @@
     </div>
 
     <div class="d-flex flex-grow-1 gap-3">
-        <div class="mw-px-324 w-100 d-flex flex-column flex-shrink-0 gap-2 w-animate" id="@unallocatedPanelId">
-            <div class="rounded bg-base flex-grow-1 p-2 d-flex flex-column gap-2">
-                <div class="mb-1 d-flex gap-2">
-                    <div class="flex-grow-1 input" id="@unallocatedSearchId">
-                        <input type="text" class="rounded search w-100 h-100"/>
-                        <span class="material-symbols-rounded addon-r">search</span>
-                    </div>
-
-                    <div class="btn btn-light flex-shrink-0 p-1" id="@unallocatedFilterId">
-                        <span class="material-symbols-rounded">filter_alt</span>
-                    </div>
-
-                    @(Html.When(JqueryBind.Click)
-                          .OnSuccess(dsl =>
-                          {
-                              dsl.WithId(unallocatedPanelId).JQuery.Attr.ToggleClass("mw-px-324 mw-px-48");
-
-                              dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_left</span>).Html()
-                                 .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-324"));
-                              dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_right</span>).Html()
-                                 .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-48"));
-
-                              dsl.WithId(unallocatedSearchId).JQuery.Attr.ToggleClass("hidden");
-                              dsl.WithId(unallocatedFilterId).JQuery.Attr.ToggleClass("hidden");
-                              dsl.WithId(unallocatedClassesId).JQuery.Attr.ToggleClass("hidden");
-                          })
-                          .AsHtmlAttributes(classes: "btn btn-light flex-shrink-0 p-1")
-                          .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
+    <div class="mw-px-324 w-100 d-flex flex-column flex-shrink-0 gap-2 w-animate" id="@unallocatedPanelId">
+        <div class="rounded bg-base flex-grow-1 p-2 d-flex flex-column gap-2">
+            <div class="mb-1 d-flex gap-2">
+                <div class="flex-grow-1 input" id="@unallocatedSearchId">
+                    @(Html.When(JqueryBind.KeyUp)
+                          .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Role("list").ToSelector()))
+                          .AsHtmlAttributes(classes: "rounded search w-100 h-100")
+                          .ToInput(HtmlInputType.Text, string.Empty))
+                    <span class="material-symbols-rounded addon-r">search</span>
                 </div>
 
-                @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
-                      .Ajax<GetClassByWeekQuery>(new
+                <div class="btn btn-light flex-shrink-0 p-1" id="@unallocatedFilterId">
+                    <span class="material-symbols-rounded">filter_alt</span>
+                </div>
+
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl =>
                       {
-                          Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
-                          GroupId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.GroupId)
+                          dsl.WithId(unallocatedPanelId).JQuery.Attr.ToggleClass("mw-px-324 mw-px-48");
+
+                          dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_left</span>).Html()
+                             .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-324"));
+                          dsl.Self().Insert.Use(@<span class="material-symbols-rounded">chevron_right</span>).Html()
+                             .If(() => Selector.Jquery.Id(unallocatedPanelId).HasClass("mw-px-48"));
+
+                          dsl.WithId(unallocatedSearchId).JQuery.Attr.ToggleClass("hidden");
+                          dsl.WithId(unallocatedFilterId).JQuery.Attr.ToggleClass("hidden");
+                          dsl.WithId(unallocatedClassesId).JQuery.Attr.ToggleClass("hidden");
                       })
-                      .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html())
-                      .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
-                      {
-                          item = Selector.Jquery.Role("drag-element").ToSelector(),
-                          container = Selector.Jquery.Role("drag-container").ToSelector(),
-                          forOne = true
-                      }))
-                      .AsHtmlAttributes(classes: "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0", id: unallocatedClassesId)
-                      .ToDiv())
-            </div>
-        </div>
-
-        <div class="d-flex flex-column flex-grow-1 gap-3">
-            <div class="d-flex">
-                <div class="d-flex gap-2 bg-base rounded">
-                    <div class="btn btn-light p-1">
-                        <span class="material-symbols-rounded">filter_alt</span>
-                    </div>
-
-                    <div class="btn btn-light">
-                        @DataResources.Teacher
-                    </div>
-
-                    <div class="btn btn-light">
-                        @DataResources.Auditorium
-                    </div>
-
-                    @Html.Hidden(nameof(GetScheduleByWeekQuery.GroupId))
-                    @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-                           {
-                               Button = new DropdownModel.ButtonSettings
-                               {
-                                   Text = DataResources.ChooseGroup,
-                                   Title = DataResources.ChooseGroup,
-                                   Id = currentGroupTextId
-                               },
-                               Items = new List<IHtmlContent>
-                               {
-                                   Html.Controls().Dropdown.List(settings =>
-                                   {
-                                       settings.Url = Url.Dispatcher().Query<GetGroupsForDDQuery>().AsJson();
-                                       settings.OnClick = dsl =>
-                                       {
-                                           dsl.WithId(currentGroupTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
-                                           dsl.WithId(currentGroupTextId).JQuery.Attr.Set(HtmlAttribute.Title, Selector.Event.Data.For("text"));
-                                           dsl.WithName<GetScheduleByWeekQuery>(r => r.GroupId).JQuery.Attr.Val(Selector.Event.Data.For("value"));
-                                           refreshWeek(dsl);
-                                       };
-                                   })
-                               }
-                           })
-                </div>
-
-                <div class="ms-auto d-flex gap-2 bg-base rounded">
-                    @(Html.When(JqueryBind.Click)
-                          .OnSuccess(dsl =>
-                          {
-                              dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.DecrementVal()
-                                 .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) > 1);
-                              dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
-
-                              refreshWeek(dsl);
-                          })
-                          .AsHtmlAttributes(classes: "btn btn-light p-1")
-                          .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
-
-                    @(Html.When(JqueryBind.InitIncoding)
-                          .OnSuccess(dsl => { })
-                          .AsHtmlAttributes(new { name = nameof(GetClassByWeekQuery.Week) })
-                          .ToInput(HtmlInputType.Hidden, "1"))
-                    <div class="btn btn-light" id="@currentWeekId">
-                        1
-                    </div>
-                    @Html.Hidden(nameof(GetScheduleFormatQuery.Response.CountOfWeeks), scheduleFormat.CountOfWeeks)
-                    @Html.Hidden(nameof(GetScheduleFormatQuery.Response.StartDate), scheduleFormat.StartDate)
-
-                    @(Html.When(JqueryBind.Click)
-                          .OnSuccess(dsl =>
-                          {
-                              dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.IncrementVal()
-                                 .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) < Selector.Jquery.Name<AddOrEditScheduleFormatCommand>(r => r.CountOfWeeks));
-                              dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
-
-                              refreshWeek(dsl);
-                          })
-                          .AsHtmlAttributes(classes: "btn btn-light p-1")
-                          .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
-                </div>
+                      .AsHtmlAttributes(classes: "btn btn-light flex-shrink-0 p-1")
+                      .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
             </div>
 
             @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
-                  .Ajax(Url.Dispatcher().Query<GetScheduleByWeekQuery>(new
+                  .Ajax<GetClassByWeekQuery>(new
                   {
-                      GroupId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.GroupId),
-                      Week = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.Week),
-                      FacultyId = Selector.Incoding.Cookie(GlobalSelectors.FacultyId)
-                  }).AsJson())
-                  .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Schedule_Tmpl.cshtml").Html())
+                      Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
+                      SelectedGroupId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId),
+                      SelectedTeacherId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId),
+                      SelectedAuditoriumId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId)
+                  })
+                  .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId) == string.Empty
+                                                     && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId) == string.Empty
+                                                     && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId) == string.Empty))
+                  .OnSuccess(dsl =>
+                  {
+                      dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html();
+                      dsl.Self().Insert.WithTemplateByUrl(Url.Dispatcher().Model<string>(DataResources.AllClassesScheduled).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html()
+                         .If(() => Selector.Jquery.Self().Children().Length() == 0);
+                  })
                   .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
                   {
                       item = Selector.Jquery.Role("drag-element").ToSelector(),
                       container = Selector.Jquery.Role("drag-container").ToSelector(),
                       forOne = true
                   }))
-                  .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule", id: GlobalSelectors.ScheduleId)
+                  .AsHtmlAttributes(new
+                  {
+                      @class = "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0",
+                      id = unallocatedClassesId,
+                      role = "list"
+                  })
                   .ToDiv(@<text>
-                             @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseGroup)
+                             @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.Unavailable)
                           </text>))
         </div>
+    </div>
+
+    <div class="d-flex flex-column flex-grow-1 gap-3">
+        <div class="d-flex">
+            <div class="d-flex gap-2 bg-base rounded">
+                <div class="btn btn-light p-1">
+                    <span class="material-symbols-rounded">filter_alt</span>
+                </div>
+
+                @Html.Hidden(nameof(GetScheduleByWeekQuery.SelectedTeacherId))
+                @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                       {
+                           Button = new DropdownModel.ButtonSettings
+                           {
+                               Text = DataResources.Teacher,
+                               Title = DataResources.ChooseTeacher,
+                               TextId = currentTeacherTextId
+                           },
+                           Items = new List<IHtmlContent>
+                           {
+                               Html.Controls().Dropdown.List(settings =>
+                               {
+                                   settings.Url = Url.Dispatcher().Query<GetTeachersForDDQuery>().AsJson();
+                                   settings.OnClick = dsl =>
+                                   {
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedGroupId).JQuery.Attr.Val(string.Empty);
+                                       dsl.WithId(currentGroupTextId).Insert.Use(DataResources.Group).Html();
+                                       dsl.WithId(currentGroupTextId).JQuery.Attr.Set(HtmlAttribute.Title, DataResources.ChooseGroup);
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId).JQuery.Attr.Val(string.Empty);
+                                       dsl.WithId(currentAuditoriumTextId).Insert.Use(DataResources.Auditorium).Html();
+                                       dsl.WithId(currentAuditoriumTextId).JQuery.Attr.Set(HtmlAttribute.Title, DataResources.ChooseAuditorium);
+
+                                       dsl.WithId(currentTeacherTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+                                       dsl.WithId(currentTeacherTextId).JQuery.Attr.Set(HtmlAttribute.Title, Selector.Event.Data.For("text"));
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedTeacherId).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                       refreshWeek(dsl);
+                                   };
+                               })
+                           }
+                       })
+
+                @Html.Hidden(nameof(GetScheduleByWeekQuery.SelectedAuditoriumId))
+                @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                       {
+                           Button = new DropdownModel.ButtonSettings
+                           {
+                               Text = DataResources.Auditorium,
+                               Title = DataResources.ChooseAuditorium,
+                               TextId = currentAuditoriumTextId
+                           },
+                           Items = new List<IHtmlContent>
+                           {
+                               Html.Controls().Dropdown.List(settings =>
+                               {
+                                   settings.Url = Url.Dispatcher().Query<GetAuditoriumsForDDQuery>().AsJson();
+                                   settings.OnClick = dsl =>
+                                   {
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedTeacherId).JQuery.Attr.Val(string.Empty);
+                                       dsl.WithId(currentTeacherTextId).Insert.Use(DataResources.Teacher).Html();
+                                       dsl.WithId(currentTeacherTextId).JQuery.Attr.Set(HtmlAttribute.Title, DataResources.ChooseTeacher);
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedGroupId).JQuery.Attr.Val(string.Empty);
+                                       dsl.WithId(currentGroupTextId).Insert.Use(DataResources.Group).Html();
+                                       dsl.WithId(currentGroupTextId).JQuery.Attr.Set(HtmlAttribute.Title, DataResources.ChooseGroup);
+
+                                       dsl.WithId(currentAuditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+                                       dsl.WithId(currentAuditoriumTextId).JQuery.Attr.Set(HtmlAttribute.Title, Selector.Event.Data.For("text"));
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                       refreshWeek(dsl);
+                                   };
+                               })
+                           }
+                       })
+
+                @Html.Hidden(nameof(GetScheduleByWeekQuery.SelectedGroupId))
+                @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                       {
+                           Button = new DropdownModel.ButtonSettings
+                           {
+                               Text = DataResources.Group,
+                               Title = DataResources.ChooseGroup,
+                               TextId = currentGroupTextId
+                           },
+                           Items = new List<IHtmlContent>
+                           {
+                               Html.Controls().Dropdown.List(settings =>
+                               {
+                                   settings.Url = Url.Dispatcher().Query<GetGroupsForDDQuery>().AsJson();
+                                   settings.OnClick = dsl =>
+                                   {
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId).JQuery.Attr.Val(string.Empty);
+                                       dsl.WithId(currentAuditoriumTextId).Insert.Use(DataResources.Auditorium).Html();
+                                       dsl.WithId(currentAuditoriumTextId).JQuery.Attr.Set(HtmlAttribute.Title, DataResources.ChooseAuditorium);
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedTeacherId).JQuery.Attr.Val(string.Empty);
+                                       dsl.WithId(currentTeacherTextId).Insert.Use(DataResources.Teacher).Html();
+                                       dsl.WithId(currentTeacherTextId).JQuery.Attr.Set(HtmlAttribute.Title, DataResources.ChooseTeacher);
+
+                                       dsl.WithId(currentGroupTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+                                       dsl.WithId(currentGroupTextId).JQuery.Attr.Set(HtmlAttribute.Title, Selector.Event.Data.For("text"));
+                                       dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedGroupId).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                       refreshWeek(dsl);
+                                   };
+                               })
+                           }
+                       })
+            </div>
+
+            <div class="ms-auto d-flex gap-2 bg-base rounded">
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl =>
+                      {
+                          dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.DecrementVal()
+                             .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) > 1);
+                          dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
+
+                          refreshWeek(dsl);
+                      })
+                      .AsHtmlAttributes(classes: "btn btn-light p-1")
+                      .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
+
+                @(Html.When(JqueryBind.InitIncoding)
+                      .OnSuccess(dsl => { })
+                      .AsHtmlAttributes(new { name = nameof(GetClassByWeekQuery.Week) })
+                      .ToInput(HtmlInputType.Hidden, "1"))
+                <div class="btn btn-light" id="@currentWeekId">
+                    1
+                </div>
+                @Html.Hidden(nameof(GetScheduleFormatQuery.Response.CountOfWeeks), scheduleFormat.CountOfWeeks)
+                @Html.Hidden(nameof(GetScheduleFormatQuery.Response.StartDate), scheduleFormat.StartDate)
+
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl =>
+                      {
+                          dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.IncrementVal()
+                             .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) < Selector.Jquery.Name<AddOrEditScheduleFormatCommand>(r => r.CountOfWeeks));
+                          dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
+
+                          refreshWeek(dsl);
+                      })
+                      .AsHtmlAttributes(classes: "btn btn-light p-1")
+                      .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
+            </div>
+        </div>
+
+        @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+              .Ajax(Url.Dispatcher().Query<GetScheduleByWeekQuery>(new
+              {
+                  SelectedGroupId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupId),
+                  SelectedTeacherId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherId),
+                  SelectedAuditoriumId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId),
+                  Week = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.Week),
+                  FacultyId = Selector.Incoding.Cookie(GlobalSelectors.FacultyId)
+              }).AsJson())
+              .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupId) == string.Empty
+                                                 && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherId) == string.Empty
+                                                 && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId) == string.Empty))
+              .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Schedule_Tmpl.cshtml").Html())
+              .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
+              {
+                  item = Selector.Jquery.Role("drag-element").ToSelector(),
+                  container = Selector.Jquery.Role("drag-container").ToSelector(),
+                  forOne = true
+              }))
+              .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: GlobalSelectors.ScheduleId)
+              .ToDiv(@<text>
+                         @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseGroup)
+                      </text>))
+    </div>
     </div>
 }

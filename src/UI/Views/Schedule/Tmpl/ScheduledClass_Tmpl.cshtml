@@ -36,10 +36,14 @@
 
     <div class="d-flex mx-1">
         <div class="flex-grow-1">
-            @Model.For(r => r.Teacher)
+            @Model.IsInline(r => r.IsGroup, Model.For(r => r.Teacher))
+            @Model.IsInline(r => r.IsAuditorium, Model.For(r => r.Teacher))
+            @Model.IsInline(r => r.IsTeacher, Model.For(r => r.Group))
         </div>
-        <div class="flex-shrink-0" title="@Model.For(r => r.Department)">
-            @Model.For(r => r.DepartmentCode)
+        <div class="flex-shrink-0" @(Model.IsInline(r => r.IsGroup, $@"title=""{Model.For(r => r.Department)}""")) @(Model.IsInline(r => r.IsTeacher, $@"title=""{Model.For(r => r.Department)}"""))>
+            @Model.IsInline(r => r.IsGroup, Model.For(r => r.DepartmentCode))
+            @Model.IsInline(r => r.IsAuditorium, Model.For(r => r.Group))
+            @Model.IsInline(r => r.IsTeacher, Model.For(r => r.DepartmentCode))
         </div>
     </div>
 

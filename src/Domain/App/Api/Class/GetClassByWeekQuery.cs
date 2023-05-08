@@ -10,25 +10,47 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
     public int Week { get; set; }
 
-    public int GroupId { get; set; }
+    public int? SelectedGroupId { get; set; }
+
+    public int? SelectedAuditoriumId { get; set; }
+
+    public int? SelectedTeacherId { get; set; }
 
     protected override List<Response> ExecuteResult()
     {
         var res = new List<Response>();
 
-        var scheduled = Repository.Query<Class>()
-                                  .Where(r => r.ScheduleFormat.FacultyId == FacultyId
-                                           && r.Plan.GroupId == GroupId)
-                                  .Select(r => new
-                                  {
-                                          r.DisciplinePlanId,
-                                          r.SubGroupNo
-                                  })
-                                  .ToList();
+        var scheduledAll = Repository.Query<Class>();
+        var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
-        var disciplinePlans = Repository.Query<DisciplinePlan>()
-                                        .Where(r => r.GroupId == GroupId)
-                                        .ToList();
+        if (SelectedGroupId.HasValue)
+        {
+            scheduledAll = scheduledAll.Where(r => r.ScheduleFormat.FacultyId == FacultyId
+                                                && r.Plan.GroupId == SelectedGroupId);
+            disciplinePlansAll = disciplinePlansAll.Where(r => r.GroupId == SelectedGroupId);
+        }
+
+        if (SelectedAuditoriumId.HasValue)
+        {
+            scheduledAll = scheduledAll.Where(r => r.ScheduleFormat.FacultyId == FacultyId
+                                                && r.AuditoriumId == SelectedAuditoriumId);
+        }
+
+        if (SelectedTeacherId.HasValue)
+        {
+            scheduledAll = scheduledAll.Where(r => r.ScheduleFormat.FacultyId == FacultyId
+                                                && r.Plan.TeacherId == SelectedTeacherId);
+            disciplinePlansAll = disciplinePlansAll.Where(r => r.TeacherId == SelectedTeacherId);
+        }
+
+        var scheduled = scheduledAll.Select(r => new
+                                    {
+                                            r.DisciplinePlanId,
+                                            r.SubGroupNo
+                                    })
+                                    .ToList();
+
+        var disciplinePlans = disciplinePlansAll.ToList();
 
         foreach (var disciplinePlan in disciplinePlans)
         {
@@ -62,7 +84,11 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                             Color = disciplinePlan.SubDiscipline.Kind.Color.ToHex(),
                             SubDisciplineCode = disciplinePlan.SubDiscipline.Kind.Code,
                             HasSubGroups = subGroupCount != 1,
-                            DisciplinePlanId = disciplinePlan.Id
+                            DisciplinePlanId = disciplinePlan.Id,
+                            IsGroup = SelectedGroupId.HasValue,
+                            IsAuditorium = SelectedAuditoriumId.HasValue,
+                            IsTeacher = SelectedTeacherId.HasValue,
+                            AuditoriumId = SelectedAuditoriumId
                     });
                 }
             }
@@ -103,6 +129,14 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
         public int DisciplinePlanId { get; set; }
 
+        public int? AuditoriumId { get; set; }
+
         public bool HasSubGroups { get; set; }
+
+        public bool IsGroup { get; set; }
+
+        public bool IsAuditorium { get; set; }
+
+        public bool IsTeacher { get; set; }
     }
 }

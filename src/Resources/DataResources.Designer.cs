@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Все пары распределены.
+        /// </summary>
+        public static string AllClassesScheduled {
+            get {
+                return ResourceManager.GetString("AllClassesScheduled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Все преподаватели.
         /// </summary>
         public static string AllTeachers {
@@ -219,6 +228,15 @@ namespace Resources {
         public static string ChooseGroup {
             get {
                 return ResourceManager.GetString("ChooseGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выберите преподавателя.
+        /// </summary>
+        public static string ChooseTeacher {
+            get {
+                return ResourceManager.GetString("ChooseTeacher", resourceCulture);
             }
         }
         
@@ -1227,6 +1245,24 @@ namespace Resources {
         public static string Weeks {
             get {
                 return ResourceManager.GetString("Weeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Без подгрупп.
+        /// </summary>
+        public static string WithoutSubGroups {
+            get {
+                return ResourceManager.GetString("WithoutSubGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to С подгруппами.
+        /// </summary>
+        public static string WithSubGroups {
+            get {
+                return ResourceManager.GetString("WithSubGroups", resourceCulture);
             }
         }
     }

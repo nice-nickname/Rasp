@@ -9,11 +9,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 {
     public int Week { get; set; }
 
-    public int? GroupId { get; set; }
+    public int? SelectedGroupId { get; set; }
 
-    public int? AuditoriumId { get; set; }
+    public int? SelectedAuditoriumId { get; set; }
 
-    public int? TeacherId { get; set; }
+    public int? SelectedTeacherId { get; set; }
 
     public int FacultyId { get; set; }
 
@@ -52,38 +52,49 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                 });
         }
 
-        var scheduledClasses = Repository.Query<Class>()
-                                         .Where(r => r.Plan.GroupId == GroupId
-                                                  && r.Week == Week)
-                                         .Select(r => new ClassItem
-                                         {
-                                                 Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
-                                                 DisciplinePlanId = r.DisciplinePlanId,
-                                                 TeacherId = r.Plan.TeacherId,
-                                                 Teacher = r.Plan.Teacher.ShortName,
-                                                 Department = r.Plan.SubDiscipline.Discipline.Department.Name,
-                                                 DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
-                                                 DisciplineId = r.Plan.SubDiscipline.DisciplineId,
-                                                 Discipline = r.Plan.SubDiscipline.Discipline.Name,
-                                                 DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
-                                                 SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
-                                                 SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
-                                                 SubDisciplineId = r.Plan.SubDiscipline.Id,
-                                                 SubGroupNo = r.SubGroupNo,
-                                                 HasSubGroups = r.SubGroupNo > 0,
-                                                 GroupId = r.Plan.GroupId,
-                                                 Group = r.Plan.Group.Code,
-                                                 Day = r.Day,
-                                                 Order = r.ScheduleFormat.Order,
-                                                 IsEmpty = false,
-                                                 ScheduleFormatId = r.ScheduleFormatId,
-                                                 Id = r.Id,
-                                                 AuditoriumId = r.AuditoriumId,
-                                                 Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium
-                                         })
-                                         .ToList()
-                                         .GroupBy(r => r.Day)
-                                         .ToList();
+        var scheduledClassesAll = Repository.Query<Class>();
+
+        if (SelectedGroupId.HasValue)
+            scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == SelectedGroupId.Value && r.Week == Week);
+
+        if (SelectedAuditoriumId.HasValue)
+            scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == SelectedAuditoriumId && r.Week == Week);
+
+        if (SelectedTeacherId.HasValue)
+            scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == SelectedTeacherId && r.Week == Week);
+
+        var scheduledClasses = scheduledClassesAll.Select(r => new ClassItem
+                                                  {
+                                                          Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
+                                                          DisciplinePlanId = r.DisciplinePlanId,
+                                                          TeacherId = r.Plan.TeacherId,
+                                                          Teacher = r.Plan.Teacher.ShortName,
+                                                          Department = r.Plan.SubDiscipline.Discipline.Department.Name,
+                                                          DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
+                                                          DisciplineId = r.Plan.SubDiscipline.DisciplineId,
+                                                          Discipline = r.Plan.SubDiscipline.Discipline.Name,
+                                                          DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
+                                                          SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
+                                                          SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
+                                                          SubDisciplineId = r.Plan.SubDiscipline.Id,
+                                                          SubGroupNo = r.SubGroupNo,
+                                                          HasSubGroups = r.SubGroupNo > 0,
+                                                          GroupId = r.Plan.GroupId,
+                                                          Group = r.Plan.Group.Code,
+                                                          Day = r.Day,
+                                                          Order = r.ScheduleFormat.Order,
+                                                          IsEmpty = false,
+                                                          ScheduleFormatId = r.ScheduleFormatId,
+                                                          Id = r.Id,
+                                                          AuditoriumId = r.AuditoriumId,
+                                                          Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
+                                                          IsGroup = SelectedGroupId.HasValue,
+                                                          IsAuditorium = SelectedAuditoriumId.HasValue,
+                                                          IsTeacher = SelectedTeacherId.HasValue,
+                                                  })
+                                                  .ToList()
+                                                  .GroupBy(r => r.Day)
+                                                  .ToList();
 
         foreach (var scheduled in scheduledClasses)
         {
@@ -162,6 +173,12 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         public bool HasSubGroups { get; set; }
 
         public bool IsEmpty { get; set; }
+
+        public bool IsGroup { get; set; }
+
+        public bool IsAuditorium { get; set; }
+
+        public bool IsTeacher { get; set; }
 
         public DayOfWeek Day { get; set; }
     }

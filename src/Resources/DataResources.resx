@@ -513,4 +513,16 @@
 	<data name="ChooseGroup" xml:space="preserve">
 		<value>Выберите группу</value>
 	</data>
+	<data name="WithSubGroups" xml:space="preserve">
+		<value>С подгруппами</value>
+	</data>
+	<data name="WithoutSubGroups" xml:space="preserve">
+	    <value>Без подгрупп</value>
+	</data>
+	<data name="AllClassesScheduled" xml:space="preserve">
+		<value>Все пары распределены</value>
+	</data>
+	<data name="ChooseTeacher" xml:space="preserve">
+		<value>Выберите преподавателя</value>
+	</data>
 </root>

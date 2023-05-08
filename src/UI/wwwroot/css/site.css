@@ -255,6 +255,11 @@ a:hover {
     box-shadow: inset 0px 0px 6px rgba(234, 234, 234, 0.5);
 }
 
+.bg-base *:has(> .placeholder-nothing-selected) {
+    border: 0;
+    box-shadow: none;
+}
+
 .h-fit {
     height: fit-content;
 }
@@ -327,7 +332,7 @@ input.form-control[type=color] {
 }
 
 .class-card {
-    max-height: 115px;
+    max-height: 80px;
     margin: 0.25rem
 }
 
