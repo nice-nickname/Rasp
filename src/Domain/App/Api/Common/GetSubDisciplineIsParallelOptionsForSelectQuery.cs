@@ -3,7 +3,7 @@ using Incoding.Core.CQRS.Core;
 
 namespace Domain.App.Api;
 
-public class GetSubDisciplineIsParallelOptionsForDDQuery : QueryBase<List<DropDownItem>>
+public class GetSubDisciplineIsParallelOptionsForSelectQuery : QueryBase<List<DropDownItem>>
 {
     public bool Selected { get; set; }
 

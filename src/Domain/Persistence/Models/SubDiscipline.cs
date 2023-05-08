@@ -22,9 +22,15 @@ public class SubDiscipline : IncEntityBase, Share.IEntityHasDiscipline, Share.IE
 
     public virtual IList<Teacher> Teachers { get; set; }
 
+    public virtual IList<Auditorium> Auditoriums { get; set; }
+
+    public virtual IList<AuditoriumKind> AuditoriumKinds { get; set; }
+
     public SubDiscipline()
     {
         Teachers = new List<Teacher>();
+        Auditoriums = new List<Auditorium>();
+        AuditoriumKinds = new List<AuditoriumKind>();
     }
 
     public class Mapping : ClassMap<SubDiscipline>
@@ -51,6 +57,18 @@ public class SubDiscipline : IncEntityBase, Share.IEntityHasDiscipline, Share.IE
                                           .ChildKeyColumn(nameof(SubDisciplineTeachers.TeacherId))
                                           .LazyLoad()
                                           .ReadOnly();
+
+            HasManyToMany(s => s.Auditoriums).Table(nameof(SubDisciplineAuditoriums))
+                                             .ParentKeyColumn(nameof(SubDisciplineAuditoriums.SubDisciplineId))
+                                             .ChildKeyColumn(nameof(SubDisciplineAuditoriums.AuditoriumId))
+                                             .LazyLoad()
+                                             .ReadOnly();
+
+            HasManyToMany(s => s.AuditoriumKinds).Table(nameof(SubDisciplineAuditoriumKinds))
+                                                 .ParentKeyColumn(nameof(SubDisciplineAuditoriumKinds.SubDisciplineId))
+                                                 .ChildKeyColumn(nameof(SubDisciplineAuditoriumKinds.AuditoriumKindId))
+                                                 .LazyLoad()
+                                                 .ReadOnly();
         }
     }
 }

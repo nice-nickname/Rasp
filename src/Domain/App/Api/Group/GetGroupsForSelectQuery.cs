@@ -6,7 +6,7 @@ using Resources;
 
 namespace Domain.Api;
 
-public class GetGroupsForDDQuery : QueryBase<List<DropDownItem>>
+public class GetGroupsForSelectQuery : QueryBase<List<DropDownItem>>
 {
     public int FacultyId { get; set; }
 

@@ -525,4 +525,7 @@
 	<data name="ChooseTeacher" xml:space="preserve">
 		<value>Выберите преподавателя</value>
 	</data>
+	<data name="PreferencesToAuditorium" xml:space="preserve">
+		<value>Требования к аудиториям</value>
+	</data>
 </root>

@@ -5,7 +5,7 @@ using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
 
-public class GetTeachersForDDQuery : QueryBase<List<DropDownItem>>
+public class GetTeachersForSelectQuery : QueryBase<List<DropDownItem>>
 {
     public int FacultyId { get; set; }
 

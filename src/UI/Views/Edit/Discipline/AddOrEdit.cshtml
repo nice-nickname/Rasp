@@ -1,6 +1,7 @@
 ﻿@using UI.Query
 @using Domain.Common
 @using Domain.App.Api
+@using System.Reflection
 @model AddOrEditDisciplineCommand
 @{
     Layout = "~/Views/Shared/_AddOrEdit_Layout.cshtml";
@@ -100,7 +101,7 @@
                     {
                         control.Class = "form-control";
                         control.Name = nameof(Model.GroupIds);
-                        control.Items = Html.Dispatcher().Query(new GetGroupsForDDQuery
+                        control.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery
                         {
                             SelectedIds = Model.GroupIds.ToArray(),
                             FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
@@ -156,35 +157,15 @@
                                           .ToInput(HtmlInputType.Number, subDiscipline.Hours.ToString()))
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}")
                                 </div>
-                                <div class="form-group col-2">
-                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teachers, new { @class = "form-label" })
-                                    @Html.Controls().Select(control =>
-                                    {
-                                        control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}";
-                                        control.Class = "form-control";
-                                        control.IsMultiselect = true;
-                                        control.IsSearchable = true;
-                                        control.Items = Html.Dispatcher().Query(new GetTeachersForDDQuery
-                                        {
-                                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
-                                            SelectedIds = subDiscipline.TeacherIds
-                                        });
-                                        control.MaxVisibleElements = 1;
-                                        control.ChangeTimeout = 1000;
-                                        control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
-                                                                     .Trigger.None();
-                                    })
-                                    @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
-                                </div>
                                 @if (subDiscipline.Type != SubDisciplineKind.OfType.EXAM)
                                 {
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-3">
                                         @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", "Деление занятий между преподавателями", new { @class = "form-label" })
                                         @Html.Controls().Select(control =>
                                         {
                                             control.Class = "form-control";
                                             control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}";
-                                            control.Items = Html.Dispatcher().Query(new GetSubDisciplineIsParallelOptionsForDDQuery
+                                            control.Items = Html.Dispatcher().Query(new GetSubDisciplineIsParallelOptionsForSelectQuery
                                             {
                                                 Selected = subDiscipline.IsParallelHours
                                             });
@@ -201,6 +182,61 @@
                                 {
                                     @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", false)
                                 }
+                                <div class="form-group col-7">
+                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teachers, new { @class = "form-label" })
+                                    @Html.Controls().Select(control =>
+                                    {
+                                        control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}";
+                                        control.Class = "form-control";
+                                        control.IsMultiselect = true;
+                                        control.IsSearchable = true;
+                                        control.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery
+                                        {
+                                            FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]),
+                                            SelectedIds = subDiscipline.TeacherIds
+                                        });
+                                        control.MaxVisibleElements = 1;
+                                        control.ChangeTimeout = 1000;
+                                        control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
+                                                                     .Trigger.None();
+                                    })
+                                    @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <h5>@DataResources.PreferencesToAuditorium</h5>
+                                <div class="col form-group">
+                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumIds)}", DataResources.Auditorium, new { @class = "form-label" })
+                                    @Html.Controls().Select(control =>
+                                    {
+                                        control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumIds)}";
+                                        control.Class = "form-control";
+                                        control.IsMultiselect = true;
+                                        control.IsSearchable = true;
+                                        control.MaxVisibleElements = 3;
+                                        control.Items = Html.Dispatcher().Query(new GetAuditoriumsForSelectQuery
+                                        {
+                                            SelectedIds = subDiscipline.AuditoriumIds,
+                                        });
+                                    })
+                                    @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumIds)}")
+                                </div>
+                                <div class="col form-group">
+                                    @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumKindIds)}", DataResources.AuditoriumKind, new { @class = "form-label" })
+                                    @Html.Controls().Select(control =>
+                                    {
+                                        control.Name = $"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumKindIds)}";
+                                        control.Class = "form-control";
+                                        control.IsMultiselect = true;
+                                        control.IsSearchable = true;
+                                        control.MaxVisibleElements = 3;
+                                        control.Items = Html.Dispatcher().Query(new GetAuditoriumKindsForDDQuery
+                                        {
+                                            Ids = subDiscipline.AuditoriumKindIds.ToArray(),
+                                        }).Select(s => (DropDownItem)s);
+                                    })
+                                    @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumKindIds)}")
+                                </div>
                             </div>
                             @if (subDiscipline.Type != SubDisciplineKind.OfType.EXAM)
                             {

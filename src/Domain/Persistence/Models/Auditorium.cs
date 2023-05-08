@@ -16,7 +16,7 @@ public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment, Share.I
 
     public virtual int Capacity { get; set; }
 
-    public virtual Department? Department { get; set; }
+    public virtual Department Department { get; set; }
 
     public virtual Building Building { get; set; }
 
@@ -25,6 +25,7 @@ public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment, Share.I
     public Auditorium()
     {
         Kinds = new List<AuditoriumKind>();
+        Department = new Department();
     }
 
     public class Mapping : ClassMap<Auditorium>

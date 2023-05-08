@@ -59,6 +59,8 @@ public class AddOrEditDisciplineCommand : CommandBase
         {
             // TODO 07.05.2023: Вынести это (под-дисциплины) в под-команду
             sd.TeacherIds ??= new List<int>();
+            sd.AuditoriumIds ??= new List<int>();
+            sd.AuditoriumKindIds ??= new List<int>();
             sd.Plans ??= new List<PlanItem>();
 
             var subDisciplineItem = Repository.GetById<SubDiscipline>(sd.Id) ?? new SubDiscipline();
@@ -74,6 +76,8 @@ public class AddOrEditDisciplineCommand : CommandBase
             }
 
             Repository.SaveOrUpdate(subDisciplineItem);
+
+        #region Сохранение преподов
 
             var subDisciplineTeachers = Repository.Query(new Share.Where.BySubDiscipline<SubDisciplineTeachers>(subDisciplineItem.Id))
                                                   .Select(s => s.Id)
@@ -92,6 +96,50 @@ public class AddOrEditDisciplineCommand : CommandBase
                         TeacherId = sdTeacherId
                 });
             }
+
+        #endregion
+
+        #region Сохранение аудиторий
+
+            var auditoriums = Repository.Query(new Share.Where.BySubDiscipline<SubDisciplineAuditoriums>(subDisciplineItem.Id))
+                                        .Select(s => (object)s.Id)
+                                        .ToList();
+            if (auditoriums.Any())
+            {
+                Repository.DeleteByIds<SubDisciplineAuditoriums>(auditoriums);
+            }
+
+            foreach (var sdAuditorium in sd.AuditoriumIds)
+            {
+                Repository.Save(new SubDisciplineAuditoriums
+                {
+                        SubDisciplineId = subDisciplineItem.Id,
+                        AuditoriumId = sdAuditorium
+                });
+            }
+
+        #endregion
+
+        #region Сохранение типов аудиторий
+
+            var auditoriumsKinds = Repository.Query(new Share.Where.BySubDiscipline<SubDisciplineAuditoriumKinds>(subDisciplineItem.Id))
+                                             .Select(s => (object)s.Id)
+                                             .ToList();
+            if (auditoriumsKinds.Any())
+            {
+                Repository.DeleteByIds<SubDisciplineAuditoriumKinds>(auditoriumsKinds);
+            }
+
+            foreach (var sdAuditoriumKind in sd.AuditoriumKindIds)
+            {
+                Repository.Save(new SubDisciplineAuditoriumKinds
+                {
+                        SubDisciplineId = subDisciplineItem.Id,
+                        AuditoriumKindId = sdAuditoriumKind
+                });
+            }
+
+        #endregion
 
             var plans = sd.Plans
                           .Where(s => s.Id.HasValue)
@@ -155,6 +203,10 @@ public class AddOrEditDisciplineCommand : CommandBase
 
         public List<int>? TeacherIds { get; set; }
 
+        public List<int>? AuditoriumKindIds { get; set; }
+
+        public List<int>? AuditoriumIds { get; set; }
+
         public List<PlanItem>? Plans { get; set; }
     }
 
@@ -197,10 +249,12 @@ public class AddOrEditDisciplineCommand : CommandBase
                                                    Name = s.Kind.Name,
                                                    Hours = s.Hours,
                                                    KindId = s.KindId,
-                                                   TeacherIds = s.Teachers.Select(r => r.Id).ToList(),
                                                    Id = s.Id,
                                                    Type = s.Kind.Type,
                                                    IsParallelHours = s.IsParallelHours,
+                                                   TeacherIds = s.Teachers.Select(r => r.Id).ToList(),
+                                                   AuditoriumKindIds = s.AuditoriumKinds.Select(r => r.Id).ToList(),
+                                                   AuditoriumIds = s.Auditoriums.Select(r => r.Id).ToList(),
                                            })
                                            .ToList();
             }
@@ -213,6 +267,8 @@ public class AddOrEditDisciplineCommand : CommandBase
                                                    Hours = 0,
                                                    Name = s.Name,
                                                    TeacherIds = new List<int>(),
+                                                   AuditoriumKindIds = new List<int>(),
+                                                   AuditoriumIds = new List<int>(),
                                                    Type = s.Type,
                                                    IsParallelHours = false
                                            })

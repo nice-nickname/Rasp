@@ -49,7 +49,7 @@
                         @Html.Label(name(i, nameof(item.SubGroupCount)), DataResources.DivideToSubGroups)
                         @Html.Controls().Select(control =>
                         {
-                            control.Items = Html.Dispatcher().Query(new GetGroupDivisionForDDQuery { Selected = item.SubGroupCount });
+                            control.Items = Html.Dispatcher().Query(new GetGroupDivisionForSelectQuery { Selected = item.SubGroupCount });
                             control.Name = name(i, nameof(item.SubGroupCount));
                             control.OnInit = dsl => controlOnChange(dsl, i);
                             control.OnChange = dsl => controlOnChange(dsl, i);

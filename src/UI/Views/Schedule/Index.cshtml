@@ -156,7 +156,7 @@
                            {
                                Html.Controls().Dropdown.List(settings =>
                                {
-                                   settings.Url = Url.Dispatcher().Query<GetTeachersForDDQuery>().AsJson();
+                                   settings.Url = Url.Dispatcher().Query<GetTeachersForSelectQuery>().AsJson();
                                    settings.OnClick = dsl =>
                                    {
                                        dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedGroupId).JQuery.Attr.Val(string.Empty);
@@ -220,7 +220,7 @@
                            {
                                Html.Controls().Dropdown.List(settings =>
                                {
-                                   settings.Url = Url.Dispatcher().Query<GetGroupsForDDQuery>().AsJson();
+                                   settings.Url = Url.Dispatcher().Query<GetGroupsForSelectQuery>().AsJson();
                                    settings.OnClick = dsl =>
                                    {
                                        dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId).JQuery.Attr.Val(string.Empty);

@@ -16,6 +16,12 @@ public class Department : IncEntityBase, Share.IEntityHasFaculty, Share.IEntityH
 
     public virtual Faculty Faculty { get; set; }
 
+    public Department()
+    {
+        Code = string.Empty;
+        Name = string.Empty;
+    }
+
     public class Mapping : ClassMap<Department>
     {
         public Mapping()

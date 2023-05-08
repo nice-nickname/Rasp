@@ -871,6 +871,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Требования к аудиториям.
+        /// </summary>
+        public static string PreferencesToAuditorium {
+            get {
+                return ResourceManager.GetString("PreferencesToAuditorium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Убрать праздник.
         /// </summary>
         public static string RemoveWeekendDay {

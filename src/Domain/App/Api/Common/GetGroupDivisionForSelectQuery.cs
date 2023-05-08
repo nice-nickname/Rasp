@@ -3,7 +3,7 @@ using Incoding.Core.CQRS.Core;
 
 namespace Domain.App.Api;
 
-public class GetGroupDivisionForDDQuery : QueryBase<List<DropDownItem>>
+public class GetGroupDivisionForSelectQuery : QueryBase<List<DropDownItem>>
 {
     public int Selected { get; set; }
 
