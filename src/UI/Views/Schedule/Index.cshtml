@@ -7,6 +7,7 @@
     var unallocatedFilterId = Guid.NewGuid().ToString();
     var unallocatedClassesId = Guid.NewGuid().ToString();
     var currentWeekId = Guid.NewGuid().ToString();
+    var currentGroupTextId = Guid.NewGuid().ToString();
 
     var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
 
@@ -128,10 +129,30 @@
                         @DataResources.Auditorium
                     </div>
 
-                    <div class="btn btn-light">
-                        @Html.Hidden(nameof(GetScheduleByWeekQuery.GroupId), 2)
-                        КТбо4-8
-                    </div>
+                    @Html.Hidden(nameof(GetScheduleByWeekQuery.GroupId))
+                    @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                           {
+                               Button = new DropdownModel.ButtonSettings
+                               {
+                                   Text = DataResources.ChooseGroup,
+                                   Title = DataResources.ChooseGroup,
+                                   Id = currentGroupTextId
+                               },
+                               Items = new List<IHtmlContent>
+                               {
+                                   Html.Controls().Dropdown.List(settings =>
+                                   {
+                                       settings.Url = Url.Dispatcher().Query<GetGroupsForDDQuery>().AsJson();
+                                       settings.OnClick = dsl =>
+                                       {
+                                           dsl.WithId(currentGroupTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+                                           dsl.WithId(currentGroupTextId).JQuery.Attr.Set(HtmlAttribute.Title, Selector.Event.Data.For("text"));
+                                           dsl.WithName<GetScheduleByWeekQuery>(r => r.GroupId).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                           refreshWeek(dsl);
+                                       };
+                                   })
+                               }
+                           })
                 </div>
 
                 <div class="ms-auto d-flex gap-2 bg-base rounded">
@@ -186,7 +207,9 @@
                       forOne = true
                   }))
                   .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule", id: GlobalSelectors.ScheduleId)
-                  .ToDiv())
+                  .ToDiv(@<text>
+                             @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseGroup)
+                          </text>))
         </div>
     </div>
 }

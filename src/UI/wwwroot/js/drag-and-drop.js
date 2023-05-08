@@ -76,7 +76,11 @@
             function onMouseDown(ev) {
                 ev.preventDefault()
 
-                if ($(ev.target).is('select') || $(ev.target).is('input') || $(ev.target).is('button') || $(ev.target).is('a.dropdown-item')) {
+                if ($(ev.target).is('select')
+                    || $(ev.target).is('input')
+                    || $(ev.target).is('button')
+                    || $(ev.target).is('a.dropdown-item')
+                    || $(ev.target).closest('button').length != 0) {
                     return
                 }
 

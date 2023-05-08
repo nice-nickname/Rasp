@@ -33,3 +33,7 @@ $btn-padding-x: 1rem;
 .btn-danger.disabled {
     color: #FFFFFF;
 }
+
+.class-card-warning {
+    background-color: rgba($warning, .85) !important;
+}

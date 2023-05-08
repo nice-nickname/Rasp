@@ -214,6 +214,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выберите группу.
+        /// </summary>
+        public static string ChooseGroup {
+            get {
+                return ResourceManager.GetString("ChooseGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to занятие.
         /// </summary>
         public static string Class {

@@ -10784,4 +10784,8 @@ textarea.form-control-lg {
   color: #FFFFFF;
 }
 
+.class-card-warning {
+  background-color: rgba(253, 197, 54, 0.85) !important;
+}
+
 /*# sourceMappingURL=custom_bootstrap.css.map */

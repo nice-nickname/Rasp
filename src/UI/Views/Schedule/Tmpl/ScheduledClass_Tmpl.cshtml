@@ -1,7 +1,7 @@
 ﻿@using Domain.Api.Schedule
 @model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
 
-<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element" name="card">
+<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @(Model.NotInline(r => r.AuditoriumId, "class-card-warning"))" role="drag-element" name="card">
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
     @Html.Hidden(nameof(SaveScheduleCommand.Id), Model.For(r => r.Id))

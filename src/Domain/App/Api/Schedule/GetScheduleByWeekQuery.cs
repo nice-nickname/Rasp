@@ -9,7 +9,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 {
     public int Week { get; set; }
 
-    public int GroupId { get; set; }
+    public int? GroupId { get; set; }
+
+    public int? AuditoriumId { get; set; }
+
+    public int? TeacherId { get; set; }
 
     public int FacultyId { get; set; }
 

@@ -510,4 +510,7 @@
 	<data name="ChooseAuditorium" xml:space="preserve">
 		<value>Выберите аудиторию</value>
 	</data>
+	<data name="ChooseGroup" xml:space="preserve">
+		<value>Выберите группу</value>
+	</data>
 </root>
