@@ -13,7 +13,11 @@
 {
     @Html.Controls().ButtonConfirm(settings =>
     {
-        settings.Url = Url.Dispatcher().Push(new FetchWeekendDaysFromAPICommand());
+        settings.Url = Url.Dispatcher().Push(new FetchWeekendDaysFromAPICommand
+        {
+            Start = Model.Start,
+            End = Model.End
+        });
         settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
         settings.Text = DataResources.SetWeekendAutomatic;
         settings.Icon = "cloud_download";
@@ -104,28 +108,17 @@
                                         {
                                             Day = day.Day
                                         });
-                                        var id = day.Day.Ticks.ToString();
-                                        <td class="text-center" data-day="@day.Day">
-                                            @await Html.PartialAsync("DropDown_Tmpl", new DropdownModel
-                                                   {
-                                                       Button = new DropdownModel.ButtonSettings
-                                                       {
-                                                           Id = id,
-                                                           Text = day.Day.Day.ToString(),
-                                                           Classes = $"btn-sm {color}",
-                                                           IsDisabled = day.Type == GetWeekendCalendarQuery.DayItem.WeekendType.Weekend
-                                                       },
-                                                       Items = new List<IHtmlContent>
-                                                       {
-                                                           Html.Controls().Dropdown.Button(control =>
-                                                           {
-                                                               control.Id = $"day-{id}";
-                                                               control.Text = DataResources.ToggleWeekend;
-                                                               control.Url = url;
-                                                               control.OnSuccess = dsl => dsl.WithId(id).JQuery.Attr.ToggleClass("btn-secondary btn-light");
-                                                           })
-                                                       }
-                                                   })
+
+                                        <td class="text-center">
+
+                                            @(Html.When(JqueryBind.Click)
+                                                  .PreventDefault()
+                                                  .AjaxPost(url)
+                                                  .OnSuccess(dsl => dsl.Self().JQuery.Attr.ToggleClass("btn-secondary btn-light"))
+                                                  .AsHtmlAttributes(classes: $"btn btn-sm {color}",
+                                                                    title: DataResources.ToggleWeekend,
+                                                                    disabled: day.Type == GetWeekendCalendarQuery.DayItem.WeekendType.Weekend)
+                                                  .ToButton(day.Day.Day.ToString()))
                                         </td>
                                     }
                                 </tr>

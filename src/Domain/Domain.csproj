@@ -26,6 +26,7 @@
     <PackageReference Include="Incoding.Core" Version="1.2.5" />
     <PackageReference Include="Incoding.Data" Version="1.2.5" />
     <PackageReference Include="Incoding.Data.NHibernate" Version="1.2.5" />
+    <PackageReference Include="isdayoff" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup>

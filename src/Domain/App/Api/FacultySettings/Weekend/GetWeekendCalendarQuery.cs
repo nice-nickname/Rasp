@@ -73,16 +73,16 @@ public class GetWeekendCalendarQuery : QueryBase<GetWeekendCalendarQuery.Respons
                                      Name = DateTimeFormatInfo.CurrentInfo.GetMonthName(month.Key)
                              })
                              .ToList(),
-                Start = DateOnly.FromDateTime(start),
-                End = DateOnly.FromDateTime(end),
+                Start = start,
+                End = end,
         };
     }
 
     public record Response
     {
-        public DateOnly Start { get; set; }
+        public DateTime Start { get; set; }
 
-        public DateOnly End { get; set; }
+        public DateTime End { get; set; }
 
         public List<MonthItem> Months { get; set; }
     }
