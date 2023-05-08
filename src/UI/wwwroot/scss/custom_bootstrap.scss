@@ -1,7 +1,7 @@
-$primary: #3d58f3;
-$secondary: #8baafa;
-$light: #ffffff;
-$black: #131c25;
+$primary: #3D58F3;
+$secondary: #8BAAFA;
+$light: #FFFFFF;
+$black: #131C25;
 $danger: #FC3C2E;
 $warning: #FDC536;
 $success: #019C53;
@@ -26,4 +26,9 @@ $btn-padding-x: 1rem;
 .btn-light:hover {
     background-color: $light;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.125);
+}
+
+.btn-danger,
+.btn-danger:hover {
+    color: #FFFFFF;
 }
