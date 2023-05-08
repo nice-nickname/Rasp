@@ -21,9 +21,7 @@ public class LocalizableDateTimeModelBinder : IModelBinder
 
         var modelName = bindingContext.ModelName;
         var valueProviderResult = bindingContext.ValueProvider.GetValue(modelName);
-
         var metadata = bindingContext.ModelMetadata;
-        var type = metadata.UnderlyingOrModelType;
 
         if (!this._isNullable && valueProviderResult == ValueProviderResult.None)
         {
