@@ -10,13 +10,27 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
     public int Week { get; set; }
 
+    public int GroupId { get; set; }
+
     protected override List<Response> ExecuteResult()
     {
         var res = new List<Response>();
 
-        var disciplines = Repository.Query<DisciplinePlan>().ToList();
+        var scheduled = Repository.Query<Class>()
+                                  .Where(r => r.ScheduleFormat.FacultyId == FacultyId
+                                           && r.Plan.GroupId == GroupId)
+                                  .Select(r => new
+                                  {
+                                          r.DisciplinePlanId,
+                                          r.SubGroupNo
+                                  })
+                                  .ToList();
 
-        foreach (var disciplinePlan in disciplines)
+        var disciplinePlans = Repository.Query<DisciplinePlan>()
+                                        .Where(r => r.GroupId == GroupId)
+                                        .ToList();
+
+        foreach (var disciplinePlan in disciplinePlans)
         {
             var countToCreate = disciplinePlan.WeekAssignments.FirstOrDefault(s => s.Week == Week)!.AssignmentHours;
             var subGroupCount = disciplinePlan.SubGroupsCount;
@@ -25,13 +39,19 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
             {
                 for (var j = 0; j < countToCreate; j++)
                 {
+                    var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
+
+                    if (scheduled.Exists(r => r.DisciplinePlanId == disciplinePlan.Id
+                                           && r.SubGroupNo == subGroupNo))
+                        continue;
+
                     res.Add(new Response
                     {
                             SubDisciplineId = disciplinePlan.SubDiscipline.Id,
                             DisciplineId = disciplinePlan.SubDiscipline.DisciplineId,
                             GroupId = disciplinePlan.GroupId,
                             TeacherId = disciplinePlan.TeacherId,
-                            SubGroupNo = subGroupCount == 1 ? 0 : i + 1,
+                            SubGroupNo = subGroupNo,
                             Discipline = disciplinePlan.SubDiscipline.Discipline.Name,
                             DisciplineCode = disciplinePlan.SubDiscipline.Discipline.Code,
                             SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,

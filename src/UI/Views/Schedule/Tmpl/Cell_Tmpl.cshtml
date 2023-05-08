@@ -18,13 +18,14 @@
 
 <div class="bg-base rounded position-relative cell" role="cell">
     @Html.Hidden(nameof(SaveScheduleCommand.ScheduleFormatId), Model.For(r => r.ScheduleFormatId))
-    @using (Html.When("incodingdropped")
+    @using (Html.When("incodingdropped none")
                 .AjaxPost(urlSave)
                 .OnSuccess(dsl => saveSchedule(dsl))
                 .AsHtmlAttributes(new
                 {
                     @class = "w-100 h-100 bg-base rounded",
-                    role = "drag-container"
+                    role = "drag-container",
+                    name = "cell"
                 })
                 .ToBeginTag(HtmlTag.Div))
     {

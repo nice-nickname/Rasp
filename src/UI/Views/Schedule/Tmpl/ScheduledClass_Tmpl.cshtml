@@ -1,7 +1,7 @@
 ﻿@using Domain.Api.Schedule
 @model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
 
-<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element">
+<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element" name="card">
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
     @Html.Hidden(nameof(SaveScheduleCommand.Id), Model.For(r => r.Id))
@@ -43,21 +43,32 @@
         </div>
     </div>
 
-    @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId))
+    @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId), Model.For(r => r.AuditoriumId))
+
+    @{
+        var auditoriumTextId = $"auditorium-{Model.For(r => r.DisciplineId)}-{Model.For(r => r.DisciplinePlanId)}-{Model.For(r => r.SubDisciplineId)}";
+    }
 
     @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
            {
                Button = new DropdownModel.ButtonSettings
                {
                    Classes = "w-100 btn-light btn-sm",
-                   Text = "test"
+                   Text = Model.For(r => r.Auditorium)
                },
                Items = new List<IHtmlContent>
                {
                    Html.Controls().Dropdown.List(settings =>
                    {
                        settings.Url = Url.Dispatcher().Query<GetAuditoriumsForDDQuery>().AsJson();
-                       settings.OnClick = dsl => { dsl.Window.Console.Log("r-debug", 1); };
+                       settings.OnClick = dsl =>
+                       {
+                           dsl.WithId(auditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+                           dsl.WithSelf(r => r.Closest(q => q.Name("card")).Find(q => q.Name<SaveScheduleCommand>(w => w.AuditoriumId)))
+                              .JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                           dsl.WithSelf(r => r.Closest(q => q.Name("cell")))
+                              .Trigger.None();
+                       };
                    })
                },
                Classes = "mx-1 mb-1"

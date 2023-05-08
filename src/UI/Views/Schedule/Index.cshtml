@@ -98,7 +98,8 @@
                 @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
                       .Ajax<GetClassByWeekQuery>(new
                       {
-                          Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)
+                          Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
+                          GroupId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.GroupId)
                       })
                       .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html())
                       .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new

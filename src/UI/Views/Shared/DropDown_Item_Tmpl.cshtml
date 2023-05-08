@@ -5,8 +5,11 @@
     {
         <li>
             @(Html.When(JqueryBind.Click)
-                  .StopPropagation()
-                  .PreventDefault()
+                  .Direct(new
+                  {
+                      value = each.For(r => r.Value).ToString(),
+                      text = each.For(r => r.Text).ToString()
+                  })
                   .OnSuccess(dsl => dsl.With(r => r.Self().Closest(HtmlTag.Ul)).Trigger.None())
                   .AsHtmlAttributes(new
                   {

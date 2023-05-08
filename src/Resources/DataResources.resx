@@ -507,4 +507,7 @@
 	<data name="ConfirmAction" xml:space="preserve">
 		<value>Подтвердите действие</value>
 	</data>
+	<data name="ChooseAuditorium" xml:space="preserve">
+		<value>Выберите аудиторию</value>
+	</data>
 </root>

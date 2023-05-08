@@ -73,7 +73,9 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                                  Order = r.ScheduleFormat.Order,
                                                  IsEmpty = false,
                                                  ScheduleFormatId = r.ScheduleFormatId,
-                                                 Id = r.Id
+                                                 Id = r.Id,
+                                                 AuditoriumId = r.AuditoriumId,
+                                                 Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium
                                          })
                                          .ToList()
                                          .GroupBy(r => r.Day)
@@ -131,6 +133,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
         public int DisciplinePlanId { get; set; }
 
+        public int? AuditoriumId { get; set; }
+
         public string Group { get; set; }
 
         public string Discipline { get; set; }
@@ -148,6 +152,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         public string Color { get; set; }
 
         public string SubDisciplineCode { get; set; }
+
+        public string Auditorium { get; set; }
 
         public bool HasSubGroups { get; set; }
 
