@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -64,8 +66,22 @@ public class AddOrEditAuditoriumCommand : CommandBase
         }
     }
 
-    public class TempAuditoriumKind : AuditoriumKind
+    public class TempAuditoriumKind
     {
+        public int Id { get; set; }
+
+        public string Kind { get; set; }
+
         public bool IsSelected { get; set; }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditAuditoriumCommand>
+    {
+        public Validator()
+        {
+            RuleFor(s => s.Code).NotEmpty().NotNull().WithName(DataResources.AuditoriumCode);
+            RuleFor(s => s.Capacity).NotEmpty().NotNull().GreaterThan(0).WithName(DataResources.Capacity);
+            RuleFor(s => s.BuildingId).NotEmpty().NotNull().WithName(DataResources.Building);
+        }
     }
 }
