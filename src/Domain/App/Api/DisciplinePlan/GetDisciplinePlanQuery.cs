@@ -45,7 +45,7 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                                     .ToList();
 
         var defaultTeachers = TeacherIds.Select(q => new Item
-        { 
+        {
                 TeacherId = q,
                 Teacher = teachers[q].Name,
                 WeekItems = defaultWeek,
@@ -88,18 +88,39 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
         {
             result.AddRange(plans.Select(s =>
             {
-                var teacherItems = s.Select(c => new Item
-                {
-                        Teacher = c.Teacher.Name,
-                        TeacherId = c.TeacherId,
-                        Id = c.Id,
-                        WeekItems = c.WeekAssignments.Select(w => new WeekItem
-                                     {
-                                             Hours = w.AssignmentHours, Week = w.Week
-                                     })
-                                     .ToList(),
-                        HoursAssigned = c.WeekAssignments.Sum(s => s.AssignmentHours),
-                }).ToList();
+                var teacherItems = s.Where(c => TeacherIds.Contains(c.TeacherId))
+                                    .Select(c =>
+                                    {
+                                        var weekItems = c.WeekAssignments.Select(w => new WeekItem
+                                                         {
+                                                                 Hours = w.AssignmentHours, Week = w.Week
+                                                         })
+                                                         .ToList();
+                                        if (weekItems.Count > weeksCount)
+                                        {
+                                            weekItems.RemoveRange(weeksCount, weekItems.Count - weeksCount);
+                                        }
+                                        else
+                                        {
+                                            while (weekItems.Count < weeksCount)
+                                            {
+                                                weekItems.Add(new WeekItem
+                                                {
+                                                        Hours = 0,
+                                                        Week = weekItems.Last().Week,
+                                                });
+                                            }
+                                        }
+
+                                        return new Item
+                                        {
+                                                Teacher = c.Teacher.Name,
+                                                TeacherId = c.TeacherId,
+                                                Id = c.Id,
+                                                WeekItems = weekItems,
+                                                HoursAssigned = c.WeekAssignments.Sum(s => s.AssignmentHours),
+                                        };
+                                    }).ToList();
 
                 teacherItems.AddRange(TeacherIds.Except(teacherItems.Select(с => с.TeacherId))
                                                 .Select(c => new Item
@@ -114,6 +135,7 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                 {
                     totalAssigned /= teacherItems.Count;
                 }
+
                 return new Response
                 {
                         Group = groups[s.Key.GroupId].Code,

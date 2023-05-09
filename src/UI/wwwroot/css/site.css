@@ -461,3 +461,19 @@ input.form-control[type=color] {
 .text-overflow-elipsis {
     text-overflow: ellipsis;
 }
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+.overflow-x-hidden {
+    overflow-x: hidden;
+}
