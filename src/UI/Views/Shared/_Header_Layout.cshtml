@@ -33,9 +33,10 @@
                            Html.Controls().Dropdown.Href(Url.Action("SignOut", "Account", new { Area = "MicrosoftIdentity" }), DataResources.SignOut)
                        }
                    })
-            <div class="btn btn-light p-1">
+
+            <a class="btn btn-light p-1" href="#@Url.Dispatcher().AsView("~/Views/Settings/Index.cshtml").ToRelative()">
                 <i class="material-symbols-rounded">settings</i>
-            </div>
+            </a>
 
             @(Html.When(JqueryBind.Change)
                   .StopPropagation()

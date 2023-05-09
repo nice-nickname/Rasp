@@ -22,16 +22,10 @@
         @Html.HiddenFor(s => s.Id)
         <div class="row">
             <div class="col-2">
-                @Html.ForGroup(s => s.Code).TextBox(control =>
-                {
-                    control.Label.Name = DataResources.Abbreviation;
-                })
+                @Html.ForGroup(s => s.Code).TextBox(control => { control.Label.Name = DataResources.Abbreviation; })
             </div>
             <div class="col-3">
-                @Html.ForGroup(s => s.Name).TextBox(control =>
-                {
-                    control.Label.Name = DataResources.SubDisciplineName;
-                })
+                @Html.ForGroup(s => s.Name).TextBox(control => { control.Label.Name = DataResources.SubDisciplineName; })
             </div>
             <div class="col-2">
                 <div class="form-group">

@@ -528,4 +528,7 @@
 	<data name="PreferencesToAuditorium" xml:space="preserve">
 		<value>Требования к аудиториям</value>
 	</data>
+	<data name="ChooseSchedule" xml:space="preserve">
+		<value>Выберите расписание</value>
+	</data>
 </root>

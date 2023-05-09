@@ -35,8 +35,7 @@
     <Folder Include="Common\Models\" />
     <Folder Include="Infrastructure\ModelBinders\Binders\" />
     <Folder Include="Infrastructure\ModelBinders\Providers\" />
-    <Folder Include="Views\Edit\AuditoriumKind\Tmpl\" />
-    <Folder Include="Views\Edit\ItemBusyness\Weekends\" />
+    <Folder Include="Views\Settings\Weekends\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,13 +50,13 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Department\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Discipline\Tmpl\GroupsItem_Tmpl.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\Faculty\Tmpl\Department_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Settings\Faculty\AddOrEdit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Settings\Faculty\Tmpl\Department_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Group\Tmpl\Item_Tmpl.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Settings\ScheduleFormat\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\SubDisciplineKind\AddOrEdit.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Edit\SubDisciplineKind\Tmpl\Item_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Settings\SubDisciplineKind\AddOrEdit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Settings\SubDisciplineKind\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Teacher\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\EditFaculty.cshtml" />
@@ -89,7 +88,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\Faculty\AddOrEdit.cshtml" />
+    <UpToDateCheckInput Remove="Views\Settings\Faculty\AddOrEdit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -121,7 +120,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\ScheduleFormat\AddOrEdit.cshtml" />
+    <UpToDateCheckInput Remove="Views\Settings\ScheduleFormat\AddOrEdit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -153,15 +152,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\Faculty\Tmpl\Department_Tmpl.cshtml" />
+    <UpToDateCheckInput Remove="Views\Settings\Faculty\Tmpl\Department_Tmpl.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\SubDisciplineKind\AddOrEdit.cshtml" />
+    <UpToDateCheckInput Remove="Views\Settings\SubDisciplineKind\AddOrEdit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Edit\SubDisciplineKind\Tmpl\Item_Tmpl.cshtml" />
+    <UpToDateCheckInput Remove="Views\Settings\SubDisciplineKind\Tmpl\Item_Tmpl.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

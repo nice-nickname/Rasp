@@ -232,6 +232,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выберите расписание.
+        /// </summary>
+        public static string ChooseSchedule {
+            get {
+                return ResourceManager.GetString("ChooseSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выберите преподавателя.
         /// </summary>
         public static string ChooseTeacher {

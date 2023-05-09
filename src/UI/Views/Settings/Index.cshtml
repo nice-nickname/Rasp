@@ -54,24 +54,13 @@
                    {
                        Html.Controls().Dropdown.Button(settings =>
                        {
-                           settings.Text = DataResources.Building;
-                           settings.Id = nameof(Building);
-                           settings.Url = Url.Dispatcher().Query(new GetBuildingsQuery()).AsJson();
+                           settings.Text = DataResources.AuditoriumKind;
+                           settings.Id = nameof(AuditoriumKind);
+                           settings.Url = Url.Dispatcher().Query(new GetAuditoriumKindsQuery()).AsJson();
                            settings.OnSuccess = dsl =>
                            {
-                               load(dsl, "~/Views/Edit/Building/Tmpl/Item_Tmpl.cshtml", DataResources.Building);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditBuildingCommand.AsQuery>().AsView("~/Views/Edit/Building/AddOrEdit.cshtml"));
-                           };
-                       }),
-                       Html.Controls().Dropdown.Button(settings =>
-                       {
-                           settings.Text = DataResources.Auditorium;
-                           settings.Id = nameof(Auditorium);
-                           settings.Url = Url.Dispatcher().Query(new GetAuditoriumsQuery()).AsJson();
-                           settings.OnSuccess = dsl =>
-                           {
-                               load(dsl, "~/Views/Edit/Auditorium/Tmpl/Item_Tmpl.cshtml", DataResources.Auditorium);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditAuditoriumCommand.AsQuery>().AsView("~/Views/Edit/Auditorium/AddOrEdit.cshtml"));
+                               load(dsl, "~/Views/Settings/AuditoriumKind/Tmpl/Item_Tmpl.cshtml", DataResources.AuditoriumKind);
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsQuery>().AsView("~/Views/Settings/AuditoriumKind/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Button(settings =>
@@ -81,62 +70,16 @@
                            settings.Url = Url.Dispatcher().Query(new GetFacultiesQuery()).AsJson();
                            settings.OnSuccess = dsl =>
                            {
-                               load(dsl, "~/Views/Edit/Faculty/Tmpl/Item_Tmpl.cshtml", DataResources.Faculty);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditFacultyCommand.AsQuery>().AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml"));
-                           };
-                       }),
-                       Html.Controls().Dropdown.Button(settings =>
-                       {
-                           settings.Text = DataResources.Department;
-                           settings.Id = nameof(Department);
-                           settings.Url = Url.Dispatcher().Query(new GetDepartmentsQuery()).AsJson();
-                           settings.OnSuccess = dsl =>
-                           {
-                               load(dsl, "~/Views/Edit/Department/Tmpl/Item_Tmpl.cshtml", DataResources.Department);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditDepartmentCommand.AsQuery>().AsView("~/Views/Edit/Department/AddOrEdit.cshtml"));
-                           };
-                       }),
-                       Html.Controls().Dropdown.Button(settings =>
-                       {
-                           settings.Text = DataResources.Teacher;
-                           settings.Id = nameof(Teacher);
-                           settings.Url = Url.Dispatcher().Query(new GetTeachersQuery()).AsJson();
-                           settings.OnSuccess = dsl =>
-                           {
-                               load(dsl, "~/Views/Edit/Teacher/Tmpl/Item_Tmpl.cshtml", DataResources.Teacher);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditTeacherCommand.AsQuery>().AsView("~/Views/Edit/Teacher/AddOrEdit.cshtml"));
+                               load(dsl, "~/Views/Settings/Faculty/Tmpl/Item_Tmpl.cshtml", DataResources.Faculty);
+                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditFacultyCommand.AsQuery>().AsView("~/Views/Settings/Faculty/AddOrEdit.cshtml"));
                            };
                        }),
                        Html.Controls().Dropdown.Divider(),
                        Html.Controls().Dropdown.Button(settings =>
                        {
-                           settings.Text = DataResources.Discipline;
-                           settings.Id = nameof(Discipline);
-                           settings.Url = Url.Dispatcher().Query(new GetDisciplinesQuery()).AsJson();
-                           settings.OnSuccess = dsl =>
-                           {
-                               load(dsl, "~/Views/Edit/Discipline/Tmpl/Item_Tmpl.cshtml", DataResources.Discipline);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditDisciplineCommand.AsQuery>().AsView("~/Views/Edit/Discipline/AddOrEdit.cshtml"));
-                           };
-                       }),
-                       Html.Controls().Dropdown.Divider(),
-                       Html.Controls().Dropdown.Button(settings =>
-                       {
-                           settings.Text = DataResources.Group;
-                           settings.Id = nameof(Group);
-                           settings.Url = Url.Dispatcher().Query(new GetGroupsQuery()).AsJson();
-                           settings.OnSuccess = dsl =>
-                           {
-                               load(dsl, "~/Views/Edit/Group/Tmpl/Item_Tmpl.cshtml", DataResources.Group);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditGroupCommand.AsQuery>().AsView("~/Views/Edit/Group/AddOrEdit.cshtml"));
-                           };
-                       }),
-                       Html.Controls().Dropdown.Divider(),
-                       Html.Controls().Dropdown.Button(settings =>
-                       {
-                           settings.Text = DataResources.Occupation;
-                           settings.Id = "B8710A44-3A5F-4ABF-8286-E760AB9C5382";
-                           settings.Url = Url.Dispatcher().AsView("~/Views/Edit/ItemBusyness/Index.cshtml");
+                           settings.Text = DataResources.ScheduleFormat;
+                           settings.Id = nameof(ScheduleFormat);
+                           settings.Url = Url.Dispatcher().Query(new AddOrEditScheduleFormatCommand.AsQuery()).AsView("~/Views/Settings/ScheduleFormat/AddOrEdit.cshtml");
                            settings.OnSuccess = dsl =>
                            {
                                dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html();
@@ -146,10 +89,41 @@
                                                                             </div>
                                                                          </text>)
                                   .Html();
-                               dsl.WithId(buttonTextId).Insert.Use(DataResources.Occupation).Text();
+                               dsl.WithId(buttonTextId).Insert.Use(DataResources.ScheduleFormat).Text();
                                dsl.WithId(GlobalSelectors.EditListId).Insert
                                   .WithTemplateByUrl(Url.Dispatcher().Model(DataResources.Unavailable).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html();
                                dsl.WithId(searchInputId).JQuery.Attr.Set(HtmlAttribute.Disabled);
+                           };
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.Weekends;
+                           settings.Id = nameof(Holidays);
+                           settings.Url = Url.Dispatcher().Query(new GetWeekendCalendarQuery()).AsView("~/Views/Settings/Weekends/Weekend.cshtml");
+                           settings.OnSuccess = dsl =>
+                           {
+                               dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html();
+                               dsl.WithId(addNewButtonDivId).Insert.Use(@<text>
+                                                                            <div class="btn btn-light flex-grow-1 disabled">
+                                                                                @DataResources.Add
+                                                                            </div>
+                                                                         </text>)
+                                  .Html();
+                               dsl.WithId(buttonTextId).Insert.Use(DataResources.Weekends).Text();
+                               dsl.WithId(GlobalSelectors.EditListId).Insert
+                                  .WithTemplateByUrl(Url.Dispatcher().Model(DataResources.Unavailable).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html();
+                               dsl.WithId(searchInputId).JQuery.Attr.Set(HtmlAttribute.Disabled);
+                           };
+                       }),
+                       Html.Controls().Dropdown.Button(settings =>
+                       {
+                           settings.Text = DataResources.SubDisciplines;
+                           settings.Id = nameof(SubDisciplineKind);
+                           settings.Url = Url.Dispatcher().Query(new GetSubDisciplineKindsQuery()).AsJson();
+                           settings.OnSuccess = dsl =>
+                           {
+                               load(dsl, "~/Views/Settings/SubDisciplineKind/Tmpl/Item_Tmpl.cshtml", DataResources.SubDisciplines);
+                               addNewButton(dsl, Url.Dispatcher().Model<AddOrEditSubDisciplineKindCommand>().AsView("~/Views/Settings/SubDisciplineKind/AddOrEdit.cshtml"));
                            };
                        })
                    }
