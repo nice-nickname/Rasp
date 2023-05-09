@@ -295,7 +295,7 @@ public class AddOrEditDisciplineCommand : CommandBase
             RuleFor(s => s.Name).NotEmpty().NotNull().WithName(DataResources.DisciplineName);
             RuleFor(s => s.Code).NotEmpty().NotNull().WithName(DataResources.Abbreviation);
             RuleFor(s => s.KindId).NotEmpty().NotNull().WithName(DataResources.DisciplineType);
-            RuleFor(s => s.DepartmentId).NotEmpty().NotNull().WithName(DataResources.Department);
+            RuleFor(s => s.GroupIds).NotEmpty().NotNull().WithName(DataResources.GroupList);
         }
     }
 }

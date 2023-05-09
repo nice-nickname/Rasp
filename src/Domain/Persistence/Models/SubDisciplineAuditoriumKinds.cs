@@ -18,6 +18,7 @@ public class SubDisciplineAuditoriumKinds : IncEntityBase, Share.IEntityHasSubDi
     {
         public Mapping()
         {
+            Table(nameof(SubDisciplineAuditoriumKinds));
             Id(s => s.Id);
             Map(s => s.AuditoriumKindId);
             Map(s => s.SubDisciplineId);

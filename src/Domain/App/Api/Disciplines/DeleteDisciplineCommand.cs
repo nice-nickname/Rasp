@@ -1,5 +1,6 @@
 ﻿using Domain.Persistence;
 using Domain.Persistence.Specification;
+using FluentNHibernate.Utils;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
@@ -31,6 +32,21 @@ public class DeleteDisciplineCommand : CommandBase
             if (disciplinePlans.Any())
             {
                 Repository.DeleteByIds<DisciplinePlan>(disciplinePlans.Select(s => (object)s.Id));
+            }
+        }
+
+        foreach (var subDiscipline in discipline.SubDisciplines)
+        {
+            var disciplineAuditoriumKinds = Repository.Query(new Share.Where.BySubDiscipline<SubDisciplineAuditoriumKinds>(subDiscipline.Id)).ToList();
+            if (disciplineAuditoriumKinds.Any())
+            {
+                Repository.DeleteByIds<SubDisciplineAuditoriumKinds>(disciplineAuditoriumKinds.Select(s => (object)s.Id));
+            }
+
+            var disciplineAuditoriums = Repository.Query(new Share.Where.BySubDiscipline<SubDisciplineAuditoriums>(subDiscipline.Id)).ToList();
+            if (disciplineAuditoriumKinds.Any())
+            {
+                Repository.DeleteByIds<SubDisciplineAuditoriums>(disciplineAuditoriums.Select(s => (object)s.Id));
             }
         }
 

@@ -94,7 +94,7 @@
                     @Html.ValidationMessageFor(s => s.KindId)
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="form-group">
                     @Html.LabelFor(s => s.GroupIds, DataResources.GroupList)
                     @Html.Controls().Select(control =>
@@ -171,10 +171,6 @@
                                             });
                                             control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
                                                                          .Trigger.None();
-                                            control.OnInit = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
-                                                                       .Trigger.None()
-                                                                       .If(() => Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}") != null ||
-                                                                                 Selector.Jquery.Name(nameof(Model.GroupIds)) != null);
                                         })
                                     </div>
                                 }
@@ -198,7 +194,13 @@
                                         control.MaxVisibleElements = 1;
                                         control.ChangeTimeout = 1000;
                                         control.OnChange = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
-                                                                     .Trigger.None();
+                                                                     .Trigger.None()
+                                                                     .If(() => Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}") != null);
+
+                                        control.OnInit = dsl => dsl.WithSelf(s => s.Closest(p => p.Class("tab-pane")).Find(c => c.Name("plan-container")))
+                                                                   .Trigger.None()
+                                                                   .If(() => Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}") != null ||
+                                                                             Selector.Jquery.Name(nameof(Model.GroupIds)) != null);
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}")
                                 </div>
