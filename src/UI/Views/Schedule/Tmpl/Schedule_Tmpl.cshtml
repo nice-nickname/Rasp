@@ -13,7 +13,7 @@
                 <div>
                     @(scheduleFormat.Items[i].Order + 1) @DataResources.Class
                 </div>
-                <div class="">
+                <div>
                     @($"{scheduleFormat.Items[i].Start?.Hours:00}:{scheduleFormat.Items[i].Start?.Minutes:00}")
                     -
                     @($"{scheduleFormat.Items[i].End?.Hours:00}:{scheduleFormat.Items[i].End?.Minutes:00}")
@@ -26,8 +26,13 @@
     {
         <div class="d-flex gap-2 s-row" role="row">
             @Html.Hidden(nameof(SaveScheduleCommand.Day), day.For(r => r.Day))
-            <div class="bg-light shadow rounded row-header d-flex flex-shrink-0 justify-content-center align-items-center">
-                @day.For(r => r.DayString)
+            <div class="bg-light shadow rounded row-header d-flex flex-column flex-shrink-0 justify-content-center align-items-center">
+                <div>
+                    @day.For(r => r.DayString)
+                </div>
+                <div>
+                    @day.For(r => r.Date)
+                </div>
             </div>
             @using (var each = day.ForEach(r => r.Items))
             {

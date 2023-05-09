@@ -50,6 +50,15 @@
                     settings.TextConfirm = DataResources.ConfirmClear;
                     settings.TextInProcess = DataResources.Clearing;
                     settings.Color = ConfirmSettings.ButtonColor.Light;
+                    settings.Url = Url.Dispatcher().Push<DeleteClassesInWeekCommand>(new
+                    {
+                        SelectedGroupId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupId),
+                        SelectedTeacherId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherId),
+                        SelectedAuditoriumId = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumId),
+                        Week = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.Week),
+                        FacultyId = Selector.Incoding.Cookie(GlobalSelectors.FacultyId)
+                    });
+                    settings.OnSuccess = dsl => refreshWeek(dsl);
                 })
             </div>
 

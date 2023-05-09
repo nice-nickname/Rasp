@@ -1,4 +1,5 @@
-﻿using Domain.Persistence;
+﻿using Domain.App.Api;
+using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 using Incoding.Core.Extensions;
 using Resources;
@@ -31,14 +32,16 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                        })
                                        .ToList();
 
+        var startWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { FacultyId = FacultyId, Week = Week });
+        
         var classes = new List<Response>
         {
-                new() { Day = DayOfWeek.Monday, DayString = DataResources.Monday },
-                new() { Day = DayOfWeek.Tuesday, DayString = DataResources.Tuesday },
-                new() { Day = DayOfWeek.Wednesday, DayString = DataResources.Wednesday },
-                new() { Day = DayOfWeek.Thursday, DayString = DataResources.Thursday },
-                new() { Day = DayOfWeek.Friday, DayString = DataResources.Friday },
-                new() { Day = DayOfWeek.Saturday, DayString = DataResources.Saturday }
+                new() { Day = DayOfWeek.Monday, DayString = DataResources.Monday, Date = startWeekDate.ToShortDateString() },
+                new() { Day = DayOfWeek.Tuesday, DayString = DataResources.Tuesday, Date = startWeekDate.AddDays(1).ToShortDateString() },
+                new() { Day = DayOfWeek.Wednesday, DayString = DataResources.Wednesday, Date = startWeekDate.AddDays(2).ToShortDateString() },
+                new() { Day = DayOfWeek.Thursday, DayString = DataResources.Thursday, Date = startWeekDate.AddDays(3).ToShortDateString() },
+                new() { Day = DayOfWeek.Friday, DayString = DataResources.Friday, Date = startWeekDate.AddDays(4).ToShortDateString() },
+                new() { Day = DayOfWeek.Saturday, DayString = DataResources.Saturday, Date = startWeekDate.AddDays(5).ToShortDateString() }
         };
         foreach (var @class in classes)
         {
@@ -122,6 +125,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
     public class Response
     {
         public string DayString { get; set; }
+
+        public string Date { get; set; }
 
         public DayOfWeek Day { get; set; }
 

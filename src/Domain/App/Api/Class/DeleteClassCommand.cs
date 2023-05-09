@@ -9,6 +9,6 @@ public class DeleteClassCommand : CommandBase
 
     protected override void Execute()
     {
-        Repository.Delete(new Class { Id = Id });
+        Repository.Delete<Class>(Id);
     }
 }
