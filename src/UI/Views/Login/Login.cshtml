@@ -4,16 +4,12 @@
 
 @section Body
 {
-    <div class="rounded shadow w-20 d-flex flex-column p-2">
-        <div class="flex-grow-1 text-center mb-3">
-            Проходите
-        </div>
-
-        <a class="btn btn-light" href="@Url.Action("SignIn", "Account", new { Area = "MicrosoftIdentity" })">
+    <div class="rounded shadow w-20 d-flex flex-column p-2 bg-white">
+        <a class="btn btn-primary" href="@Url.Action("SignIn", "Account", new { Area = "MicrosoftIdentity" })">
             @DataResources.SignInWith Sfedu
         </a>
 
-        <div class="btn btn-sm btn-link flex-shrink-0">
+        <div class="btn btn-sm btn-link flex-shrink-0 mx-auto">
             @DataResources.Help
         </div>
     </div>

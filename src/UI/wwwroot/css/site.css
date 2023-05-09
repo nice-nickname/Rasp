@@ -462,6 +462,11 @@ input.form-control[type=color] {
     text-overflow: ellipsis;
 }
 
+.h-px-30 {
+    height: 30px;
+}
+}
+
 .overflow-y-auto {
     overflow-y: auto;
 }
