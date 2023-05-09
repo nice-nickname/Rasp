@@ -76,17 +76,6 @@
                        }),
                        Html.Controls().Dropdown.Button(settings =>
                        {
-                           settings.Text = DataResources.Faculty;
-                           settings.Id = nameof(Faculty);
-                           settings.Url = Url.Dispatcher().Query(new GetFacultiesQuery()).AsJson();
-                           settings.OnSuccess = dsl =>
-                           {
-                               load(dsl, "~/Views/Edit/Faculty/Tmpl/Item_Tmpl.cshtml", DataResources.Faculty);
-                               addNewButton(dsl, Url.Dispatcher().Query<AddOrEditFacultyCommand.AsQuery>().AsView("~/Views/Edit/Faculty/AddOrEdit.cshtml"));
-                           };
-                       }),
-                       Html.Controls().Dropdown.Button(settings =>
-                       {
                            settings.Text = DataResources.Department;
                            settings.Id = nameof(Department);
                            settings.Url = Url.Dispatcher().Query(new GetDepartmentsQuery()).AsJson();
