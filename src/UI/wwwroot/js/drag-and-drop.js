@@ -10,7 +10,8 @@
             ghostClass,
             forCopy,
             dragButton,
-            forOne
+            forOne,
+            listContainer
         } = params
 
         const INCODING_DRAGGING_ATTR = 'incoding-dragging',
@@ -45,10 +46,10 @@
             })
 
         $(container).each(function () {
-            if ($(this).prev().attr('role') != 'overlap') {
+            if ($(this).prev().attr('role') != 'overlap' && $(this).prev().attr('role') != 'overlap-busy') {
                 let overlapElementCopy = $(overlapElement).clone(true)
 
-                if (forOne && $(this).children().length > 0) 
+                if (forOne && $(this).find($(params.item)).length > 0 && $(this) != $(listContainer)) 
                     $(overlapElementCopy).attr('role', 'overlap-busy')
 
                 $(overlapElementCopy).insertBefore($(this))
@@ -204,11 +205,9 @@
                         let itemUnderDrop = $(elementUnder).closest(params.item)
                         if (itemUnderDrop.length != 0) {
                             $(itemUnderDrop).before(item)
-                            console.log(1)
                         }
                         else {
                             $(item).appendTo(dropContainer)
-                            console.log(2)
                         }
                         dropContainer.trigger(event, $(this).data())
                     }
@@ -231,10 +230,13 @@
                 }
 
                 if (forOne) {
-                    $('[role=overlap].active.hover')
-                        .removeClass('active hover')
-                        .attr('role', 'overlap-busy')
-                        .removeAttr(INCODING_DROP_AREA_ATTR)
+                    var overlap = $('[role=overlap].active.hover')
+
+                    if (!overlap.next().is($(params.listContainer))) {
+                        overlap
+                            .attr('role', 'overlap-busy')
+                            .removeAttr(INCODING_DROP_AREA_ATTR)
+                    }
                 }
 
                 $('[role=overlap]').removeClass('active hover')

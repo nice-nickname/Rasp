@@ -115,7 +115,7 @@
             <div class="mb-1 d-flex gap-2">
                 <div class="flex-grow-1 input" id="@unallocatedSearchId">
                     @(Html.When(JqueryBind.KeyUp)
-                          .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Role("list").ToSelector()))
+                          .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Name("list").ToSelector()))
                           .AsHtmlAttributes(classes: "rounded search w-100 h-100")
                           .ToInput(HtmlInputType.Text, string.Empty))
                     <span class="material-symbols-rounded addon-r">search</span>
@@ -143,38 +143,45 @@
                       .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
             </div>
 
-            @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
-                  .Ajax<GetClassByWeekQuery>(new
-                  {
-                      Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
-                      SelectedGroupId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId),
-                      SelectedTeacherId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId),
-                      SelectedAuditoriumId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId)
-                  })
-                  .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId) == string.Empty
-                                                     && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId) == string.Empty
-                                                     && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId) == string.Empty))
-                  .OnSuccess(dsl =>
-                  {
-                      dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html();
-                      dsl.Self().Insert.WithTemplateByUrl(Url.Dispatcher().Model<string>(DataResources.AllClassesScheduled).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html()
-                         .If(() => Selector.Jquery.Self().Children().Length() == 0);
-                  })
-                  .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
-                  {
-                      item = Selector.Jquery.Role("drag-element").ToSelector(),
-                      container = Selector.Jquery.Role("drag-container").ToSelector(),
-                      forOne = true
-                  }))
-                  .AsHtmlAttributes(new
-                  {
-                      @class = "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0",
-                      id = unallocatedClassesId,
-                      role = "list"
-                  })
-                  .ToDiv(@<text>
-                             @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.Unavailable)
-                          </text>))
+            <div class="d-flex flex-column flex-grow-1 overflow-hidden flex-basis-0 position-relative">
+                @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+                      .Ajax<GetClassByWeekQuery>(new
+                      {
+                          Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
+                          SelectedGroupId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId),
+                          SelectedTeacherId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId),
+                          SelectedAuditoriumId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId)
+                      })
+                      .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId) == string.Empty
+                                                         && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId) == string.Empty
+                                                         && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId) == string.Empty))
+                      .OnSuccess(dsl =>
+                      {
+                          dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html();
+                          dsl.Self().Insert.WithTemplateByUrl(Url.Dispatcher().Model<string>(DataResources.AllClassesScheduled).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html()
+                             .If(() => Selector.Jquery.Self().Children().Length() == 0);
+                      })
+                      .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
+                      {
+                          item = Selector.Jquery.Role("drag-element").ToSelector(),
+                          container = Selector.Jquery.Role("drag-container").ToSelector(),
+                          forOne = true,
+                          listContainer = Selector.Jquery.Name("list").ToSelector()
+                      }))
+                      .When("incodingdropped")
+                      .AjaxPost(Url.Dispatcher().Push<DeleteClassCommand>(new { Id = Selector.Jquery.Self().Find(r => r.Name("card")).Find(r => r.Name<Class>(q => q.Id)) }))
+                      .OnSuccess(dsl => dsl.Self().Trigger.None())
+                      .AsHtmlAttributes(new
+                      {
+                          @class = "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0",
+                          id = unallocatedClassesId,
+                          role = "drag-container",
+                          name = "list"
+                      })
+                      .ToDiv(@<text>
+                                 @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.Unavailable)
+                              </text>))
+            </div>
         </div>
     </div>
 
@@ -332,7 +339,8 @@
               {
                   item = Selector.Jquery.Role("drag-element").ToSelector(),
                   container = Selector.Jquery.Role("drag-container").ToSelector(),
-                  forOne = true
+                  forOne = true,
+                  listContainer = Selector.Jquery.Name("list").ToSelector()
               }))
               .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: GlobalSelectors.ScheduleId)
               .ToDiv(@<text>
