@@ -1,4 +1,5 @@
-﻿@using Domain.Api.Schedule
+﻿@using Microsoft.Identity.Web
+@using Domain.Api.Schedule
 @{
     Layout = "~/Views/Shared/_Schedule_Layout.cshtml";
 
@@ -13,6 +14,8 @@
 
     var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
 
+    var facultyId = (string)ViewData["FacultyId"];
+
     Action<IIncodingMetaLanguageCallbackBodyDsl> refreshWeek = dsl =>
     {
         dsl.WithId(unallocatedClassesId).Trigger.None();
@@ -25,13 +28,13 @@
     <div class="d-flex gap-3">
         <div class="w-px-324 d-flex flex-column flex-shrink-0 gap-2">
             <div class="d-flex gap-2 flex-shrink-0 bg-base rounded">
-                <a class="btn btn-primary w-50 flex-grow-1" href="@Url.Action("Index", "Home")">
-                    @DataResources.ToHome
+                <a class="btn btn-primary p-1" href="@Url.Action("Index", "Home")">
+                    <i class="material-symbols-rounded">home</i>
                 </a>
 
-                <div class="btn btn-light w-50 flex-grow-1">
-                    ?
-                </div>
+                <a class="btn btn-light flex-grow-1" href="@Url.Action("Index", "Home")#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
+                    @DataResources.EditingData
+                </a>
             </div>
         </div>
 
@@ -45,24 +48,67 @@
                     @DataResources.Clear
                 </div>
 
+                <div class="btn btn-light">
+                    Экспорт
+                </div>
+
                 <div class="btn btn-light ms-auto">
                     Показать/Скрыть проблемные пары
                 </div>
             </div>
 
-            <div class="w-10 input flex-shrink-0">
-                <input type="text" class="rounded search w-100 h-100"/>
-                <span class="material-symbols-rounded addon-r">search</span>
-            </div>
-
             <div class="flex-shrink-0 d-flex gap-2 rounded bg-base">
-                <div class="btn btn-light p-1">
-                    <span class="material-symbols-rounded">settings</span>
-                </div>
+                @(Html.When(JqueryBind.Change)
+                      .StopPropagation()
+                      .PreventDefault()
+                      .Ajax(Url.Dispatcher().Push(new AddCookieCommand
+                      {
+                          Key = GlobalSelectors.FacultyId,
+                          Value = Selector.Jquery.Self().Val()
+                      }))
+                      .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
+                      .ToInput(HtmlInputType.Hidden, facultyId))
 
-                <div class="btn btn-light">
-                    @DataResources.funny_userok
-                </div>
+                @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                {
+                    Button = new DropdownModel.ButtonSettings
+                    {
+                        Text = DataResources.Faculty
+                    },
+                    Items = new List<IHtmlContent>
+                    {
+                        Html.Controls().Dropdown.List(settings =>
+                        {
+                            settings.Id = GlobalSelectors.FacultyListId;
+                            settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
+                            settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
+                            settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));
+                            settings.OnClick = dsl =>
+                            {
+                                Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
+                                dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
+                                dsl.WithName(GlobalSelectors.FacultyId).Trigger.Change();
+                                dsl.Document.RedirectToSelf();
+                            };
+                        })
+                    }
+                }))
+
+                <a class="btn btn-light p-1" href="@Url.Action("Index", "Home")#@Url.Dispatcher().AsView("~/Views/Settings/Index.cshtml").ToRelative()">
+                    <i class="material-symbols-rounded">settings</i>
+                </a>
+
+                @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                       {
+                           Button = new DropdownModel.ButtonSettings
+                           {
+                               Text = User.GetDisplayName()
+                           },
+                           Items = new List<IHtmlContent>
+                           {
+                               Html.Controls().Dropdown.Href(Url.Action("SignOut", "Account", new { Area = "MicrosoftIdentity" }), DataResources.SignOut)
+                           }
+                       })
             </div>
         </div>
     </div>
@@ -139,10 +185,6 @@
     <div class="d-flex flex-column flex-grow-1 gap-3">
         <div class="d-flex">
             <div class="d-flex gap-2 bg-base rounded">
-                <div class="btn btn-light p-1">
-                    <span class="material-symbols-rounded">filter_alt</span>
-                </div>
-
                 @Html.Hidden(nameof(GetScheduleByWeekQuery.SelectedTeacherId))
                 @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                        {
@@ -298,7 +340,7 @@
               }))
               .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: GlobalSelectors.ScheduleId)
               .ToDiv(@<text>
-                         @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseGroup)
+                         @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseSchedule)
                       </text>))
     </div>
     </div>
