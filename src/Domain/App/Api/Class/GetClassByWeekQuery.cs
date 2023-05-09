@@ -59,13 +59,14 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
             for (var i = 0; i < subGroupCount; i++)
             {
+                var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
+                var scheduledBySubGroupCount = scheduled.Count(r => r.DisciplinePlanId == disciplinePlan.Id
+                                                                 && r.SubGroupNo == subGroupNo);
+
                 for (var j = 0; j < countToCreate; j++)
                 {
-                    var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
-
-                    if (scheduled.Exists(r => r.DisciplinePlanId == disciplinePlan.Id
-                                           && r.SubGroupNo == subGroupNo))
-                        continue;
+                    if (scheduledBySubGroupCount == countToCreate)
+                        break;
 
                     res.Add(new Response
                     {
@@ -90,6 +91,8 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                             IsTeacher = SelectedTeacherId.HasValue,
                             AuditoriumId = SelectedAuditoriumId
                     });
+
+                    scheduledBySubGroupCount++;
                 }
             }
         }

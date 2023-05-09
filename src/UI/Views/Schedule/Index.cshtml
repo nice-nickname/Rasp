@@ -41,20 +41,16 @@
         <div class="d-flex gap-3 flex-grow-1">
             <div class="d-flex gap-2 rounded flex-grow-1 bg-base">
                 <div class="btn btn-light">
-                    @DataResources.Generate
-                </div>
-
-                <div class="btn btn-light">
-                    @DataResources.Clear
-                </div>
-
-                <div class="btn btn-light">
                     Экспорт
                 </div>
 
-                <div class="btn btn-light ms-auto">
-                    Показать/Скрыть проблемные пары
-                </div>
+                @Html.Controls().ButtonConfirm(settings =>
+                {
+                    settings.Text = DataResources.Clear;
+                    settings.TextConfirm = DataResources.ConfirmClear;
+                    settings.TextInProcess = DataResources.Clearing;
+                    settings.Color = ConfirmSettings.ButtonColor.Light;
+                })
             </div>
 
             <div class="flex-shrink-0 d-flex gap-2 rounded bg-base">

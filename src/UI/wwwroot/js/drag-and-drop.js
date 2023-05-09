@@ -47,6 +47,10 @@
         $(container).each(function () {
             if ($(this).prev().attr('role') != 'overlap') {
                 let overlapElementCopy = $(overlapElement).clone(true)
+
+                if (forOne && $(this).children().length > 0) 
+                    $(overlapElementCopy).attr('role', 'overlap-busy')
+
                 $(overlapElementCopy).insertBefore($(this))
             }
         })
@@ -197,12 +201,14 @@
                     if (!containUnique) {
                         let event = forCopy ? INCODING_COPY_EVENT : INCODING_DROPPED_EVENT
 
-                        let itemUnderDrop = $(document.elementFromPoint(ev.clientX, ev.clientY)).closest(params.item)
+                        let itemUnderDrop = $(elementUnder).closest(params.item)
                         if (itemUnderDrop.length != 0) {
                             $(itemUnderDrop).before(item)
+                            console.log(1)
                         }
                         else {
                             $(item).appendTo(dropContainer)
+                            console.log(2)
                         }
                         dropContainer.trigger(event, $(this).data())
                     }
