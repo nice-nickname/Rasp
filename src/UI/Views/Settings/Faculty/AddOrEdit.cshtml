@@ -61,6 +61,6 @@
 
         @(Html.When(JqueryBind.InitIncoding)
               .AsHtmlAttributes(classes: "mx-3 d-flex flex-column mh-px-300 overflow-auto")
-              .ToDiv(Html.Dispatcher().AsViewFromQuery(new GetDepartmentsQuery { FacultyId = Model.Id ?? 0 }, "~/Views/Edit/Faculty/Tmpl/Department_Tmpl.cshtml")))
+              .ToDiv(Html.Dispatcher().AsViewFromQuery(new GetDepartmentsQuery { FacultyId = Model.Id ?? 0 }, "~/Views/Settings/Faculty/Tmpl/Department_Tmpl.cshtml")))
     }
 }

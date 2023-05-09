@@ -3,7 +3,7 @@
     using (var each = template.ForEach())
     {
         @using (Html.When(JqueryBind.Click)
-                    .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Edit/AuditoriumKind/AddOrEdit.cshtml"))
+                    .Ajax(Url.Dispatcher().Query<AddOrEditAuditoriumKindCommand.AsQuery>(new { Id = each.For(r => r.Id) }).AsView("~/Views/Settings/AuditoriumKind/AddOrEdit.cshtml"))
                     .OnSuccess(dsl => dsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
                     .AsHtmlAttributes(new
                     {
