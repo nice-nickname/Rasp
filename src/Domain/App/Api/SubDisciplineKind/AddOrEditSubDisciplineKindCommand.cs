@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -41,6 +43,16 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
                     Color = ColorTranslator.ToHtml(kind.Color),
                     Type = kind.Type
             };
+        }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditSubDisciplineKindCommand>
+    {
+        public Validator()
+        {
+            RuleFor(s => s.Name).NotNull().NotEmpty().WithName(DataResources.SubDisciplineName);
+            RuleFor(s => s.Code).NotNull().NotEmpty().WithName(DataResources.Abbreviation);
+            RuleFor(s => s.Type).NotNull().NotEmpty().WithName(DataResources.SubDisciplineType);
         }
     }
 }

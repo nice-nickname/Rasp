@@ -4,7 +4,7 @@ using FluentMigrator;
 
 namespace Domain.Persistence;
 
-[Migration(20, "Created tables for ")]
+[Migration(20, "Created tables for SubDiscipline auditoriums and kinds")]
 public class Step20 : Migration
 {
     public override void Up()

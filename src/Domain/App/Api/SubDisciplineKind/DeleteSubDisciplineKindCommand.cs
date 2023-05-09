@@ -9,7 +9,18 @@ public class DeleteSubDisciplineKindCommand : CommandBase
 
     protected override void Execute()
     {
-        var subDisciplineKind = Repository.LoadById<SubDisciplineKind>(Id);
-        Repository.Delete(subDisciplineKind);
+        var relatedSubDisciplines = Repository.Query<SubDiscipline>()
+                                              .Where(s => s.Kind.Id == Id)
+                                              .ToList();
+
+        foreach (var subDiscipline in relatedSubDisciplines.Select(s => s.Id))
+        {
+            Dispatcher.Push(new DeleteSubDisciplineCommand
+            {
+                    Id = subDiscipline
+            });
+        }
+
+        Repository.Delete<SubDisciplineKind>(Id);
     }
 }
