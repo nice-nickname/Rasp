@@ -185,7 +185,7 @@
                 item.removeAttr(INCODING_DRAGGING_ATTR)
                     .removeAttr('style')
 
-                let isDropArea = dropArea.length > 0
+                let isDropArea = dropArea != undefined && dropArea.length > 0
 
                 if (isDropArea) {
                     item.attr(INCODING_DRAGGED_ATTR, '')
