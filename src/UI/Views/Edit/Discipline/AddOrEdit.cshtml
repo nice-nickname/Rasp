@@ -43,7 +43,7 @@
     @using (Html.Controls().Form(settings =>
     {
         settings.Url = Url.Dispatcher().Push(new AddOrEditDisciplineCommand());
-        settings.Class = "d-flex flex-column gap-3";
+        settings.Class = "d-flex flex-column gap-3 p-1";
         settings.OnSave = dsl => dsl.WithId(nameof(Discipline)).Trigger.Click();
     }))
     {
