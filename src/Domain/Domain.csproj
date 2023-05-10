@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="App\Api\FacultySettings\Weekend\" />
+    <Compile Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <None Remove="Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="App\Api\Faculty\" />
     <Folder Include="App\Api\Building\" />
     <Folder Include="App\Api\Auditorium\" />
@@ -16,7 +21,6 @@
     <Folder Include="App\Api\Class\" />
     <Folder Include="App\Api\Schedule\" />
     <Folder Include="App\Api\ScheduleFormat\" />
-    <Folder Include="Infrastructure\Identity\" />
     <Folder Include="Common\Extentions" />
   </ItemGroup>
 
