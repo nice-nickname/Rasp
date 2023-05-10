@@ -45,8 +45,19 @@ public class AddOrEditTeacherCommand : CommandBase
         public Validator()
         {
             RuleFor(r => r.Name)
-                    .Must(r => r.Split(" ").Length == 3)
+                    .NotNull().NotEmpty().WithName(DataResources.TeacherName)
+                    .Must(r =>
+                    {
+                        if (string.IsNullOrWhiteSpace(r))
+                        {
+                            return false;
+                        }
+
+                        return r.Split(" ").Length == 3;
+                    })
                     .WithMessage(DataResources.InvalidTeacherName);
+
+            RuleFor(r => r.DepartmentId).NotEmpty().NotNull().WithName(DataResources.Department);
         }
     }
 }
