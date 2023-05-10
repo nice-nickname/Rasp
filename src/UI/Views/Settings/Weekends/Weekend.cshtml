@@ -9,8 +9,18 @@
     @DataResources.Weekends
 }
 
-@section RemoveButton
+@section SaveButtons
 {
+    @Html.Controls().ButtonConfirm(settings =>
+    {
+        settings.Url = Url.Dispatcher().Push(new ResetAllWeekendsCommand());
+        settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
+        settings.Text = DataResources.Reset;
+        settings.TextConfirm = DataResources.ConfirmDelete;
+        settings.TextInProcess = DataResources.Deletion;
+        settings.Color = ConfirmSettings.ButtonColor.Light;
+    })
+
     @Html.Controls().ButtonConfirm(settings =>
     {
         settings.Url = Url.Dispatcher().Push(new FetchWeekendDaysFromAPICommand
@@ -24,18 +34,6 @@
         settings.TextConfirm = DataResources.ConfirmAction;
         settings.TextInProcess = DataResources.Importing;
         settings.Color = ConfirmSettings.ButtonColor.Secondary;
-    })
-
-    @Html.Controls().ButtonConfirm(settings =>
-    {
-        settings.Url = Url.Dispatcher().Push(new ResetAllWeekendsCommand());
-        settings.OnSuccess = dsl => dsl.WithId(nameof(Holidays)).Trigger.Click();
-        settings.Text = DataResources.Reset;
-        settings.Icon = "delete";
-        settings.TextConfirm = DataResources.ConfirmDelete;
-        settings.TextInProcess = DataResources.Deletion;
-        settings.Color = ConfirmSettings.ButtonColor.Danger;
-        settings.AdditionalClasses = "ms-3";
     })
 }
 
@@ -113,7 +111,12 @@
 
                                             @(Html.When(JqueryBind.Click)
                                                   .PreventDefault()
-                                                  .AjaxPost(url)
+                                                  .Ajax(o =>
+                                                  {
+                                                      o.Type = JqueryAjaxOptions.HttpVerbs.Post;
+                                                      o.Global = false;
+                                                      o.Url = url;
+                                                  })
                                                   .OnSuccess(dsl => dsl.Self().JQuery.Attr.ToggleClass("btn-secondary btn-light"))
                                                   .AsHtmlAttributes(classes: $"btn btn-sm {color}",
                                                                     title: DataResources.ToggleWeekend,
