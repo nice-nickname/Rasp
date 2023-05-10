@@ -531,4 +531,7 @@
 	<data name="ChooseSchedule" xml:space="preserve">
 		<value>Выберите расписание</value>
 	</data>
+	<data name="TeacherPreferences" xml:space="preserve">
+		<value>Предпочтения преподавателей</value>
+	</data>
 </root>

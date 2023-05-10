@@ -1168,6 +1168,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Предпочтения преподавателей.
+        /// </summary>
+        public static string TeacherPreferences {
+            get {
+                return ResourceManager.GetString("TeacherPreferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Преподаватели.
         /// </summary>
         public static string Teachers {

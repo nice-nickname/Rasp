@@ -1,0 +1,41 @@
+﻿@model GetScheduleFormatQuery.Response
+<div class="d-flex gap-2 s-row">
+    <div class="column-header row-header flex-shrink-0">&nbsp;</div>
+    @for (int i = 0; i < Model.ItemsCount; i++)
+    {
+        <div class="w-100 bg-light shadow rounded d-flex flex-column column-header align-items-center justify-content-center">
+            <div>
+                @(Model.Items[i].Order + 1) @DataResources.Class
+            </div>
+            <div>
+                @($"{Model.Items[i].Start?.Hours:00}:{Model.Items[i].Start?.Minutes:00}")
+                -
+                @($"{Model.Items[i].End?.Hours:00}:{Model.Items[i].End?.Minutes:00}")
+            </div>
+        </div>
+    }
+</div>
+@{
+    using (var template = Html.Incoding().Template<GetTeacherPreferencesQuery.Response>())
+    {
+        using (var day = template.ForEach())
+        {
+            <div class="d-flex gap-2 s-row" role="row">
+                <div class="bg-light shadow rounded row-header d-flex flex-column flex-shrink-0 justify-content-center align-items-center">
+                    <div>
+                        @day.For(s => s.DayName)
+                    </div>
+                </div>
+                @using (var busyness = day.ForEach(s => s.Days))
+                {
+                    <div class="w-100 bg-light shadow rounded d-flex flex-column column-header align-items-center justify-content-center">
+                        <div>
+                            @busyness.For(s => s.Type)
+                        </div>
+                    </div>
+                }
+            </div>
+
+        }
+    }
+}

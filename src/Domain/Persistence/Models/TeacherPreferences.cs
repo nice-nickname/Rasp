@@ -1,10 +1,11 @@
-﻿using Domain.Persistence.Specification;
+﻿using Domain.Persistence.Mappers;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class TeacherPreferences : IncEntityBase, Share.IEntityHasId
+public class TeacherPreferences : IncEntityBase, Share.IEntityHasId, Share.IEntityHasTeacher
 {
     public enum PreferenceType
     {
@@ -21,6 +22,8 @@ public class TeacherPreferences : IncEntityBase, Share.IEntityHasId
 
     public virtual PreferenceType Type { get; set; }
 
+    public virtual DayOfWeek Day { get; set; }
+
     public virtual Teacher Teacher { get; set; }
 
     public virtual ScheduleFormat ScheduleFormat { get; set; }
@@ -33,6 +36,7 @@ public class TeacherPreferences : IncEntityBase, Share.IEntityHasId
             Map(s => s.TeacherId);
             Map(s => s.ScheduleFormatId);
             Map(s => s.Type).CustomType<PreferenceType>();
+            Map(s => s.Day).CustomType<NHibernateDayOfWeekEnumMapper>();
 
             References(s => s.Teacher).Column(nameof(TeacherId))
                                       .ReadOnly()

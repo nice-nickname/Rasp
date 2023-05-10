@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using Incoding.Core;
 
 namespace Domain.Persistence;
 
