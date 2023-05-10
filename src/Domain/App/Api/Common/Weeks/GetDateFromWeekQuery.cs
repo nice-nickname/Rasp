@@ -18,11 +18,6 @@ public class GetDateFromWeekQuery : QueryBase<DateTime>
                 FacultyId = FacultyId
         });
         
-        if (Week <= 1)
-        {
-            return start;
-        }
-
         start = start.AddDays(7 * (Week - 1));
         start = start.DayOfWeek == DayOfWeek.Sunday
                 ? start.AddDays(-6)
