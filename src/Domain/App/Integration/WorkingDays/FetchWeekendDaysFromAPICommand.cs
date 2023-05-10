@@ -1,11 +1,12 @@
-﻿using Domain.Persistence;
+﻿using Domain.Api;
+using Domain.Persistence;
 using Incoding.Core.Block.Logging;
 using Incoding.Core.Block.Logging.Core;
 using Incoding.Core.CQRS.Core;
 using isdayoff;
 using isdayoff.Contract;
 
-namespace Domain.Api;
+namespace Domain.Integration;
 
 public class FetchWeekendDaysFromAPICommand : CommandBase
 {
@@ -35,6 +36,7 @@ public class FetchWeekendDaysFromAPICommand : CommandBase
         {
             dateSegments.Add(new Tuple<DateTime, DateTime>(Start, End));
         }
+
         foreach (var (start, end) in dateSegments)
         {
             try
