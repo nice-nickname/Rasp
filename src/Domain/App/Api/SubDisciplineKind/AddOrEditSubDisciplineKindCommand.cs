@@ -50,9 +50,9 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
     {
         public Validator()
         {
-            RuleFor(s => s.Name).NotNull().NotEmpty().WithName(DataResources.SubDisciplineName);
-            RuleFor(s => s.Code).NotNull().NotEmpty().WithName(DataResources.Abbreviation);
-            RuleFor(s => s.Type).NotNull().NotEmpty().WithName(DataResources.SubDisciplineType);
+            RuleFor(s => s.Name).NotEmpty().NotNull().WithName(DataResources.SubDisciplineName);
+            RuleFor(s => s.Code).NotEmpty().NotNull().WithName(DataResources.Abbreviation);
+            RuleFor(s => s.Type).NotEmpty().NotNull().WithName(DataResources.SubDisciplineType);
         }
     }
 }

@@ -51,6 +51,7 @@
                         control.Name = nameof(Model.Type);
                         control.Class = "form-control";
                     })
+                    @Html.ValidationMessageFor(s => s.Type)
                 </div>
             </div>
             <div class="col-2">
