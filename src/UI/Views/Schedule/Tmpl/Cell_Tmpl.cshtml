@@ -1,5 +1,4 @@
-﻿@using Domain.Api.Schedule
-@model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
+﻿@model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
 
 @{
     var urlSave = Url.Dispatcher().Push<SaveScheduleCommand>(new
@@ -24,7 +23,7 @@
                 .AsHtmlAttributes(new
                 {
                     @class = "w-100 h-100 bg-base rounded",
-                    role = "drag-container",
+                    role = Model.NotInline(r => r.IsBlocked, "drag-container"),
                     name = "cell"
                 })
                 .ToBeginTag(HtmlTag.Div))
@@ -32,5 +31,11 @@
         @Model.NotInline(r => r.IsEmpty, @<text>
                                              @await Html.PartialAsync("~/Views/Schedule/Tmpl/ScheduledClass_Tmpl.cshtml", Model)
                                           </text>)
+
+        @Model.IsInline(r => r.IsBlocked, @<text>
+                                              <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-white">
+                                                  <span class="material-symbols-rounded">close</span>
+                                              </div>
+                                           </text>)
     }
 </div>

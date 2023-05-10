@@ -21,6 +21,10 @@ $btn-padding-x: 1rem;
     background-color: $base;
 }
 
+.text-base {
+    color: $base;
+}
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 .btn-light:hover {

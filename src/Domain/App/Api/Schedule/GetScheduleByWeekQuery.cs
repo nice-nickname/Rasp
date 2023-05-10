@@ -4,10 +4,16 @@ using Incoding.Core.CQRS.Core;
 using Incoding.Core.Extensions;
 using Resources;
 
-namespace Domain.Api.Schedule;
+namespace Domain.Api;
 
 public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Response>>
 {
+    private readonly Func<DateTime, DayOfWeek, DateTime> getDay = (startDate, day) =>
+    {
+        int diff = day - startDate.DayOfWeek;
+        return startDate.AddDays(diff).Date;
+    };
+
     public int Week { get; set; }
 
     public int? SelectedGroupId { get; set; }
@@ -33,7 +39,9 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                        .ToList();
 
         var startWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { FacultyId = FacultyId, Week = Week });
-        
+        var weekends = Dispatcher.Query(new GetWeekendsForWeekQuery { StartDate = startWeekDate });
+        var scheduleFormat = Dispatcher.Query(new GetScheduleFormatQuery { FacultyId = FacultyId });
+
         var classes = new List<Response>
         {
                 new() { Day = DayOfWeek.Monday, DayString = DataResources.Monday, Date = startWeekDate.ToShortDateString() },
@@ -47,12 +55,20 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         {
             @class.Items = new List<ClassItem>();
             for (var i = 0; i < schedulerItems.Count; i++)
+            {
+                var currentDate = this.getDay(startWeekDate, @class.Day);
+                var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate))
+                             || currentDate < scheduleFormat.StartDate
+                             || currentDate > scheduleFormat.EndDate;
+
                 @class.Items.Add(new ClassItem
                 {
                         Order = i,
                         IsEmpty = true,
-                        ScheduleFormatId = schedulerItems[i].Id
+                        ScheduleFormatId = schedulerItems[i].Id,
+                        IsBlocked = isBlocked
                 });
+            }
         }
 
         var scheduledClassesAll = Repository.Query<Class>();
@@ -66,38 +82,39 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         if (SelectedTeacherId.HasValue)
             scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == SelectedTeacherId && r.Week == Week);
 
-        var scheduledClasses = scheduledClassesAll.Select(r => new ClassItem
-                                                  {
-                                                          Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
-                                                          DisciplinePlanId = r.DisciplinePlanId,
-                                                          TeacherId = r.Plan.TeacherId,
-                                                          Teacher = r.Plan.Teacher.ShortName,
-                                                          Department = r.Plan.SubDiscipline.Discipline.Department.Name,
-                                                          DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
-                                                          DisciplineId = r.Plan.SubDiscipline.DisciplineId,
-                                                          Discipline = r.Plan.SubDiscipline.Discipline.Name,
-                                                          DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
-                                                          SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
-                                                          SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
-                                                          SubDisciplineId = r.Plan.SubDiscipline.Id,
-                                                          SubGroupNo = r.SubGroupNo,
-                                                          HasSubGroups = r.SubGroupNo > 0,
-                                                          GroupId = r.Plan.GroupId,
-                                                          Group = r.Plan.Group.Code,
-                                                          Day = r.Day,
-                                                          Order = r.ScheduleFormat.Order,
-                                                          IsEmpty = false,
-                                                          ScheduleFormatId = r.ScheduleFormatId,
-                                                          Id = r.Id,
-                                                          AuditoriumId = r.AuditoriumId,
-                                                          Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
-                                                          IsGroup = SelectedGroupId.HasValue,
-                                                          IsAuditorium = SelectedAuditoriumId.HasValue,
-                                                          IsTeacher = SelectedTeacherId.HasValue,
-                                                  })
-                                                  .ToList()
-                                                  .GroupBy(r => r.Day)
-                                                  .ToList();
+        var scheduledClasses = scheduledClassesAll
+                               .Select(r => new ClassItem
+                               {
+                                       Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
+                                       DisciplinePlanId = r.DisciplinePlanId,
+                                       TeacherId = r.Plan.TeacherId,
+                                       Teacher = r.Plan.Teacher.ShortName,
+                                       Department = r.Plan.SubDiscipline.Discipline.Department.Name,
+                                       DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
+                                       DisciplineId = r.Plan.SubDiscipline.DisciplineId,
+                                       Discipline = r.Plan.SubDiscipline.Discipline.Name,
+                                       DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
+                                       SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
+                                       SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
+                                       SubDisciplineId = r.Plan.SubDiscipline.Id,
+                                       SubGroupNo = r.SubGroupNo,
+                                       HasSubGroups = r.SubGroupNo > 0,
+                                       GroupId = r.Plan.GroupId,
+                                       Group = r.Plan.Group.Code,
+                                       Day = r.Day,
+                                       Order = r.ScheduleFormat.Order,
+                                       IsEmpty = false,
+                                       ScheduleFormatId = r.ScheduleFormatId,
+                                       Id = r.Id,
+                                       AuditoriumId = r.AuditoriumId,
+                                       Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
+                                       IsGroup = SelectedGroupId.HasValue,
+                                       IsAuditorium = SelectedAuditoriumId.HasValue,
+                                       IsTeacher = SelectedTeacherId.HasValue
+                               })
+                               .ToList()
+                               .GroupBy(r => r.Day)
+                               .ToList();
 
         foreach (var scheduled in scheduledClasses)
         {
@@ -184,6 +201,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         public bool IsAuditorium { get; set; }
 
         public bool IsTeacher { get; set; }
+
+        public bool IsBlocked { get; set; }
 
         public DayOfWeek Day { get; set; }
     }

@@ -1,5 +1,4 @@
-﻿@using Domain.Api.Schedule
-@{
+﻿@{
     var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
 }
 

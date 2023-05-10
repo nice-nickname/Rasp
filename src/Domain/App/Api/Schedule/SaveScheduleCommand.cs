@@ -1,7 +1,7 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
-namespace Domain.Api.Schedule;
+namespace Domain.Api;
 
 public class SaveScheduleCommand : CommandBase
 {

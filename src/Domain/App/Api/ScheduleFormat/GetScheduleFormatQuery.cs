@@ -21,12 +21,17 @@ public class GetScheduleFormatQuery : QueryBase<GetScheduleFormatQuery.Response>
                                        })
                                        .ToList();
 
+        var startDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate });
+        var countOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks });
+        var endDate = startDate.AddDays(7 * countOfWeeks);
+
         return new Response
         {
                 ItemsCount = schedulerItems.Count,
                 Items = schedulerItems,
-                StartDate = Dispatcher.Query(new GetFacultySettingQuery<DateTime> { FacultyId = FacultyId, Type = FacultySettings.OfType.StartDate }),
-                CountOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> { FacultyId = FacultyId, Type = FacultySettings.OfType.CountOfWeeks })
+                StartDate = startDate,
+                EndDate = endDate,
+                CountOfWeeks = countOfWeeks
         };
     }
 
@@ -37,6 +42,8 @@ public class GetScheduleFormatQuery : QueryBase<GetScheduleFormatQuery.Response>
         public int CountOfWeeks { get; set; }
 
         public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public List<AddOrEditScheduleFormatCommand.ScheduleItem>? Items { get; set; }
     }
