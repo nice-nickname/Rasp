@@ -23,19 +23,52 @@
             <div class="d-flex gap-2 s-row" role="row">
                 <div class="bg-light shadow rounded row-header d-flex flex-column flex-shrink-0 justify-content-center align-items-center">
                     <div>
+                        @Html.Hidden("Day", day.For(s => s.Day))
                         @day.For(s => s.DayName)
                     </div>
                 </div>
                 @using (var busyness = day.ForEach(s => s.Days))
                 {
-                    <div class="w-100 bg-light shadow rounded d-flex flex-column column-header align-items-center justify-content-center">
-                        <div>
-                            @busyness.For(s => s.Type)
-                        </div>
-                    </div>
+                    @(Html.When(JqueryBind.InitIncoding)
+                          .StopPropagation()
+                          .OnBegin(dsl => dsl.Self().JQuery.Attr.Val(busyness.For(s => s.Type)))
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.Self().JQuery.Attr.AddClass("preferences-unwanted").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.UNWANTED);
+                              dsl.Self().JQuery.Attr.AddClass("preferences-impossible").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE);
+                          })
+                          .When(JqueryBind.Click)
+                          .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name("Teacher") == null))
+                          .OnSuccess(dsl =>
+                          {
+                              dsl.Self().Func.IncrementVal();
+                              dsl.Self().JQuery.Attr.Val(0).If(() => Selector.Jquery.Self() == 3);
+
+                              dsl.Self().JQuery.Attr.AddClass("preferences-unwanted").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.UNWANTED);
+                              dsl.Self().JQuery.Attr.RemoveClass("preferences-impossible").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.UNWANTED);
+
+                              dsl.Self().JQuery.Attr.AddClass("preferences-impossible").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE);
+                              dsl.Self().JQuery.Attr.RemoveClass("preferences-unwanted").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE);
+
+                              dsl.Self().JQuery.Attr.RemoveClass("preferences-impossible preferences-unwanted").If(() => Selector.Jquery.Self() == (int)GetTeacherPreferencesQuery.PreferenceType.NONE);
+                              dsl.Self().Trigger.None();
+                          })
+                          .When(JqueryBind.None)
+                          .StopPropagation()
+                          .Ajax<MarkTeacherPreferencesCommand>(new
+                          {
+                              ScheduleFormatId = busyness.For(s => s.ScheduleItemId),
+                              TeacherId = Selector.Jquery.Name("Teacher").Val(),
+                              Type = Selector.Jquery.Self(),
+                              Day = Selector.Jquery.Self().Closest(s => s.Role("row")).Find(c => c.Name("Day")).Val()
+                          })
+                          .AsHtmlAttributes(classes: $"btn btn-light preferences-button w-100 shadow rounded d-flex align-items-center justify-content-center")
+                          .ToDiv(@<text>
+                                     <span class="material-symbols-rounded impossible">close</span>
+                                     <span class="unwanted">Нежелательно</span>
+                                  </text>))
                 }
             </div>
-
         }
     }
 }
