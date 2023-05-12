@@ -12,7 +12,11 @@
         Id = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(r => r.Id))
     });
 
-    Action<IIncodingMetaLanguageCallbackBodyDsl> saveSchedule = dsl => dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
+    Action<IIncodingMetaLanguageCallbackBodyDsl> saveSchedule = dsl =>
+    {
+        dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
+        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+    };
 }
 
 <div class="bg-base rounded position-relative cell" role="cell">
