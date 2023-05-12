@@ -44,4 +44,10 @@ public class HomeController : Controller
         Response.StatusCode = 404;
         return View();
     }
+
+    [AllowAnonymous]
+    public IActionResult Error()
+    {
+        return View();
+    }
 }
