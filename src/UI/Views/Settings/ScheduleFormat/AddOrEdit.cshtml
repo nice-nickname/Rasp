@@ -69,7 +69,8 @@
             {
                 <div class="rounded p-3 border" data-index="@i">
                     <h4>@(i + 1) @DataResources.ScheduleItem</h4>
-                    <input name="@(nameof(AddOrEditScheduleFormatCommand.Items))[@i].Order" class="form-control border-0" type="hidden" value="@i"/>
+                    @Html.Hidden($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}].Order", i)
+                    @Html.Hidden($"{nameof(AddOrEditScheduleFormatCommand.Items)}[{i}].Id", (i < Model.ItemsCount ? Model.Items[i].Id : null))
                     <div class="d-flex gap-3">
                         <div>
                             <span>Начало</span>

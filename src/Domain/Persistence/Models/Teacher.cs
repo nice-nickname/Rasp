@@ -16,6 +16,8 @@ public class Teacher : IncEntityBase, Share.IEntityHasDepartment, Share.IEntityH
 
     public virtual Department Department { get; set; }
 
+    public virtual IList<TeacherPreferences> Preferences { get; set; }
+
     public class Mapping : ClassMap<Teacher>
     {
         public Mapping()
@@ -32,6 +34,11 @@ left (parsename(replace([Name], ' ', '.'), 1), 1) + '. '");
             References(s => s.Department).Column(nameof(DepartmentId))
                                          .ReadOnly()
                                          .LazyLoad();
+
+            HasMany(s => s.Preferences).KeyColumn(nameof(TeacherPreferences.TeacherId))
+                                       .ReadOnly()
+                                       .Cascade.Delete()
+                                       .LazyLoad();
         }
     }
 }

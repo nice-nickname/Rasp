@@ -28,7 +28,7 @@ public class GetTeacherPreferencesQuery : QueryBase<List<GetTeacherPreferencesQu
                         Days = scheduleFormat.Items
                                              .Select(s => new DayBusyness
                                              {
-                                                     ScheduleItemId = s.Id,
+                                                     ScheduleItemId = s.Id.GetValueOrDefault(),
                                                      Type = PreferenceType.NONE
                                              })
                                              .ToArray()
@@ -40,7 +40,7 @@ public class GetTeacherPreferencesQuery : QueryBase<List<GetTeacherPreferencesQu
                         Days = scheduleFormat.Items
                                              .Select(s => new DayBusyness
                                              {
-                                                     ScheduleItemId = s.Id,
+                                                     ScheduleItemId = s.Id.GetValueOrDefault(),
                                                      Type = PreferenceType.NONE
                                              })
                                              .ToArray()
@@ -52,7 +52,7 @@ public class GetTeacherPreferencesQuery : QueryBase<List<GetTeacherPreferencesQu
                         Days = scheduleFormat.Items
                                              .Select(s => new DayBusyness
                                              {
-                                                     ScheduleItemId = s.Id,
+                                                     ScheduleItemId = s.Id.GetValueOrDefault(),
                                                      Type = PreferenceType.NONE
                                              })
                                              .ToArray()
@@ -64,7 +64,7 @@ public class GetTeacherPreferencesQuery : QueryBase<List<GetTeacherPreferencesQu
                         Days = scheduleFormat.Items
                                              .Select(s => new DayBusyness
                                              {
-                                                     ScheduleItemId = s.Id,
+                                                     ScheduleItemId = s.Id.GetValueOrDefault(),
                                                      Type = PreferenceType.NONE
                                              })
                                              .ToArray()
@@ -76,7 +76,7 @@ public class GetTeacherPreferencesQuery : QueryBase<List<GetTeacherPreferencesQu
                         Days = scheduleFormat.Items
                                              .Select(s => new DayBusyness
                                              {
-                                                     ScheduleItemId = s.Id,
+                                                     ScheduleItemId = s.Id.GetValueOrDefault(),
                                                      Type = PreferenceType.NONE
                                              })
                                              .ToArray()
@@ -88,7 +88,7 @@ public class GetTeacherPreferencesQuery : QueryBase<List<GetTeacherPreferencesQu
                         Days = scheduleFormat.Items
                                              .Select(s => new DayBusyness
                                              {
-                                                     ScheduleItemId = s.Id,
+                                                     ScheduleItemId = s.Id.GetValueOrDefault(),
                                                      Type = PreferenceType.NONE
                                              })
                                              .ToArray()

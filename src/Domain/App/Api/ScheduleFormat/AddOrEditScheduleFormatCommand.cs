@@ -5,44 +5,6 @@ using Resources;
 
 namespace Domain.Api;
 
-public class RescheduleDisciplinePlanByWeekCommand : CommandBase
-{
-    public int CurrentCountOfWeeks { get; set; }
-
-    public int CountOfWeeks { get; set; }
-
-    protected override void Execute()
-    {
-        if (CountOfWeeks < CurrentCountOfWeeks)
-        {
-            var weeksToDelete = Repository.Query<DisciplinePlanByWeek>()
-                                          .Where(s => s.Week > CountOfWeeks)
-                                          .Select(s => (object)s.Id);
-            if (weeksToDelete.Any())
-            {
-                Repository.DeleteByIds<DisciplinePlanByWeek>(weeksToDelete);
-            }
-            return;
-        }
-        
-        var allDisciplineWeeks = Repository.Query<DisciplinePlanByWeek>()
-                                           .GroupBy(s => s.DisciplinePlanId);
-
-        foreach (var dWeek in allDisciplineWeeks)
-        {
-            for (var i = dWeek.Max(s => s.Week) + 1; i <= CountOfWeeks; i++)
-            {
-                Repository.Save(new DisciplinePlanByWeek
-                {
-                    DisciplinePlanId = dWeek.Key,
-                    AssignmentHours = 0,
-                    Week = i
-                });
-            }
-        }
-    }
-}
-
 public class AddOrEditScheduleFormatCommand : CommandBase
 {
     public int FacultyId { get; set; }
@@ -57,24 +19,29 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public int SessionDuration { get; set; }
 
-    public List<ScheduleItem> Items { get; set; }
+    public List<ScheduleItem>? Items { get; set; }
 
     protected override void Execute()
     {
+        Items = Items?.Where(s => s.Order < ItemsCount)?.OrderBy(s => s.Order).ToList() ?? new List<ScheduleItem>();
+        
         var existedItems = Repository.Query<ScheduleFormat>()
                                      .Where(f => f.FacultyId == FacultyId)
-                                     .Select(s => s.Id)
-                                     .Cast<object>();
+                                     ?.Select(s => new ScheduleItem
+                                     {
+                                        Id = s.Id,
+                                        Start = s.Start,
+                                        End = s.End,
+                                        Order = s.Order
+                                     })
+                                     ?.ToList() ?? new List<ScheduleItem>();
         
         var currentWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> 
         { 
             FacultyId = FacultyId,
-             Type = FacultySettings.OfType.CountOfWeeks
+            Type = FacultySettings.OfType.CountOfWeeks
         });
         
-        if (existedItems.Any())
-            Repository.DeleteByIds<ScheduleFormat>(existedItems);
-
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
         {
                 FacultyId = FacultyId,
@@ -103,27 +70,23 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                 Value = SessionDuration
         });
 
-        foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
+        Dispatcher.Push(new RescheduleScheduleFormatCommand
         {
-            Repository.Save(new ScheduleFormat
-            {
-                    Order = scheduleItem.Order,
-                    Start = scheduleItem.Start.GetValueOrDefault(),
-                    End = scheduleItem.End.GetValueOrDefault(),
-                    FacultyId = FacultyId
-            });   
-        }
+            FacultyId = FacultyId,
+            CurrentItems = existedItems,
+            NewItems = Items
+        });
 
-        Dispatcher.Push(new RescheduleDisciplinePlanByWeekCommand 
+        Dispatcher.Push(new MatchDisciplinePlanByWeekToWeeksCommand 
         {
              CurrentCountOfWeeks = currentWeeks,
-             CountOfWeeks = CountOfWeeks
+             NewCountOfWeeks = CountOfWeeks
         });
     }
 
     public record ScheduleItem
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int Order { get; set; }
 

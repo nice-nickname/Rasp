@@ -30,10 +30,20 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
 
     public class AsQuery : QueryBase<AddOrEditSubDisciplineKindCommand>
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         protected override AddOrEditSubDisciplineKindCommand ExecuteResult()
         {
+            if (!Id.HasValue)
+            {
+                return new AddOrEditSubDisciplineKindCommand
+                {
+                    Name = string.Empty,
+                    Code = string.Empty,
+                    Color = ColorTranslator.ToHtml(System.Drawing.Color.Black),
+                    Type = SubDisciplineKind.OfType.LECTURE
+                };
+            }
             var kind = Repository.GetById<SubDisciplineKind>(Id);
             return new AddOrEditSubDisciplineKindCommand
             {
@@ -52,7 +62,6 @@ public class AddOrEditSubDisciplineKindCommand : CommandBase
         {
             RuleFor(s => s.Name).NotEmpty().NotNull().WithName(DataResources.SubDisciplineName);
             RuleFor(s => s.Code).NotEmpty().NotNull().WithName(DataResources.Abbreviation);
-            RuleFor(s => s.Type).NotEmpty().NotNull().WithName(DataResources.SubDisciplineType);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿@using Domain.Common
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model AddOrEditSubDisciplineKindCommand
 @{
     Layout = "_AddOrEdit_Layout";
@@ -47,7 +46,7 @@
                     @Html.LabelFor(s => s.Type, DataResources.SubDisciplineType)
                     @Html.Controls().Select(control =>
                     {
-                        control.Items = Html.Dispatcher().Query(new GetSubDisciplineKindTypesQuery { Select = Model.Type }).Select(s => (DropDownItem)s);
+                        control.Items = Html.Dispatcher().Query(new GetSubDisciplineKindTypesQuery { Selected = Model.Type }).Select(s => (DropDownItem)s);
                         control.Name = nameof(Model.Type);
                         control.Class = "form-control";
                     })
