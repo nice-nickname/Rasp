@@ -11,6 +11,7 @@
     <PackageReference Include="Incoding.UnitTests.MSpec" Version="1.2.5" />
     <PackageReference Include="Machine.Specifications" Version="1.1.1" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.10.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0-preview-20230223-05" />
   </ItemGroup>
 
