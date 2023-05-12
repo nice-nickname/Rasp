@@ -16,10 +16,14 @@ public class Department : IncEntityBase, Share.IEntityHasFaculty, Share.IEntityH
 
     public virtual Faculty Faculty { get; set; }
 
+    public virtual IList<Auditorium> Auditoriums { get; set; }
+
     public Department()
     {
         Code = string.Empty;
         Name = string.Empty;
+
+        Auditoriums = new List<Auditorium>();
     }
 
     public class Mapping : ClassMap<Department>
@@ -35,6 +39,12 @@ public class Department : IncEntityBase, Share.IEntityHasFaculty, Share.IEntityH
             References(s => s.Faculty).Column(nameof(FacultyId))
                                       .ReadOnly()
                                       .LazyLoad();
+
+            HasMany(s => s.Auditoriums).KeyColumn(nameof(Auditorium.DepartmentId))
+                                       .ReadOnly()
+                                       .Cascade.Delete()
+                                       .Inverse()
+                                       .LazyLoad();
         }
     }
 }
