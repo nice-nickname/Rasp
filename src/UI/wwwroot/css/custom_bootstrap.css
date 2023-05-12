@@ -3,6 +3,15 @@
   background-color: rgba(238, 238, 238, 0.6666666667);
 }
 
+.bg-gray {
+  background-color: #D0D0D0;
+}
+
+.unallowed-gray {
+  background: linear-gradient(135deg, #D0D0D0 25%, transparent 25%), linear-gradient(315deg, #D0D0D0 25%, transparent 25%) 0 10px, linear-gradient(315deg, #D0D0D0 25%, transparent 25%) 10px 0, linear-gradient(135deg, #D0D0D0 25%, transparent 25%) -10px -10px;
+  background-size: 20px 20px;
+}
+
 .text-base {
   color: rgba(238, 238, 238, 0.6666666667);
 }

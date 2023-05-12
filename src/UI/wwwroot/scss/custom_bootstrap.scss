@@ -6,6 +6,7 @@ $danger: #FC3C2E;
 $warning: #FDC536;
 $success: #019C53;
 $base: #EEEEEEAA;
+$gray: #D0D0D0;
 
 $border-radius: 6px;
 $border-radius-sm: 6px;
@@ -19,6 +20,18 @@ $btn-padding-x: 1rem;
 
 .bg-base {
     background-color: $base;
+}
+
+.bg-gray {
+    background-color: $gray;
+}
+
+.unallowed-gray {
+    background: linear-gradient(135deg, $gray 25%, transparent 25%),
+        linear-gradient(315deg, $gray 25%, transparent 25%) 0 10px,
+        linear-gradient(315deg, $gray 25%, transparent 25%) 10px 0,
+        linear-gradient(135deg, $gray 25%, transparent 25%) -10px -10px;
+    background-size: 20px 20px;
 }
 
 .text-base {
