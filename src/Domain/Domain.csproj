@@ -20,7 +20,6 @@
     <Folder Include="App\Api\DisciplinePlan\" />
     <Folder Include="App\Api\Class\" />
     <Folder Include="App\Api\Schedule\" />
-    <Folder Include="App\Api\ScheduleFormat\" />
     <Folder Include="App\Export\" />
     <Folder Include="Common\Extentions" />
   </ItemGroup>

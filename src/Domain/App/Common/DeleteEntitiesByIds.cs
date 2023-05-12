@@ -1,4 +1,4 @@
-using Incoding.Core.CQRS.Core;
+﻿using Incoding.Core.CQRS.Core;
 using Domain.Persistence.Specification;
 using Incoding.Core.Data;
 
@@ -18,11 +18,6 @@ public class DeleteEntitiesByIds<T> : CommandBase where T : IncEntityBase, Share
         this._ids = ids.Cast<object>();
     }
     
-    public DeleteEntitiesByIds(params object[] ids)
-    {
-        this._ids = ids;
-    }
-
     protected override void Execute()
     {
         if (!_ids.Any())

@@ -4,18 +4,18 @@ using Incoding.Core.CQRS.Core;
 
 namespace Domain.Api;
 
-public class RescheduleDisciplinePlanByWeekCommand : CommandBase
+public class MatchDisciplinePlanByWeekToWeeksCommand : CommandBase
 {
     public int CurrentCountOfWeeks { get; set; }
 
-    public int CountOfWeeks { get; set; }
+    public int NewCountOfWeeks { get; set; }
 
     protected override void Execute()
     {
-        if (CountOfWeeks < CurrentCountOfWeeks)
+        if (NewCountOfWeeks < CurrentCountOfWeeks)
         {
             var weeksToDelete = Repository.Query<DisciplinePlanByWeek>()
-                                          .Where(s => s.Week > CountOfWeeks)
+                                          .Where(s => s.Week > NewCountOfWeeks)
                                           .Select(s => (object)s.Id);
             if (weeksToDelete.Any())
             {
@@ -29,7 +29,7 @@ public class RescheduleDisciplinePlanByWeekCommand : CommandBase
 
         foreach (var dWeek in allDisciplineWeeks)
         {
-            for (var i = dWeek.Max(s => s.Week) + 1; i <= CountOfWeeks; i++)
+            for (var i = dWeek.Max(s => s.Week) + 1; i <= NewCountOfWeeks; i++)
             {
                 Repository.Save(new DisciplinePlanByWeek
                 {

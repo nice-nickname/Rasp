@@ -65,7 +65,7 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                 {
                         Order = i,
                         IsEmpty = true,
-                        ScheduleFormatId = schedulerItems[i].Id,
+                        ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
                         IsBlocked = isBlocked
                 });
             }
