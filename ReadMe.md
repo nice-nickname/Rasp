@@ -12,12 +12,7 @@ Grateful users of our application
 
 ## Configuration
 Rasp uses MS SQL SERVER as primary database. Application requres to have a Database connection, specified in **dbconfig.json**
-```json
-{
-    "ConnectionString": "Your=DB;Connection=String"
-}
-```
-Example for *morons*
+
 ```json
 {
     "ConnectionString": "Data Source=localhost;Database=Rasp;Integrated Security=true;"
@@ -28,7 +23,6 @@ Example for *morons*
 To install all packages type in console
 ```console
 > dotnet restore # Run this command for all Projects in solution
-
 > cd src/UI
 src/UI> npm ci # This will install all js and css libraries 
 ```
@@ -40,12 +34,6 @@ Run application
 
 ```console
 src/UI>dotnet run
-```
-
-Build application
-
-```console
-dotnet build
 ```
 
 ## Docker configuration

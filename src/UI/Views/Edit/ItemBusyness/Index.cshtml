@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_AddOrEdit_Layout";
 
-    var teacherSelectName = Guid.NewGuid().ToString();
+    var teacherSelectName = "Teacher";
     var teacherContentId = Guid.NewGuid().ToString();
 }
 
@@ -12,7 +12,7 @@
 
 @section Body
 {
-    <div class="d-flex flex-column gap-3 p-1">
+    <div class="d-flex flex-column h-100 gap-3 p-1">
         <div class="row">
             <div class="form-group">
                 <label>@DataResources.Teacher</label>
@@ -33,7 +33,12 @@
               .Ajax<GetTeacherPreferencesQuery>(new { TeacherId = Selector.Jquery.Name(teacherSelectName) })
               .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByUrl(d => d.Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) })
                                                                           .AsView("~/Views/Edit/ItemBusyness/Tmpl/TeacherItem_Tmpl.cshtml")).Html())
-              .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: teacherContentId)
+              .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded h-100", id: teacherContentId)
               .ToDiv())
     </div>
+}
+
+@section SaveButtons
+{
+    
 }

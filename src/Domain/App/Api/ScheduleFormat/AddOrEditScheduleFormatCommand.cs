@@ -5,6 +5,44 @@ using Resources;
 
 namespace Domain.Api;
 
+public class RescheduleDisciplinePlanByWeekCommand : CommandBase
+{
+    public int CurrentCountOfWeeks { get; set; }
+
+    public int CountOfWeeks { get; set; }
+
+    protected override void Execute()
+    {
+        if (CountOfWeeks < CurrentCountOfWeeks)
+        {
+            var weeksToDelete = Repository.Query<DisciplinePlanByWeek>()
+                                          .Where(s => s.Week > CountOfWeeks)
+                                          .Select(s => (object)s.Id);
+            if (weeksToDelete.Any())
+            {
+                Repository.DeleteByIds<DisciplinePlanByWeek>(weeksToDelete);
+            }
+            return;
+        }
+        
+        var allDisciplineWeeks = Repository.Query<DisciplinePlanByWeek>()
+                                           .GroupBy(s => s.DisciplinePlanId);
+
+        foreach (var dWeek in allDisciplineWeeks)
+        {
+            for (var i = dWeek.Max(s => s.Week) + 1; i <= CountOfWeeks; i++)
+            {
+                Repository.Save(new DisciplinePlanByWeek
+                {
+                    DisciplinePlanId = dWeek.Key,
+                    AssignmentHours = 0,
+                    Week = i
+                });
+            }
+        }
+    }
+}
+
 public class AddOrEditScheduleFormatCommand : CommandBase
 {
     public int FacultyId { get; set; }
@@ -27,6 +65,13 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                                      .Where(f => f.FacultyId == FacultyId)
                                      .Select(s => s.Id)
                                      .Cast<object>();
+        
+        var currentWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> 
+        { 
+            FacultyId = FacultyId,
+             Type = FacultySettings.OfType.CountOfWeeks
+        });
+        
         if (existedItems.Any())
             Repository.DeleteByIds<ScheduleFormat>(existedItems);
 
@@ -59,13 +104,21 @@ public class AddOrEditScheduleFormatCommand : CommandBase
         });
 
         foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
+        {
             Repository.Save(new ScheduleFormat
             {
                     Order = scheduleItem.Order,
                     Start = scheduleItem.Start.GetValueOrDefault(),
                     End = scheduleItem.End.GetValueOrDefault(),
                     FacultyId = FacultyId
-            });
+            });   
+        }
+
+        Dispatcher.Push(new RescheduleDisciplinePlanByWeekCommand 
+        {
+             CurrentCountOfWeeks = currentWeeks,
+             CountOfWeeks = CountOfWeeks
+        });
     }
 
     public record ScheduleItem
@@ -83,7 +136,6 @@ public class AddOrEditScheduleFormatCommand : CommandBase
     {
         public Validator()
         {
-            
             RuleFor(s => s.SessionStartWeek).Must((command, week) => command.SessionStartWeek + command.SessionDuration <= command.CountOfWeeks + 1).WithMessage(DataResources.Validation_SessionStartWeek_SessionOverheadsSemester);
             RuleFor(s => s.SessionDuration).GreaterThan(0).WithName(DataResources.SessionDurationInWeeks);
             RuleFor(s => s.ItemsCount).GreaterThanOrEqualTo(1).WithName(DataResources.ScheduleItemsCount);
