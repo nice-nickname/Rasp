@@ -41,3 +41,8 @@ $btn-padding-x: 1rem;
 .class-card-warning {
     background-color: rgba($warning, .8) !important;
 }
+
+[data-bs-theme="dark"] {
+    --bs-body-color: var(--bs-white);
+    --bs-body-bg: var(--bs-black);
+  }

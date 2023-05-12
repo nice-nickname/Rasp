@@ -10792,4 +10792,9 @@ textarea.form-control-lg {
   background-color: rgba(253, 197, 54, 0.8) !important;
 }
 
+[data-bs-theme=dark] {
+  --bs-body-color: var(--bs-white);
+  --bs-body-bg: var(--bs-black);
+}
+
 /*# sourceMappingURL=custom_bootstrap.css.map */
