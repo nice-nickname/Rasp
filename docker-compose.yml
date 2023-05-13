@@ -3,9 +3,15 @@ services:
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     restart: always
-    container_name: sql-server
+    container_name: db
     ports:
       - "1433:1433"
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "Megacalculator1"
+  app:
+    build:      
+      dockerfile: ./src/UI/Dockerfile
+    depends_on: [ db ]
+    ports:
+      - "5136:5136"

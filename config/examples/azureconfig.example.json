@@ -1,0 +1,10 @@
+{
+  "AzureAd": {
+    "Instance": "https://login.microsoftonline.com/",
+    "Domain": "sfedu.onmicrosoft.com",
+    "TenantId": "19ba435d-e46c-436a-84f2-1b01e693e480",
+    "ClientId": "16898d91-43ba-425a-8ca6-d0b89a6cc09e",
+    "CallbackPath": "/signin-oidc",
+    "SignedOutCallbackPath": "/signout-callback-oidc"
+  }
+}
