@@ -21,26 +21,23 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
         var res = new List<Response>();
 
         var scheduledAll = Repository.Query<Class>()
-                                     .Where(r => r.Week == Week);
+                                     .Where(r => r.Week == Week && r.ScheduleFormat.FacultyId == FacultyId);
         var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
         if (SelectedGroupId.HasValue)
         {
-            scheduledAll = scheduledAll.Where(r => r.ScheduleFormat.FacultyId == FacultyId
-                                                && r.Plan.GroupId == SelectedGroupId);
+            scheduledAll = scheduledAll.Where(r => r.Plan.GroupId == SelectedGroupId);
             disciplinePlansAll = disciplinePlansAll.Where(r => r.GroupId == SelectedGroupId);
         }
 
         if (SelectedAuditoriumId.HasValue)
         {
-            scheduledAll = scheduledAll.Where(r => r.ScheduleFormat.FacultyId == FacultyId
-                                                && r.AuditoriumId == SelectedAuditoriumId);
+            scheduledAll = scheduledAll.Where(r => r.AuditoriumId == SelectedAuditoriumId);
         }
 
         if (SelectedTeacherId.HasValue)
         {
-            scheduledAll = scheduledAll.Where(r => r.ScheduleFormat.FacultyId == FacultyId
-                                                && r.Plan.TeacherId == SelectedTeacherId);
+            scheduledAll = scheduledAll.Where(r => r.Plan.TeacherId == SelectedTeacherId);
             disciplinePlansAll = disciplinePlansAll.Where(r => r.TeacherId == SelectedTeacherId);
         }
 

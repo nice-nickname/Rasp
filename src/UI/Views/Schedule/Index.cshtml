@@ -38,6 +38,46 @@
 
         <div class="d-flex gap-3 flex-grow-1">
             <div class="d-flex gap-2 rounded flex-grow-1 bg-base">
+                <div class="dropdown">
+                    <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="False">
+                        <span class="material-symbols-rounded">
+                            content_copy
+                        </span>
+                        Копировать
+                    </button>
+                    <div class="dropdown-menu" style="width: 250px;">
+                        @using (Html.Controls().Form(control =>
+                        {
+                            control.Url = Url.Dispatcher().Push<CopyClassByWeekCommand>(new
+                            {
+                                DestinationWeek = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
+                                FacultyId = facultyId
+                            });
+                            control.Class = "px-4 py-3";
+                            control.OnSave = dsl =>
+                            {
+                                refreshWeek(dsl);
+                                dsl.WithSelf(s => s.Parent()).Trigger.Click();
+                            };
+                        }))
+                        {
+                            <div class="form-group mb-2">
+                                <label>@DataResources.Week</label>
+                                <input class="form-control" name="@nameof(CopyClassByWeekCommand.SourceWeek)" value="1"/>
+                                @Html.ValidationMessage(nameof(CopyClassByWeekCommand.SourceWeek))
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                @(Html.When(JqueryBind.Click)
+                                      .PreventDefault()
+                                      .StopPropagation()
+                                      .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Form)).Trigger.Submit())
+                                      .AsHtmlAttributes(classes: "btn btn-sm btn-primary")
+                                      .ToButton(DataResources.Apply))
+                            </div>
+                        }
+                    </div>
+                </div>
+
                 <div class="btn btn-light">
                     Экспорт
                 </div>

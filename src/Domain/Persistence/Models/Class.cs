@@ -1,7 +1,9 @@
-﻿using Domain.Persistence.Mappers;
+﻿using System.Linq.Expressions;
+using Domain.Persistence.Mappers;
 using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
+using Incoding.Core.Extensions.LinqSpecs;
 
 namespace Domain.Persistence;
 
@@ -52,6 +54,39 @@ public class Class : IncEntityBase, Share.IEntityHasId
             References(s => s.Plan).Column(nameof(DisciplinePlanId))
                                    .ReadOnly()
                                    .LazyLoad();
+        }
+    }
+
+    public class Where
+    {
+        public class ByFaculty : Specification<Class>
+        {
+            private readonly int _facultyId;
+
+            public ByFaculty(int facultyId)
+            {
+                this._facultyId = facultyId;
+            }
+
+            public override Expression<Func<Class, bool>> IsSatisfiedBy()
+            {
+                return s => s.ScheduleFormat.FacultyId == _facultyId;
+            }
+        }
+
+        public class ByWeek : Specification<Class>
+        {
+            private readonly int _week;
+
+            public ByWeek(int week)
+            {
+                this._week = week;
+            }
+
+            public override Expression<Func<Class, bool>> IsSatisfiedBy()
+            {
+                return s => s.Week == _week;
+            }
         }
     }
 }
