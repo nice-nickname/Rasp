@@ -1,6 +1,16 @@
 ﻿version: "3.2"
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
 services:
   db:
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
     image: mcr.microsoft.com/mssql/server:2019-latest
     restart: always
     container_name: db
@@ -9,9 +19,20 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "Megacalculator1"
+    network_mode: bridge
   app:
-    build:      
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+    build:
       dockerfile: ./src/UI/Dockerfile
     depends_on: [ db ]
     ports:
-      - "5136:5136"
+      - "5000:5000"
+    volumes:
+      - ./dbconfig.json:/app/dbconfig.json
+      - ./azureconfig.json:/app/azureconfig.json
+    network_mode: bridge
+    environment:
+      ENV ASPNETCORE_URLS: "http://+:5000"
+
