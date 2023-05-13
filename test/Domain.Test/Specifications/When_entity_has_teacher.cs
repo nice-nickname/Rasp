@@ -12,6 +12,8 @@ public class When_entity_has_teacher
 
     private static int teacherId;
 
+    private static List<TeacherPreferences> filtered;
+
     private Establish context = () =>
     {
         entities = Pleasure.ToQueryable(Pleasure.Generator.Invent<TeacherPreferences>(),
@@ -21,11 +23,11 @@ public class When_entity_has_teacher
         teacherId = entities.First().TeacherId;
     };
 
+    private Because of = () => filtered = entities.Where(new Share.Where.ByTeacher<TeacherPreferences>(teacherId).IsSatisfiedBy())
+                                                  .ToList();
+
     private It should_filter_entities = () =>
     {
-        var filtered = entities.Where(new Share.Where.ByTeacher<TeacherPreferences>(teacherId).IsSatisfiedBy())
-                               .ToList();
-
         filtered.Count.ShouldEqual(1);
         filtered.First().TeacherId.ShouldEqual(teacherId);
     };
