@@ -68,7 +68,14 @@
                {
                    Html.Controls().Dropdown.List(settings =>
                    {
-                       settings.Url = Url.Dispatcher().Query<GetAuditoriumsForDDQuery>().AsJson();
+                       settings.Url = Url.Dispatcher().Query<GetAuditoriumsScheduleForDDQuery>(new
+                       {
+                           Capacity = Model.For(r => r.StudentCount),
+                           Week = Selector.Jquery.Name<GetAuditoriumsScheduleForDDQuery>(r => r.Week),
+                           Day = Model.For(r => r.Day),
+                           Order = Model.For(r => r.Order),
+                           AuditoriumId = Model.For(r => r.AuditoriumId)
+                       }).AsJson();
                        settings.OnClick = dsl =>
                        {
                            dsl.WithId(auditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();

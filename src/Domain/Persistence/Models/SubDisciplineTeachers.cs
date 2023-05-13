@@ -4,7 +4,7 @@ using Incoding.Core.Data;
 
 namespace Domain.Persistence;
 
-public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDiscipline, Share.IEntityHasId
+public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDiscipline, Share.IEntityHasId, Share.IEntityHasTeacher
 {
     public new virtual int Id { get; set; }
 
@@ -13,6 +13,8 @@ public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDisciplin
     public virtual int SubDisciplineId { get; set; }
 
     public virtual SubDiscipline SubDiscipline { get; set; }
+
+    public virtual Teacher Teacher { get; set; }
 
     public class Mapping : ClassMap<SubDisciplineTeachers>
     {
@@ -26,6 +28,10 @@ public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDisciplin
             References(s => s.SubDiscipline).Column(nameof(SubDisciplineId))
                                             .ReadOnly()
                                             .LazyLoad();
+
+            References(s => s.Teacher).Column(nameof(TeacherId))
+                                      .ReadOnly()
+                                      .LazyLoad();
         }
     }
 }

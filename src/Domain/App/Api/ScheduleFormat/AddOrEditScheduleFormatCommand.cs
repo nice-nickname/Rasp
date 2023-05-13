@@ -19,17 +19,29 @@ public class AddOrEditScheduleFormatCommand : CommandBase
 
     public int SessionDuration { get; set; }
 
-    public List<ScheduleItem> Items { get; set; }
+    public List<ScheduleItem>? Items { get; set; }
 
     protected override void Execute()
     {
+        Items = Items?.Where(s => s.Order < ItemsCount)?.OrderBy(s => s.Order).ToList() ?? new List<ScheduleItem>();
+        
         var existedItems = Repository.Query<ScheduleFormat>()
                                      .Where(f => f.FacultyId == FacultyId)
-                                     .Select(s => s.Id)
-                                     .Cast<object>();
-        if (existedItems.Any())
-            Repository.DeleteByIds<ScheduleFormat>(existedItems);
-
+                                     ?.Select(s => new ScheduleItem
+                                     {
+                                        Id = s.Id,
+                                        Start = s.Start,
+                                        End = s.End,
+                                        Order = s.Order
+                                     })
+                                     ?.ToList() ?? new List<ScheduleItem>();
+        
+        var currentWeeks = Dispatcher.Query(new GetFacultySettingQuery<int> 
+        { 
+            FacultyId = FacultyId,
+            Type = FacultySettings.OfType.CountOfWeeks
+        });
+        
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>
         {
                 FacultyId = FacultyId,
@@ -58,19 +70,23 @@ public class AddOrEditScheduleFormatCommand : CommandBase
                 Value = SessionDuration
         });
 
-        foreach (var scheduleItem in Items.Where(s => s.Order < ItemsCount))
-            Repository.Save(new ScheduleFormat
-            {
-                    Order = scheduleItem.Order,
-                    Start = scheduleItem.Start.GetValueOrDefault(),
-                    End = scheduleItem.End.GetValueOrDefault(),
-                    FacultyId = FacultyId
-            });
+        Dispatcher.Push(new RescheduleScheduleFormatCommand
+        {
+            FacultyId = FacultyId,
+            CurrentItems = existedItems,
+            NewItems = Items
+        });
+
+        Dispatcher.Push(new MatchDisciplinePlanByWeekToWeeksCommand 
+        {
+             CurrentCountOfWeeks = currentWeeks,
+             NewCountOfWeeks = CountOfWeeks
+        });
     }
 
     public record ScheduleItem
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int Order { get; set; }
 
@@ -83,7 +99,6 @@ public class AddOrEditScheduleFormatCommand : CommandBase
     {
         public Validator()
         {
-            
             RuleFor(s => s.SessionStartWeek).Must((command, week) => command.SessionStartWeek + command.SessionDuration <= command.CountOfWeeks + 1).WithMessage(DataResources.Validation_SessionStartWeek_SessionOverheadsSemester);
             RuleFor(s => s.SessionDuration).GreaterThan(0).WithName(DataResources.SessionDurationInWeeks);
             RuleFor(s => s.ItemsCount).GreaterThanOrEqualTo(1).WithName(DataResources.ScheduleItemsCount);

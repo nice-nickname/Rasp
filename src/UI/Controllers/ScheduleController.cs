@@ -1,9 +1,11 @@
 ﻿using Domain.Api;
 using Incoding.Core.CQRS.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.Controllers;
 
+[Authorize(Roles = "Rasp.Admin")]
 public class ScheduleController : Controller
 {
     private readonly IDispatcher _dispatcher;

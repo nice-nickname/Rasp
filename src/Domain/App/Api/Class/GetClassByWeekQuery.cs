@@ -20,7 +20,8 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
     {
         var res = new List<Response>();
 
-        var scheduledAll = Repository.Query<Class>();
+        var scheduledAll = Repository.Query<Class>()
+                                     .Where(r => r.Week == Week);
         var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
         if (SelectedGroupId.HasValue)
@@ -46,7 +47,8 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
         var scheduled = scheduledAll.Select(r => new
                                     {
                                             r.DisciplinePlanId,
-                                            r.SubGroupNo
+                                            r.SubGroupNo,
+                                            r.Plan.GroupId
                                     })
                                     .ToList();
 
@@ -61,7 +63,8 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
             {
                 var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
                 var scheduledBySubGroupCount = scheduled.Count(r => r.DisciplinePlanId == disciplinePlan.Id
-                                                                 && r.SubGroupNo == subGroupNo);
+                                                                 && r.SubGroupNo == subGroupNo
+                                                                 && r.GroupId == disciplinePlan.GroupId);
 
                 for (var j = 0; j < countToCreate; j++)
                 {

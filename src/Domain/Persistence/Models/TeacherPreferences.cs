@@ -34,6 +34,7 @@ public class TeacherPreferences : IncEntityBase, Share.IEntityHasId, Share.IEnti
     {
         public Mapping()
         {
+            Table(nameof(TeacherPreferences));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.TeacherId);
             Map(s => s.ScheduleFormatId);

@@ -30,6 +30,7 @@ public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty, Share.IEn
     {
         public Mapping()
         {
+            Table(nameof(FacultySettings));
             Id(s => s.Id).GeneratedBy.Identity();
             Map(s => s.Type).CustomType<OfType>();
             Map(s => s.Value);

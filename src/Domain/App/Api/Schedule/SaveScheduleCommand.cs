@@ -32,6 +32,15 @@ public class SaveScheduleCommand : CommandBase
                 DisciplinePlanId = DisciplinePlanId
         };
 
+        var scheduled = Repository.Query<Class>()
+                                  .Where(c => c.Week == Week
+                                           && c.Day == Day
+                                           && c.ScheduleFormatId == ScheduleFormatId)
+                                  .ToList();
+
+        if (scheduled.Count > 0)
+            return;
+
         Repository.SaveOrUpdate(@class);
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace UI.Controllers;
 
 [Route("migrator")]
+[Authorize(Roles = "Rasp.Admin")]
 public class MigrationsController : Controller
 {
     private readonly IMigrationRunner _migrator;

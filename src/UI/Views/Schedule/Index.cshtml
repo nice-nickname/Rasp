@@ -5,7 +5,6 @@
     var unallocatedPanelId = Guid.NewGuid().ToString();
     var unallocatedSearchId = Guid.NewGuid().ToString();
     var unallocatedFilterId = Guid.NewGuid().ToString();
-    var unallocatedClassesId = Guid.NewGuid().ToString();
     var currentWeekId = Guid.NewGuid().ToString();
     var currentGroupTextId = Guid.NewGuid().ToString();
     var currentAuditoriumTextId = Guid.NewGuid().ToString();
@@ -17,7 +16,7 @@
 
     Action<IIncodingMetaLanguageCallbackBodyDsl> refreshWeek = dsl =>
     {
-        dsl.WithId(unallocatedClassesId).Trigger.None();
+        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
         dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
     };
 }
@@ -145,7 +144,7 @@
 
                           dsl.WithId(unallocatedSearchId).JQuery.Attr.ToggleClass("hidden");
                           dsl.WithId(unallocatedFilterId).JQuery.Attr.ToggleClass("hidden");
-                          dsl.WithId(unallocatedClassesId).JQuery.Attr.ToggleClass("hidden");
+                          dsl.WithId(GlobalSelectors.UnscheduledId).JQuery.Attr.ToggleClass("hidden");
                       })
                       .AsHtmlAttributes(classes: "btn btn-light flex-shrink-0 p-1")
                       .ToButton(@<span class="material-symbols-rounded">chevron_left</span>))
@@ -182,7 +181,7 @@
                       .AsHtmlAttributes(new
                       {
                           @class = "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0",
-                          id = unallocatedClassesId,
+                          id = GlobalSelectors.UnscheduledId,
                           role = "drag-container",
                           name = "list"
                       })

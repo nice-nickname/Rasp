@@ -65,7 +65,7 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                 {
                         Order = i,
                         IsEmpty = true,
-                        ScheduleFormatId = schedulerItems[i].Id,
+                        ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
                         IsBlocked = isBlocked
                 });
             }
@@ -110,7 +110,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                        Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
                                        IsGroup = SelectedGroupId.HasValue,
                                        IsAuditorium = SelectedAuditoriumId.HasValue,
-                                       IsTeacher = SelectedTeacherId.HasValue
+                                       IsTeacher = SelectedTeacherId.HasValue,
+                                       StudentCount = r.Plan.Group.StudentCount
                                })
                                .ToList()
                                .GroupBy(r => r.Day)
@@ -169,6 +170,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         public int SubGroupNo { get; set; }
 
         public int DisciplinePlanId { get; set; }
+
+        public int StudentCount { get; set; }
 
         public int? AuditoriumId { get; set; }
 

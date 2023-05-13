@@ -13,7 +13,7 @@
                   .OnSuccess(dsl => dsl.With(r => r.Self().Closest(HtmlTag.Ul)).Trigger.None())
                   .AsHtmlAttributes(new
                   {
-                      @class = "dropdown-item",
+                      @class = $"dropdown-item {each.For(r => r.CssClass)}",
                       href = "javascript:void(0);"
                   })
                   .ToTag(HtmlTag.A, each.For(r => r.Text)))
