@@ -74,7 +74,8 @@
                            Week = Selector.Jquery.Name<GetAuditoriumsScheduleForDDQuery>(r => r.Week),
                            Day = Model.For(r => r.Day),
                            Order = Model.For(r => r.Order),
-                           AuditoriumId = Model.For(r => r.AuditoriumId)
+                           AuditoriumId = Model.For(r => r.AuditoriumId),
+                           SubDisciplineId = Model.For(r => r.SubDisciplineId)
                        }).AsJson();
                        settings.OnClick = dsl =>
                        {
