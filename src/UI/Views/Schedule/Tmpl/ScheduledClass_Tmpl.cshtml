@@ -81,8 +81,6 @@
                            dsl.WithId(auditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
                            dsl.WithSelf(r => r.Closest(q => q.Name("card")).Find(q => q.Name<SaveScheduleCommand>(w => w.AuditoriumId)))
                               .JQuery.Attr.Val(Selector.Event.Data.For("value"));
-                           dsl.WithSelf(r => r.Closest(q => q.Name("cell")))
-                              .Trigger.None();
                        };
                    })
                },

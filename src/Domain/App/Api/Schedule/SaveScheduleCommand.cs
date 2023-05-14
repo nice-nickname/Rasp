@@ -35,7 +35,9 @@ public class SaveScheduleCommand : CommandBase
         var scheduled = Repository.Query<Class>()
                                   .Where(c => c.Week == Week
                                            && c.Day == Day
-                                           && c.ScheduleFormatId == ScheduleFormatId)
+                                           && c.ScheduleFormatId == ScheduleFormatId
+                                           && c.AuditoriumId.HasValue
+                                           && c.AuditoriumId == AuditoriumId)
                                   .ToList();
 
         if (scheduled.Count > 0)
