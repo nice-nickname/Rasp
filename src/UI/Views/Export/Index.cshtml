@@ -1,9 +1,21 @@
 ﻿@{
     Layout = "_ContainerPageLayout";
+    var facultyId = (string)ViewData["FacultyId"];
 }
 
 @section Body
 {
+    @(Html.When(JqueryBind.Change)
+                    .StopPropagation()
+                    .PreventDefault()
+                    .Ajax(Url.Dispatcher().Push(new AddCookieCommand
+                    {
+                        Key = GlobalSelectors.FacultyId,
+                        Value = Selector.Jquery.Self().Val()
+                    }))
+                    .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
+                    .ToInput(HtmlInputType.Hidden, facultyId))
+
     <div class="d-flex flex-grow-1 flex-column gap-3 justify-content-center p-1">
         <div class="d-flex gap-3 justify-content-center">
             <div class="w-40 input">
@@ -17,6 +29,32 @@
                   .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
                   .AsHtmlAttributes(classes: "btn btn-light")
                   .ToButton(DataResources.Continue))
+
+            @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+            {
+                Button = new DropdownModel.ButtonSettings
+                {
+                    Text = DataResources.Faculty
+                },
+                Items = new List<IHtmlContent>
+                {
+                    Html.Controls().Dropdown.List(settings =>
+                    {
+                        settings.Id = GlobalSelectors.FacultyListId;
+                        settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
+                        settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
+                        settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));
+                        settings.OnClick = dsl =>
+                        {
+                            Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
+                            dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
+                            dsl.WithName(GlobalSelectors.FacultyId).Trigger.Change();
+                            dsl.WithId("search-input").JQuery.Attr.Val("");
+                            dsl.WithId("search").JQuery.Dom.Html();
+                        };
+                    })
+                }
+            }))
         </div>
         @(Html.When(JqueryBind.None)
               .StopPropagation()

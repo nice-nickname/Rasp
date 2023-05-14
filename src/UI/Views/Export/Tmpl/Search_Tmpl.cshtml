@@ -1,4 +1,11 @@
-﻿@using (var template = Html.Incoding().Template<GetExportSearchQuery.Response>())
+﻿@{
+    var facultyId = (string)ViewData["FacultyId"];
+    @if (string.IsNullOrWhiteSpace(facultyId))
+    {
+        facultyId = Context.Request.Cookies[GlobalSelectors.FacultyId];
+    }
+}
+@using (var template = Html.Incoding().Template<GetExportSearchQuery.Response>())
 {
     using (template.NotEach())
     {
@@ -8,7 +15,7 @@
     }
     using (var each = template.ForEach())
     {
-        <a href="@($"/schedule/{each.For(s => s.Type)}/{each.For(s => s.Id)}")" class="w-100 rounded shadow shadow-hover px-3 py-2 text-decoration-none">
+        <a href="@($"/schedule/{facultyId}/{each.For(s => s.Type)}/{each.For(s => s.Id)}")" class="w-100 rounded shadow shadow-hover px-3 py-2 text-decoration-none">
             @each.For(s => s.Name)
         </a>
     }

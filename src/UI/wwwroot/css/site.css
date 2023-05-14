@@ -506,3 +506,12 @@ input.form-control[type=color] {
 .preferences-impossible > .impossible {
     display: inline !important;
 }
+
+.week-btn {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+}

@@ -9,4 +9,6 @@ public class SchedulePageModel
     public GetScheduleFormatQuery.Response Format { get; set; }
 
     public string Title { get; set; }
+
+    public int ActiveWeek { get; set; }
 }
