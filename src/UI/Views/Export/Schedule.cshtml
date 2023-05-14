@@ -1,2 +1,129 @@
-﻿@model List<GetScheduleByWeekQuery.Response>
+﻿@model SchedulePageModel
+@{
+    Layout = "_ContainerPageLayout";
+}
 
+@section Body
+{
+    <div class="flex-grow-1 d-flex flex-column gap-2 schedule rounded h-80 p-1">
+        <div class="d-flex gap-2 s-row">
+            <div class="column-header row-header flex-shrink-0">&nbsp;</div>
+            @for (int i = 0; i < Model.Format.ItemsCount; i++)
+            {
+                <div class="w-100 bg-light shadow rounded d-flex flex-column column-header align-items-center justify-content-center">
+                    <div>
+                        @(Model.Format.Items[i].Order + 1) @DataResources.Class
+                    </div>
+                    <div>
+                        @($"{Model.Format.Items[i].Start?.Hours:00}:{Model.Format.Items[i].Start?.Minutes:00}")
+                        -
+                        @($"{Model.Format.Items[i].End?.Hours:00}:{Model.Format.Items[i].End?.Minutes:00}")
+                    </div>
+                </div>
+            }
+        </div>
+        @foreach (var item in Model.Items)
+        {
+            <div class="d-flex gap-2 s-row" role="row">
+                <div class="bg-light shadow rounded row-header d-flex flex-column flex-shrink-0 justify-content-center align-items-center">
+                    <div>
+                        @item.DayString
+                    </div>
+                    <div>
+                        @item.Date
+                    </div>
+                </div>
+                @foreach (var cell in item.Items)
+                {
+                    <div class="bg-base rounded position-relative cell" role="cell">
+                        <div class="w-100 h-100 bg-base rounded">
+
+                            @if (!cell.IsBlocked)
+                            {
+                                <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab">
+
+                                    <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @cell.Color"></div>
+
+                                    <div class="d-flex mx-1 mt-1 gap-2">
+                                        <div class="flex-grow-1 discipline-code" title="@cell.Discipline">
+                                            @cell.DisciplineCode
+                                        </div>
+                                        <div class="flex-grow-1 discipline text-overflow-elipsis text-nowrap overflow-hidden" title="@cell.Discipline">
+                                            @cell.Discipline
+                                        </div>
+
+                                        <div class="flex-shrink-0 subdiscipline-code" title="@cell.SubDiscipline">
+                                            @cell.SubDisciplineCode
+                                        </div>
+                                        <div class="flex-shrink-0 subdiscipline" title="@cell.SubDiscipline">
+                                            @cell.SubDiscipline
+                                        </div>
+                                    </div>
+
+                                    <div class="mx-1 d-flex gap-2">
+                                        <div class="flex-grow-1">
+                                            @if (cell.HasSubGroups)
+                                            {
+                                                <text>@cell.SubGroupNo @DataResources.SubGroup</text>
+                                            }
+                                            else
+                                            {
+                                                <text>-</text>
+                                            }
+                                        </div>
+                                        <div class="flex-shrink-0 text-nowrap text-overflow-elipsis overflow-hidden">
+                                            @if (cell.IsGroup)
+                                            {
+                                                <text>@cell.DepartmentCode</text>
+                                            }
+                                            @if (cell.IsAuditorium)
+                                            {
+                                                <text>@cell.Group</text>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="mx-1 d-flex gap-2">
+                                        <div class="flex-grow-1 text-nowrap text-overflow-elipsis overflow-hidden">
+                                            @if (cell.IsGroup)
+                                            {
+                                                <text>@cell.Teacher</text>
+                                            }
+                                            @if (cell.IsAuditorium)
+                                            {
+                                                <text>@cell.Teacher</text>
+                                            }
+                                            @if (cell.IsTeacher)
+                                            {
+                                                <text>@cell.Group</text>
+                                            }
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            @if (cell.IsTeacher)
+                                            {
+                                                @cell.DepartmentCode
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="w-100 h-px-30">
+                                        @if (cell.AuditoriumId.HasValue)
+                                        {
+                                            @cell.Auditorium
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded unallowed-gray">
+                                    <span class="material-symbols-rounded">close</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+            </div>
+        }
+    </div>
+}

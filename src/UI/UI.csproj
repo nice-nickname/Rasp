@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Common\Models\NewFolder\**" />
-    <Content Remove="Common\Models\NewFolder\**" />
-    <EmbeddedResource Remove="Common\Models\NewFolder\**" />
-    <None Remove="Common\Models\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
 	  <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
 	  <PackageReference Include="Incoding.Core" Version="1.2.7" />
 	  <PackageReference Include="Incoding.Data" Version="1.2.5" />
@@ -32,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Models\" />
+    <Folder Include="Common\Models\Pages\" />
     <Folder Include="Infrastructure\ModelBinders\Binders\" />
     <Folder Include="Infrastructure\ModelBinders\Providers\" />
     <Folder Include="Views\Export\Tmpl\" />
