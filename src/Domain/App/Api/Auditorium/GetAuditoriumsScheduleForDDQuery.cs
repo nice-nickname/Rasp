@@ -41,7 +41,7 @@ public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
         return Repository.Query<Auditorium>()
                          .ToList()
                          .Where(r => (r.Capacity >= Capacity
-                                   && r.Kinds.Select(q => q.Id).Intersect(preferredKindIds).Any())
+                                   && (preferredKindIds.Count <= 0 || r.Kinds.Select(q => q.Id).Intersect(preferredKindIds).Any()))
                                   || preferredAuditoriumIds.Contains(r.Id))
                          .Select(r => new KeyValueVm
                          {
