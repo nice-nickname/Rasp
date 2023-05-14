@@ -1,0 +1,15 @@
+﻿@using (var template = Html.Incoding().Template<GetExportSearchQuery.Response>())
+{
+    using (template.NotEach())
+    {
+        <div class="w-100 rounded shadow px-3 py-2">
+            По вашему запросу ничего не найдено
+        </div>
+    }
+    using (var each = template.ForEach())
+    {
+        <a href="@($"/schedule/{each.For(s => s.Type)}/{each.For(s => s.Id)}")" class="w-100 rounded shadow shadow-hover px-3 py-2 text-decoration-none">
+            @each.For(s => s.Name)
+        </a>
+    }
+}
