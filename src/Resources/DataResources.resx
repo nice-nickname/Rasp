@@ -540,4 +540,7 @@
 	<data name="Week" xml:space="preserve">
 		<value>Неделя</value>
 	</data>
+	<data name="Search" xml:space="preserve">
+		<value>Поиск</value>
+	</data>
 </root>

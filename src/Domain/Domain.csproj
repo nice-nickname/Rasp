@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="App\Api\Busyness\**" />
+    <Compile Remove="App\Export\**" />
     <Compile Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="App\Api\Busyness\**" />
+    <EmbeddedResource Remove="App\Export\**" />
     <EmbeddedResource Remove="Infrastructure\**" />
+    <None Remove="App\Api\Busyness\**" />
+    <None Remove="App\Export\**" />
     <None Remove="Infrastructure\**" />
   </ItemGroup>
 
@@ -16,11 +22,9 @@
     <Folder Include="App\Api\Faculty\" />
     <Folder Include="App\Api\Building\" />
     <Folder Include="App\Api\Auditorium\" />
-    <Folder Include="App\Api\Busyness\" />
     <Folder Include="App\Api\DisciplinePlan\" />
     <Folder Include="App\Api\Class\" />
     <Folder Include="App\Api\Schedule\" />
-    <Folder Include="App\Export\" />
     <Folder Include="Common\Extentions" />
   </ItemGroup>
 
