@@ -52,6 +52,7 @@ public class ExportController : Controller
         {
             HttpContext.Response.Cookies.Append(GlobalSelectors.FacultyId, faculties.First().Id.ToString());
             facultyId = faculties.First().Id;
+            return NotFound();
         }
         var result = this._dispatcher.Query(new GetScheduleByWeekQuery
         {
