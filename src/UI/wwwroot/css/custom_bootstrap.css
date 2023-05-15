@@ -10823,7 +10823,8 @@ textarea.form-control-lg {
 
 ::-webkit-scrollbar-thumb {
   background-color: #a4abb5;
-  width: 0.25rem;
+  border: 1px solid transparent;
+  background-clip: content-box;
   border-radius: 6px;
 }
 

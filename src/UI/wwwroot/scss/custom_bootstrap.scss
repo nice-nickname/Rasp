@@ -79,6 +79,7 @@ $toast-spacing: 0.5rem;
 
 ::-webkit-scrollbar-thumb {
     background-color: #a4abb5;
-    width: 0.25rem;
+    border: 1px solid transparent;
+    background-clip: content-box;
     border-radius: $border-radius;
 }
