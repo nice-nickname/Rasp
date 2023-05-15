@@ -13,6 +13,10 @@
             <a class="btn btn-light" href="#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
                 @DataResources.EditingData
             </a>
+
+            <a class="btn btn-light" href="@Url.Action("Index", "Export")">
+                @DataResources.Export
+            </a>
         </div>
     </div>
 

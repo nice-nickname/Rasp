@@ -43,7 +43,7 @@
                         <span class="material-symbols-rounded">
                             content_copy
                         </span>
-                        Копировать
+                        @DataResources.Copy
                     </button>
                     <div class="dropdown-menu" style="width: 250px;">
                         @using (Html.Controls().Form(control =>
@@ -62,7 +62,7 @@
                         }))
                         {
                             <div class="form-group mb-2">
-                                <label>@DataResources.Week</label>
+                                <label>@DataResources.CopyFromWeek</label>
                                 <input class="form-control" name="@nameof(CopyClassByWeekCommand.SourceWeek)" value="1"/>
                                 @Html.ValidationMessage(nameof(CopyClassByWeekCommand.SourceWeek))
                             </div>
