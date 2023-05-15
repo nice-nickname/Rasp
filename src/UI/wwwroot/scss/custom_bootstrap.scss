@@ -65,3 +65,20 @@ $toast-spacing: 0.5rem;
 .toast-body {
     font-size: 16px;
 }
+
+::-webkit-scrollbar {
+    background-color: #ebeef0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: $border-radius;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #a4abb5;
+    width: 0.25rem;
+    border-radius: $border-radius;
+}

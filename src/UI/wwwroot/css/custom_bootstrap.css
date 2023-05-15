@@ -10810,4 +10810,21 @@ textarea.form-control-lg {
   font-size: 16px;
 }
 
+::-webkit-scrollbar {
+  background-color: #ebeef0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a4abb5;
+  width: 0.25rem;
+  border-radius: 6px;
+}
+
 /*# sourceMappingURL=custom_bootstrap.css.map */
