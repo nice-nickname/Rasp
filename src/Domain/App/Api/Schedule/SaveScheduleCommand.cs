@@ -27,30 +27,29 @@ public class SaveScheduleCommand : CommandBase
 
     protected override void Execute()
     {
-        var @class = new Class
-        {
-                Id = Id ?? 0,
-                Week = Week,
-                AuditoriumId = AuditoriumId,
-                Day = Day,
-                ScheduleFormatId = ScheduleFormatId,
-                SubGroupNo = SubGroupNo,
-                DisciplinePlanId = DisciplinePlanId
-        };
+        var @class = Repository.GetById<Class>(Id) ?? new Class();
+
+        @class.Week = Week;
+        @class.AuditoriumId = AuditoriumId;
+        @class.Day = Day;
+        @class.ScheduleFormatId = ScheduleFormatId;
+        @class.SubGroupNo = SubGroupNo;
+        @class.DisciplinePlanId = DisciplinePlanId;
 
         var isTeacherBusy = Repository.Query<Class>()
                                       .ToList()
                                       .Any(c => c.Plan.TeacherId == TeacherId
                                              && c.Week == Week
                                              && c.Day == Day
-                                             && c.ScheduleFormatId == ScheduleFormatId);
+                                             && c.ScheduleFormatId == ScheduleFormatId
+                                             && c.DisciplinePlanId != DisciplinePlanId);
 
         if (isTeacherBusy)
         {
             Result = new { CustomValidationMessage = DataResources.TeacherBusyAtThisTime };
             throw IncWebException.For<SaveScheduleCommand>(r => r.CustomValidationMessage, DataResources.TeacherBusyAtThisTime);
         }
-
+        
         Repository.SaveOrUpdate(@class);
     }
 }
