@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -30,6 +32,14 @@ public class AddOrEditBuildingCommand : CommandBase
                     Id = building.Id,
                     Name = building.Name
             };
+        }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditBuildingCommand>
+    {
+        public Validator()
+        {
+            RuleFor(b => b.Name).NotEmpty().WithMessage(DataResources.InvalidEmpty);
         }
     }
 }
