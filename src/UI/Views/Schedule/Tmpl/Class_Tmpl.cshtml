@@ -8,6 +8,7 @@
 
         <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element" name="card" filter="@filter">
             @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), each.For(r => r.DisciplinePlanId))
+            @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), each.For(r => r.SubDisciplineId))
             @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), each.For(r => r.SubGroupNo))
             @Html.Hidden(nameof(SaveScheduleCommand.TeacherId), each.For(r => r.TeacherId))
 
