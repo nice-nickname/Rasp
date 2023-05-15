@@ -340,11 +340,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Копировать.
+        /// </summary>
+        public static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Скопировать для всех групп.
         /// </summary>
         public static string CopyForAllGroups {
             get {
                 return ResourceManager.GetString("CopyForAllGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Скопировать с недели.
+        /// </summary>
+        public static string CopyFromWeek {
+            get {
+                return ResourceManager.GetString("CopyFromWeek", resourceCulture);
             }
         }
         
@@ -552,6 +570,15 @@ namespace Resources {
         public static string Exam {
             get {
                 return ResourceManager.GetString("Exam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Экспорт.
+        /// </summary>
+        public static string Export {
+            get {
+                return ResourceManager.GetString("Export", resourceCulture);
             }
         }
         
