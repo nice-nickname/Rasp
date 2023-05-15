@@ -18,6 +18,8 @@ $border-radius-pill: 6px;
 $btn-padding-y: 0.25rem;
 $btn-padding-x: 1rem;
 
+$toast-spacing: 0.5rem;
+
 .bg-base {
     background-color: $base;
 }
@@ -59,3 +61,7 @@ $btn-padding-x: 1rem;
     --bs-body-color: var(--bs-white);
     --bs-body-bg: var(--bs-black);
   }
+
+.toast-body {
+    font-size: 16px;
+}

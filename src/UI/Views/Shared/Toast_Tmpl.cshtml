@@ -1,0 +1,14 @@
+﻿@using Incoding.Core.Extensions
+@model ToastModel
+
+<div id="@Model.Id" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-@Model.TitleColor.ToStringLower() text-@Model.TitleTextColor.ToStringLower()">
+        <strong class="me-auto ">@Model.Title</strong>
+        <button type="button" class="btn p-0" data-bs-dismiss="toast" aria-label="Close">
+            <span class="material-symbols-rounded text-light">close</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        @Model.Message
+    </div>
+</div>

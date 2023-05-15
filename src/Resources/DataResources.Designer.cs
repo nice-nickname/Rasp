@@ -565,6 +565,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Экзамен.
         /// </summary>
         public static string Exam {
@@ -1200,6 +1209,15 @@ namespace Resources {
         public static string Teacher {
             get {
                 return ResourceManager.GetString("Teacher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Преподаватель занят в это время.
+        /// </summary>
+        public static string TeacherBusyAtThisTime {
+            get {
+                return ResourceManager.GetString("TeacherBusyAtThisTime", resourceCulture);
             }
         }
         

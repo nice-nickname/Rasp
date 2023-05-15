@@ -4,6 +4,7 @@
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
     @Html.Hidden(nameof(SaveScheduleCommand.Id), Model.For(r => r.Id))
+    @Html.Hidden(nameof(SaveScheduleCommand.TeacherId), Model.For(r => r.TeacherId))
 
     <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @Model.For(r => r.Color)"></div>
 

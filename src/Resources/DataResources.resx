@@ -552,4 +552,10 @@
   <data name="Export" xml:space="preserve">
     <value>Экспорт</value>
   </data>
+  <data name="TeacherBusyAtThisTime" xml:space="preserve">
+	  <value>Преподаватель занят в это время</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+	  <value>Ошибка</value>
+  </data>
 </root>

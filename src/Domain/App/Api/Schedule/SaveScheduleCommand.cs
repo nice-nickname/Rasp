@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
+using Incoding.Web;
+using Resources;
 
 namespace Domain.Api;
 
@@ -13,9 +15,13 @@ public class SaveScheduleCommand : CommandBase
 
     public int SubGroupNo { get; set; }
 
+    public int TeacherId { get; set; }
+
     public int? Id { get; set; }
 
     public int? AuditoriumId { get; set; }
+
+    public string CustomValidationMessage { get; set; }
 
     public DayOfWeek Day { get; set; }
 
@@ -32,16 +38,18 @@ public class SaveScheduleCommand : CommandBase
                 DisciplinePlanId = DisciplinePlanId
         };
 
-        var scheduled = Repository.Query<Class>()
-                                  .Where(c => c.Week == Week
-                                           && c.Day == Day
-                                           && c.ScheduleFormatId == ScheduleFormatId
-                                           && c.AuditoriumId.HasValue
-                                           && c.AuditoriumId == AuditoriumId)
-                                  .ToList();
+        var isTeacherBusy = Repository.Query<Class>()
+                                      .ToList()
+                                      .Any(c => c.Plan.TeacherId == TeacherId
+                                             && c.Week == Week
+                                             && c.Day == Day
+                                             && c.ScheduleFormatId == ScheduleFormatId);
 
-        if (scheduled.Count > 0)
-            return;
+        if (isTeacherBusy)
+        {
+            Result = new { CustomValidationMessage = DataResources.TeacherBusyAtThisTime };
+            throw IncWebException.For<SaveScheduleCommand>(r => r.CustomValidationMessage, DataResources.TeacherBusyAtThisTime);
+        }
 
         Repository.SaveOrUpdate(@class);
     }

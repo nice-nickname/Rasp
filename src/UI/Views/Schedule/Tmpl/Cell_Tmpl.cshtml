@@ -9,10 +9,11 @@
         Day = Selector.Jquery.Self().Closest(r => r.Role("row")).Find(r => r.Name<SaveScheduleCommand>(q => q.Day)),
         SubGroupNo = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.SubGroupNo)),
         AuditoriumId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.AuditoriumId)),
-        Id = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(r => r.Id))
+        Id = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.Id)),
+        TeacherId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.TeacherId))
     });
 
-    Action<IIncodingMetaLanguageCallbackBodyDsl> saveSchedule = dsl =>
+    Action<IIncodingMetaLanguageCallbackBodyDsl> reloadSchedule = dsl =>
     {
         dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
         dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
@@ -23,7 +24,18 @@
     @Html.Hidden(nameof(SaveScheduleCommand.ScheduleFormatId), Model.For(r => r.ScheduleFormatId))
     @using (Html.When("incodingdropped none")
                 .AjaxPost(urlSave)
-                .OnSuccess(dsl => saveSchedule(dsl))
+                .OnSuccess(dsl => reloadSchedule(dsl))
+                .OnError(dsl =>
+                {
+                    dsl.With(r => r.Role("toast-container")).Insert.WithTemplateByUrl(Url.Dispatcher().Model<ToastModel>(new
+                    {
+                        Title = DataResources.Error,
+                        Message = Selector.Result.For<SaveScheduleCommand>(c => c.CustomValidationMessage),
+                        TitleColor = ToastModel.Color.Danger,
+                        TitleTextColor = ToastModel.Color.White
+                    }).AsView("~/Views/Shared/Toast_Tmpl.cshtml")).Append();
+                    reloadSchedule(dsl);
+                })
                 .AsHtmlAttributes(new
                 {
                     @class = "w-100 h-100 bg-base rounded",
