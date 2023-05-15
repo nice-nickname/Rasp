@@ -56,6 +56,7 @@ public class AddOrEditGroupCommand : CommandBase
             RuleFor(s => s.Code).NotEmpty().NotNull().WithName(DataResources.GroupCode);
             RuleFor(s => s.Course).InclusiveBetween(1, 5).WithName(DataResources.Course);
             RuleFor(s => s.StudentCount).GreaterThan(0).WithName(DataResources.StudentCount);
+            RuleFor(g => g.DepartmentId).NotEmpty().NotNull().WithName(DataResources.Department);
         }
     }
 }
