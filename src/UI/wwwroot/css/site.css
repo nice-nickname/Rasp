@@ -364,7 +364,7 @@ input.form-control[type=color] {
 }
 
 .schedule .column-header {
-    height: 120px;
+    height: 60px;
 }
 
 .schedule .row-header {
@@ -514,4 +514,8 @@ input.form-control[type=color] {
     justify-content: center;
     align-items: center;
     border-radius: 100%;
+}
+
+.flex-0 {
+    flex: 0 !important;
 }

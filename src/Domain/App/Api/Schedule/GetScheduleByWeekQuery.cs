@@ -16,128 +16,339 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
     public int Week { get; set; }
 
-    public int? SelectedGroupId { get; set; }
-
-    public int? SelectedAuditoriumId { get; set; }
-
-    public int? SelectedTeacherId { get; set; }
-
     public int FacultyId { get; set; }
+
+    public int?[] SelectedGroupIds { get; set; }
+
+    public int?[] SelectedAuditoriumIds { get; set; }
+
+    public int?[] SelectedTeacherIds { get; set; }
+
+    public DayOfWeek? Day { get; set; }
 
     protected override List<Response> ExecuteResult()
     {
-        var schedulerItems = Repository.Query<ScheduleFormat>()
-                                       .Where(s => s.FacultyId == FacultyId)
-                                       .OrderBy(s => s.Order)
-                                       .Select(s => new AddOrEditScheduleFormatCommand.ScheduleItem
-                                       {
-                                               Start = s.Start,
-                                               End = s.End,
-                                               Order = s.Order,
-                                               Id = s.Id
-                                       })
-                                       .ToList();
-
-        var startWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { FacultyId = FacultyId, Week = Week });
-        var weekends = Dispatcher.Query(new GetWeekendsForWeekQuery { StartDate = startWeekDate });
-        var scheduleFormat = Dispatcher.Query(new GetScheduleFormatQuery { FacultyId = FacultyId });
-
-        var classes = new List<Response>
+        if (SelectedGroupIds.Length <= 1 && SelectedAuditoriumIds.Length <= 1 && SelectedTeacherIds.Length <= 1)
         {
-                new() { Day = DayOfWeek.Monday, DayString = DataResources.Monday, Date = startWeekDate.ToShortDateString() },
-                new() { Day = DayOfWeek.Tuesday, DayString = DataResources.Tuesday, Date = startWeekDate.AddDays(1).ToShortDateString() },
-                new() { Day = DayOfWeek.Wednesday, DayString = DataResources.Wednesday, Date = startWeekDate.AddDays(2).ToShortDateString() },
-                new() { Day = DayOfWeek.Thursday, DayString = DataResources.Thursday, Date = startWeekDate.AddDays(3).ToShortDateString() },
-                new() { Day = DayOfWeek.Friday, DayString = DataResources.Friday, Date = startWeekDate.AddDays(4).ToShortDateString() },
-                new() { Day = DayOfWeek.Saturday, DayString = DataResources.Saturday, Date = startWeekDate.AddDays(5).ToShortDateString() }
-        };
-        foreach (var @class in classes)
-        {
-            @class.Items = new List<ClassItem>();
-            for (var i = 0; i < schedulerItems.Count; i++)
+            var selectedGroupId = SelectedGroupIds.FirstOrDefault();
+            var selectedAuditoriumId = SelectedAuditoriumIds.FirstOrDefault();
+            var selectedTeacherId = SelectedTeacherIds.FirstOrDefault();
+
+            var schedulerItems = Repository.Query<ScheduleFormat>()
+                                           .Where(s => s.FacultyId == FacultyId)
+                                           .OrderBy(s => s.Order)
+                                           .Select(s => new AddOrEditScheduleFormatCommand.ScheduleItem
+                                           {
+                                                   Start = s.Start,
+                                                   End = s.End,
+                                                   Order = s.Order,
+                                                   Id = s.Id
+                                           })
+                                           .ToList();
+
+            var startWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { FacultyId = FacultyId, Week = Week });
+            var weekends = Dispatcher.Query(new GetWeekendsForWeekQuery
             {
-                var currentDate = this.getDay(startWeekDate, @class.Day);
-                var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate))
-                             || currentDate < scheduleFormat.StartDate
-                             || currentDate > scheduleFormat.EndDate;
+                    FacultyId = FacultyId,
+                    StartDate = startWeekDate
+            });
 
-                @class.Items.Add(new ClassItem
-                {
-                        Order = i,
-                        IsEmpty = true,
-                        ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
-                        IsBlocked = isBlocked
-                });
-            }
-        }
-
-        var scheduledClassesAll = Repository.Query<Class>();
-
-        if (SelectedGroupId.HasValue)
-            scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == SelectedGroupId.Value && r.Week == Week);
-
-        if (SelectedAuditoriumId.HasValue)
-            scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == SelectedAuditoriumId && r.Week == Week);
-
-        if (SelectedTeacherId.HasValue)
-            scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == SelectedTeacherId && r.Week == Week);
-
-        var scheduledClasses = scheduledClassesAll
-                               .Select(r => new ClassItem
-                               {
-                                       Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
-                                       DisciplinePlanId = r.DisciplinePlanId,
-                                       TeacherId = r.Plan.TeacherId,
-                                       Teacher = r.Plan.Teacher.ShortName,
-                                       Department = r.Plan.SubDiscipline.Discipline.Department.Name,
-                                       DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
-                                       DisciplineId = r.Plan.SubDiscipline.DisciplineId,
-                                       Discipline = r.Plan.SubDiscipline.Discipline.Name,
-                                       DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
-                                       SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
-                                       SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
-                                       SubDisciplineId = r.Plan.SubDiscipline.Id,
-                                       SubGroupNo = r.SubGroupNo,
-                                       HasSubGroups = r.SubGroupNo > 0,
-                                       GroupId = r.Plan.GroupId,
-                                       Group = r.Plan.Group.Code,
-                                       Day = r.Day,
-                                       Order = r.ScheduleFormat.Order,
-                                       IsEmpty = false,
-                                       ScheduleFormatId = r.ScheduleFormatId,
-                                       Id = r.Id,
-                                       AuditoriumId = r.AuditoriumId,
-                                       Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
-                                       IsGroup = SelectedGroupId.HasValue,
-                                       IsAuditorium = SelectedAuditoriumId.HasValue,
-                                       IsTeacher = SelectedTeacherId.HasValue,
-                                       StudentCount = r.Plan.Group.StudentCount
-                               })
-                               .ToList()
-                               .GroupBy(r => r.Day)
-                               .ToList();
-
-        foreach (var scheduled in scheduledClasses)
-        {
-            foreach (var item in scheduled)
+            var classes = new List<Response>
             {
-                if (!classes.Any(r => r.Day == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
-                    continue;
+                    new() { Day = DayOfWeek.Monday, DayString = DataResources.Monday, Date = startWeekDate.ToShortDateString() },
+                    new() { Day = DayOfWeek.Tuesday, DayString = DataResources.Tuesday, Date = startWeekDate.AddDays(1).ToShortDateString() },
+                    new() { Day = DayOfWeek.Wednesday, DayString = DataResources.Wednesday, Date = startWeekDate.AddDays(2).ToShortDateString() },
+                    new() { Day = DayOfWeek.Thursday, DayString = DataResources.Thursday, Date = startWeekDate.AddDays(3).ToShortDateString() },
+                    new() { Day = DayOfWeek.Friday, DayString = DataResources.Friday, Date = startWeekDate.AddDays(4).ToShortDateString() },
+                    new() { Day = DayOfWeek.Saturday, DayString = DataResources.Saturday, Date = startWeekDate.AddDays(5).ToShortDateString() }
+            };
+            foreach (var @class in classes)
+            {
+                @class.Items = new List<ClassItem>();
+                for (var i = 0; i < schedulerItems.Count; i++)
                 {
-                    classes.First(r => r.Day == scheduled.Key).Items.Remove(classes.First(r => r.Day == scheduled.Key).Items.First(r => item.Order == r.Order));
-                    classes.First(r => r.Day == scheduled.Key).Items.Add(item);
+                    var currentDate = this.getDay(startWeekDate, @class.Day);
+                    var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
+
+                    @class.Items.Add(new ClassItem
+                    {
+                            Order = i,
+                            IsEmpty = true,
+                            ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
+                            IsBlocked = isBlocked
+                    });
                 }
             }
-        }
 
-        foreach (var @class in classes)
+            var scheduledClassesAll = Repository.Query<Class>();
+
+            if (selectedGroupId.HasValue)
+                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == selectedGroupId.Value && r.Week == Week);
+
+            if (selectedAuditoriumId.HasValue)
+                scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == selectedAuditoriumId && r.Week == Week);
+
+            if (selectedTeacherId.HasValue)
+                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == selectedTeacherId && r.Week == Week);
+
+            var scheduledClasses = scheduledClassesAll
+                                   .Select(r => new ClassItem
+                                   {
+                                           Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
+                                           DisciplinePlanId = r.DisciplinePlanId,
+                                           TeacherId = r.Plan.TeacherId,
+                                           Teacher = r.Plan.Teacher.ShortName,
+                                           Department = r.Plan.SubDiscipline.Discipline.Department.Name,
+                                           DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
+                                           DisciplineId = r.Plan.SubDiscipline.DisciplineId,
+                                           Discipline = r.Plan.SubDiscipline.Discipline.Name,
+                                           DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
+                                           SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
+                                           SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
+                                           SubDisciplineId = r.Plan.SubDiscipline.Id,
+                                           SubGroupNo = r.SubGroupNo,
+                                           HasSubGroups = r.SubGroupNo > 0,
+                                           GroupId = r.Plan.GroupId,
+                                           Group = r.Plan.Group.Code,
+                                           Day = r.Day,
+                                           Order = r.ScheduleFormat.Order,
+                                           IsEmpty = false,
+                                           ScheduleFormatId = r.ScheduleFormatId,
+                                           Id = r.Id,
+                                           AuditoriumId = r.AuditoriumId,
+                                           Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
+                                           IsGroup = selectedGroupId.HasValue,
+                                           IsAuditorium = selectedAuditoriumId.HasValue,
+                                           IsTeacher = selectedTeacherId.HasValue,
+                                           StudentCount = r.Plan.Group.StudentCount
+                                   })
+                                   .ToList()
+                                   .GroupBy(r => r.Day)
+                                   .ToList();
+
+            foreach (var scheduled in scheduledClasses)
+            {
+                foreach (var item in scheduled)
+                {
+                    if (!classes.Any(r => r.Day == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
+                        continue;
+                    {
+                        classes.First(r => r.Day == scheduled.Key).Items.Remove(classes.First(r => r.Day == scheduled.Key).Items.First(r => item.Order == r.Order));
+                        classes.First(r => r.Day == scheduled.Key).Items.Add(item);
+                    }
+                }
+            }
+
+            foreach (var @class in classes)
+            {
+                @class.Items = @class.Items.OrderBy(r => r.Order).ToList();
+            }
+
+            classes = classes.OrderBy(r => r.Day).ToList();
+
+            return classes;
+        }
+        else
         {
-            @class.Items = @class.Items.OrderBy(r => r.Order).ToList();
+            var schedulerItems = Repository.Query<ScheduleFormat>()
+                                           .Where(s => s.FacultyId == FacultyId)
+                                           .OrderBy(s => s.Order)
+                                           .Select(s => new AddOrEditScheduleFormatCommand.ScheduleItem
+                                           {
+                                                   Start = s.Start,
+                                                   End = s.End,
+                                                   Order = s.Order,
+                                                   Id = s.Id
+                                           })
+                                           .ToList();
+
+            var startWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { FacultyId = FacultyId, Week = Week });
+            var weekends = Dispatcher.Query(new GetWeekendsForWeekQuery
+            {
+                    FacultyId = FacultyId,
+                    StartDate = startWeekDate
+            });
+
+            var items = new List<int?>();
+            typeOf? type = null;
+
+            if (SelectedGroupIds.First() != null && SelectedGroupIds.Length > 0)
+            {
+                items = SelectedGroupIds.ToList();
+                type = typeOf.Groups;
+            }
+
+            if (SelectedAuditoriumIds.First() != null && SelectedAuditoriumIds.Length > 0)
+            {
+                items = SelectedAuditoriumIds.ToList();
+                type = typeOf.Auditoriums;
+            }
+
+            if (SelectedTeacherIds.First() != null && SelectedTeacherIds.Length > 0)
+            {
+                items = SelectedTeacherIds.ToList();
+                type = typeOf.Teachers;
+            }
+
+            var classes = new List<Response>();
+            for (int i = 0; i < items.Count; i++)
+                classes.Add(new Response { Id = items[i] });
+
+            foreach (var @class in classes)
+            {
+                switch (type)
+                {
+                    case typeOf.Groups:
+                        @class.DayString = Repository.GetById<Group>(@class.Id).Code;
+                        @class.Items = new List<ClassItem>();
+                        for (var i = 0; i < schedulerItems.Count; i++)
+                        {
+                            var currentDate = this.getDay(startWeekDate, Day!.Value);
+                            var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
+
+                            @class.Items.Add(new ClassItem
+                            {
+                                    Order = i,
+                                    IsEmpty = true,
+                                    ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
+                                    IsBlocked = isBlocked
+                            });
+                        }
+
+                        break;
+
+                    case typeOf.Auditoriums:
+
+                        break;
+
+                    case typeOf.Teachers:
+
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            var scheduledClassesAll = Repository.Query<Class>();
+            switch (type)
+            {
+                case typeOf.Groups:
+                    scheduledClassesAll = scheduledClassesAll.Where(r => SelectedGroupIds.Contains(r.Plan.GroupId)
+                                                                      && r.Week == Week
+                                                                      && r.Day == Day);
+
+                    break;
+
+                case typeOf.Auditoriums:
+                    scheduledClassesAll = scheduledClassesAll.Where(r => SelectedAuditoriumIds.Contains(r.AuditoriumId)
+                                                                      && r.Week == Week
+                                                                      && r.Day == Day);
+
+                    break;
+
+                case typeOf.Teachers:
+                    scheduledClassesAll = scheduledClassesAll.Where(r => SelectedTeacherIds.Contains(r.Plan.TeacherId)
+                                                                      && r.Week == Week
+                                                                      && r.Day == Day);
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            var scheduledClasses = scheduledClassesAll
+                                   .Select(r => new ClassItem
+                                   {
+                                           Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
+                                           DisciplinePlanId = r.DisciplinePlanId,
+                                           TeacherId = r.Plan.TeacherId,
+                                           Teacher = r.Plan.Teacher.ShortName,
+                                           Department = r.Plan.SubDiscipline.Discipline.Department.Name,
+                                           DepartmentCode = r.Plan.SubDiscipline.Discipline.Department.Code,
+                                           DisciplineId = r.Plan.SubDiscipline.DisciplineId,
+                                           Discipline = r.Plan.SubDiscipline.Discipline.Name,
+                                           DisciplineCode = r.Plan.SubDiscipline.Discipline.Code,
+                                           SubDisciplineCode = r.Plan.SubDiscipline.Kind.Code,
+                                           SubDiscipline = r.Plan.SubDiscipline.Kind.Name,
+                                           SubDisciplineId = r.Plan.SubDiscipline.Id,
+                                           SubGroupNo = r.SubGroupNo,
+                                           HasSubGroups = r.SubGroupNo > 0,
+                                           GroupId = r.Plan.GroupId,
+                                           Group = r.Plan.Group.Code,
+                                           Day = r.Day,
+                                           Order = r.ScheduleFormat.Order,
+                                           IsEmpty = false,
+                                           ScheduleFormatId = r.ScheduleFormatId,
+                                           Id = r.Id,
+                                           AuditoriumId = r.AuditoriumId,
+                                           Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
+                                           IsGroup = type == typeOf.Groups,
+                                           IsAuditorium = type == typeOf.Auditoriums,
+                                           IsTeacher = type == typeOf.Teachers,
+                                           StudentCount = r.Plan.Group.StudentCount
+                                   })
+                                   .ToList()
+                                   .GroupBy(r => type switch
+                                   {
+                                           typeOf.Groups => r.Group,
+                                           typeOf.Auditoriums => r.Auditorium,
+                                           typeOf.Teachers => r.Teacher,
+                                           _ => throw new ArgumentOutOfRangeException()
+                                   })
+                                   .ToList();
+
+            foreach (var scheduled in scheduledClasses)
+            {
+                //switch (type)
+                //{
+                //    case typeOf.Groups:
+                foreach (var item in scheduled)
+                {
+                    if (!classes.Any(r => r.DayString == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
+                        continue;
+                    {
+                        classes.First(r => r.DayString == scheduled.Key).Items.Remove(classes.First(r => r.DayString == scheduled.Key).Items.First(r => item.Order == r.Order));
+                        classes.First(r => r.DayString == scheduled.Key).Items.Add(item);
+                    }
+                }
+
+                //        break;
+
+                //    case typeOf.Auditoriums:
+
+                //        break;
+
+                //    case typeOf.Teachers:
+
+                //      break;
+
+                //    default:
+                //        break;
+                //}
+            }
+
+            foreach (var @class in classes)
+            {
+                @class.Items = @class.Items.OrderBy(r => r.Order).ToList();
+            }
+
+            classes = classes.OrderBy(r => r.DayString).ToList();
+
+            return classes;
         }
 
-        classes = classes.OrderBy(r => r.Day).ToList();
+        return null;
+    }
 
-        return classes;
+    private enum typeOf
+    {
+        Groups,
+
+        Auditoriums,
+
+        Teachers
     }
 
     public class Response
@@ -149,6 +360,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         public DayOfWeek Day { get; set; }
 
         public List<ClassItem> Items { get; set; }
+
+        public int? Id { get; set; }
     }
 
     public class ClassItem

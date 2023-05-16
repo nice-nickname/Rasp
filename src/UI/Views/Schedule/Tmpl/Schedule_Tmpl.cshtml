@@ -4,7 +4,7 @@
 
 @using (var template = Html.Incoding().Template<GetScheduleByWeekQuery.Response>())
 {
-    <div class="d-flex gap-2 s-row">
+    <div class="d-flex gap-2 s-row flex-0">
         <div class="column-header row-header flex-shrink-0"></div>
         @for (int i = 0; i < scheduleFormat.ItemsCount; i++)
         {

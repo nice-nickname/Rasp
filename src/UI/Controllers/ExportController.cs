@@ -54,13 +54,14 @@ public class ExportController : Controller
             facultyId = faculties.First().Id;
             return NotFound();
         }
+
         var result = this._dispatcher.Query(new GetScheduleByWeekQuery
         {
                 Week = week.GetValueOrDefault(1),
                 FacultyId = facultyId,
-                SelectedAuditoriumId = type == GetExportSearchQuery.OfType.AUDITORIUM ? id : null,
-                SelectedTeacherId = type == GetExportSearchQuery.OfType.TEACHER ? id : null,
-                SelectedGroupId = type == GetExportSearchQuery.OfType.GROUP ? id : null,
+                SelectedAuditoriumIds = type == GetExportSearchQuery.OfType.AUDITORIUM ? new int?[] { id } : null,
+                SelectedTeacherIds = type == GetExportSearchQuery.OfType.TEACHER ? new int?[] { id } : null,
+                SelectedGroupIds = type == GetExportSearchQuery.OfType.GROUP ? new int?[] { id } : null,
         });
         var format = this._dispatcher.Query(new GetScheduleFormatQuery
         {

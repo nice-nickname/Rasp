@@ -4,6 +4,8 @@ namespace UI.Common.Models;
 
 public class DropdownModel
 {
+    public string Id { get; set; }
+
     public string Classes { get; set; }
 
     public ButtonSettings? Button { get; set; }
