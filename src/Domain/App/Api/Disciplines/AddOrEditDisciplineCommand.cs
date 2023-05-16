@@ -1,9 +1,10 @@
-﻿using Domain.Persistence;
+﻿using System.Data;
+using Domain.App.Common;
+using Domain.Persistence;
 using Domain.Persistence.Specification;
 using FluentValidation;
 using Incoding.Core.CQRS.Core;
 using Resources;
-using System.Numerics;
 
 namespace Domain.Api;
 
@@ -41,6 +42,7 @@ public class AddOrEditDisciplineCommand : CommandBase
         var disciplineGroups = Repository.Query(new DisciplineGroups.Where.ByDiscipline(discipline.Id))
                                          .Select(s => s.Id)
                                          .Cast<object>();
+
         if (disciplineGroups.Any())
         {
             Repository.DeleteByIds<DisciplineGroups>(disciplineGroups);
@@ -54,6 +56,9 @@ public class AddOrEditDisciplineCommand : CommandBase
                     DisciplineId = discipline.Id
             });
         }
+
+        var bulkInsertDataTable = Dispatcher.Query(new PrepareDisciplinePlanByWeekDataTableQuery());
+        var rows = new List<DataRow>();
 
         foreach (var sd in SubDisciplines)
         {
@@ -174,17 +179,23 @@ public class AddOrEditDisciplineCommand : CommandBase
                     actualPlan = sd.Plans.First(s => s.GroupId == plan.GroupId);
                 }
 
-                foreach (var planWeek in actualPlan.WeekItems)
-                {
-                    Repository.Save(new DisciplinePlanByWeek
-                    {
-                            DisciplinePlanId = planItem.Id,
-                            AssignmentHours = planWeek.Hours,
-                            Week = planWeek.Week
-                    });
-                }
+                rows.AddRange(actualPlan.WeekItems
+                                        .Select(s =>
+                                        {
+                                            var row = bulkInsertDataTable.NewRow();
+                                            row[nameof(DisciplinePlanByWeek.DisciplinePlanId)] = planItem.Id;
+                                            row[nameof(DisciplinePlanByWeek.AssignmentHours)] = s.Hours;
+                                            row[nameof(DisciplinePlanByWeek.Week)] = s.Week;
+                                            return row;
+                                        }));
             }
         }
+
+        Dispatcher.Push(new BulkInsertCommand
+        {
+                Table = bulkInsertDataTable,
+                Rows = rows
+        });
     }
 
     public record SubDisciplineItem
