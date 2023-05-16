@@ -8,9 +8,9 @@ public class SqlBulkInsertProvider : IBulkInserterProvider
 {
     private readonly string _connectionString;
 
-    private readonly string _user;
-
     private readonly SecureString _password;
+
+    private readonly string _user;
 
     public SqlBulkInsertProvider(string connectionString)
     {
@@ -21,6 +21,7 @@ public class SqlBulkInsertProvider : IBulkInserterProvider
         {
             this._password.AppendChar(c);
         }
+
         this._password.MakeReadOnly();
         cb.Remove("User");
         cb.Remove("UserID");

@@ -26,6 +26,7 @@ public class SqlBulkInserter : IBulkInserter
 
             copy.ColumnMappings.Add(col.ColumnName, col.ColumnName);
         }
+
         copy.WriteToServer(table);
     }
 

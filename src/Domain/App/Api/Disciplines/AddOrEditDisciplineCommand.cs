@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Domain.App.Common;
+﻿using Domain.App.Common;
 using Domain.Persistence;
 using Domain.Persistence.Specification;
 using FluentValidation;
@@ -57,8 +56,7 @@ public class AddOrEditDisciplineCommand : CommandBase
             });
         }
 
-        var bulkInsertDataTable = Dispatcher.Query(new PrepareDisciplinePlanByWeekDataTableQuery());
-        var rows = new List<DataRow>();
+        var weekItems = new List<DisciplinePlanByWeek>();
 
         foreach (var sd in SubDisciplines)
         {
@@ -179,22 +177,19 @@ public class AddOrEditDisciplineCommand : CommandBase
                     actualPlan = sd.Plans.First(s => s.GroupId == plan.GroupId);
                 }
 
-                rows.AddRange(actualPlan.WeekItems
-                                        .Select(s =>
-                                        {
-                                            var row = bulkInsertDataTable.NewRow();
-                                            row[nameof(DisciplinePlanByWeek.DisciplinePlanId)] = planItem.Id;
-                                            row[nameof(DisciplinePlanByWeek.AssignmentHours)] = s.Hours;
-                                            row[nameof(DisciplinePlanByWeek.Week)] = s.Week;
-                                            return row;
-                                        }));
+                weekItems.AddRange(actualPlan.WeekItems
+                                             .Select(s => new DisciplinePlanByWeek
+                                             {
+                                                     AssignmentHours = s.Hours,
+                                                     DisciplinePlanId = planItem.Id,
+                                                     Week = s.Week
+                                             }));
             }
         }
 
-        Dispatcher.Push(new BulkInsertCommand
+        Dispatcher.Push(new BulkInsertDisciplinePlanByWeekCommand
         {
-                Table = bulkInsertDataTable,
-                Rows = rows
+                Rows = weekItems
         });
     }
 
