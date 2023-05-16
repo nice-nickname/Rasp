@@ -200,33 +200,37 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                 {
                     case typeOf.Groups:
                         @class.DayString = Repository.GetById<Group>(@class.Id).Code;
-                        @class.Items = new List<ClassItem>();
-                        for (var i = 0; i < schedulerItems.Count; i++)
-                        {
-                            var currentDate = this.getDay(startWeekDate, Day!.Value);
-                            var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
-
-                            @class.Items.Add(new ClassItem
-                            {
-                                    Order = i,
-                                    IsEmpty = true,
-                                    ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
-                                    IsBlocked = isBlocked
-                            });
-                        }
 
                         break;
 
                     case typeOf.Auditoriums:
+                        var auditorium = Repository.GetById<Auditorium>(@class.Id);
+                        @class.DayString = $"{auditorium.Building.Name}-{auditorium.Code}";
 
                         break;
 
                     case typeOf.Teachers:
+                        @class.DayString = Repository.GetById<Teacher>(@class.Id).ShortName;
 
                         break;
 
                     default:
                         break;
+                }
+
+                @class.Items = new List<ClassItem>();
+                for (var i = 0; i < schedulerItems.Count; i++)
+                {
+                    var currentDate = this.getDay(startWeekDate, Day!.Value);
+                    var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
+
+                    @class.Items.Add(new ClassItem
+                    {
+                            Order = i,
+                            IsEmpty = true,
+                            ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
+                            IsBlocked = isBlocked
+                    });
                 }
             }
 
@@ -292,41 +296,24 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                    .ToList()
                                    .GroupBy(r => type switch
                                    {
-                                           typeOf.Groups => r.Group,
-                                           typeOf.Auditoriums => r.Auditorium,
-                                           typeOf.Teachers => r.Teacher,
+                                           typeOf.Groups => r.GroupId,
+                                           typeOf.Auditoriums => r.AuditoriumId,
+                                           typeOf.Teachers => r.TeacherId,
                                            _ => throw new ArgumentOutOfRangeException()
                                    })
                                    .ToList();
 
             foreach (var scheduled in scheduledClasses)
             {
-                //switch (type)
-                //{
-                //    case typeOf.Groups:
                 foreach (var item in scheduled)
                 {
-                    if (!classes.Any(r => r.DayString == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
+                    if (!classes.Any(r => r.Id == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
                         continue;
                     {
-                        classes.First(r => r.DayString == scheduled.Key).Items.Remove(classes.First(r => r.DayString == scheduled.Key).Items.First(r => item.Order == r.Order));
-                        classes.First(r => r.DayString == scheduled.Key).Items.Add(item);
+                        classes.First(r => r.Id == scheduled.Key).Items.Remove(classes.First(r => r.Id == scheduled.Key).Items.First(r => item.Order == r.Order));
+                        classes.First(r => r.Id == scheduled.Key).Items.Add(item);
                     }
                 }
-
-                //        break;
-
-                //    case typeOf.Auditoriums:
-
-                //        break;
-
-                //    case typeOf.Teachers:
-
-                //      break;
-
-                //    default:
-                //        break;
-                //}
             }
 
             foreach (var @class in classes)
