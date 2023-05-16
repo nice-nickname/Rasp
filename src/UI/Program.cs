@@ -22,6 +22,7 @@ using System.Globalization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using UI.Infrastructure.ModelBinders;
@@ -34,6 +35,11 @@ public static class Startup
     {
         builder.Configuration.AddJsonFile("dbconfig.json", false, true);
         builder.Configuration.AddJsonFile("azureconfig.json", false, true);
+
+        builder.Services.Configure<FormOptions>(o =>
+        {
+            o.ValueCountLimit = 10000;
+        });
 
         builder.Services
                .AddAuthentication(o =>

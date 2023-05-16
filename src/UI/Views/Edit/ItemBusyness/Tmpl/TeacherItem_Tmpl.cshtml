@@ -55,12 +55,17 @@
                           })
                           .When(JqueryBind.None)
                           .StopPropagation()
-                          .Ajax<MarkTeacherPreferencesCommand>(new
+                          .Ajax(o =>
                           {
-                              ScheduleFormatId = busyness.For(s => s.ScheduleItemId),
-                              TeacherId = Selector.Jquery.Name("Teacher").Val(),
-                              Type = Selector.Jquery.Self(),
-                              Day = Selector.Jquery.Self().Closest(s => s.Role("row")).Find(c => c.Name("Day")).Val()
+                              o.Type = JqueryAjaxOptions.HttpVerbs.Post;
+                              o.Url = Url.Dispatcher().Push<MarkTeacherPreferencesCommand>(new
+                              {
+                                  ScheduleFormatId = busyness.For(s => s.ScheduleItemId),
+                                  TeacherId = Selector.Jquery.Name("Teacher").Val(),
+                                  Type = Selector.Jquery.Self(),
+                                  Day = Selector.Jquery.Self().Closest(s => s.Role("row")).Find(c => c.Name("Day")).Val()
+                              });
+                              o.Global = false;
                           })
                           .AsHtmlAttributes(classes: $"btn btn-light preferences-button w-100 shadow rounded d-flex align-items-center justify-content-center")
                           .ToDiv(@<text>
