@@ -6,8 +6,6 @@ namespace Domain.Api;
 
 public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
 {
-    public int Capacity { get; set; }
-
     public int Week { get; set; }
 
     public int Order { get; set; }
@@ -38,9 +36,14 @@ public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
                                              .Select(r => r.AuditoriumId)
                                              .ToList();
 
+        var capacity = Repository.Query<Class>()
+                                 .ToList()
+                                 .Where(r => r.Plan.SubDisciplineId == SubDisciplineId)
+                                 .Sum(r => r.Plan.Group.StudentCount);
+
         return Repository.Query<Auditorium>()
                          .ToList()
-                         .Where(r => (r.Capacity >= Capacity
+                         .Where(r => (r.Capacity >= capacity
                                    && (preferredKindIds.Count <= 0 || r.Kinds.Select(q => q.Id).Intersect(preferredKindIds).Any()))
                                   || preferredAuditoriumIds.Contains(r.Id))
                          .Select(r => new KeyValueVm

@@ -2,6 +2,7 @@
 
 <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @(Model.NotInline(r => r.AuditoriumId, "class-card-warning"))" role="drag-element" name="card">
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
+    @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), Model.For(r => r.SubDisciplineId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
     @Html.Hidden(nameof(SaveScheduleCommand.Id), Model.For(r => r.Id))
     @Html.Hidden(nameof(SaveScheduleCommand.TeacherId), Model.For(r => r.TeacherId))
@@ -71,7 +72,6 @@
                    {
                        settings.Url = Url.Dispatcher().Query<GetAuditoriumsScheduleForDDQuery>(new
                        {
-                           Capacity = Model.For(r => r.StudentCount),
                            Week = Selector.Jquery.Name<GetAuditoriumsScheduleForDDQuery>(r => r.Week),
                            Day = Model.For(r => r.Day),
                            Order = Model.For(r => r.Order),
