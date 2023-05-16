@@ -12,7 +12,7 @@ public class GetAuditoriumsForSelectQuery : QueryBase<List<DropDownItem>>
     {
         SelectedIds ??= new List<int>();
         return Repository.Query<Auditorium>()
-                         .Select(s => new DropDownItem(s.Id, s.Code, SelectedIds.Contains(s.Id), s.Building.Name, s.Department.Code))
+                         .Select(s => new DropDownItem(s.Id, $"{s.Building.Name}-{s.Code}", SelectedIds.Contains(s.Id), s.Building.Name, s.Department.Code))
                          .ToList();
     }
 }

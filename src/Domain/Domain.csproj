@@ -9,13 +9,10 @@
   <ItemGroup>
     <Compile Remove="App\Api\Busyness\**" />
     <Compile Remove="App\Export\**" />
-    <Compile Remove="Infrastructure\**" />
     <EmbeddedResource Remove="App\Api\Busyness\**" />
     <EmbeddedResource Remove="App\Export\**" />
-    <EmbeddedResource Remove="Infrastructure\**" />
     <None Remove="App\Api\Busyness\**" />
     <None Remove="App\Export\**" />
-    <None Remove="Infrastructure\**" />
   </ItemGroup>
 
   <ItemGroup>

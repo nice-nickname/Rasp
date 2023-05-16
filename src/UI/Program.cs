@@ -19,9 +19,12 @@ using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using NUglify.JavaScript;
 using System.Globalization;
+using Domain.Infrastructure;
+using Domain.Infrastructure.Providers;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using UI.Infrastructure.ModelBinders;
@@ -34,6 +37,15 @@ public static class Startup
     {
         builder.Configuration.AddJsonFile("dbconfig.json", false, true);
         builder.Configuration.AddJsonFile("azureconfig.json", false, true);
+
+        var connectionString = builder.Configuration["ConnectionString"];
+
+        builder.Services.Configure<FormOptions>(o =>
+        {
+            o.ValueCountLimit = 100_000;
+        });
+
+        builder.Services.AddTransient<IBulkInserterProvider>(p => new SqlBulkInsertProvider(connectionString));
 
         builder.Services
                .AddAuthentication(o =>
@@ -64,7 +76,7 @@ public static class Startup
         builder.Services
                .AddFluentMigratorCore()
                .ConfigureRunner(r => r.AddSqlServer2012()
-                                      .WithGlobalConnectionString(builder.Configuration["ConnectionString"])
+                                      .WithGlobalConnectionString(connectionString)
                                       .ScanIn(typeof(Bootstrap).Assembly).For.Migrations());
 
         builder.Services.AddRouting();
@@ -94,7 +106,7 @@ public static class Startup
                                                          null,
                                                          fluentConfig =>
                                                          {
-                                                             var db = MsSqlConfiguration.MsSql2012.ConnectionString(builder.Configuration["ConnectionString"]).ShowSql();
+                                                             var db = MsSqlConfiguration.MsSql2012.ConnectionString(connectionString).ShowSql();
                                                              fluentConfig = fluentConfig.Database(db)
                                                                                         .Mappings(m => m.FluentMappings.AddFromAssembly(typeof(Bootstrap).Assembly))
                                                                                         .ExposeConfiguration(c => SchemaMetadataUpdater.QuoteTableAndColumns(c, new MsSql2012Dialect()));
@@ -210,7 +222,7 @@ public static class Startup
            .ServiceProvider
            .GetRequiredService<IMigrationRunner>()
            .MigrateUp();
-
+        
         IoCFactory.Instance.Initialize(ioc => ioc.WithProvider(new MSDependencyInjectionIoCProvider(app.Services)));
         CachingFactory.Instance.Initialize(cache => cache.WithProvider(new NetCachedProvider(() => app.Services.GetRequiredService<IMemoryCache>())));
 
