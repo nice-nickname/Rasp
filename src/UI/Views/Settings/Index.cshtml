@@ -21,15 +21,19 @@
     {
         dsl.WithName(addNewButtonName).JQuery.Dom.Remove();
         dsl.WithId(addNewButtonDivId).Insert.Use(@<text>
-                                                     @(Html.When(JqueryBind.Click)
-                                                           .Ajax(url)
-                                                           .OnSuccess(inDsl => inDsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
-                                                           .AsHtmlAttributes(new
-                                                           {
-                                                               @class = "btn btn-light flex-grow-1",
-                                                               name = addNewButtonName
-                                                           })
-                                                           .ToButton(DataResources.Add))
+                                                     @using (Html.When(JqueryBind.Click)
+                                                                 .Ajax(url)
+                                                                 .OnSuccess(inDsl => inDsl.WithId(GlobalSelectors.EditAreaId).Insert.Html())
+                                                                 .AsHtmlAttributes(new
+                                                                 {
+                                                                     @class = "btn btn-light flex-grow-1",
+                                                                     name = addNewButtonName
+                                                                 })
+                                                                 .ToBeginTag(HtmlTag.Button))
+                                                     {
+                                                         <span class="material-symbols-rounded">add</span>
+                                                         @DataResources.Add
+                                                     }
                                                   </text>)
            .Html();
     };
@@ -138,14 +142,11 @@
                 <span class="material-symbols-rounded addon-r">search</span>
             </div>
 
-            <div class="btn btn-light flex-shrink-0 disabled">
-                @DataResources.Filter
-            </div>
-        </div>
-
-        <div id="@addNewButtonDivId" class="d-flex">
-            <div class="btn btn-light flex-grow-1 disabled">
-                @DataResources.Add
+            <div id="@addNewButtonDivId" class="d-flex">
+                <div class="btn btn-light flex-grow-1 disabled">
+                    <span class="material-symbols-rounded">add</span>
+                    @DataResources.Add
+                </div>
             </div>
         </div>
 
