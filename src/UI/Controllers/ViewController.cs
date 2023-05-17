@@ -1,4 +1,5 @@
 ﻿using Domain.Api;
+using Domain.Common;
 using Incoding.Core.CQRS.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

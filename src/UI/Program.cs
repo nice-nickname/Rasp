@@ -43,6 +43,7 @@ public static class Startup
             o.ValueCountLimit = 100_000;
         });
 
+        builder.Services.AddScoped<IViewRenderer, AspNetCoreViewRenderer>();
         builder.Services.AddTransient<IBulkInserterProvider>(_ => new SqlBulkInsertProvider(connectionString));
 
         builder.Services

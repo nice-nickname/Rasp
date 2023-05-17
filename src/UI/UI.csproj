@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Models\Pages\" />
     <Folder Include="Infrastructure\ModelBinders\Binders\" />
     <Folder Include="Infrastructure\ModelBinders\Providers\" />
     <Folder Include="Views\Settings\Weekends\" />
@@ -44,6 +43,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\Department\Tmpl\Item_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\Discipline\Tmpl\GroupsItem_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Tmpl\TeacherItem_Tmpl.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Export\ExportPage.cshtml" />
     <_ContentIncludedByDefault Remove="Views\View\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Settings\Faculty\AddOrEdit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Settings\Faculty\Tmpl\Department_Tmpl.cshtml" />
@@ -173,6 +173,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Shared\Toast_Tmpl.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Export\ExportPage.cshtml" />
   </ItemGroup>
 
 
