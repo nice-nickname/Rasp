@@ -10,94 +10,203 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
     public int Week { get; set; }
 
-    public int? SelectedGroupId { get; set; }
+    public int?[] SelectedGroupIds { get; set; }
 
-    public int? SelectedAuditoriumId { get; set; }
+    public int?[] SelectedAuditoriumIds { get; set; }
 
-    public int? SelectedTeacherId { get; set; }
+    public int?[] SelectedTeacherIds { get; set; }
 
     protected override List<Response> ExecuteResult()
     {
         var res = new List<Response>();
 
-        var scheduledAll = Repository.Query<Class>()
-                                     .Where(r => r.Week == Week && r.ScheduleFormat.FacultyId == FacultyId);
-        var disciplinePlansAll = Repository.Query<DisciplinePlan>();
-
-        if (SelectedGroupId.HasValue)
+        if (SelectedTeacherIds.Length <= 1 && SelectedAuditoriumIds.Length <= 1 && SelectedGroupIds.Length <= 1)
         {
-            scheduledAll = scheduledAll.Where(r => r.Plan.GroupId == SelectedGroupId);
-            disciplinePlansAll = disciplinePlansAll.Where(r => r.GroupId == SelectedGroupId);
-        }
+            var scheduledAll = Repository.Query<Class>()
+                                         .Where(r => r.Week == Week && r.ScheduleFormat.FacultyId == FacultyId);
+            var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
-        if (SelectedAuditoriumId.HasValue)
-        {
-            scheduledAll = scheduledAll.Where(r => r.AuditoriumId == SelectedAuditoriumId);
-        }
-
-        if (SelectedTeacherId.HasValue)
-        {
-            scheduledAll = scheduledAll.Where(r => r.Plan.TeacherId == SelectedTeacherId);
-            disciplinePlansAll = disciplinePlansAll.Where(r => r.TeacherId == SelectedTeacherId);
-        }
-
-        var scheduled = scheduledAll.Select(r => new
-                                    {
-                                            r.DisciplinePlanId,
-                                            r.SubGroupNo,
-                                            r.Plan.GroupId
-                                    })
-                                    .ToList();
-
-        var disciplinePlans = disciplinePlansAll.ToList();
-
-        foreach (var disciplinePlan in disciplinePlans)
-        {
-            var countToCreate = disciplinePlan.WeekAssignments.FirstOrDefault(s => s.Week == Week)!.AssignmentHours;
-            var subGroupCount = disciplinePlan.SubGroupsCount;
-
-            for (var i = 0; i < subGroupCount; i++)
+            if (SelectedGroupIds.FirstOrDefault() != null)
             {
-                var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
-                var scheduledBySubGroupCount = scheduled.Count(r => r.DisciplinePlanId == disciplinePlan.Id
-                                                                 && r.SubGroupNo == subGroupNo
-                                                                 && r.GroupId == disciplinePlan.GroupId);
+                scheduledAll = scheduledAll.Where(r => r.Plan.GroupId == SelectedGroupIds.FirstOrDefault());
+                disciplinePlansAll = disciplinePlansAll.Where(r => r.GroupId == SelectedGroupIds.FirstOrDefault());
+            }
 
-                for (var j = 0; j < countToCreate; j++)
+            if (SelectedTeacherIds.FirstOrDefault() != null)
+            {
+                scheduledAll = scheduledAll.Where(r => r.Plan.TeacherId == SelectedTeacherIds.FirstOrDefault());
+                disciplinePlansAll = disciplinePlansAll.Where(r => r.TeacherId == SelectedTeacherIds.FirstOrDefault());
+            }
+
+            var scheduled = scheduledAll.Select(r => new
+                                        {
+                                                r.DisciplinePlanId,
+                                                r.SubGroupNo,
+                                                r.Plan.GroupId
+                                        })
+                                        .ToList();
+
+            var disciplinePlans = disciplinePlansAll.ToList();
+
+            foreach (var disciplinePlan in disciplinePlans)
+            {
+                var countToCreate = disciplinePlan.WeekAssignments.FirstOrDefault(s => s.Week == Week)!.AssignmentHours;
+                var subGroupCount = disciplinePlan.SubGroupsCount;
+
+                for (var i = 0; i < subGroupCount; i++)
                 {
-                    if (scheduledBySubGroupCount == countToCreate)
-                        break;
+                    var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
+                    var scheduledBySubGroupCount = scheduled.Count(r => r.DisciplinePlanId == disciplinePlan.Id
+                                                                     && r.SubGroupNo == subGroupNo
+                                                                     && r.GroupId == disciplinePlan.GroupId);
 
-                    res.Add(new Response
+                    for (var j = 0; j < countToCreate; j++)
                     {
-                            SubDisciplineId = disciplinePlan.SubDiscipline.Id,
-                            DisciplineId = disciplinePlan.SubDiscipline.DisciplineId,
-                            GroupId = disciplinePlan.GroupId,
-                            TeacherId = disciplinePlan.TeacherId,
-                            SubGroupNo = subGroupNo,
-                            Discipline = disciplinePlan.SubDiscipline.Discipline.Name,
-                            DisciplineCode = disciplinePlan.SubDiscipline.Discipline.Code,
-                            SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,
-                            Group = disciplinePlan.Group.Code,
-                            Teacher = disciplinePlan.Teacher.ShortName,
-                            Department = disciplinePlan.Teacher.Department.Name,
-                            DepartmentCode = disciplinePlan.Teacher.Department.Code,
-                            Color = disciplinePlan.SubDiscipline.Kind.Color.ToHex(),
-                            SubDisciplineCode = disciplinePlan.SubDiscipline.Kind.Code,
-                            HasSubGroups = subGroupCount != 1,
-                            DisciplinePlanId = disciplinePlan.Id,
-                            IsGroup = SelectedGroupId.HasValue,
-                            IsAuditorium = SelectedAuditoriumId.HasValue,
-                            IsTeacher = SelectedTeacherId.HasValue,
-                            AuditoriumId = SelectedAuditoriumId
-                    });
+                        if (scheduledBySubGroupCount == countToCreate)
+                            break;
 
-                    scheduledBySubGroupCount++;
+                        res.Add(new Response
+                        {
+                                SubDisciplineId = disciplinePlan.SubDiscipline.Id,
+                                DisciplineId = disciplinePlan.SubDiscipline.DisciplineId,
+                                GroupId = disciplinePlan.GroupId,
+                                TeacherId = disciplinePlan.TeacherId,
+                                SubGroupNo = subGroupNo,
+                                Discipline = disciplinePlan.SubDiscipline.Discipline.Name,
+                                DisciplineCode = disciplinePlan.SubDiscipline.Discipline.Code,
+                                SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,
+                                Group = disciplinePlan.Group.Code,
+                                Teacher = disciplinePlan.Teacher.ShortName,
+                                Department = disciplinePlan.Teacher.Department.Name,
+                                DepartmentCode = disciplinePlan.Teacher.Department.Code,
+                                Color = disciplinePlan.SubDiscipline.Kind.Color.ToHex(),
+                                SubDisciplineCode = disciplinePlan.SubDiscipline.Kind.Code,
+                                HasSubGroups = subGroupCount != 1,
+                                DisciplinePlanId = disciplinePlan.Id,
+                                IsGroup = SelectedGroupIds.FirstOrDefault() != null,
+                                IsAuditorium = SelectedAuditoriumIds.FirstOrDefault() != null,
+                                IsTeacher = SelectedTeacherIds.FirstOrDefault() != null,
+                                AuditoriumId = SelectedAuditoriumIds.FirstOrDefault()
+                        });
+
+                        scheduledBySubGroupCount++;
+                    }
+                }
+            }
+        }
+        else
+        {
+            var scheduledAll = Repository.Query<Class>()
+                                         .Where(r => r.Week == Week && r.ScheduleFormat.FacultyId == FacultyId);
+            var disciplinePlansAll = Repository.Query<DisciplinePlan>();
+
+            var items = new List<int?>();
+            typeOf? type = null;
+
+            if (SelectedGroupIds.First() != null && SelectedGroupIds.Length > 1)
+            {
+                items = SelectedGroupIds.ToList();
+                type = typeOf.Groups;
+            }
+
+            if (SelectedAuditoriumIds.First() != null && SelectedAuditoriumIds.Length > 1)
+            {
+                items = SelectedAuditoriumIds.ToList();
+                type = typeOf.Auditoriums;
+            }
+
+            if (SelectedTeacherIds.First() != null && SelectedTeacherIds.Length > 1)
+            {
+                items = SelectedTeacherIds.ToList();
+                type = typeOf.Teachers;
+            }
+
+            switch (type)
+            {
+                case typeOf.Groups:
+                    scheduledAll = scheduledAll.Where(r => items.Contains(r.Plan.GroupId));
+                    disciplinePlansAll = disciplinePlansAll.Where(r => items.Contains(r.GroupId));
+
+                    break;
+
+                case typeOf.Auditoriums:
+
+                    break;
+
+                case typeOf.Teachers:
+                    scheduledAll = scheduledAll.Where(r => items.Contains(r.Plan.TeacherId));
+                    disciplinePlansAll = disciplinePlansAll.Where(r => items.Contains(r.TeacherId));
+
+                    break;
+            }
+
+            var scheduled = scheduledAll.Select(r => new
+                                        {
+                                                r.DisciplinePlanId,
+                                                r.SubGroupNo,
+                                                r.Plan.GroupId
+                                        })
+                                        .ToList();
+
+            var disciplinePlans = disciplinePlansAll.ToList();
+
+            foreach (var disciplinePlan in disciplinePlans)
+            {
+                var countToCreate = disciplinePlan.WeekAssignments.FirstOrDefault(s => s.Week == Week)!.AssignmentHours;
+                var subGroupCount = disciplinePlan.SubGroupsCount;
+
+                for (var i = 0; i < subGroupCount; i++)
+                {
+                    var subGroupNo = subGroupCount == 1 ? 0 : i + 1;
+                    var scheduledBySubGroupCount = scheduled.Count(r => r.DisciplinePlanId == disciplinePlan.Id
+                                                                     && r.SubGroupNo == subGroupNo
+                                                                     && r.GroupId == disciplinePlan.GroupId);
+
+                    for (var j = 0; j < countToCreate; j++)
+                    {
+                        if (scheduledBySubGroupCount == countToCreate)
+                            break;
+
+                        res.Add(new Response
+                        {
+                                SubDisciplineId = disciplinePlan.SubDiscipline.Id,
+                                DisciplineId = disciplinePlan.SubDiscipline.DisciplineId,
+                                GroupId = disciplinePlan.GroupId,
+                                TeacherId = disciplinePlan.TeacherId,
+                                SubGroupNo = subGroupNo,
+                                Discipline = disciplinePlan.SubDiscipline.Discipline.Name,
+                                DisciplineCode = disciplinePlan.SubDiscipline.Discipline.Code,
+                                SubDiscipline = disciplinePlan.SubDiscipline.Kind.Name,
+                                Group = disciplinePlan.Group.Code,
+                                Teacher = disciplinePlan.Teacher.ShortName,
+                                Department = disciplinePlan.Teacher.Department.Name,
+                                DepartmentCode = disciplinePlan.Teacher.Department.Code,
+                                Color = disciplinePlan.SubDiscipline.Kind.Color.ToHex(),
+                                SubDisciplineCode = disciplinePlan.SubDiscipline.Kind.Code,
+                                HasSubGroups = subGroupCount != 1,
+                                DisciplinePlanId = disciplinePlan.Id,
+                                IsGroup = true,
+                                IsAuditorium = true,
+                                IsTeacher = true,
+                                AuditoriumId = SelectedAuditoriumIds.FirstOrDefault()
+                        });
+
+                        scheduledBySubGroupCount++;
+                    }
                 }
             }
         }
 
         return res;
+    }
+
+    private enum typeOf
+    {
+        Groups,
+
+        Auditoriums,
+
+        Teachers
     }
 
     public record Response

@@ -30,26 +30,25 @@
                 </div>
             </div>
 
-            <div class="mx-1">
+            <div class="d-flex mx-1">
                 @each.Inline(r => r.HasSubGroups,
-                             @<text>
+                             @<div class="flex-grow-1" title="@each.For(r => r.SubGroupNo) @DataResources.SubGroup">
                                  @each.For(r => r.SubGroupNo) @DataResources.SubGroup
-                              </text>,
-                             @<text>
+                             </div>,
+                             @<div class="flex-grow-1">
                                  -
-                              </text>)
+                             </div>)
+                <div class="flex-shrink-0" title="@each.For(r => r.Group)">
+                    @each.For(r => r.Group)
+                </div>
             </div>
 
             <div class="d-flex mx-1">
-                <div class="flex-grow-1">
-                    @each.IsInline(r => r.IsGroup, each.For(r => r.Teacher))
-                    @each.IsInline(r => r.IsAuditorium, each.For(r => r.Teacher))
-                    @each.IsInline(r => r.IsTeacher, each.For(r => r.Group))
+                <div class="flex-grow-1" title="@each.For(r => r.Teacher)">
+                    @each.For(r => r.Teacher)
                 </div>
-                <div class="flex-shrink-0" @(each.IsInline(r => r.IsGroup, $@"title=""{each.For(r => r.Department)}""")) @(each.IsInline(r => r.IsTeacher, $@"title=""{each.For(r => r.Department)}"""))>
-                    @each.IsInline(r => r.IsGroup, each.For(r => r.DepartmentCode))
-                    @each.IsInline(r => r.IsAuditorium, each.For(r => r.Group))
-                    @each.IsInline(r => r.IsTeacher, each.For(r => r.DepartmentCode))
+                <div class="flex-shrink-0" title="@each.For(r => r.DepartmentCode)">
+                    @each.For(r => r.DepartmentCode)
                 </div>
             </div>
 
