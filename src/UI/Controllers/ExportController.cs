@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO.Compression;
 using Domain.Common;
+using System.Text;
+using Incoding.Core;
 
 namespace UI.Controllers;
 
@@ -34,30 +36,53 @@ public class ExportController : Controller
         return File(file.Html, "text/html", file.FileName + ".htm");
     }
 
-    [HttpPost]
     [Route("html/zip")]
     public IActionResult AsZipHtml([FromBody] ZipHtmlModel model)
     {
-        var zipStream = new MemoryStream();
-        var archive = new ZipArchive(zipStream, ZipArchiveMode.Create);
-        foreach (var week in model.Weeks)
+        byte[]? zip;
+        using (var zipStream = new MemoryStream())
         {
-            foreach (var file in model.Items.Select(item => this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
-                     {
-                             AuditoriumId = item.AuditoriumId,
-                             TeacherId = item.TeacherId,
-                             GroupId = item.GroupId,
-                             FacultyId = model.FacultyId,
-                             Week = week
-                     })))
+            using (var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create))
             {
-                using var archiveFile = archive.CreateEntry(file.FileName + ".htm", CompressionLevel.Fastest)
-                                               .Open();
-                file.Html.CopyTo(archiveFile);
-            }
-        }
+                zipStream.Position = 0;
 
-        zipStream.Seek(0, SeekOrigin.Begin);
-        return File(zipStream, "application/zip", "Schedule.zip");
+                var firstEntry = zipArchive.CreateEntry(".schedule", CompressionLevel.Optimal);
+                using (var stream = firstEntry.Open())
+                {
+                    stream.Write(this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
+                    {
+                        AuditoriumId = model.Items[0].AuditoriumId,
+                        TeacherId = model.Items[0].TeacherId,
+                        GroupId = model.Items[0].GroupId,
+                        FacultyId = model.FacultyId,
+                        Week = model.Weeks[0],
+                    }).Html.ToArray());
+                }
+
+                foreach (var week in model.Weeks)
+                {
+                    foreach (var file in model.Items.Select(item => this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
+                    {
+                        AuditoriumId = item.AuditoriumId,
+                        TeacherId = item.TeacherId,
+                        GroupId = item.GroupId,
+                        FacultyId = model.FacultyId,
+                        Week = week
+                    })))
+                    {
+                        file.Html.Position = 0;
+                        var entry = zipArchive.CreateEntry(file.FileName + ".htm", CompressionLevel.Optimal);
+                        using (var entryStream = entry.Open())
+                        {
+                            file.Html.CopyTo(entryStream);
+                        }
+                    }
+                }
+                zipStream.Position = 0;
+            }
+            zip = zipStream.ToArray();
+        }
+        
+        return File(zip, "application/zip", "Schedule.zip");
     }
 }
