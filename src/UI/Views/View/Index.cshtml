@@ -17,7 +17,7 @@
           .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
           .ToInput(HtmlInputType.Hidden, facultyId))
 
-    <div class="d-flex flex-grow-1 flex-column gap-3 justify-content-center p-1">
+    <div class="d-flex flex-grow-1 flex-column gap-3 justify-content-center p-1 mh-100">
         <div class="d-flex gap-3 justify-content-center">
             <div class="w-40 input">
                 @(Html.When(JqueryBind.Change)
@@ -68,7 +68,7 @@
                   }).AsJson();
               })
               .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/View/Tmpl/Search_Tmpl.cshtml").Html())
-              .AsHtmlAttributes(classes: "d-flex flex-column", id: "search")
+              .AsHtmlAttributes(classes: "d-flex flex-column p-1 gap-2 overflow-auto", id: "search")
               .ToDiv())
     </div>
 
