@@ -7,12 +7,12 @@ using UI.Common.Models;
 namespace UI.Controllers;
 
 [AllowAnonymous]
-[Route("export")]
-public class ExportController : Controller
+[Route("view")]
+public class ViewController : Controller
 {
     private readonly IDispatcher _dispatcher;
 
-    public ExportController(IDispatcher dispatcher)
+    public ViewController(IDispatcher dispatcher)
     {
         this._dispatcher = dispatcher;
     }
@@ -38,8 +38,8 @@ public class ExportController : Controller
         return View();
     }
 
-    [Route("/schedule/{facultyId}/{type}/{id}")]
-    public IActionResult Schedule([FromRoute] int facultyId, [FromRoute] GetExportSearchQuery.OfType type, [FromRoute] int id, [FromQuery] int? week)
+    [Route("public/{facultyId}/{type}/{id}")]
+    public IActionResult Public([FromRoute] int facultyId, [FromRoute] GetExportSearchQuery.OfType type, [FromRoute] int id, [FromQuery] int? week)
     {
         var faculties = this._dispatcher.Query(new GetFacultiesQuery());
 
@@ -51,7 +51,6 @@ public class ExportController : Controller
         if (faculties.All(s => s.Id != facultyId))
         {
             HttpContext.Response.Cookies.Append(GlobalSelectors.FacultyId, faculties.First().Id.ToString());
-            facultyId = faculties.First().Id;
             return NotFound();
         }
 
@@ -59,9 +58,9 @@ public class ExportController : Controller
         {
                 Week = week.GetValueOrDefault(1),
                 FacultyId = facultyId,
-                SelectedAuditoriumIds = type == GetExportSearchQuery.OfType.AUDITORIUM ? new int?[] { id } : null,
-                SelectedTeacherIds = type == GetExportSearchQuery.OfType.TEACHER ? new int?[] { id } : null,
-                SelectedGroupIds = type == GetExportSearchQuery.OfType.GROUP ? new int?[] { id } : null,
+                SelectedAuditoriumIds = type == GetExportSearchQuery.OfType.AUDITORIUM ? new int?[] { id } : Array.Empty<int?>(),
+                SelectedTeacherIds = type == GetExportSearchQuery.OfType.TEACHER ? new int?[] { id } : Array.Empty<int?>(),
+                SelectedGroupIds = type == GetExportSearchQuery.OfType.GROUP ? new int?[] { id } : Array.Empty<int?>(),
         });
         var format = this._dispatcher.Query(new GetScheduleFormatQuery
         {
