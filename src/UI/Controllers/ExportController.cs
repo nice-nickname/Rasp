@@ -1,8 +1,12 @@
-﻿using Domain.Api;
+﻿using Domain.Export;
 using Incoding.Core.CQRS.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UI.Common.Models;
+using System.IO.Compression;
+using Domain.Common;
+using System.Text;
+using Incoding.Core;
+using Domain.Api;
 
 namespace UI.Controllers;
 
@@ -17,6 +21,7 @@ public class ExportController : Controller
         this._dispatcher = dispatcher;
     }
 
+    [Authorize(Roles = "Rasp.Admin")]
     public IActionResult Index()
     {
         var faculties = this._dispatcher.Query(new GetFacultiesQuery());
@@ -38,36 +43,85 @@ public class ExportController : Controller
         return View();
     }
 
-    [Route("/schedule/{facultyId}/{type}/{id}")]
-    public IActionResult Schedule([FromRoute] int facultyId, [FromRoute] GetExportSearchQuery.OfType type, [FromRoute] int id, [FromQuery] int? week)
+    [Route("html")]
+    [HttpGet]
+    public IActionResult AsHtml([FromQuery] int facultyId, [FromQuery] int? groupId, [FromQuery] int? auditoriumId, [FromQuery] int? teacherId, [FromQuery] int? week)
     {
-        var faculties = this._dispatcher.Query(new GetFacultiesQuery());
-
-        if (faculties.Count < 1)
+        var file = this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
         {
-            return StatusCode(500, "Возможность работы без факультетов невозможна :(");
-        }
-
-        if (faculties.All(s => s.Id != facultyId))
-        {
-            HttpContext.Response.Cookies.Append(GlobalSelectors.FacultyId, faculties.First().Id.ToString());
-            facultyId = faculties.First().Id;
-            return NotFound();
-        }
-
-        var result = this._dispatcher.Query(new GetScheduleByWeekQuery
-        {
-                Week = week.GetValueOrDefault(1),
+                AuditoriumId = auditoriumId,
+                TeacherId = teacherId,
+                GroupId = groupId,
                 FacultyId = facultyId,
-                SelectedAuditoriumIds = type == GetExportSearchQuery.OfType.AUDITORIUM ? new int?[] { id } : null,
-                SelectedTeacherIds = type == GetExportSearchQuery.OfType.TEACHER ? new int?[] { id } : null,
-                SelectedGroupIds = type == GetExportSearchQuery.OfType.GROUP ? new int?[] { id } : null,
+                Week = week.GetValueOrDefault(1)
         });
-        var format = this._dispatcher.Query(new GetScheduleFormatQuery
-        {
-                FacultyId = facultyId
-        });
+        return File(file.Html, "text/html", file.FileName + ".htm");
+    }
 
-        return View(new SchedulePageModel { Format = format, Items = result, Title = "", ActiveWeek = week.GetValueOrDefault(1) });
+    [Route("html/zip")]
+    public IActionResult AsZipHtml([FromForm] ZipHtmlModel model)
+    {
+        var items = new List<ExportScheduleItem>();
+
+        items.AddRange(model.Auditoriums.Select(s => new ExportScheduleItem
+        {
+                AuditoriumId = s
+        }));
+        items.AddRange(model.Teachers.Select(s => new ExportScheduleItem
+        {
+                TeacherId = s
+        }));
+        items.AddRange(model.Groups.Select(s => new ExportScheduleItem
+        {
+                GroupId = s
+        }));
+
+        byte[]? zip;
+        using (var zipStream = new MemoryStream())
+        {
+            using (var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Create))
+            {
+                zipStream.Position = 0;
+
+                var firstEntry = zipArchive.CreateEntry(".schedule", CompressionLevel.Optimal);
+                using (var stream = firstEntry.Open())
+                {
+                    stream.Write(this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
+                    {
+                            AuditoriumId = items[0].AuditoriumId,
+                            TeacherId = items[0].TeacherId,
+                            GroupId = items[0].GroupId,
+                            FacultyId = model.FacultyId,
+                            Week = model.StartWeek,
+                    }).Html.ToArray());
+                }
+
+                for (var week = model.StartWeek; week <= model.EndWeek; week++)
+                {
+                    foreach (var file in items.Select(item => this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
+                             {
+                                     AuditoriumId = item.AuditoriumId,
+                                     TeacherId = item.TeacherId,
+                                     GroupId = item.GroupId,
+                                     FacultyId = model.FacultyId,
+                                     Week = week
+                             })))
+                    {
+                        file.Html.Position = 0;
+                        var entry = zipArchive.CreateEntry(file.FileName + ".htm", CompressionLevel.Optimal);
+                        using (var entryStream = entry.Open())
+                        {
+                            file.Html.CopyTo(entryStream);
+                        }
+                    }
+                }
+
+                zipStream.Position = 0;
+            }
+
+            zip = zipStream.ToArray();
+        }
+
+        return File(zip, "application/zip", "Schedule.zip");
     }
 }

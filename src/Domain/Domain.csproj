@@ -8,11 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="App\Api\Busyness\**" />
-    <Compile Remove="App\Export\**" />
     <EmbeddedResource Remove="App\Api\Busyness\**" />
-    <EmbeddedResource Remove="App\Export\**" />
     <None Remove="App\Api\Busyness\**" />
-    <None Remove="App\Export\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +20,7 @@
     <Folder Include="App\Api\Class\" />
     <Folder Include="App\Api\Schedule\" />
     <Folder Include="Common\Extentions" />
+    <Folder Include="Infrastructure\Operations\ViewRenderer\" />
   </ItemGroup>
 
   <ItemGroup>

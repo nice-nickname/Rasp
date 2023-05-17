@@ -1,0 +1,62 @@
+﻿@using Domain.Common
+@model SchedulePageModel
+@{
+    Layout = "";
+}
+
+<style>
+    table.schedule-table td, table th { border: 1px solid; }
+
+    table.schedule-table tbody td { text-align: center }
+</style>
+
+<table class="schedule-table">
+    <thead>
+        <tr>
+            <th></th>
+            @foreach (var th in Model.Format.Items)
+            {
+                <th>
+                    @(th.Order + 1) @DataResources.ScheduleItem
+                    <div>
+                        @th.Start.GetValueOrDefault().ToString(@"hh\:mm") - @th.End.GetValueOrDefault().ToString(@"hh\:mm")
+                    </div>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tr in Model.Items)
+        {
+            <tr>
+                <td>
+                    @tr.DayString
+                </td>
+                @foreach (var td in tr.Items)
+                {
+                    <td>
+                        <div>
+                            @td.Group
+                        </div>
+                        <div>
+                            @td.Teacher
+                        </div>
+                        <div>
+                            @td.DisciplineCode
+                        </div>
+                        <div>
+                            @if (td.SubGroupNo != 0)
+                            {
+                                @($"{td.SubGroupNo} {DataResources.SubGroup}")
+                            }
+                        </div>
+                        <div>
+                            @td.Auditorium
+                        </div>
+
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

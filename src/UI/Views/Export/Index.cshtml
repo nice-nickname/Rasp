@@ -1,74 +1,151 @@
 ﻿@{
-    Layout = "_ContainerPageLayout";
-    var facultyId = (string)ViewData["FacultyId"];
+    Layout = "_MainLayout";
+    var startId = Guid.NewGuid().ToString();
+    var endId = Guid.NewGuid().ToString();
+
+    var startWeekName = "StartWeek";
+    var endWeekName = "EndWeek";
+}
+
+@section Header
+{
+    @(Html.When(JqueryBind.IncAjaxBefore)
+          .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
+          .OnSuccess(dsl => dsl.Self().JQuery.Attr.RemoveClass("d-none"))
+          .When(JqueryBind.IncAjaxError)
+          .OnSuccess(dsl => dsl.Window.Alert("lol"))
+          .When(JqueryBind.IncAjaxComplete)
+          .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Self().HasAttribute(HtmlAttribute.Disabled)))
+          .OnSuccess(dsl => dsl.Self().JQuery.Attr.AddClass("d-none"))
+          .AsHtmlAttributes(classes: "vw-100 vh-100 position-absolute loader-background d-none", id: GlobalSelectors.AjaxLoaderId)
+          .ToDiv(@<div class="spinner-border text-primary position-fixed top-0 bottom-0 start-0 end-0 m-auto" role="status">
+                     <span class="visually-hidden">Loading...</span>
+                 </div>))
+
+    @await Html.PartialAsync("_Header_Layout")
 }
 
 @section Body
 {
-    @(Html.When(JqueryBind.Change)
-                    .StopPropagation()
-                    .PreventDefault()
-                    .Ajax(Url.Dispatcher().Push(new AddCookieCommand
+    <div class="container">
+        @using (Html.BeginForm("AsZipHtml", "Export"))
+        {
+            @Html.Hidden("FacultyId", Context.Request.Cookies[GlobalSelectors.FacultyId])
+            <h5>Выберите предметы для экспорта</h5>
+            <div class="mb-1 d-flex gap-3">
+                <div class="form-group">
+                    <label class="form-label">Копировать с </label>
+                    @Html.Hidden(startWeekName, 1)
+                    @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                     {
-                        Key = GlobalSelectors.FacultyId,
-                        Value = Selector.Jquery.Self().Val()
-                    }))
-                    .AsHtmlAttributes(new { name = GlobalSelectors.FacultyId })
-                    .ToInput(HtmlInputType.Hidden, facultyId))
-
-    <div class="d-flex flex-grow-1 flex-column gap-3 justify-content-center p-1">
-        <div class="d-flex gap-3 justify-content-center">
-            <div class="w-40 input">
-                @(Html.When(JqueryBind.Change)
-                      .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
-                      .AsHtmlAttributes(classes: "rounded search w-100 h-100", id: "search-input")
-                      .ToInput(HtmlInputType.Text, ""))
-                <span class="material-symbols-rounded addon-r">search</span>
-            </div>
-            @(Html.When(JqueryBind.Click)
-                  .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
-                  .AsHtmlAttributes(classes: "btn btn-light")
-                  .ToButton(DataResources.Continue))
-
-            @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-            {
-                Button = new DropdownModel.ButtonSettings
-                {
-                    Text = DataResources.Faculty
-                },
-                Items = new List<IHtmlContent>
-                {
-                    Html.Controls().Dropdown.List(settings =>
-                    {
-                        settings.Id = GlobalSelectors.FacultyListId;
-                        settings.Url = Url.Dispatcher().Query<GetFacultiesQuery>(new { }).AsJson();
-                        settings.CustomTemplate = "~/Views/Shared/DropDown/DropDownItem_Tmpl.cshtml";
-                        settings.OnSuccess = dsl => Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.EqualsAttribute("key", facultyId).Attr("code"));
-                        settings.OnClick = dsl =>
+                        Id = startId,
+                        Classes = "d-inline ms-1",
+                        DropdownMenu = new DropdownModel.DropdownMenuSettings
                         {
-                            Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("Code"));
-                            dsl.WithName(GlobalSelectors.FacultyId).JQuery.Attr.Val(Selector.Event.Data.For("Id"));
-                            dsl.WithName(GlobalSelectors.FacultyId).Trigger.Change();
-                            dsl.WithId("search-input").JQuery.Attr.Val("");
-                            dsl.WithId("search").JQuery.Dom.Html();
-                        };
+                            Classes = "mh-px-300 overflow-auto"
+                        },
+                        Button = new DropdownModel.ButtonSettings
+                        {
+                            Text = 1.ToString()
+                        },
+                        Items = new List<IHtmlContent>
+                        {
+                            Html.Controls().Dropdown.List(settings =>
+                            {
+                                settings.Url = Url.Dispatcher().Query<GetWeeksForDDQuery>(new { }).AsJson();
+                                settings.CustomTemplate = "~/Views/Shared/DropDown_Item_Tmpl.cshtml";
+                                settings.OnClick = dsl =>
+                                {
+                                    Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("text"));
+                                    dsl.WithName(startWeekName).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                };
+                            })
+                        }
+                    }))
+                </div>
+                <div class="form-group">
+                    <label class="form-label">недели по</label>
+                    @Html.Hidden(endWeekName, 1)
+                    @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                    {
+                        Id = endId,
+                        Classes = "d-inline ms-1",
+                        DropdownMenu = new DropdownModel.DropdownMenuSettings
+                        {
+                            Classes = "mh-px-300 overflow-auto"
+                        },
+                        Button = new DropdownModel.ButtonSettings
+                        {
+                            Text = 1.ToString()
+                        },
+                        Items = new List<IHtmlContent>
+                        {
+                            Html.Controls().Dropdown.List(settings =>
+                            {
+                                settings.Url = Url.Dispatcher().Query<GetWeeksForDDQuery>(new { }).AsJson();
+                                settings.CustomTemplate = "~/Views/Shared/DropDown_Item_Tmpl.cshtml";
+                                settings.OnClick = dsl =>
+                                {
+                                    Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("text"));
+                                    dsl.WithName(endWeekName).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                };
+                            })
+                        }
+                    }))
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label class="form-label">Группы</label>
+                    @Html.Controls().Select(s =>
+                    {
+                        s.Class = "form-control";
+                        s.Name = "Groups";
+                        s.IsSearchable = true;
+                        s.IsMultiselect = true;
+                        s.ActionBox = true;
+                        s.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery
+                        {
+                            FacultyId = int.Parse(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                        });
                     })
-                }
-            }))
-        </div>
-        @(Html.When(JqueryBind.None)
-              .StopPropagation()
-              .Ajax(o =>
-              {
-                  o.Global = false;
-                  o.Url = Url.Dispatcher().Query(new GetExportSearchQuery
-                  {
-                      Search = Selector.Jquery.Id("search-input")
-                  }).AsJson();
-              })
-              .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Export/Tmpl/Search_Tmpl.cshtml").Html())
-              .AsHtmlAttributes(classes: "d-flex flex-column", id: "search")
-              .ToDiv())
+                </div>
+                <div class="form-group col">
+                    <label class="form-label">Аудитории</label>
+                    @Html.Controls().Select(s =>
+                    {
+                        s.Class = "form-control";
+                        s.Name = "Auditoriums";
+                        s.IsSearchable = true;
+                        s.IsMultiselect = true;
+                        s.ActionBox = true;
+                        s.Items = Html.Dispatcher().Query(new GetAuditoriumsForSelectQuery());
+                    })
+                </div>
+                <div class="form-group col">
+                    <label class="form-label">Преподаватели</label>
+                    @Html.Controls().Select(s =>
+                    {
+                        s.Class = "form-control";
+                        s.Name = "Teachers";
+                        s.IsSearchable = true;
+                        s.IsMultiselect = true;
+                        s.ActionBox = true;
+                        s.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery
+                        {
+                            FacultyId = int.Parse(Context.Request.Cookies[GlobalSelectors.FacultyId])
+                        });
+                    })
+                </div>
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-primary" type="submit">@DataResources.Export</button>
+            </div>
+        }
     </div>
+}
 
+@section Footer
+{
+    @await Html.PartialAsync("_Footer_Layout")
 }

@@ -25,8 +25,6 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using UI.Infrastructure.ModelBinders;
 
 namespace UI;
@@ -45,7 +43,8 @@ public static class Startup
             o.ValueCountLimit = 100_000;
         });
 
-        builder.Services.AddTransient<IBulkInserterProvider>(p => new SqlBulkInsertProvider(connectionString));
+        builder.Services.AddScoped<IViewRenderer, AspNetCoreViewRenderer>();
+        builder.Services.AddTransient<IBulkInserterProvider>(_ => new SqlBulkInsertProvider(connectionString));
 
         builder.Services
                .AddAuthentication(o =>

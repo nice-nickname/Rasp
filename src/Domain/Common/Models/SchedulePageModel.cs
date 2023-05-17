@@ -1,6 +1,6 @@
 ﻿using Domain.Api;
 
-namespace UI.Common.Models;
+namespace Domain.Common;
 
 public class SchedulePageModel
 {
