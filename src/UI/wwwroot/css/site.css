@@ -519,3 +519,8 @@ input.form-control[type=color] {
 .flex-0 {
     flex: 0 !important;
 }
+
+.class-card ~ [role=unwanted] {
+    display: none !important;
+    visibility: hidden !important;
+}

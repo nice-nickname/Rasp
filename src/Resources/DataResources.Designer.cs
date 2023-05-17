@@ -1240,6 +1240,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Преподаватель не может провести занятие в это время.
+        /// </summary>
+        public static string TeacherImpossibleThisTime {
+            get {
+                return ResourceManager.GetString("TeacherImpossibleThisTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Список преподавателей.
         /// </summary>
         public static string TeacherList {
@@ -1326,6 +1335,15 @@ namespace Resources {
         public static string Unavailable {
             get {
                 return ResourceManager.GetString("Unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нежелательно.
+        /// </summary>
+        public static string Unwanted {
+            get {
+                return ResourceManager.GetString("Unwanted", resourceCulture);
             }
         }
         
