@@ -53,6 +53,25 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                     StartDate = startWeekDate
             });
 
+            var preferences = new List<GetTeacherPreferencesQuery.Response>();
+            var scheduledClassesAll = Repository.Query<Class>();
+
+            if (selectedGroupId.HasValue)
+                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == selectedGroupId.Value && r.Week == Week);
+
+            if (selectedAuditoriumId.HasValue)
+                scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == selectedAuditoriumId && r.Week == Week);
+
+            if (selectedTeacherId.HasValue)
+            {
+                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == selectedTeacherId && r.Week == Week);
+                preferences = Dispatcher.Query(new GetTeacherPreferencesQuery
+                {
+                        FacultyId = FacultyId,
+                        TeacherId = selectedTeacherId
+                });
+            }
+
             var classes = new List<Response>
             {
                     new() { Day = DayOfWeek.Monday, DayString = DataResources.Monday, Date = startWeekDate.ToShortDateString() },
@@ -69,27 +88,24 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                 {
                     var currentDate = this.getDay(startWeekDate, @class.Day);
                     var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
+                    var isUnwanted = false;
+                    if (preferences != null && preferences.Count > 0)
+                    {
+                        var currentPreference = preferences.First(r => r.Day == @class.Day).Days.First(r => r.ScheduleItemId == schedulerItems[i].Id.GetValueOrDefault());
+                        isBlocked = isBlocked || currentPreference.Type == GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE;
+                        isUnwanted = currentPreference.Type == GetTeacherPreferencesQuery.PreferenceType.UNWANTED;
+                    }
 
                     @class.Items.Add(new ClassItem
                     {
                             Order = i,
                             IsEmpty = true,
                             ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
-                            IsBlocked = isBlocked
+                            IsBlocked = isBlocked,
+                            IsUnwanted = isUnwanted
                     });
                 }
             }
-
-            var scheduledClassesAll = Repository.Query<Class>();
-
-            if (selectedGroupId.HasValue)
-                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == selectedGroupId.Value && r.Week == Week);
-
-            if (selectedAuditoriumId.HasValue)
-                scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == selectedAuditoriumId && r.Week == Week);
-
-            if (selectedTeacherId.HasValue)
-                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == selectedTeacherId && r.Week == Week);
 
             var scheduledClasses = scheduledClassesAll
                                    .Select(r => new ClassItem
@@ -120,7 +136,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                            IsGroup = selectedGroupId.HasValue,
                                            IsAuditorium = selectedAuditoriumId.HasValue,
                                            IsTeacher = selectedTeacherId.HasValue,
-                                           StudentCount = r.Plan.Group.StudentCount
+                                           StudentCount = r.Plan.Group.StudentCount,
+                                           IsUnwanted = r.IsUnwanted
                                    })
                                    .ToList()
                                    .GroupBy(r => r.Day)
@@ -133,8 +150,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                     if (!classes.Any(r => r.Day == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
                         continue;
                     {
-                        classes.First(r => r.Day == scheduled.Key).Items.Remove(classes.First(r => r.Day == scheduled.Key).Items.First(r => item.Order == r.Order));
-                        classes.First(r => r.Day == scheduled.Key).Items.Add(item);
+                        var day = classes.First(r => r.Day == scheduled.Key);
+                        var @class = classes.First(r => r.Day == scheduled.Key).Items.First(r => item.Order == r.Order);
+
+                        day.Items.Remove(@class);
+                        day.Items.Add(item);
                     }
                 }
             }
@@ -217,9 +237,6 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                         @class.DayString = Repository.GetById<Teacher>(@class.Id).ShortName;
 
                         break;
-
-                    default:
-                        break;
                 }
 
                 @class.Items = new List<ClassItem>();
@@ -261,9 +278,6 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                                                       && r.Day == Day);
 
                     break;
-
-                default:
-                    break;
             }
 
             var scheduledClasses = scheduledClassesAll
@@ -295,7 +309,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                            IsGroup = type == typeOf.Groups,
                                            IsAuditorium = type == typeOf.Auditoriums,
                                            IsTeacher = type == typeOf.Teachers,
-                                           StudentCount = r.Plan.Group.StudentCount
+                                           StudentCount = r.Plan.Group.StudentCount,
+                                           IsUnwanted = r.IsUnwanted
                                    })
                                    .ToList()
                                    .GroupBy(r => type switch
@@ -411,6 +426,15 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
         public bool IsBlocked { get; set; }
 
+        public bool IsUnwanted { get; set; }
+
         public DayOfWeek Day { get; set; }
+    }
+
+    private class TeacherPreferenceItem
+    {
+        public int? TeacherId { get; set; }
+
+        public List<GetTeacherPreferencesQuery.Response> Items { get; set; }
     }
 }

@@ -1,6 +1,10 @@
 ﻿@model ITemplateSyntax<GetScheduleByWeekQuery.ClassItem>
 
-<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @(Model.NotInline(r => r.AuditoriumId, "class-card-warning"))" role="drag-element" name="card">
+@{
+    var cardBackground = Model.Inline(r => r.AuditoriumId, Model.IsInline(r => r.IsUnwanted, "unwanted-warning"), "class-card-warning");
+}
+
+<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @cardBackground" role="drag-element" name="card">
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), Model.For(r => r.SubDisciplineId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))

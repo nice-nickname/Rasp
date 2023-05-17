@@ -558,4 +558,10 @@
   <data name="Error" xml:space="preserve">
 	  <value>Ошибка</value>
   </data>
+  <data name="Unwanted" xml:space="preserve">
+	  <value>Нежелательно</value>
+  </data>
+  <data name="TeacherImpossibleThisTime" xml:space="preserve">
+	  <value>Преподаватель не может провести занятие в это время</value>
+  </data>
 </root>

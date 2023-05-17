@@ -6,6 +6,8 @@ namespace Domain.Api;
 
 public class SaveScheduleCommand : CommandBase
 {
+    public int FacultyId { get; set; }
+
     public int DisciplinePlanId { get; set; }
 
     public int SubDisciplineId { get; set; }
@@ -40,9 +42,22 @@ public class SaveScheduleCommand : CommandBase
 
         var isTeacherBusy = scheduledClasses.Any(c => c.Plan.SubDisciplineId != SubDisciplineId);
 
+        var preference = Dispatcher.Query(new GetTeacherPreferencesQuery
+                                   {
+                                           FacultyId = FacultyId,
+                                           TeacherId = TeacherId
+                                   }).First(r => r.Day == Day)
+                                   .Days.First(r => r.ScheduleItemId == ScheduleFormatId).Type;
+
         if (isTeacherBusy)
         {
             Result = new { CustomValidationMessage = DataResources.TeacherBusyAtThisTime };
+            return;
+        }
+
+        if (preference is GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE)
+        {
+            Result = new { CustomValidationMessage = DataResources.TeacherImpossibleThisTime };
             return;
         }
 
@@ -72,6 +87,7 @@ public class SaveScheduleCommand : CommandBase
         @class.ScheduleFormatId = ScheduleFormatId;
         @class.SubGroupNo = SubGroupNo;
         @class.DisciplinePlanId = DisciplinePlanId;
+        @class.IsUnwanted = preference is GetTeacherPreferencesQuery.PreferenceType.UNWANTED;
 
         Repository.SaveOrUpdate(@class);
     }

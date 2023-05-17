@@ -11,7 +11,8 @@
         AuditoriumId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.AuditoriumId)),
         Id = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.Id)),
         TeacherId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.TeacherId)),
-        SubDisciplineId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.SubDisciplineId))
+        SubDisciplineId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.SubDisciplineId)),
+        FacultyId = Selector.Jquery.Name<SaveScheduleCommand>(r => r.FacultyId)
     });
 
     Action<IIncodingMetaLanguageCallbackBodyDsl> reloadSchedule = dsl =>
@@ -49,10 +50,15 @@
                                              @await Html.PartialAsync("~/Views/Schedule/Tmpl/ScheduledClass_Tmpl.cshtml", Model)
                                           </text>)
 
-        @Model.IsInline(r => r.IsBlocked, @<text>
-                                              <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded unallowed-gray">
-                                                  <span class="material-symbols-rounded">close</span>
-                                              </div>
-                                           </text>)
+        @Model.Inline(r => r.IsBlocked, @<text>
+                                            <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded unallowed-gray">
+                                                <span class="material-symbols-rounded">close</span>
+                                            </div>
+                                         </text>,
+                      Model.IsInline(r => r.IsUnwanted, @<text>
+                                                            <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded" role="unwanted">
+                                                                @DataResources.Unwanted
+                                                            </div>
+                                                         </text>))
     }
 </div>
