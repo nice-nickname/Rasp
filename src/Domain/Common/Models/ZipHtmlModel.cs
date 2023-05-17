@@ -11,9 +11,15 @@ public record ExportScheduleItem
 
 public record ZipHtmlModel
 {
-    public List<ExportScheduleItem> Items { get; set; }
+    public List<int> Teachers { get; set; } = new();
 
-    public int[] Weeks { get; set; }
+    public List<int> Groups { get; set; } = new();
+
+    public List<int> Auditoriums { get; set; } = new();
+
+    public int StartWeek { get; set; }
+
+    public int EndWeek { get; set; }
 
     public int FacultyId { get; set; }
 }

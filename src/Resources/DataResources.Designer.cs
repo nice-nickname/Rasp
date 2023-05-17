@@ -1330,6 +1330,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Просмотр.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Среда.
         /// </summary>
         public static string Wednesday {

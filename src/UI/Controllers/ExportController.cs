@@ -6,10 +6,10 @@ using System.IO.Compression;
 using Domain.Common;
 using System.Text;
 using Incoding.Core;
+using Domain.Api;
 
 namespace UI.Controllers;
 
-//[Authorize(Roles = "Rasp.Admin")]
 [AllowAnonymous]
 [Route("export")]
 public class ExportController : Controller
@@ -19,6 +19,28 @@ public class ExportController : Controller
     public ExportController(IDispatcher dispatcher)
     {
         this._dispatcher = dispatcher;
+    }
+
+    [Authorize(Roles = "Rasp.Admin")]
+    public IActionResult Index()
+    {
+        var faculties = this._dispatcher.Query(new GetFacultiesQuery());
+
+        if (faculties.Count < 1)
+        {
+            return StatusCode(500, "Возможность работы без факультетов невозможна :(");
+        }
+
+        var facultyId = HttpContext.Request.Cookies[GlobalSelectors.FacultyId] ?? string.Empty;
+
+        if (!HttpContext.Request.Cookies.ContainsKey(GlobalSelectors.FacultyId) || faculties.All(s => s.Id.ToString() != HttpContext.Request.Cookies[GlobalSelectors.FacultyId]))
+        {
+            HttpContext.Response.Cookies.Append(GlobalSelectors.FacultyId, faculties.First().Id.ToString());
+            facultyId = faculties.First().Id.ToString();
+        }
+
+        this.ViewData["FacultyId"] = facultyId;
+        return View();
     }
 
     [Route("html")]
@@ -37,8 +59,23 @@ public class ExportController : Controller
     }
 
     [Route("html/zip")]
-    public IActionResult AsZipHtml([FromBody] ZipHtmlModel model)
+    public IActionResult AsZipHtml([FromForm] ZipHtmlModel model)
     {
+        var items = new List<ExportScheduleItem>();
+
+        items.AddRange(model.Auditoriums.Select(s => new ExportScheduleItem
+        {
+                AuditoriumId = s
+        }));
+        items.AddRange(model.Teachers.Select(s => new ExportScheduleItem
+        {
+                TeacherId = s
+        }));
+        items.AddRange(model.Groups.Select(s => new ExportScheduleItem
+        {
+                GroupId = s
+        }));
+
         byte[]? zip;
         using (var zipStream = new MemoryStream())
         {
@@ -51,24 +88,24 @@ public class ExportController : Controller
                 {
                     stream.Write(this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
                     {
-                        AuditoriumId = model.Items[0].AuditoriumId,
-                        TeacherId = model.Items[0].TeacherId,
-                        GroupId = model.Items[0].GroupId,
-                        FacultyId = model.FacultyId,
-                        Week = model.Weeks[0],
+                            AuditoriumId = items[0].AuditoriumId,
+                            TeacherId = items[0].TeacherId,
+                            GroupId = items[0].GroupId,
+                            FacultyId = model.FacultyId,
+                            Week = model.StartWeek,
                     }).Html.ToArray());
                 }
 
-                foreach (var week in model.Weeks)
+                for (var week = model.StartWeek; week <= model.EndWeek; week++)
                 {
-                    foreach (var file in model.Items.Select(item => this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
-                    {
-                        AuditoriumId = item.AuditoriumId,
-                        TeacherId = item.TeacherId,
-                        GroupId = item.GroupId,
-                        FacultyId = model.FacultyId,
-                        Week = week
-                    })))
+                    foreach (var file in items.Select(item => this._dispatcher.Query(new ExportScheduleAsMemoryStreamQuery
+                             {
+                                     AuditoriumId = item.AuditoriumId,
+                                     TeacherId = item.TeacherId,
+                                     GroupId = item.GroupId,
+                                     FacultyId = model.FacultyId,
+                                     Week = week
+                             })))
                     {
                         file.Html.Position = 0;
                         var entry = zipArchive.CreateEntry(file.FileName + ".htm", CompressionLevel.Optimal);
@@ -78,11 +115,13 @@ public class ExportController : Controller
                         }
                     }
                 }
+
                 zipStream.Position = 0;
             }
+
             zip = zipStream.ToArray();
         }
-        
+
         return File(zip, "application/zip", "Schedule.zip");
     }
 }
