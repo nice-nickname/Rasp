@@ -173,10 +173,6 @@
                     <span class="material-symbols-rounded addon-r">search</span>
                 </div>
 
-                <div class="btn btn-light flex-shrink-0 p-1" id="@unallocatedFilterId">
-                    <span class="material-symbols-rounded">filter_alt</span>
-                </div>
-
                 @(Html.When(JqueryBind.Click)
                       .OnSuccess(dsl =>
                       {
@@ -196,17 +192,17 @@
             </div>
 
             <div class="d-flex flex-column flex-grow-1 overflow-hidden flex-basis-0 position-relative">
-                @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+                @(Html.When(JqueryBind.None)
                       .Ajax<GetClassByWeekQuery>(new
                       {
                           Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
-                          SelectedGroupId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId),
-                          SelectedTeacherId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId),
-                          SelectedAuditoriumId = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId)
+                          SelectedGroupIds = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupIds),
+                          SelectedTeacherIds = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherIds),
+                          SelectedAuditoriumIds = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumIds)
                       })
-                      .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupId) == string.Empty
-                                                         && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherId) == string.Empty
-                                                         && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumId) == string.Empty))
+                      .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedGroupIds) == string.Empty
+                                                         && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedTeacherIds) == string.Empty
+                                                         && Selector.Jquery.Name<GetClassByWeekQuery>(r => r.SelectedAuditoriumIds) == string.Empty))
                       .OnSuccess(dsl =>
                       {
                           dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Class_Tmpl.cshtml").Html();

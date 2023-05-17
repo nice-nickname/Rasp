@@ -192,7 +192,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
             var classes = new List<Response>();
             for (int i = 0; i < items.Count; i++)
-                classes.Add(new Response { Id = items[i] });
+                classes.Add(new Response
+                {
+                        Id = items[i],
+                        Day = Day!.Value
+                });
 
             foreach (var @class in classes)
             {
