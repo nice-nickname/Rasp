@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Выберите предметы для экспорта.
+        /// </summary>
+        public static string ChooseItemsForExport {
+            get {
+                return ResourceManager.GetString("ChooseItemsForExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выберите расписание.
         /// </summary>
         public static string ChooseSchedule {
@@ -354,6 +363,15 @@ namespace Resources {
         public static string CopyForAllGroups {
             get {
                 return ResourceManager.GetString("CopyForAllGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Копировать с .
+        /// </summary>
+        public static string CopyFrom {
+            get {
+                return ResourceManager.GetString("CopyFrom", resourceCulture);
             }
         }
         
@@ -1371,6 +1389,15 @@ namespace Resources {
         public static string Weeks {
             get {
                 return ResourceManager.GetString("Weeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to недели по.
+        /// </summary>
+        public static string WeekTo {
+            get {
+                return ResourceManager.GetString("WeekTo", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using Domain.Persistence;
+﻿using Domain.App.Api;
+using Domain.Persistence;
 using FluentValidation;
 using Incoding.Core.CQRS.Core;
 using Incoding.Core.Extensions;
@@ -18,6 +19,14 @@ public class CopyClassByWeekCommand : CommandBase
     {
         var matchedClasses = new List<Class>();
 
+        var weekends = Dispatcher.Query(new GetWeekendsForWeekQuery
+                                 {
+                                         FacultyId = FacultyId,
+                                         StartDate = Dispatcher.Query(new GetDateFromWeekQuery { FacultyId = FacultyId, Week = DestinationWeek })
+                                 })
+                                 .Select(s => s.DayOfWeek)
+                                 .ToHashSet();
+
         var sourcePlans = Repository.Query(new Class.Where.ByWeek(SourceWeek).And(new Class.Where.ByFaculty(FacultyId)))
                                     .GroupBy(s => s.DisciplinePlanId)
                                     .ToDictionary(k => k.Key, v => v.ToList());
@@ -28,7 +37,10 @@ public class CopyClassByWeekCommand : CommandBase
         var classesToPlace = Dispatcher.Query(new GetClassByWeekQuery
         {
                 FacultyId = FacultyId,
-                Week = DestinationWeek
+                Week = DestinationWeek,
+                SelectedAuditoriumIds = Array.Empty<int?>(),
+                SelectedTeacherIds = Array.Empty<int?>(),
+                SelectedGroupIds = Array.Empty<int?>()
         });
 
         foreach (var @class in classesToPlace)
@@ -46,11 +58,14 @@ public class CopyClassByWeekCommand : CommandBase
             if (match == null)
                 continue;
 
+            if (weekends.Contains(match.Day))
+                continue;
+
             matchedClasses.Add(match);
             sourceByPlan.Remove(match);
         }
 
-        // TODO 13.05.2023: Consider using bulk insert
+        // TODO 13.05.2023: Возможно стоит использовать Bulk insert
         var i = 0;
         foreach (var match in matchedClasses)
         {
@@ -76,7 +91,7 @@ public class CopyClassByWeekCommand : CommandBase
     {
         public Validator()
         {
-            RuleFor(s => s.SourceWeek).Must((command, sourceWeek) => sourceWeek > 0 && sourceWeek < command.DestinationWeek)
+            RuleFor(s => s.SourceWeek).Must((command, sourceWeek) => sourceWeek > 0 && sourceWeek != command.DestinationWeek)
                                       .WithMessage(DataResources.IncorrectValue);
             RuleFor(s => s.DestinationWeek).GreaterThan(0).WithMessage(DataResources.IncorrectValue);
         }

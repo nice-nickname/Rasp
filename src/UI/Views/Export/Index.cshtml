@@ -27,14 +27,14 @@
 
 @section Body
 {
-    <div class="container">
+    <div class="container mt-5">
         @using (Html.BeginForm("AsZipHtml", "Export"))
         {
             @Html.Hidden("FacultyId", Context.Request.Cookies[GlobalSelectors.FacultyId])
-            <h5>Выберите предметы для экспорта</h5>
+            <h5>@DataResources.ChooseItemsForExport</h5>
             <div class="mb-1 d-flex gap-3">
                 <div class="form-group">
-                    <label class="form-label">Копировать с </label>
+                    <label class="form-label">@DataResources.CopyFrom</label>
                     @Html.Hidden(startWeekName, 1)
                     @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                     {
@@ -64,7 +64,7 @@
                     }))
                 </div>
                 <div class="form-group">
-                    <label class="form-label">недели по</label>
+                    <label class="form-label">@DataResources.WeekTo</label>
                     @Html.Hidden(endWeekName, 1)
                     @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                     {
@@ -96,7 +96,7 @@
             </div>
             <div class="row">
                 <div class="form-group col">
-                    <label class="form-label">Группы</label>
+                    <label class="form-label">@DataResources.GroupList</label>
                     @Html.Controls().Select(s =>
                     {
                         s.Class = "form-control";
@@ -111,7 +111,7 @@
                     })
                 </div>
                 <div class="form-group col">
-                    <label class="form-label">Аудитории</label>
+                    <label class="form-label">@DataResources.AuditoriumList</label>
                     @Html.Controls().Select(s =>
                     {
                         s.Class = "form-control";
@@ -123,7 +123,7 @@
                     })
                 </div>
                 <div class="form-group col">
-                    <label class="form-label">Преподаватели</label>
+                    <label class="form-label">@DataResources.TeacherList</label>
                     @Html.Controls().Select(s =>
                     {
                         s.Class = "form-control";
