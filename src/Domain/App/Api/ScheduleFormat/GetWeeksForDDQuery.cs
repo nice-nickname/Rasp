@@ -18,9 +18,14 @@ public class GetWeeksForDDQuery : QueryBase<List<KeyValueVm>>
                 FacultyId = FacultyId,
                 Type = FacultySettings.OfType.CountOfWeeks
         });
+        var week = SelectedWeek.GetValueOrDefault(1);
+        if (week > weeks)
+        {
+            week = weeks;
+        }
 
         return Enumerable.Range(1, weeks)
-                         .Select(s => new KeyValueVm(s, s.ToString(), s == SelectedWeek.GetValueOrDefault()))
+                         .Select(s => new KeyValueVm(s, s.ToString(), s == week))
                          .ToList();
     }
 }
