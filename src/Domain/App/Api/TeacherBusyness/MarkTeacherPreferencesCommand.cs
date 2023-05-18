@@ -35,5 +35,15 @@ public class MarkTeacherPreferencesCommand : CommandBase
                 _ => throw new ArgumentOutOfRangeException()
         };
         Repository.SaveOrUpdate(preference);
+
+        var classes = Repository.Query<Class>()
+                                 .Where(s => s.ScheduleFormatId == preference.ScheduleFormatId &&
+                                             s.Plan.TeacherId == preference.TeacherId)
+                                 .ToList();
+
+        foreach (var @class in classes)
+        {
+            @class.IsUnwanted = true;
+        }
     }
 }
