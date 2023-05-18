@@ -1,5 +1,6 @@
 ﻿@using Microsoft.Identity.Web
 @using Domain.Common
+@model ScheduleIndexPageModel
 @{
     Layout = "~/Views/Shared/_Schedule_Layout.cshtml";
 
@@ -243,7 +244,12 @@
                 settings.IsSearchable = true;
                 settings.IsMultiselect = true;
                 settings.ActionBox = true;
-                settings.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery { FacultyId = int.Parse(facultyId) });
+                settings.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery
+                {
+                    FacultyId = int.Parse(facultyId),
+                    SelectedIds = new List<int> { Model.TeacherId.GetValueOrDefault() }
+                });
+                settings.OnInitChange = dsl => dsl.Self().Trigger.Change();
                 settings.OnChange = dsl =>
                 {
                     dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
@@ -272,7 +278,11 @@
                 settings.IsSearchable = true;
                 settings.IsMultiselect = true;
                 settings.ActionBox = true;
-                settings.Items = Html.Dispatcher().Query(new GetAuditoriumsForDDQuery()).Select(s => (DropDownItem)s);
+                settings.Items = Html.Dispatcher().Query(new GetAuditoriumsForSelectQuery
+                {
+                    SelectedIds = new List<int> { Model.AuditoriumId.GetValueOrDefault() }
+                }).Select(s => (DropDownItem)s);
+                settings.OnInitChange = dsl => dsl.Self().Trigger.Change();
                 settings.OnChange = dsl =>
                 {
                     dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
@@ -301,7 +311,12 @@
                 settings.IsSearchable = true;
                 settings.IsMultiselect = true;
                 settings.ActionBox = true;
-                settings.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery { FacultyId = int.Parse(facultyId) });
+                settings.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery
+                {
+                    FacultyId = int.Parse(facultyId),
+                    SelectedIds = new[] { Model.GroupId.GetValueOrDefault() }
+                });
+                settings.OnInitChange = dsl => dsl.Self().Trigger.Change();
                 settings.OnChange = dsl =>
                 {
                     dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
@@ -385,7 +400,7 @@
                                {
                                    settings.Url = Url.Dispatcher().Query(new GetWeeksForDDQuery
                                    {
-                                       FromNow = true
+                                       SelectedWeek = Model.Week
                                    }).AsJson();
                                    settings.OnSuccess = dsl =>
                                    {

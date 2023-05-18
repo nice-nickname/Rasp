@@ -1,7 +1,9 @@
 ﻿using Domain.Api;
+using Domain.App.Api;
 using Incoding.Core.CQRS.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UI.Common.Models;
 
 namespace UI.Controllers;
 
@@ -15,7 +17,7 @@ public class ScheduleController : Controller
         this._dispatcher = dispatcher;
     }
 
-    public IActionResult Index()
+    public IActionResult Index([Bind("Type", "Week")] ScheduleIndexPageModel model, [FromQuery] int? entityId)
     {
         var faculties = this._dispatcher.Query(new GetFacultiesQuery());
 
@@ -34,6 +36,20 @@ public class ScheduleController : Controller
 
         this.ViewData["FacultyId"] = facultyId;
 
-        return View();
+        model.Week ??= this._dispatcher.Query(new GetWeekFromDateQuery
+        {
+                Date = DateTime.Now,
+                FacultyId = int.Parse(facultyId)
+        });
+
+        if (entityId.HasValue)
+        {
+            var type = model.Type.GetValueOrDefault(ScheduleIndexPageModel.EntityType.GROUP);
+            model.AuditoriumId = type == ScheduleIndexPageModel.EntityType.AUDITORIUM ? entityId : null;
+            model.TeacherId = type == ScheduleIndexPageModel.EntityType.TEACHER ? entityId : null;
+            model.GroupId = type == ScheduleIndexPageModel.EntityType.GROUP ? entityId : null;
+        }
+
+        return View(model);
     }
 }

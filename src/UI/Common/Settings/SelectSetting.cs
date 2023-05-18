@@ -28,6 +28,8 @@ public class SelectSetting
 
     public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnChange { get; set; }
 
+    public Action<IIncodingMetaLanguageCallbackBodyDsl>? OnInitChange { get; set; }
+
     public object @params => 
             new
             {
