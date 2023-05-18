@@ -40,7 +40,8 @@ public class SaveScheduleCommand : CommandBase
                                                   && c.ScheduleFormatId == ScheduleFormatId)
                                          .ToList();
 
-        var isTeacherBusy = scheduledClasses.Any(c => c.Plan.SubDisciplineId != SubDisciplineId);
+        var isTeacherBusy = scheduledClasses.Any(c => c.Plan.SubDisciplineId != SubDisciplineId
+                                                   && !c.Plan.SubDiscipline.IsParallelHours);
 
         var preference = Dispatcher.Query(new GetTeacherPreferencesQuery
                                    {
