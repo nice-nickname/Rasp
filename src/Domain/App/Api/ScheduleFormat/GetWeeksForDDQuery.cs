@@ -19,9 +19,9 @@ public class GetWeeksForDDQuery : QueryBase<List<KeyValueVm>>
                 Type = FacultySettings.OfType.CountOfWeeks
         });
         var week = SelectedWeek.GetValueOrDefault(1);
-        if (week > weeks)
+        if (week > weeks || week < 1)
         {
-            week = weeks;
+            week = 1;
         }
 
         return Enumerable.Range(1, weeks)
