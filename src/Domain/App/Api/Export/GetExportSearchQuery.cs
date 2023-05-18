@@ -20,11 +20,13 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
                                          Name = s.Name,
                                          Type = OfType.TEACHER
                                  })
+                                 .OrderBy(s => s.Name)
                                  .ToList();
 
         var groups = Repository.Query<Group>()
                                .Where(s => s.Department.FacultyId == FacultyId)
                                .Where(s => s.Code.Contains(Search))
+                               .OrderBy(s => s.Course)
                                .Select(s => new Response
                                {
                                        Id = s.Id,
@@ -42,6 +44,8 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
 
             auditoriums = Repository.Query<Auditorium>()
                                     .Where(s => s.Building.Name == building && s.Code.Contains(auditorium))
+                                    .OrderBy(s => s.Building.Name)
+                                    .ThenBy(s => s.Code)
                                     .Select(s => new Response
                                     {
                                             Id = s.Id,
@@ -54,6 +58,8 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
         {
             auditoriums = Repository.Query<Auditorium>()
                                     .Where(s => s.Code.Contains(Search))
+                                    .OrderBy(s => s.Building.Name)
+                                    .ThenBy(s => s.Code)
                                     .Select(s => new Response
                                     {
                                             Id = s.Id,

@@ -582,4 +582,7 @@
   <data name="SubGroupAbbreviation" xml:space="preserve">
 	  <value>п/г</value>
   </data>
+  <data name="ReturnToSearch" xml:space="preserve">
+	  <value>Вернуться на поиск</value>
+  </data>
 </root>
