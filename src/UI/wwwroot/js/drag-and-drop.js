@@ -49,7 +49,7 @@
             if ($(this).prev().attr('role') != 'overlap' && $(this).prev().attr('role') != 'overlap-busy') {
                 let overlapElementCopy = $(overlapElement).clone(true)
 
-                if (forOne && $(this).find($(params.item)).length > 0 && $(this) != $(listContainer)) 
+                if (forOne && $(this).find($(params.item)).length > 0 && $(this)[0] != $(params.listContainer)[0]) 
                     $(overlapElementCopy).attr('role', 'overlap-busy')
 
                 $(overlapElementCopy).insertBefore($(this))
