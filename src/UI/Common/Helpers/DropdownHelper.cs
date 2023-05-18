@@ -38,11 +38,7 @@ public partial class ControlsHtmlHelper<T>
                 button.Ajax(settings.Url);
 
             return button
-                   .OnSuccess(dsl =>
-                   {
-                       dsl.Window.Console.Log("r-debug", "dropdown button successfully clicked");
-                       settings.OnSuccess?.Invoke(dsl);
-                   })
+                   .OnSuccess(dsl => settings.OnSuccess?.Invoke(dsl))
                    .AsHtmlAttributes(id: settings.Id)
                    .ToTag(HtmlTag.Li, $@"<a class=""dropdown-item"" {href}>{settings.Text}</a>");
         }
@@ -65,7 +61,6 @@ public partial class ControlsHtmlHelper<T>
                        .Ajax(settings.Url)
                        .OnSuccess(dsl =>
                        {
-                           dsl.Window.Console.Log("r-debug", "dropdown list successfully loaded");
                            dsl.Self().Insert.WithTemplateByView(template).Html();
                            settings.OnSuccess?.Invoke(dsl);
                        })
