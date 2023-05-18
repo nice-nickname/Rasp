@@ -23,12 +23,9 @@ public class GetWeeksForDDQuery : QueryBase<List<KeyValueVm>>
 
         if (FromNow)
         {
-            var currentDate = DateTime.Now;
-
             currentWeek = Dispatcher.Query(new GetWeekFromDateQuery
             {
-                    FacultyId = FacultyId,
-                    Date = currentDate
+                    FacultyId = FacultyId, Date = DateTime.Now
             });
         }
 

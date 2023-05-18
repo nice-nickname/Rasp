@@ -33,8 +33,26 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
                                })
                                .ToList();
 
-        var auditoriums = Repository.Query<Auditorium>()
-                                    .Where(s => s.Department.FacultyId == FacultyId)
+        List<Response> auditoriums;
+
+        if (Search.Contains("-"))
+        {
+            var building = Search.Split("-")[0];
+            var auditorium = Search.Split("-")[1];
+
+            auditoriums = Repository.Query<Auditorium>()
+                                    .Where(s => s.Building.Name == building && s.Code.Contains(auditorium))
+                                    .Select(s => new Response
+                                    {
+                                            Id = s.Id,
+                                            Name = $"{s.Building.Name}-{s.Code}",
+                                            Type = OfType.AUDITORIUM,
+                                    })
+                                    .ToList();
+        }
+        else
+        {
+            auditoriums = Repository.Query<Auditorium>()
                                     .Where(s => s.Code.Contains(Search))
                                     .Select(s => new Response
                                     {
@@ -43,6 +61,7 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
                                             Type = OfType.AUDITORIUM,
                                     })
                                     .ToList();
+        }
 
         teachers.AddRange(groups);
         teachers.AddRange(auditoriums);

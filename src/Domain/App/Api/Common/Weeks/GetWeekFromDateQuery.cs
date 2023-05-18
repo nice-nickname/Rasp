@@ -18,6 +18,12 @@ public class GetWeekFromDateQuery : QueryBase<int>
                 FacultyId = FacultyId
         });
 
+        var countOfWeeks = Dispatcher.Query(new GetFacultySettingQuery<int>
+        {
+                Type = FacultySettings.OfType.CountOfWeeks,
+                FacultyId = FacultyId
+        });
+
         if (Date <= start)
         {
             return 1;
@@ -32,6 +38,9 @@ public class GetWeekFromDateQuery : QueryBase<int>
         {
             week++;
             start = start.AddDays(7);
+
+            if (week == countOfWeeks)
+                break;
         }
 
         return week;

@@ -579,4 +579,7 @@
   <data name="ExportDate" xml:space="preserve">
 	  <value>Дата экспорта:</value>
   </data>
+  <data name="SubGroupAbbreviation" xml:space="preserve">
+	  <value>п/г</value>
+  </data>
 </root>
