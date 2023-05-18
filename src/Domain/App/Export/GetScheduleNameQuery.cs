@@ -26,7 +26,7 @@ public class GetScheduleNameQuery : QueryBase<string>
         }
         else if (TeacherId.HasValue)
         {
-            name = Repository.GetById<Teacher>(TeacherId).Name;
+            name = Repository.GetById<Teacher>(TeacherId).ShortName;
         }
 
         return name;

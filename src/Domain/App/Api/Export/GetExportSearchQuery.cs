@@ -27,6 +27,7 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
                                .Where(s => s.Department.FacultyId == FacultyId)
                                .Where(s => s.Code.Contains(Search))
                                .OrderBy(s => s.Course)
+                               .ThenBy(s => s.Code)
                                .Select(s => new Response
                                {
                                        Id = s.Id,

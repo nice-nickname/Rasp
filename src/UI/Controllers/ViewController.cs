@@ -80,6 +80,6 @@ public class ViewController : Controller
                 GroupId = type == GetExportSearchQuery.OfType.GROUP ? id : null
         });
 
-        return View(new SchedulePageModel { Format = format, Items = result, Title = $"{DataResources.Schedule} {name}", ActiveWeek = week.Value });
+        return View(new SchedulePageModel { Format = format, Items = result, Title = $"{DataResources.Schedule} - {name}", ActiveWeek = week.Value });
     }
 }
