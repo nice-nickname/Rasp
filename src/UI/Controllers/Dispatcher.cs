@@ -7,6 +7,5 @@ public class Dispatcher : DispatcherControllerBase
     public Dispatcher(IServiceProvider serviceProvider)
             : base(serviceProvider)
     {
-
     }
 }

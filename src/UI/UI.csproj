@@ -27,6 +27,7 @@
   <ItemGroup>
     <Folder Include="Infrastructure\ModelBinders\Binders\" />
     <Folder Include="Infrastructure\ModelBinders\Providers\" />
+    <Folder Include="Infrastructure\Validators\" />
     <Folder Include="Views\Settings\Weekends\" />
   </ItemGroup>
 

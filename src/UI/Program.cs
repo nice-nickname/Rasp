@@ -19,6 +19,7 @@ using NHibernate.Dialect;
 using NHibernate.Tool.hbm2ddl;
 using NUglify.JavaScript;
 using System.Globalization;
+using Domain.Common;
 using Domain.Infrastructure;
 using Domain.Infrastructure.Providers;
 using Microsoft.Identity.Web;
@@ -26,6 +27,7 @@ using Microsoft.Identity.Web.UI;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 using UI.Infrastructure.ModelBinders;
+using UI.Infrastructure.Validators;
 
 namespace UI;
 
@@ -151,6 +153,8 @@ public static class Startup
             pipeline.AddCssBundle("/css/styles.css", "/css/**/*.css");
         });
 
+        builder.Services.AddScoped<IValidator<ZipHtmlModel>, ZipHtmlModelValidator>();
+
         return builder.Build();
     }
 
@@ -164,7 +168,6 @@ public static class Startup
         {
             app.UseExceptionHandler("/Home/Error");
         }
-        
 
         app.UseCookiePolicy();
 

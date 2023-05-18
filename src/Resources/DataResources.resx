@@ -567,4 +567,16 @@
   <data name="View" xml:space="preserve">
 	  <value>Просмотр</value>
   </data>
+  <data name="ChooseItemsForExport" xml:space="preserve">
+	  <value>Выберите предметы для экспорта</value>
+  </data>
+  <data name="CopyFrom" xml:space="preserve">
+	  <value>Копировать с </value>
+  </data>
+  <data name="WeekTo" xml:space="preserve">
+	  <value>недели по</value>
+  </data>
+  <data name="ExportDate" xml:space="preserve">
+	  <value>Дата экспорта:</value>
+  </data>
 </root>

@@ -1,62 +1,91 @@
 ﻿@using Domain.Common
-@model SchedulePageModel
+@model ExportPageModel
 @{
     Layout = "";
 }
 
 <style>
-    table.schedule-table td, table th { border: 1px solid; }
+    .schedule-table table tbody td,
+    .schedule-table table thead th {
+        border: 1px solid;
+    }
 
-    table.schedule-table tbody td { text-align: center }
+    .schedule-table table tbody td {
+         text-align: center
+    }
+
+    .schedule-table table tfoot td {
+        text-align: end
+    }
+
+    .schedule-table table tbody td:first-child {
+        text-align: left;
+        padding: 0.5rem;
+    }
 </style>
 
-<table class="schedule-table">
-    <thead>
-        <tr>
-            <th></th>
-            @foreach (var th in Model.Format.Items)
-            {
-                <th>
-                    @(th.Order + 1) @DataResources.ScheduleItem
-                    <div>
-                        @th.Start.GetValueOrDefault().ToString(@"hh\:mm") - @th.End.GetValueOrDefault().ToString(@"hh\:mm")
-                    </div>
-                </th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var tr in Model.Items)
-        {
+<div class="schedule-table">
+    <h3>@DataResources.Schedule @Model.Title. @DataResources.Week @Model.ActiveWeek.</h3>
+    <table class="schedule-table">
+        <thead>
             <tr>
-                <td>
-                    @tr.DayString
-                </td>
-                @foreach (var td in tr.Items)
+                <th></th>
+                @foreach (var th in Model.Format.Items)
                 {
-                    <td>
+                    <th>
+                        @(th.Order + 1) @DataResources.ScheduleItem
                         <div>
-                            @td.Group
+                            @th.Start.GetValueOrDefault().ToString(@"hh\:mm") - @th.End.GetValueOrDefault().ToString(@"hh\:mm")
                         </div>
-                        <div>
-                            @td.Teacher
-                        </div>
-                        <div>
-                            @td.DisciplineCode
-                        </div>
-                        <div>
-                            @if (td.SubGroupNo != 0)
-                            {
-                                @($"{td.SubGroupNo} {DataResources.SubGroup}")
-                            }
-                        </div>
-                        <div>
-                            @td.Auditorium
-                        </div>
-
-                    </td>
+                    </th>
                 }
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @{
+                var i = 0;
+            }
+            @foreach (var tr in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @tr.DayString, @Model.StartWeekDate.AddDays(i).ToString("M")
+                    </td>
+                    @foreach (var td in tr.Items)
+                    {
+                        <td>
+                            <div>
+                                @td.Group
+                            </div>
+                            <div>
+                                @td.Teacher
+                            </div>
+                            <div>
+                                @td.Discipline
+                            </div>
+                            <div>
+                                @if (td.SubGroupNo != 0)
+                                {
+                                    @($"{td.SubGroupNo} {DataResources.SubGroup}")
+                                }
+                            </div>
+                            <div>
+                                @if (td.AuditoriumId.HasValue)
+                                {
+                                    @td.Auditorium
+                                }
+                            </div>
+
+                        </td>
+                    }
+                </tr>
+                i++;
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="@(Model.Format.ItemsCount + 1)">@DataResources.ExportDate @Model.ExportDate</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

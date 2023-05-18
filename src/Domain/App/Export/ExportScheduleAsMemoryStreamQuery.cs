@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System.IO.Compression;
+using System.Reflection;
+using System.Text;
 using Domain.Api;
+using Domain.App.Api;
 using Domain.Common;
 using Domain.Infrastructure;
 using Incoding.Core.Block.IoC;
@@ -7,6 +10,7 @@ using Incoding.Core.CQRS.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain.Export;
+
 
 public class ExportScheduleAsMemoryStreamQuery : QueryBase<ExportScheduleAsMemoryStreamQuery.Response>
 {
@@ -42,16 +46,20 @@ public class ExportScheduleAsMemoryStreamQuery : QueryBase<ExportScheduleAsMemor
         {
                 FacultyId = FacultyId,
                 Week = Week,
-                SelectedAuditoriumIds = GroupId.HasValue ? new[] { AuditoriumId } : Array.Empty<int?>(),
-                SelectedTeacherIds = GroupId.HasValue ? new[] { TeacherId } : Array.Empty<int?>(),
+                SelectedAuditoriumIds = AuditoriumId.HasValue ? new[] { AuditoriumId } : Array.Empty<int?>(),
+                SelectedTeacherIds = TeacherId.HasValue ? new[] { TeacherId } : Array.Empty<int?>(),
                 SelectedGroupIds = GroupId.HasValue ? new[] { GroupId } : Array.Empty<int?>(),
         });
 
         var html = renderService.Render("~/Views/Export/ExportPage.cshtml",
-                                        new SchedulePageModel
+                                        new ExportPageModel
                                         {
                                                 Items = schedule,
-                                                Format = format
+                                                Format = format,
+                                                Title = name,
+                                                ActiveWeek = Week,
+                                                ExportDate = DateTime.Now,
+                                                StartWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { Week = Week, FacultyId = FacultyId })
                                         }).Result;
 
         return new Response

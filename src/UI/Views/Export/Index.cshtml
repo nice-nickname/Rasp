@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Domain.Export
+@{
     Layout = "_MainLayout";
     var startId = Guid.NewGuid().ToString();
     var endId = Guid.NewGuid().ToString();
@@ -27,15 +28,17 @@
 
 @section Body
 {
-    <div class="container">
+    <div class="container mt-5">
         @using (Html.BeginForm("AsZipHtml", "Export"))
         {
             @Html.Hidden("FacultyId", Context.Request.Cookies[GlobalSelectors.FacultyId])
-            <h5>Выберите предметы для экспорта</h5>
+            <h5>@DataResources.ChooseItemsForExport</h5>
             <div class="mb-1 d-flex gap-3">
                 <div class="form-group">
-                    <label class="form-label">Копировать с </label>
-                    @Html.Hidden(startWeekName, 1)
+                    <label class="form-label">@DataResources.CopyFrom</label>
+                    @Html.Hidden(startWeekName, 1, Html.When(JqueryBind.InitIncoding)
+                                                       .OnSuccess(dsl => dsl.With(s => s.Id(startId + "-button").Find(c => c.Role("title"))).Insert.Use(Selector.Jquery.Self()).Text())
+                                                       .AsHtmlAttributes())
                     @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                     {
                         Id = startId,
@@ -46,7 +49,8 @@
                         },
                         Button = new DropdownModel.ButtonSettings
                         {
-                            Text = 1.ToString()
+                            Text = 1.ToString(),
+                            Id = startId + "-button"
                         },
                         Items = new List<IHtmlContent>
                         {
@@ -64,8 +68,10 @@
                     }))
                 </div>
                 <div class="form-group">
-                    <label class="form-label">недели по</label>
-                    @Html.Hidden(endWeekName, 1)
+                    <label class="form-label">@DataResources.WeekTo</label>
+                    @Html.Hidden(endWeekName, 1, Html.When(JqueryBind.InitIncoding)
+                                                     .OnSuccess(dsl => dsl.With(s => s.Id(endId + "-button").Find(c => c.Role("title"))).Insert.Use(Selector.Jquery.Self()).Text())
+                                                     .AsHtmlAttributes())
                     @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                     {
                         Id = endId,
@@ -76,7 +82,8 @@
                         },
                         Button = new DropdownModel.ButtonSettings
                         {
-                            Text = 1.ToString()
+                            Text = 1.ToString(),
+                            Id = endId + "-button"
                         },
                         Items = new List<IHtmlContent>
                         {
@@ -94,9 +101,11 @@
                     }))
                 </div>
             </div>
+            @Html.ValidationMessage("Groups", "", new { @class = "invalid-feedback" })
+
             <div class="row">
                 <div class="form-group col">
-                    <label class="form-label">Группы</label>
+                    <label class="form-label">@DataResources.GroupList</label>
                     @Html.Controls().Select(s =>
                     {
                         s.Class = "form-control";
@@ -111,7 +120,7 @@
                     })
                 </div>
                 <div class="form-group col">
-                    <label class="form-label">Аудитории</label>
+                    <label class="form-label">@DataResources.AuditoriumList</label>
                     @Html.Controls().Select(s =>
                     {
                         s.Class = "form-control";
@@ -123,7 +132,7 @@
                     })
                 </div>
                 <div class="form-group col">
-                    <label class="form-label">Преподаватели</label>
+                    <label class="form-label">@DataResources.TeacherList</label>
                     @Html.Controls().Select(s =>
                     {
                         s.Class = "form-control";
@@ -138,8 +147,17 @@
                     })
                 </div>
             </div>
-            <div class="mt-3">
-                <button class="btn btn-primary" type="submit">@DataResources.Export</button>
+            @Html.ValidationMessage(startWeekName, "", new { @class = "invalid-feedback" })
+
+            <div class="mt-3 d-flex">
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl =>
+                      {
+                          dsl.WithClass("invalid-feedback").Insert.Use("").Text();
+                          dsl.Self().Trigger.Submit();
+                      })
+                      .AsHtmlAttributes(classes: "btn btn-primary ms-auto mt-3")
+                      .ToButton(DataResources.Export))
             </div>
         }
     </div>
