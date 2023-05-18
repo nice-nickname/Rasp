@@ -8,6 +8,15 @@ namespace Domain.Api;
 
 public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Response>>
 {
+    public enum ModeOf
+    {
+        Groups,
+
+        Auditoriums,
+
+        Teachers
+    }
+
     private readonly Func<DateTime, DayOfWeek, DateTime> getDay = (startDate, day) =>
     {
         int diff = day - startDate.DayOfWeek;
@@ -33,6 +42,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
             var selectedGroupId = SelectedGroupIds.FirstOrDefault();
             var selectedAuditoriumId = SelectedAuditoriumIds.FirstOrDefault();
             var selectedTeacherId = SelectedTeacherIds.FirstOrDefault();
+            var mode = selectedGroupId != null
+                    ? ModeOf.Groups
+                    : selectedAuditoriumId != null
+                            ? ModeOf.Auditoriums
+                            : ModeOf.Teachers;
 
             var schedulerItems = Repository.Query<ScheduleFormat>()
                                            .Where(s => s.FacultyId == FacultyId)
@@ -56,20 +70,27 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
             var preferences = new List<GetTeacherPreferencesQuery.Response>();
             var scheduledClassesAll = Repository.Query<Class>();
 
-            if (selectedGroupId.HasValue)
-                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == selectedGroupId.Value && r.Week == Week);
-
-            if (selectedAuditoriumId.HasValue)
-                scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == selectedAuditoriumId && r.Week == Week);
-
-            if (selectedTeacherId.HasValue)
+            switch (mode)
             {
-                scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == selectedTeacherId && r.Week == Week);
-                preferences = Dispatcher.Query(new GetTeacherPreferencesQuery
-                {
-                        FacultyId = FacultyId,
-                        TeacherId = selectedTeacherId
-                });
+                case ModeOf.Groups:
+                    scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.GroupId == selectedGroupId.Value && r.Week == Week);
+
+                    break;
+
+                case ModeOf.Auditoriums:
+                    scheduledClassesAll = scheduledClassesAll.Where(r => r.AuditoriumId == selectedAuditoriumId && r.Week == Week);
+
+                    break;
+
+                case ModeOf.Teachers:
+                    scheduledClassesAll = scheduledClassesAll.Where(r => r.Plan.TeacherId == selectedTeacherId && r.Week == Week);
+                    preferences = Dispatcher.Query(new GetTeacherPreferencesQuery
+                    {
+                            FacultyId = FacultyId,
+                            TeacherId = selectedTeacherId
+                    });
+
+                    break;
             }
 
             var classes = new List<Response>
@@ -89,7 +110,7 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                     var currentDate = this.getDay(startWeekDate, @class.Day);
                     var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
                     var isUnwanted = false;
-                    if (preferences != null && preferences.Count > 0)
+                    if (mode is ModeOf.Teachers && preferences is { Count: > 0 })
                     {
                         var currentPreference = preferences.First(r => r.Day == @class.Day).Days.First(r => r.ScheduleItemId == schedulerItems[i].Id.GetValueOrDefault());
                         isBlocked = isBlocked || currentPreference.Type == GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE;
@@ -133,9 +154,9 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                            Id = r.Id,
                                            AuditoriumId = r.AuditoriumId,
                                            Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
-                                           IsGroup = selectedGroupId.HasValue,
-                                           IsAuditorium = selectedAuditoriumId.HasValue,
-                                           IsTeacher = selectedTeacherId.HasValue,
+                                           IsGroup = mode == ModeOf.Groups,
+                                           IsAuditorium = mode == ModeOf.Auditoriums,
+                                           IsTeacher = mode == ModeOf.Teachers,
                                            StudentCount = r.Plan.Group.StudentCount,
                                            IsUnwanted = r.IsUnwanted
                                    })
@@ -145,13 +166,25 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
             foreach (var scheduled in scheduledClasses)
             {
+                var addedMany = 0;
+
                 foreach (var item in scheduled)
                 {
-                    if (!classes.Any(r => r.Day == scheduled.Key && r.Items.Any(q => item.Order == q.Order)))
+                    if ((!classes.Any(r => r.Day == scheduled.Key && r.Items.Any(q => item.Order == q.Order))) || addedMany > 0)
                         continue;
                     {
                         var day = classes.First(r => r.Day == scheduled.Key);
                         var @class = classes.First(r => r.Day == scheduled.Key).Items.First(r => item.Order == r.Order);
+
+                        if (mode is ModeOf.Teachers or ModeOf.Auditoriums)
+                        {
+                            var allClassesLikeCurrent = scheduled.Where(r => r.Order == item.Order).ToList();
+
+                            if (allClassesLikeCurrent.Count > 1)
+                                item.Group = string.Join(", ", allClassesLikeCurrent.Select(r => r.Group));
+
+                            addedMany++;
+                        }
 
                         day.Items.Remove(@class);
                         day.Items.Add(item);
@@ -191,24 +224,24 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
             var preferences = new List<TeacherPreferenceItem>();
             var items = new List<int?>();
-            typeOf? type = null;
+            ModeOf? mode = null;
 
             if (SelectedGroupIds.First() != null && SelectedGroupIds.Length > 0)
             {
                 items = SelectedGroupIds.ToList();
-                type = typeOf.Groups;
+                mode = ModeOf.Groups;
             }
 
             if (SelectedAuditoriumIds.First() != null && SelectedAuditoriumIds.Length > 0)
             {
                 items = SelectedAuditoriumIds.ToList();
-                type = typeOf.Auditoriums;
+                mode = ModeOf.Auditoriums;
             }
 
             if (SelectedTeacherIds.First() != null && SelectedTeacherIds.Length > 0)
             {
                 items = SelectedTeacherIds.ToList();
-                type = typeOf.Teachers;
+                mode = ModeOf.Teachers;
                 foreach (var teacherId in items)
                     preferences.Add(new TeacherPreferenceItem
                     {
@@ -231,20 +264,20 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
             foreach (var @class in classes)
             {
-                switch (type)
+                switch (mode)
                 {
-                    case typeOf.Groups:
+                    case ModeOf.Groups:
                         @class.DayString = Repository.GetById<Group>(@class.Id).Code;
 
                         break;
 
-                    case typeOf.Auditoriums:
+                    case ModeOf.Auditoriums:
                         var auditorium = Repository.GetById<Auditorium>(@class.Id);
                         @class.DayString = $"{auditorium.Building.Name}-{auditorium.Code}";
 
                         break;
 
-                    case typeOf.Teachers:
+                    case ModeOf.Teachers:
                         @class.DayString = Repository.GetById<Teacher>(@class.Id).ShortName;
 
                         break;
@@ -275,23 +308,23 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
             }
 
             var scheduledClassesAll = Repository.Query<Class>();
-            switch (type)
+            switch (mode)
             {
-                case typeOf.Groups:
+                case ModeOf.Groups:
                     scheduledClassesAll = scheduledClassesAll.Where(r => SelectedGroupIds.Contains(r.Plan.GroupId)
                                                                       && r.Week == Week
                                                                       && r.Day == Day);
 
                     break;
 
-                case typeOf.Auditoriums:
+                case ModeOf.Auditoriums:
                     scheduledClassesAll = scheduledClassesAll.Where(r => SelectedAuditoriumIds.Contains(r.AuditoriumId)
                                                                       && r.Week == Week
                                                                       && r.Day == Day);
 
                     break;
 
-                case typeOf.Teachers:
+                case ModeOf.Teachers:
                     scheduledClassesAll = scheduledClassesAll.Where(r => SelectedTeacherIds.Contains(r.Plan.TeacherId)
                                                                       && r.Week == Week
                                                                       && r.Day == Day);
@@ -325,18 +358,18 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                            Id = r.Id,
                                            AuditoriumId = r.AuditoriumId,
                                            Auditorium = r.Auditorium != null ? $"{r.Auditorium.Building.Name}-{r.Auditorium.Code}" : DataResources.ChooseAuditorium,
-                                           IsGroup = type == typeOf.Groups,
-                                           IsAuditorium = type == typeOf.Auditoriums,
-                                           IsTeacher = type == typeOf.Teachers,
+                                           IsGroup = mode == ModeOf.Groups,
+                                           IsAuditorium = mode == ModeOf.Auditoriums,
+                                           IsTeacher = mode == ModeOf.Teachers,
                                            StudentCount = r.Plan.Group.StudentCount,
                                            IsUnwanted = r.IsUnwanted
                                    })
                                    .ToList()
-                                   .GroupBy(r => type switch
+                                   .GroupBy(r => mode switch
                                    {
-                                           typeOf.Groups => r.GroupId,
-                                           typeOf.Auditoriums => r.AuditoriumId,
-                                           typeOf.Teachers => r.TeacherId,
+                                           ModeOf.Groups => r.GroupId,
+                                           ModeOf.Auditoriums => r.AuditoriumId,
+                                           ModeOf.Teachers => r.TeacherId,
                                            _ => throw new ArgumentOutOfRangeException()
                                    })
                                    .ToList();
@@ -365,15 +398,6 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         }
 
         return null;
-    }
-
-    private enum typeOf
-    {
-        Groups,
-
-        Auditoriums,
-
-        Teachers
     }
 
     public class Response

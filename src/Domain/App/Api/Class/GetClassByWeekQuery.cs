@@ -1,6 +1,7 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 using Incoding.Core.Extensions;
+using static Domain.Api.GetScheduleByWeekQuery;
 
 namespace Domain.Api;
 
@@ -22,6 +23,8 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
         if (SelectedTeacherIds.Length <= 1 && SelectedAuditoriumIds.Length <= 1 && SelectedGroupIds.Length <= 1)
         {
+            // TODO: Добавить Mode
+
             var scheduledAll = Repository.Query<Class>()
                                          .Where(r => r.Week == Week && r.ScheduleFormat.FacultyId == FacultyId);
             var disciplinePlansAll = Repository.Query<DisciplinePlan>();
@@ -101,39 +104,39 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
             var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
             var items = new List<int?>();
-            typeOf? type = null;
+            ModeOf? mode = null;
 
             if (SelectedGroupIds.First() != null && SelectedGroupIds.Length > 1)
             {
                 items = SelectedGroupIds.ToList();
-                type = typeOf.Groups;
+                mode = ModeOf.Groups;
             }
 
             if (SelectedAuditoriumIds.First() != null && SelectedAuditoriumIds.Length > 1)
             {
                 items = SelectedAuditoriumIds.ToList();
-                type = typeOf.Auditoriums;
+                mode = ModeOf.Auditoriums;
             }
 
             if (SelectedTeacherIds.First() != null && SelectedTeacherIds.Length > 1)
             {
                 items = SelectedTeacherIds.ToList();
-                type = typeOf.Teachers;
+                mode = ModeOf.Teachers;
             }
 
-            switch (type)
+            switch (mode)
             {
-                case typeOf.Groups:
+                case ModeOf.Groups:
                     scheduledAll = scheduledAll.Where(r => items.Contains(r.Plan.GroupId));
                     disciplinePlansAll = disciplinePlansAll.Where(r => items.Contains(r.GroupId));
 
                     break;
 
-                case typeOf.Auditoriums:
+                case ModeOf.Auditoriums:
 
                     break;
 
-                case typeOf.Teachers:
+                case ModeOf.Teachers:
                     scheduledAll = scheduledAll.Where(r => items.Contains(r.Plan.TeacherId));
                     disciplinePlansAll = disciplinePlansAll.Where(r => items.Contains(r.TeacherId));
 
@@ -198,15 +201,6 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
         }
 
         return res;
-    }
-
-    private enum typeOf
-    {
-        Groups,
-
-        Auditoriums,
-
-        Teachers
     }
 
     public record Response

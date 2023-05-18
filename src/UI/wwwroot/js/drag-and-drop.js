@@ -207,8 +207,9 @@
                             $(itemUnderDrop).before(item)
                         }
                         else {
-                            $(item).appendTo(dropContainer)
+                            $(item).prependTo(dropContainer)
                         }
+
                         dropContainer.trigger(event, $(this).data())
                     }
                 } else {

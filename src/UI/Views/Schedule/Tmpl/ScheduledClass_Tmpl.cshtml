@@ -47,7 +47,7 @@
     </div>
 
     <div class="mx-1 d-flex gap-2">
-        <div class="flex-grow-1 text-nowrap text-overflow-elipsis overflow-hidden">
+        <div class="flex-grow-1 text-nowrap text-overflow-elipsis overflow-hidden minw-0 w-px-0" @Model.IsInline(r => r.IsTeacher, @$"title=""{Model.For(r => r.Group)}""")>
             @Model.IsInline(r => r.IsGroup, Model.For(r => r.Teacher))
             @Model.IsInline(r => r.IsAuditorium, Model.For(r => r.Teacher))
             @Model.IsInline(r => r.IsTeacher, Model.For(r => r.Group))

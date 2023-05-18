@@ -11,6 +11,7 @@
             @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), each.For(r => r.SubDisciplineId))
             @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), each.For(r => r.SubGroupNo))
             @Html.Hidden(nameof(SaveScheduleCommand.TeacherId), each.For(r => r.TeacherId))
+            @Html.Hidden(nameof(SaveScheduleCommand.Id))
 
             <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @each.For(r => r.Color)"></div>
 

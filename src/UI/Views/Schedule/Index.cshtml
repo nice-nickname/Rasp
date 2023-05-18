@@ -237,6 +237,8 @@
     <div class="d-flex flex-column flex-grow-1 gap-3">
     <div class="d-flex">
         <div class="d-flex gap-2 bg-base rounded" name="@currentScheduleFiltersName">
+            @Html.Hidden(nameof(SaveScheduleCommand.Mode))
+
             @Html.Controls().Select(settings =>
             {
                 settings.Name = nameof(GetScheduleByWeekQuery.SelectedTeacherIds);
@@ -261,6 +263,8 @@
                     dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
                     dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
                        .If(() => Selector.Jquery.Self().Val().Length() > 1);
+
+                    dsl.WithName<SaveScheduleCommand>(r => r.Mode).JQuery.Attr.Val(GetScheduleByWeekQuery.ModeOf.Teachers);
 
                     dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
                 };
@@ -291,6 +295,8 @@
                     dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
                        .If(() => Selector.Jquery.Self().Val().Length() > 1);
 
+                    dsl.WithName<SaveScheduleCommand>(r => r.Mode).JQuery.Attr.Val(GetScheduleByWeekQuery.ModeOf.Auditoriums);
+
                     dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
                 };
             })
@@ -319,6 +325,8 @@
                     dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
                     dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
                        .If(() => Selector.Jquery.Self().Val().Length() > 1);
+
+                    dsl.WithName<SaveScheduleCommand>(r => r.Mode).JQuery.Attr.Val(GetScheduleByWeekQuery.ModeOf.Groups);
 
                     dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
                 };
@@ -440,7 +448,7 @@
               {
                   item = Selector.Jquery.Role("drag-element").ToSelector(),
                   container = Selector.Jquery.Role("drag-container").ToSelector(),
-                  forOne = true,
+                  forOne = false,
                   listContainer = Selector.Jquery.Name("list").ToSelector()
               });
               dsl.With(s => s.Id(unallocatedSearchId).Find(HtmlTag.Input)).Trigger.Invoke(JqueryBind.KeyUp);

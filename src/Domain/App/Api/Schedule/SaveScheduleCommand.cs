@@ -26,6 +26,8 @@ public class SaveScheduleCommand : CommandBase
 
     public string CustomValidationMessage { get; set; }
 
+    public GetScheduleByWeekQuery.ModeOf Mode { get; set; }
+
     public DayOfWeek Day { get; set; }
 
     protected override void Execute()
@@ -40,8 +42,8 @@ public class SaveScheduleCommand : CommandBase
                                                   && c.ScheduleFormatId == ScheduleFormatId)
                                          .ToList();
 
-        var isTeacherBusy = scheduledClasses.Any(c => c.Plan.SubDisciplineId != SubDisciplineId
-                                                   && !c.Plan.SubDiscipline.IsParallelHours);
+        var isTeacherBusy = scheduledClasses.Any(c => c.Id != Id && (c.Plan.SubDisciplineId != SubDisciplineId
+                                                                  || (!c.Plan.SubDiscipline.IsParallelHours && c.Plan.SubDisciplineId == SubDisciplineId)));
 
         var preference = Dispatcher.Query(new GetTeacherPreferencesQuery
                                    {
@@ -79,6 +81,24 @@ public class SaveScheduleCommand : CommandBase
             foreach (var scheduled in classes)
             {
                 scheduled.AuditoriumId = auditoriumId;
+            }
+        }
+
+        var subDiscipline = Repository.GetById<SubDiscipline>(SubDisciplineId);
+
+        if (@class.Id != 0 && subDiscipline.IsParallelHours && Mode is GetScheduleByWeekQuery.ModeOf.Teachers or GetScheduleByWeekQuery.ModeOf.Auditoriums)
+        {
+            foreach (var scheduledClass in Repository.Query<Class>()
+                                                     .Where(c => c.Plan.TeacherId == TeacherId
+                                                              && c.Week == Week
+                                                              && c.Day == @class.Day
+                                                              && c.ScheduleFormatId == @class.ScheduleFormatId))
+            {
+                scheduledClass.Day = Day;
+                scheduledClass.ScheduleFormatId = ScheduleFormatId;
+                scheduledClass.AuditoriumId = auditoriumId;
+
+                Repository.SaveOrUpdate(scheduledClass);
             }
         }
 

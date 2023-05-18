@@ -534,6 +534,14 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.minw-0 {
+    min-width: 0;
+}
+
+.w-px-0 {
+    width: 0;
+}
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
