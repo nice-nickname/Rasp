@@ -7,18 +7,22 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {
-        return Repository.Query<Auditorium>()
-                         .Select(r => new Response
-                         {
-                                 Id = r.Id,
-                                 Capacity = r.Capacity,
-                                 BuildingName = r.Building.Name,
-                                 DepartmentCode = r.Department != null ? r.Department.Code : string.Empty,
-                                 DepartmentName = r.Department != null ? r.Department.Name : string.Empty,
-                                 Code = r.Code,
-                                 Kinds = Repository.GetById<Auditorium>(r.Id).Kinds.ToList()
-                         })
-                         .ToList();
+        var res = Repository.Query<Auditorium>()
+                            .OrderBy(s => s.Building.Name)
+                            .ThenBy(s => s.Code)
+                            .ToList();
+
+        return res.Select(r => new Response
+                  {
+                          Id = r.Id,
+                          Capacity = r.Capacity,
+                          BuildingName = r.Building.Name,
+                          DepartmentCode = r.Department != null ? r.Department.Code : string.Empty,
+                          DepartmentName = r.Department != null ? r.Department.Name : string.Empty,
+                          Code = r.Code,
+                          Kinds = r.Kinds.ToList()
+                  })
+                  .ToList();
     }
 
     public class Response

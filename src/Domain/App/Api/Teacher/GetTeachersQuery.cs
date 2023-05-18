@@ -16,6 +16,7 @@ public class GetTeachersQuery : QueryBase<List<GetTeachersQuery.Response>>
                                      DepartmentCode = r.Department.Code,
                                      DepartmentName = r.Department.Name
                              })
+                             .OrderBy(s => s.Name)
                              .ToList();
 
         var response = new List<Response>();
