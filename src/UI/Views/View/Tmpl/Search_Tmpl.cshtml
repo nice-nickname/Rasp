@@ -9,10 +9,11 @@
 {
     using (template.NotEach())
     {
-        <div class="w-100 rounded text-center px-3 py-2">
+        <div class="text-center" role="empty">
             По вашему запросу ничего не найдено
         </div>
     }
+
     using (var each = template.ForEach())
     {
         <a href="@($"/view/public/{facultyId}/{each.For(s => s.Type)}/{each.For(s => s.Id)}")" class="w-100 rounded shadow shadow-hover px-3 py-2 text-decoration-none">

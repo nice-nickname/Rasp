@@ -9,19 +9,18 @@
     <div class="container vh-100">
         @Html.Hidden(GlobalSelectors.FacultyId, facultyId)
 
-        <div class="d-flex flex-grow-1 flex-column gap-3 justify-content-center p-1 mh-100 h-100 mt-5">
+        <div class="d-flex flex-grow-1 flex-column gap-3 justify-content-center px-1 py-4 mh-100 h-100">
             <div class="d-flex gap-3 justify-content-center">
                 <div class="w-40 input">
                     @(Html.When(JqueryBind.Change)
                           .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
                           .AsHtmlAttributes(classes: "rounded search w-100 h-100", id: "search-input")
                           .ToInput(HtmlInputType.Text, ""))
-                    <span class="material-symbols-rounded addon-r">search</span>
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
+                          .AsHtmlAttributes(classes: "btn p-1 addon-r")
+                          .ToButton(@<span class="material-symbols-rounded">search</span>))
                 </div>
-                @(Html.When(JqueryBind.Click)
-                      .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
-                      .AsHtmlAttributes(classes: "btn btn-light")
-                      .ToButton(DataResources.Continue))
 
                 @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                 {
@@ -48,6 +47,7 @@
                     }
                 }))
             </div>
+
             @(Html.When(JqueryBind.None)
                   .StopPropagation()
                   .Ajax(o =>
@@ -60,6 +60,12 @@
                       }).AsJson();
                   })
                   .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/View/Tmpl/Search_Tmpl.cshtml").Html())
+                  .OnComplete(dsl =>
+                  {
+                      dsl.Self().JQuery.Attr.RemoveClass("justify-content-center");
+                      dsl.Self().JQuery.Attr.AddClass("justify-content-center")
+                         .If(() => Selector.Jquery.Role("empty").Length() > 0);
+                  })
                   .AsHtmlAttributes(classes: "d-flex flex-column p-1 gap-2 overflow-auto flex-grow-1 justify-content-center", id: "search")
                   .ToDiv())
         </div>
