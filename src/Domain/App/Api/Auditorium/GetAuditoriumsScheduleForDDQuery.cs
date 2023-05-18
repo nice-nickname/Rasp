@@ -37,7 +37,6 @@ public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
                                              .ToList();
 
         var capacity = Repository.Query<Class>()
-                                 .ToList()
                                  .Where(r => r.Plan.SubDisciplineId == SubDisciplineId)
                                  .Sum(r => r.Plan.Group.StudentCount);
 
