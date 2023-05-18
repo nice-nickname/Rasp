@@ -179,6 +179,7 @@
                                             @Html.Hidden(name(k, nameof(AddOrEditDisciplineCommand.PlanItem.WeekItems)) + $"[{j}].{nameof(AddOrEditDisciplineCommand.WeekItem.Week)}", week.Week)
                                             @(Html.When(JqueryBind.Change)
                                                   .StopPropagation()
+                                                  .OnBegin(dsl => dsl.Self().JQuery.Attr.Val("").If(() => Selector.Jquery.Self() <= 0))
                                                   .OnSuccess(dsl => dsl.WithSelf(s => s.Closest(HtmlTag.Table).Find(c => c.Role("assigned"))).Trigger.Change())
                                                   .AsHtmlAttributes(new
                                                   {
@@ -187,7 +188,7 @@
                                                       role = "hours",
                                                       pattern = "[0-9]"
                                                   })
-                                                  .ToInput(HtmlInputType.Number, week.Hours.ToString()))
+                                                  .ToInput(HtmlInputType.Number, week.Hours.GetValueOrDefault() == 0 ? "" : week.Hours.ToString()))
                                         </td>
                                         j++;
                                     }

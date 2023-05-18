@@ -15,6 +15,7 @@
         dsl.WithId(GlobalSelectors.EditListId).Insert
            .WithTemplateByUrl(Url.Dispatcher().Model(DataResources.NoItemsAvailable).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html()
            .If(() => Selector.Jquery.Id(GlobalSelectors.EditListId).Children().Length() == 0);
+        dsl.WithId(searchInputId).JQuery.Call("search", Selector.Jquery.Role("list").ToSelector());
     };
 
     Action<IIncodingMetaLanguageCallbackBodyDsl, string> addNewButton = (dsl, url) =>

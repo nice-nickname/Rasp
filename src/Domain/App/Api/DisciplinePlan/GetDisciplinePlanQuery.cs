@@ -41,7 +41,7 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                                .ToDictionary(k => k.Id);
 
         var defaultWeek = Enumerable.Range(1, weeksCount)
-                                    .Select(s => new WeekItem { Week = s, Hours = 0 })
+                                    .Select(s => new WeekItem { Week = s, Hours = null })
                                     .ToList();
 
         var defaultTeachers = TeacherIds.Select(q => new Item
@@ -106,7 +106,7 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
                                             {
                                                 weekItems.Add(new WeekItem
                                                 {
-                                                        Hours = 0,
+                                                        Hours = null,
                                                         Week = weekItems.Last().Week,
                                                 });
                                             }
@@ -203,7 +203,7 @@ public class GetDisciplinePlanQuery : QueryBase<List<GetDisciplinePlanQuery.Resp
     {
         public int Week { get; set; }
 
-        public int Hours { get; set; }
+        public int? Hours { get; set; }
     }
 
     public record HeaderWeek

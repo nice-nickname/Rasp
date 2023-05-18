@@ -180,7 +180,7 @@ public class AddOrEditDisciplineCommand : CommandBase
                 weekItems.AddRange(actualPlan.WeekItems
                                              .Select(s => new DisciplinePlanByWeek
                                              {
-                                                     AssignmentHours = s.Hours,
+                                                     AssignmentHours = s.Hours.GetValueOrDefault(0),
                                                      DisciplinePlanId = planItem.Id,
                                                      Week = s.Week
                                              }));
@@ -231,7 +231,7 @@ public class AddOrEditDisciplineCommand : CommandBase
 
     public record WeekItem
     {
-        public int Hours { get; set; }
+        public int? Hours { get; set; }
 
         public int Week { get; set; }
     }

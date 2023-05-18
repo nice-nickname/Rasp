@@ -67,7 +67,7 @@ function suggestInputValueByNamingCase(value, to) {
 
     $.fn.disciplinePlanReset = function() {
         const table = $(this).closest('table')
-        table.find('[role=hours]').each((i, input) => input.value = 0)
+        table.find('[role=hours]').each((i, input) => $(input).val(null))
         table.find('[role=assigned]').trigger('change')
     }
 
@@ -81,7 +81,7 @@ function suggestInputValueByNamingCase(value, to) {
                .children(':not(:visible)')
                .each(function() {
                    $(this).find('[role=hours]').toArray()
-                          .forEach((input, i) => input.value = hours[i])
+                          .forEach((input, i) => $(input).val(hours[i] || ""))
                })
                .find('[role=assigned]').trigger('change')
     }
@@ -92,7 +92,7 @@ function suggestInputValueByNamingCase(value, to) {
         const assigned = table.find('[role=assigned]')
         const total = table.find('[role=total]')
 
-        tr.find('[role=hours]').val(0)
+        tr.find('[role=hours]').val(null)
         assigned.trigger('change')
 
         let hours = Number(total.text()) - Number(assigned.text())
