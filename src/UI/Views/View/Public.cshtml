@@ -54,69 +54,22 @@
                                 <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover">
 
                                     <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @cell.Color"></div>
-
-                                    <div class="d-flex mx-1 mt-1 gap-2">
-                                        <div class="flex-grow-1 discipline-code" title="@cell.Discipline">
-                                            @cell.DisciplineCode
+                                    <div class="flex-grow-1 d-flex flex-column justify-content-center text-center" style="font-size: 0.875rem">
+                                        <div>
+                                            @cell.SubDisciplineCode@cell.Discipline
+                                            @cell.Teacher
+                                            @if (cell.AuditoriumId.HasValue)
+                                            {
+                                                @cell.Auditorium
+                                            }
                                         </div>
-                                        <div class="flex-grow-1 discipline text-overflow-elipsis text-nowrap overflow-hidden" title="@cell.Discipline">
-                                            @cell.Discipline
-                                        </div>
-
-                                        <div class="flex-shrink-0 subdiscipline-code" title="@cell.SubDiscipline">
-                                            @cell.SubDisciplineCode
-                                        </div>
-                                        <div class="flex-shrink-0 subdiscipline" title="@cell.SubDiscipline">
-                                            @cell.SubDiscipline
-                                        </div>
-                                    </div>
-
-                                    <div class="mx-1 d-flex gap-2">
-                                        <div class="flex-grow-1">
+                                        <div>
+                                            @cell.Group
                                             @if (cell.HasSubGroups)
                                             {
-                                                <text>@cell.SubGroupNo @DataResources.SubGroup</text>
+                                                <text>@cell.SubGroupNo п.</text>
                                             }
                                         </div>
-                                        <div class="flex-shrink-0 text-nowrap text-overflow-elipsis overflow-hidden">
-                                            @if (cell.IsGroup)
-                                            {
-                                                <text>@cell.DepartmentCode</text>
-                                            }
-                                            @if (cell.IsAuditorium)
-                                            {
-                                                <text>@cell.Group</text>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div class="mx-1 d-flex gap-2">
-                                        <div class="flex-grow-1 text-nowrap text-overflow-elipsis overflow-hidden">
-                                            @if (cell.IsGroup)
-                                            {
-                                                <text>@cell.Teacher</text>
-                                            }
-                                            @if (cell.IsAuditorium)
-                                            {
-                                                <text>@cell.Teacher</text>
-                                            }
-                                            @if (cell.IsTeacher)
-                                            {
-                                                <text>@cell.Group</text>
-                                            }
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            @if (cell.IsTeacher)
-                                            {
-                                                @cell.DepartmentCode
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="w-100 h-px-30">
-                                        @if (cell.AuditoriumId.HasValue)
-                                        {
-                                            @cell.Auditorium
-                                        }
                                     </div>
                                 </div>
                             }

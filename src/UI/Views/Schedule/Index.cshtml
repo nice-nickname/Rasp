@@ -17,11 +17,7 @@
 
     var facultyId = (string)ViewData["FacultyId"];
 
-    Action<IIncodingMetaLanguageCallbackBodyDsl> refreshWeek = dsl =>
-    {
-        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
-        dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None();
-    };
+    Action<IIncodingMetaLanguageCallbackBodyDsl> refreshWeek = dsl => { dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None(); };
 }
 
 @section Body
@@ -192,7 +188,7 @@
             </div>
 
             <div class="d-flex flex-column flex-grow-1 overflow-hidden flex-basis-0 position-relative">
-                @(Html.When(JqueryBind.None)
+                @(Html.When(JqueryBind.None | JqueryBind.InitIncoding)
                       .Ajax<GetClassByWeekQuery>(new
                       {
                           Week = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
@@ -209,13 +205,7 @@
                           dsl.Self().Insert.WithTemplateByUrl(Url.Dispatcher().Model<string>(DataResources.AllClassesScheduled).AsView("~/Views/Shared/Placeholder_Select.cshtml")).Html()
                              .If(() => Selector.Jquery.Self().Children().Length() == 0);
                       })
-                      .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
-                      {
-                          item = Selector.Jquery.Role("drag-element").ToSelector(),
-                          container = Selector.Jquery.Role("drag-container").ToSelector(),
-                          forOne = true,
-                          listContainer = Selector.Jquery.Name("list").ToSelector()
-                      }))
+                      .OnComplete(dsl => dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None())
                       .When("incodingdropped")
                       .AjaxPost(Url.Dispatcher().Push<DeleteClassCommand>(new { Id = Selector.Jquery.Self().Find(r => r.Name("card")).Find(r => r.Name<Class>(q => q.Id)) }))
                       .OnSuccess(dsl => dsl.Self().Trigger.None())
@@ -244,9 +234,7 @@
                     settings.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery { FacultyId = int.Parse(facultyId) });
                     settings.OnChange = dsl =>
                     {
-                        //dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedGroupIds).JQuery.Call("selectpicker", "deselectAll");
-                        //dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds).JQuery.Call("selectpicker", "deselectAll");
-
+                        // TODO: Сделать выключение двух других через jquery.attr.disabled
                         dsl.WithId(dayId).JQuery.Attr.AddClass("hidden")
                            .If(() => Selector.Jquery.Self().Closest(HtmlTag.Div).Find(r => r.Class("selected")).Length() <= 2);
                         dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
@@ -264,9 +252,7 @@
                     settings.Items = Html.Dispatcher().Query(new GetAuditoriumsForDDQuery()).Select(s => (DropDownItem)s);
                     settings.OnChange = dsl =>
                     {
-                        //dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds).JQuery.Call("selectpicker", "deselectAll");
-                        //dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedGroupIds).JQuery.Call("selectpicker", "deselectAll");
-
+                        // TODO: Сделать выключение двух других через jquery.attr.disabled
                         dsl.WithId(dayId).JQuery.Attr.AddClass("hidden")
                            .If(() => Selector.Jquery.Self().Closest(HtmlTag.Div).Find(r => r.Class("selected")).Length() <= 2);
                         dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
@@ -284,9 +270,7 @@
                     settings.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery { FacultyId = int.Parse(facultyId) });
                     settings.OnChange = dsl =>
                     {
-                        //dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds).JQuery.Call("selectpicker", "deselectAll");
-                        //dsl.WithName<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds).JQuery.Call("selectpicker", "deselectAll");
-
+                        // TODO: Сделать выключение двух других через jquery.attr.disabled
                         dsl.WithId(dayId).JQuery.Attr.AddClass("hidden")
                            .If(() => Selector.Jquery.Self().Closest(HtmlTag.Div).Find(r => r.Class("selected")).Length() <= 2);
                         dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
@@ -364,7 +348,7 @@
             </div>
         </div>
 
-        @(Html.When(JqueryBind.InitIncoding | JqueryBind.None)
+        @(Html.When(JqueryBind.None)
               .Ajax(Url.Dispatcher().Query<GetScheduleByWeekQuery>(new
               {
                   SelectedGroupIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupIds),
