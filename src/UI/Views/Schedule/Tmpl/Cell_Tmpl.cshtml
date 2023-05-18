@@ -25,6 +25,7 @@
 
 <div class="bg-base rounded position-relative cell" role="cell">
     @Html.Hidden(nameof(SaveScheduleCommand.ScheduleFormatId), Model.For(r => r.ScheduleFormatId))
+
     @using (Html.When("incodingdropped none")
                 .AjaxPost(urlSave)
                 .OnSuccess(dsl =>
@@ -47,19 +48,15 @@
                 })
                 .ToBeginTag(HtmlTag.Div))
     {
-        @Model.NotInline(r => r.IsEmpty, @<text>
-                                             @await Html.PartialAsync("~/Views/Schedule/Tmpl/ScheduledClass_Tmpl.cshtml", Model)
-                                          </text>)
+        @Model.NotInline(r => r.IsEmpty, await Html.PartialAsync("~/Views/Schedule/Tmpl/ScheduledClass_Tmpl.cshtml", Model))
 
-        @Model.Inline(r => r.IsBlocked, @<text>
-                                            <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded unallowed-gray">
-                                                <span class="material-symbols-rounded">close</span>
-                                            </div>
-                                         </text>,
-                      Model.IsInline(r => r.IsUnwanted, @<text>
-                                                            <div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded" role="unwanted">
-                                                                @DataResources.Unwanted
-                                                            </div>
-                                                         </text>))
+        @Model.Inline(r => r.IsBlocked, @<div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded unallowed-gray">
+                                            <span class="material-symbols-rounded">close</span>
+                                        </div>,
+                      Model.IsInline(r => r.IsUnwanted, @<div class="d-flex w-100 h-100 justify-content-center align-items-center bg-gray rounded" role="unwanted">
+                                                            @DataResources.Unwanted
+                                                        </div>))
+
+        @Model.IsInline(r => r.IsEmpty, Model.IsInline(r => r.IsAuditorium, Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId), Model.For(r => r.AuditoriumId))))
     }
 </div>
