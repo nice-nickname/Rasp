@@ -362,13 +362,17 @@
                                                  && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds) == string.Empty
                                                  && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds) == string.Empty))
               .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Schedule_Tmpl.cshtml").Html())
-              .OnComplete(dsl => dsl.Self().JQuery.PlugIn("dragAndDrop", new
+              .OnComplete(dsl =>
               {
-                  item = Selector.Jquery.Role("drag-element").ToSelector(),
-                  container = Selector.Jquery.Role("drag-container").ToSelector(),
-                  forOne = true,
-                  listContainer = Selector.Jquery.Name("list").ToSelector()
-              }))
+                  dsl.Self().JQuery.PlugIn("dragAndDrop", new
+                  {
+                      item = Selector.Jquery.Role("drag-element").ToSelector(),
+                      container = Selector.Jquery.Role("drag-container").ToSelector(),
+                      forOne = true,
+                      listContainer = Selector.Jquery.Name("list").ToSelector()
+                  });
+                  dsl.With(s => s.Id(unallocatedSearchId).Find(HtmlTag.Input)).Trigger.Invoke(JqueryBind.KeyUp);
+              })
               .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: GlobalSelectors.ScheduleId)
               .ToDiv(@<text>
                          @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseSchedule)
