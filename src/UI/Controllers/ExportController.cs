@@ -7,6 +7,8 @@ using Domain.Common;
 using System.Text;
 using Incoding.Core;
 using Domain.Api;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace UI.Controllers;
 
@@ -16,9 +18,12 @@ public class ExportController : Controller
 {
     private readonly IDispatcher _dispatcher;
 
-    public ExportController(IDispatcher dispatcher)
+    private readonly IValidator<ZipHtmlModel> _validator;
+
+    public ExportController(IDispatcher dispatcher, IValidator<ZipHtmlModel> validator)
     {
         this._dispatcher = dispatcher;
+        this._validator = validator;
     }
 
     [Authorize(Roles = "Rasp.Admin")]
@@ -62,6 +67,14 @@ public class ExportController : Controller
     public IActionResult AsZipHtml([FromForm] ZipHtmlModel model)
     {
         var items = new List<ExportScheduleItem>();
+
+        var validation = _validator.Validate(model);
+        if (!validation.IsValid)
+        {
+            validation.AddToModelState(this.ModelState, "");
+            this.ViewData["FacultyId"] = Request.Cookies[GlobalSelectors.FacultyId];
+            return View("Index");
+        }
 
         items.AddRange(model.Auditoriums.Select(s => new ExportScheduleItem
         {

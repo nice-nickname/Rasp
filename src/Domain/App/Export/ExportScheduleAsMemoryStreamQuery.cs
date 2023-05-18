@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.IO.Compression;
+using System.Reflection;
+using System.Text;
 using Domain.Api;
 using Domain.App.Api;
 using Domain.Common;
@@ -8,6 +10,7 @@ using Incoding.Core.CQRS.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain.Export;
+
 
 public class ExportScheduleAsMemoryStreamQuery : QueryBase<ExportScheduleAsMemoryStreamQuery.Response>
 {
