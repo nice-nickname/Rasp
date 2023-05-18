@@ -24,7 +24,7 @@ public class GetWeekendsForWeekQuery : QueryBase<List<DateOnly>>
 
         var response = Repository.Query<Holidays>()
                                  .Where(r => r.Date >= startDate
-                                          && r.Date <= endDate)
+                                          && r.Date < endDate)
                                  .Select(r => r.Date)
                                  .ToList();
 
