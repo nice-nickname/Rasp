@@ -8,9 +8,15 @@
 {
     <div class="container mt-5 vh-100">
         <div class="flex-grow-1 d-flex flex-column gap-2 schedule rounded h-100 pt-1 pb-5 ">
-            <h3 class="text-center mb-3">
-                @Model.Title
-            </h3>
+            <div class="text-center mb-3 position-relative">
+                <a class="position-absolute start-0 top-0 text-start btn btn-light h-fit" href="@Url.Action("Index")">
+                    <span class="material-symbols-rounded">
+                        arrow_back
+                    </span>
+                    @DataResources.ReturnToSearch
+                </a>
+                <h3>@Model.Title</h3>
+            </div>
             <div class="d-flex gap-2 w-100 overflow-x-auto overflow-y-hidden justify-content-center flex-shrink-0 mb-3">
                 @for (int i = 0; i < Model.Format.CountOfWeeks; i++)
                 {

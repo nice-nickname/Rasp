@@ -997,6 +997,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вернуться на поиск.
+        /// </summary>
+        public static string ReturnToSearch {
+            get {
+                return ResourceManager.GetString("ReturnToSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Суббота.
         /// </summary>
         public static string Saturday {
