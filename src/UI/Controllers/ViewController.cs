@@ -1,8 +1,11 @@
 ﻿using Domain.Api;
+using Domain.App.Api;
 using Domain.Common;
+using Domain.Export;
 using Incoding.Core.CQRS.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Resources;
 using UI.Common.Models;
 
 namespace UI.Controllers;
@@ -44,6 +47,8 @@ public class ViewController : Controller
     {
         var faculties = this._dispatcher.Query(new GetFacultiesQuery());
 
+        week ??= this._dispatcher.Query(new GetWeekFromDateQuery { FacultyId = facultyId, Date = DateTime.Now });
+
         if (faculties.Count < 1)
         {
             return StatusCode(500, "Возможность работы без факультетов невозможна :(");
@@ -68,6 +73,13 @@ public class ViewController : Controller
                 FacultyId = facultyId
         });
 
-        return View(new SchedulePageModel { Format = format, Items = result, Title = "", ActiveWeek = week.GetValueOrDefault(1) });
+        var name = this._dispatcher.Query(new GetScheduleNameQuery
+        {
+                AuditoriumId = type == GetExportSearchQuery.OfType.AUDITORIUM ? id : null,
+                TeacherId = type == GetExportSearchQuery.OfType.TEACHER ? id : null,
+                GroupId = type == GetExportSearchQuery.OfType.GROUP ? id : null
+        });
+
+        return View(new SchedulePageModel { Format = format, Items = result, Title = $"{DataResources.Schedule} {name}", ActiveWeek = week.Value });
     }
 }

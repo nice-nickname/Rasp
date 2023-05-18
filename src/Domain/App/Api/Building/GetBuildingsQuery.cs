@@ -13,6 +13,7 @@ public class GetBuildingsQuery : QueryBase<List<GetBuildingsQuery.Response>>
                                  Id = r.Id,
                                  Name = r.Name
                          })
+                         .OrderBy(s => s.Name)
                          .ToList();
     }
 

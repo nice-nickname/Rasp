@@ -17,6 +17,7 @@ public class GetDepartmentsQuery : QueryBase<List<GetDepartmentsQuery.Response>>
                                  Code = s.Code,
                                  Name = s.Name
                          })
+                         .OrderBy(s => s.Code)
                          .ToList();
     }
 

@@ -12,48 +12,6 @@
     <title>@DataResources.ApplicationName</title>
 </head>
 <body class="d-flex flex-column min-vh-100 max-vh-100">
-    <header class="d-flex p-3 justify-content-center">
-        <div class="w-50">
-            <div class="d-flex gap-2 bg-base rounded w-fit">
-                <a class="btn btn-primary" href="@Url.Action("Index", "View")">
-                    @DataResources.Search
-                </a>
-                @if (User.IsInRole("Rasp.Admin"))
-                {
-                    <a class="btn btn-light" href="@Url.Action("Index", "Home")">
-                        @DataResources.Application
-                    </a>
-                }
-            </div>
-        </div>
-
-        <div>
-            <a class="text-decoration-none text-black" href="@Url.Action("Index", "Home")">@DataResources.ApplicationName</a>
-        </div>
-
-        <div class="w-50 d-flex flex-row-reverse">
-            <div class="d-flex flex-row-reverse gap-2 w-fit bg-base rounded">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-                    {
-                        Button = new DropdownModel.ButtonSettings
-                        {
-                            Text = User.GetDisplayName()
-                        },
-                        Items = new List<IHtmlContent>
-                        {
-                            Html.Controls().Dropdown.Href(Url.Action("SignOut", "Account", new { Area = "MicrosoftIdentity" }), DataResources.SignOut)
-                        }
-                    })
-                }
-                else 
-                {
-                    <a class="btn btn-light" href="@Url.Action("SignIn", "Account", new { Area = "MicrosoftIdentity" })">@DataResources.SignIn</a>
-                }
-            </div>
-        </div>
-    </header>
 
     <main role="main" class="mx-2 px-1 flex-grow-1 d-flex justify-content-center overflow-hidden" id="@GlobalSelectors.MainId">
         <div class="container">

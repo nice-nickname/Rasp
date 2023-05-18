@@ -57,6 +57,10 @@ public partial class ControlsHtmlHelper<T>
                         dsl.Self().JQuery.Call("selectpickerval", selectedJson);
 
                         settings.OnInit?.Invoke(dsl);
+                        if (selected.Any())
+                        {
+                            settings.OnInitChange?.Invoke(dsl);
+                        }
                     })
                     .When(JqueryBind.Change)
                     .StopPropagation()

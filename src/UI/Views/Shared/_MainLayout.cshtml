@@ -12,13 +12,13 @@
     </head>
     <body class="d-flex flex-column min-vh-100 max-vh-100">
 
-        @await RenderSectionAsync("Header", true)
+        @await RenderSectionAsync("Header", false)
 
         <main role="main" class="mx-2 px-1 flex-grow-1 d-flex flex-column overflow-hidden" id="@GlobalSelectors.MainId">
             @await RenderSectionAsync("Body")
         </main>
 
-        @await RenderSectionAsync("Footer", true)
+        @await RenderSectionAsync("Footer", false)
 
         <script src="~/lib/jq.js"></script>
         <script src="~/lib/inc.js"></script>

@@ -9,7 +9,7 @@ public class GetWeeksForDDQuery : QueryBase<List<KeyValueVm>>
 {
     public int FacultyId { get; set; }
 
-    public bool FromNow { get; set; }
+    public int? SelectedWeek { get; set; }
 
     protected override List<KeyValueVm> ExecuteResult()
     {
@@ -18,22 +18,14 @@ public class GetWeeksForDDQuery : QueryBase<List<KeyValueVm>>
                 FacultyId = FacultyId,
                 Type = FacultySettings.OfType.CountOfWeeks
         });
-
-        var currentWeek = -1;
-
-        if (FromNow)
+        var week = SelectedWeek.GetValueOrDefault(1);
+        if (week > weeks || week < 1)
         {
-            var currentDate = DateTime.Now;
-
-            currentWeek = Dispatcher.Query(new GetWeekFromDateQuery
-            {
-                    FacultyId = FacultyId,
-                    Date = currentDate
-            });
+            week = 1;
         }
 
         return Enumerable.Range(1, weeks)
-                         .Select(s => new KeyValueVm(s, s.ToString(), s == currentWeek))
+                         .Select(s => new KeyValueVm(s, s.ToString(), s == week))
                          .ToList();
     }
 }

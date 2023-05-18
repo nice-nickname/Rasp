@@ -14,6 +14,11 @@ ul.dropdown-menu {
     max-height: 25vh;
 }
 
+.bootstrap-select ul.dropdown-menu {
+    max-height: none;
+    overflow-y: visible;
+}
+
 a.dropdown-item {
     border-radius: 6px;
     cursor: default;

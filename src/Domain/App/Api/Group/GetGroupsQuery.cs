@@ -18,6 +18,8 @@ public class GetGroupsQuery : QueryBase<List<GetGroupsQuery.Response>>
                                  DepartmentName = r.Department.Name,
                                  Course = r.Course
                          })
+                         .OrderBy(s => s.Course)
+                         .ThenBy(s => s.Code)
                          .ToList();
     }
 

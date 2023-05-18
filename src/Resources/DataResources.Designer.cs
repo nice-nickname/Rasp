@@ -1222,6 +1222,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to п/г.
+        /// </summary>
+        public static string SubGroupAbbreviation {
+            get {
+                return ResourceManager.GetString("SubGroupAbbreviation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Воскресенье.
         /// </summary>
         public static string Sunday {

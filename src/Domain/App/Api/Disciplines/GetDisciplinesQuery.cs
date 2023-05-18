@@ -17,6 +17,7 @@ public class GetDisciplinesQuery : QueryBase<List<GetDisciplinesQuery.Response>>
                                  Code = s.Code,
                                  FilterCourses = string.Join(" ", s.Groups.GroupBy(r => r.Course).Select(r => $"{r.Key} {DataResources.Course}"))
                          })
+                         .OrderBy(s => s.Code)
                          .ToList();
     }
 
