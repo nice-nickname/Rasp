@@ -189,6 +189,7 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                     StartDate = startWeekDate
             });
 
+            var preferences = new List<TeacherPreferenceItem>();
             var items = new List<int?>();
             typeOf? type = null;
 
@@ -208,6 +209,16 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
             {
                 items = SelectedTeacherIds.ToList();
                 type = typeOf.Teachers;
+                foreach (var teacherId in items)
+                    preferences.Add(new TeacherPreferenceItem
+                    {
+                            TeacherId = teacherId,
+                            Items = Dispatcher.Query(new GetTeacherPreferencesQuery
+                            {
+                                    FacultyId = FacultyId,
+                                    TeacherId = teacherId
+                            })
+                    });
             }
 
             var classes = new List<Response>();
@@ -244,13 +255,21 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                 {
                     var currentDate = this.getDay(startWeekDate, Day!.Value);
                     var isBlocked = weekends.Contains(DateOnly.FromDateTime(currentDate));
+                    var isUnwanted = false;
+                    if (preferences != null && preferences.Count > 0)
+                    {
+                        var currentPreference = preferences.First(r => r.TeacherId == @class.Id).Items.First(r => r.Day == @class.Day).Days.First(r => r.ScheduleItemId == schedulerItems[i].Id.GetValueOrDefault());
+                        isBlocked = isBlocked || currentPreference.Type == GetTeacherPreferencesQuery.PreferenceType.IMPOSSIBLE;
+                        isUnwanted = currentPreference.Type == GetTeacherPreferencesQuery.PreferenceType.UNWANTED;
+                    }
 
                     @class.Items.Add(new ClassItem
                     {
                             Order = i,
                             IsEmpty = true,
                             ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
-                            IsBlocked = isBlocked
+                            IsBlocked = isBlocked,
+                            IsUnwanted = isUnwanted
                     });
                 }
             }
