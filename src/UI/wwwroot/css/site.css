@@ -104,10 +104,12 @@ ul ul {
 
 .input > .addon-l {
     left: 0px;
+    position: absolute;
 }
 
 .input > .addon-r {
     right: 0px;
+    position: absolute;
 }
 
 .w-10 {

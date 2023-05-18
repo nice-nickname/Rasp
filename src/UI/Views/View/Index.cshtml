@@ -16,12 +16,11 @@
                           .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
                           .AsHtmlAttributes(classes: "rounded search w-100 h-100", id: "search-input")
                           .ToInput(HtmlInputType.Text, ""))
-                    <span class="material-symbols-rounded addon-r">search</span>
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
+                          .AsHtmlAttributes(classes: "btn p-1 addon-r")
+                          .ToButton(@<span class="material-symbols-rounded">search</span>))
                 </div>
-                @(Html.When(JqueryBind.Click)
-                      .OnSuccess(dsl => dsl.WithId("search").Trigger.None())
-                      .AsHtmlAttributes(classes: "btn btn-light")
-                      .ToButton(DataResources.Continue))
 
                 @(await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                 {
@@ -48,6 +47,7 @@
                     }
                 }))
             </div>
+
             @(Html.When(JqueryBind.None)
                   .StopPropagation()
                   .Ajax(o =>

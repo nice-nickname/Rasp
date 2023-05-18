@@ -48,6 +48,10 @@ $toast-spacing: 0.5rem;
     color: $base;
 }
 
+.text-gray {
+    color: $gray;
+}
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 .btn-light:hover {
