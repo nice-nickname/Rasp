@@ -610,6 +610,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Дата экспорта:.
+        /// </summary>
+        public static string ExportDate {
+            get {
+                return ResourceManager.GetString("ExportDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Институт.
         /// </summary>
         public static string Faculty {

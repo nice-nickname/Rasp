@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Domain.Api;
+using Domain.App.Api;
 using Domain.Common;
 using Domain.Infrastructure;
 using Incoding.Core.Block.IoC;
@@ -42,16 +43,20 @@ public class ExportScheduleAsMemoryStreamQuery : QueryBase<ExportScheduleAsMemor
         {
                 FacultyId = FacultyId,
                 Week = Week,
-                SelectedAuditoriumIds = GroupId.HasValue ? new[] { AuditoriumId } : Array.Empty<int?>(),
-                SelectedTeacherIds = GroupId.HasValue ? new[] { TeacherId } : Array.Empty<int?>(),
+                SelectedAuditoriumIds = AuditoriumId.HasValue ? new[] { AuditoriumId } : Array.Empty<int?>(),
+                SelectedTeacherIds = TeacherId.HasValue ? new[] { TeacherId } : Array.Empty<int?>(),
                 SelectedGroupIds = GroupId.HasValue ? new[] { GroupId } : Array.Empty<int?>(),
         });
 
         var html = renderService.Render("~/Views/Export/ExportPage.cshtml",
-                                        new SchedulePageModel
+                                        new ExportPageModel
                                         {
                                                 Items = schedule,
-                                                Format = format
+                                                Format = format,
+                                                Title = name,
+                                                ActiveWeek = Week,
+                                                ExportDate = DateTime.Now,
+                                                StartWeekDate = Dispatcher.Query(new GetDateFromWeekQuery { Week = Week, FacultyId = FacultyId })
                                         }).Result;
 
         return new Response

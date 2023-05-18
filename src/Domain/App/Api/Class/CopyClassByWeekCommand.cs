@@ -83,6 +83,7 @@ public class CopyClassByWeekCommand : CommandBase
                     SubGroupNo = match.SubGroupNo,
                     Week = DestinationWeek,
                     Day = match.Day,
+                    IsUnwanted = match.IsUnwanted
             });
         }
     }

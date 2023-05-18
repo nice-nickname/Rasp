@@ -83,9 +83,9 @@
                     </div>
                 </div>
 
-                <div class="btn btn-light">
-                    Экспорт
-                </div>
+                <a class="btn btn-light" href="@Url.Action("Index", "Export")">
+                    @DataResources.Export
+                </a>
 
                 @Html.Controls().ButtonConfirm(settings =>
                 {
