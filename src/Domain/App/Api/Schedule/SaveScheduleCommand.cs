@@ -74,7 +74,8 @@ public class SaveScheduleCommand : CommandBase
         {
             var classes = Repository.Query<Class>()
                                     .ToList()
-                                    .Where(c => c.Plan.SubDisciplineId == SubDisciplineId);
+                                    .Where(c => c.Plan.SubDisciplineId == SubDisciplineId
+                                             && c.Plan.SubDiscipline.IsParallelHours);
 
             auditoriumId = AuditoriumId;
 

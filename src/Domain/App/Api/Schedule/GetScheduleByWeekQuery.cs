@@ -302,7 +302,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                             IsEmpty = true,
                             ScheduleFormatId = schedulerItems[i].Id.GetValueOrDefault(),
                             IsBlocked = isBlocked,
-                            IsUnwanted = isUnwanted
+                            IsUnwanted = isUnwanted,
+                            IsAuditorium = mode == ModeOf.Auditoriums,
+                            AuditoriumId = mode == ModeOf.Auditoriums
+                                    ? @class.Id
+                                    : null
                     });
                 }
             }

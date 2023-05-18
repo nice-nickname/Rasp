@@ -17,25 +17,25 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
 
     public int?[] SelectedTeacherIds { get; set; }
 
+    public ModeOf Mode { get; set; }
+
     protected override List<Response> ExecuteResult()
     {
         var res = new List<Response>();
 
         if (SelectedTeacherIds.Length <= 1 && SelectedAuditoriumIds.Length <= 1 && SelectedGroupIds.Length <= 1)
         {
-            // TODO: Добавить Mode
-
             var scheduledAll = Repository.Query<Class>()
                                          .Where(r => r.Week == Week && r.ScheduleFormat.FacultyId == FacultyId);
             var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
-            if (SelectedGroupIds.FirstOrDefault() != null)
+            if (Mode is ModeOf.Groups)
             {
                 scheduledAll = scheduledAll.Where(r => r.Plan.GroupId == SelectedGroupIds.FirstOrDefault());
                 disciplinePlansAll = disciplinePlansAll.Where(r => r.GroupId == SelectedGroupIds.FirstOrDefault());
             }
 
-            if (SelectedTeacherIds.FirstOrDefault() != null)
+            if (Mode is ModeOf.Teachers)
             {
                 scheduledAll = scheduledAll.Where(r => r.Plan.TeacherId == SelectedTeacherIds.FirstOrDefault());
                 disciplinePlansAll = disciplinePlansAll.Where(r => r.TeacherId == SelectedTeacherIds.FirstOrDefault());
@@ -86,9 +86,9 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                                 SubDisciplineCode = disciplinePlan.SubDiscipline.Kind.Code,
                                 HasSubGroups = subGroupCount != 1,
                                 DisciplinePlanId = disciplinePlan.Id,
-                                IsGroup = SelectedGroupIds.FirstOrDefault() != null,
-                                IsAuditorium = SelectedAuditoriumIds.FirstOrDefault() != null,
-                                IsTeacher = SelectedTeacherIds.FirstOrDefault() != null,
+                                IsGroup = Mode is ModeOf.Groups,
+                                IsAuditorium = Mode is ModeOf.Auditoriums,
+                                IsTeacher = Mode is ModeOf.Teachers,
                                 AuditoriumId = SelectedAuditoriumIds.FirstOrDefault()
                         });
 
@@ -104,39 +104,23 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
             var disciplinePlansAll = Repository.Query<DisciplinePlan>();
 
             var items = new List<int?>();
-            ModeOf? mode = null;
 
-            if (SelectedGroupIds.First() != null && SelectedGroupIds.Length > 1)
-            {
-                items = SelectedGroupIds.ToList();
-                mode = ModeOf.Groups;
-            }
-
-            if (SelectedAuditoriumIds.First() != null && SelectedAuditoriumIds.Length > 1)
-            {
-                items = SelectedAuditoriumIds.ToList();
-                mode = ModeOf.Auditoriums;
-            }
-
-            if (SelectedTeacherIds.First() != null && SelectedTeacherIds.Length > 1)
-            {
-                items = SelectedTeacherIds.ToList();
-                mode = ModeOf.Teachers;
-            }
-
-            switch (mode)
+            switch (Mode)
             {
                 case ModeOf.Groups:
+                    items = SelectedGroupIds.ToList();
                     scheduledAll = scheduledAll.Where(r => items.Contains(r.Plan.GroupId));
                     disciplinePlansAll = disciplinePlansAll.Where(r => items.Contains(r.GroupId));
 
                     break;
 
                 case ModeOf.Auditoriums:
+                    items = SelectedAuditoriumIds.ToList();
 
                     break;
 
                 case ModeOf.Teachers:
+                    items = SelectedTeacherIds.ToList();
                     scheduledAll = scheduledAll.Where(r => items.Contains(r.Plan.TeacherId));
                     disciplinePlansAll = disciplinePlansAll.Where(r => items.Contains(r.TeacherId));
 
@@ -190,8 +174,7 @@ public class GetClassByWeekQuery : QueryBase<List<GetClassByWeekQuery.Response>>
                                 DisciplinePlanId = disciplinePlan.Id,
                                 IsGroup = true,
                                 IsAuditorium = true,
-                                IsTeacher = true,
-                                AuditoriumId = SelectedAuditoriumIds.FirstOrDefault()
+                                IsTeacher = true
                         });
 
                         scheduledBySubGroupCount++;
