@@ -235,192 +235,220 @@
     </div>
 
     <div class="d-flex flex-column flex-grow-1 gap-3">
-        <div class="d-flex">
-            <div class="d-flex gap-2 bg-base rounded" name="@currentScheduleFiltersName">
-                @Html.Controls().Select(settings =>
+    <div class="d-flex">
+        <div class="d-flex gap-2 bg-base rounded" name="@currentScheduleFiltersName">
+            @Html.Controls().Select(settings =>
+            {
+                settings.Name = nameof(GetScheduleByWeekQuery.SelectedTeacherIds);
+                settings.IsSearchable = true;
+                settings.IsMultiselect = true;
+                settings.ActionBox = true;
+                settings.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery { FacultyId = int.Parse(facultyId) });
+                settings.OnChange = dsl =>
                 {
-                    settings.Name = nameof(GetScheduleByWeekQuery.SelectedTeacherIds);
-                    settings.IsSearchable = true;
-                    settings.IsMultiselect = true;
-                    settings.ActionBox = true;
-                    settings.Items = Html.Dispatcher().Query(new GetTeachersForSelectQuery { FacultyId = int.Parse(facultyId) });
-                    settings.OnChange = dsl =>
-                    {
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Remove(HtmlAttribute.Disabled);
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Remove(HtmlAttribute.Disabled);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Remove(HtmlAttribute.Disabled);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Remove(HtmlAttribute.Disabled);
 
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Set(HtmlAttribute.Disabled)
-                           .If(() => Selector.Jquery.Self() != null);
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Set(HtmlAttribute.Disabled)
-                           .If(() => Selector.Jquery.Self() != null);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Set(HtmlAttribute.Disabled)
+                       .If(() => Selector.Jquery.Self() != null);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Set(HtmlAttribute.Disabled)
+                       .If(() => Selector.Jquery.Self() != null);
 
-                        dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
-                        dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
-                           .If(() => Selector.Jquery.Self().Val().Length() > 1);
+                    dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
+                    dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
+                       .If(() => Selector.Jquery.Self().Val().Length() > 1);
 
-                        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
-                    };
-                })
+                    dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                };
+            })
 
-                @Html.Controls().Select(settings =>
+            @Html.Controls().Select(settings =>
+            {
+                settings.Name = nameof(GetScheduleByWeekQuery.SelectedAuditoriumIds);
+                settings.IsSearchable = true;
+                settings.IsMultiselect = true;
+                settings.ActionBox = true;
+                settings.Items = Html.Dispatcher().Query(new GetAuditoriumsForDDQuery()).Select(s => (DropDownItem)s);
+                settings.OnChange = dsl =>
                 {
-                    settings.Name = nameof(GetScheduleByWeekQuery.SelectedAuditoriumIds);
-                    settings.IsSearchable = true;
-                    settings.IsMultiselect = true;
-                    settings.ActionBox = true;
-                    settings.Items = Html.Dispatcher().Query(new GetAuditoriumsForDDQuery()).Select(s => (DropDownItem)s);
-                    settings.OnChange = dsl =>
-                    {
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Remove(HtmlAttribute.Disabled);
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Remove(HtmlAttribute.Disabled);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Remove(HtmlAttribute.Disabled);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Remove(HtmlAttribute.Disabled);
 
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Set(HtmlAttribute.Disabled)
-                           .If(() => Selector.Jquery.Self() != null);
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Set(HtmlAttribute.Disabled)
-                           .If(() => Selector.Jquery.Self() != null);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Set(HtmlAttribute.Disabled)
+                       .If(() => Selector.Jquery.Self() != null);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedGroupIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Set(HtmlAttribute.Disabled)
+                       .If(() => Selector.Jquery.Self() != null);
 
-                        dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
-                        dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
-                           .If(() => Selector.Jquery.Self().Val().Length() > 1);
+                    dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
+                    dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
+                       .If(() => Selector.Jquery.Self().Val().Length() > 1);
 
-                        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
-                    };
-                })
+                    dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                };
+            })
 
-                @Html.Controls().Select(settings =>
+            @Html.Controls().Select(settings =>
+            {
+                settings.Name = nameof(GetScheduleByWeekQuery.SelectedGroupIds);
+                settings.IsSearchable = true;
+                settings.IsMultiselect = true;
+                settings.ActionBox = true;
+                settings.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery { FacultyId = int.Parse(facultyId) });
+                settings.OnChange = dsl =>
                 {
-                    settings.Name = nameof(GetScheduleByWeekQuery.SelectedGroupIds);
-                    settings.IsSearchable = true;
-                    settings.IsMultiselect = true;
-                    settings.ActionBox = true;
-                    settings.Items = Html.Dispatcher().Query(new GetGroupsForSelectQuery { FacultyId = int.Parse(facultyId) });
-                    settings.OnChange = dsl =>
-                    {
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Remove(HtmlAttribute.Disabled);
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Remove(HtmlAttribute.Disabled);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Remove(HtmlAttribute.Disabled);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Remove(HtmlAttribute.Disabled);
 
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Set(HtmlAttribute.Disabled)
-                           .If(() => Selector.Jquery.Self() != null);
-                        dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
-                           .JQuery.Attr.Set(HtmlAttribute.Disabled)
-                           .If(() => Selector.Jquery.Self() != null);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedTeacherIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Set(HtmlAttribute.Disabled)
+                       .If(() => Selector.Jquery.Self() != null);
+                    dsl.With(r => r.Name<GetScheduleByWeekQuery>(q => q.SelectedAuditoriumIds).Closest(q => q.Class("bootstrap-select")).Children())
+                       .JQuery.Attr.Set(HtmlAttribute.Disabled)
+                       .If(() => Selector.Jquery.Self() != null);
 
-                        dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
-                        dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
-                           .If(() => Selector.Jquery.Self().Val().Length() > 1);
+                    dsl.WithId(dayId).JQuery.Attr.AddClass("hidden");
+                    dsl.WithId(dayId).JQuery.Attr.RemoveClass("hidden")
+                       .If(() => Selector.Jquery.Self().Val().Length() > 1);
 
-                        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
-                    };
-                })
-            </div>
+                    dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                };
+            })
+        </div>
 
-            <div class="ms-auto d-flex gap-3">
-                @Html.Hidden(dayInputName, 1)
+        <div class="ms-auto d-flex gap-3">
+            @Html.Hidden(dayInputName, 1)
+            @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
+                   {
+                       Button = new DropdownModel.ButtonSettings
+                       {
+                           Text = DataResources.Monday,
+                           TextId = dayTextId,
+                           Id = dayButtonId
+                       },
+                       Items = new List<IHtmlContent>
+                       {
+                           Html.Controls().Dropdown.List(settings =>
+                           {
+                               settings.Id = dayDropdownId;
+                               settings.Url = Url.Dispatcher().Query<GetDaysOfWeekForDDQuery>(new
+                               {
+                                   Week = Selector.Jquery.Name<GetDaysOfWeekForDDQuery>(r => r.Week)
+                               }).AsJson();
+                               settings.OnClick = dsl =>
+                               {
+                                   dsl.WithName(dayInputName).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                   dsl.WithId(dayTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+
+                                   dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                               };
+                           })
+                       },
+                       Id = dayId,
+                       Classes = "hidden"
+                   })
+
+            <div class="d-flex gap-2 bg-base rounded">
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl =>
+                      {
+                          dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.DecrementVal()
+                             .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) > 1);
+                          dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
+
+                          dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                      })
+                      .AsHtmlAttributes(classes: "btn btn-light p-1")
+                      .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
+
+                @Html.Hidden(nameof(GetClassByWeekQuery.Week), 1)
+
                 @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                        {
                            Button = new DropdownModel.ButtonSettings
                            {
-                               Text = DataResources.Monday,
-                               TextId = dayTextId,
-                               Id = dayButtonId
+                               TextId = currentWeekId,
+                               Text = "1"
                            },
                            Items = new List<IHtmlContent>
                            {
                                Html.Controls().Dropdown.List(settings =>
                                {
-                                   settings.Id = dayDropdownId;
-                                   settings.Url = Url.Dispatcher().Query<GetDaysOfWeekForDDQuery>(new
+                                   settings.Url = Url.Dispatcher().Query(new GetWeeksForDDQuery
                                    {
-                                       Week = Selector.Jquery.Name<GetDaysOfWeekForDDQuery>(r => r.Week)
+                                       FromNow = true
                                    }).AsJson();
+                                   settings.OnSuccess = dsl =>
+                                   {
+                                       Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.Self().Find(r => r.EqualsAttribute("selected", "true")));
+                                       dsl.WithName<GetClassByWeekQuery>(r => r.Week).JQuery.Attr.Val(Selector.Jquery.Self().Find(r => r.EqualsAttribute("selected", "true")));
+                                   };
                                    settings.OnClick = dsl =>
                                    {
-                                       dsl.WithName(dayInputName).JQuery.Attr.Val(Selector.Event.Data.For("value"));
-                                       dsl.WithId(dayTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
-
+                                       dsl.WithName<GetClassByWeekQuery>(r => r.Week).JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                       Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("text"));
                                        dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
                                    };
                                })
-                           },
-                           Id = dayId,
-                           Classes = "hidden"
+                           }
                        })
 
-                <div class="d-flex gap-2 bg-base rounded">
-                    @(Html.When(JqueryBind.Click)
-                          .OnSuccess(dsl =>
-                          {
-                              dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.DecrementVal()
-                                 .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) > 1);
-                              dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
+                @Html.Hidden(nameof(GetScheduleFormatQuery.Response.CountOfWeeks), scheduleFormat.CountOfWeeks)
+                @Html.Hidden(nameof(GetScheduleFormatQuery.Response.StartDate), scheduleFormat.StartDate)
 
-                              dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
-                          })
-                          .AsHtmlAttributes(classes: "btn btn-light p-1")
-                          .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl =>
+                      {
+                          dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.IncrementVal()
+                             .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) < Selector.Jquery.Name<AddOrEditScheduleFormatCommand>(r => r.CountOfWeeks));
+                          dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
 
-                    @Html.Hidden(nameof(GetClassByWeekQuery.Week), 1)
-                    <div class="btn btn-light" id="@currentWeekId">
-                        1
-                    </div>
-                    @Html.Hidden(nameof(GetScheduleFormatQuery.Response.CountOfWeeks), scheduleFormat.CountOfWeeks)
-                    @Html.Hidden(nameof(GetScheduleFormatQuery.Response.StartDate), scheduleFormat.StartDate)
-
-                    @(Html.When(JqueryBind.Click)
-                          .OnSuccess(dsl =>
-                          {
-                              dsl.WithName<GetClassByWeekQuery>(r => r.Week).Func.IncrementVal()
-                                 .If(() => Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week) < Selector.Jquery.Name<AddOrEditScheduleFormatCommand>(r => r.CountOfWeeks));
-                              dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
-
-                              dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
-                          })
-                          .AsHtmlAttributes(classes: "btn btn-light p-1")
-                          .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
-                </div>
+                          dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                      })
+                      .AsHtmlAttributes(classes: "btn btn-light p-1")
+                      .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
             </div>
         </div>
+    </div>
 
-        @(Html.When(JqueryBind.None)
-              .Ajax(Url.Dispatcher().Query<GetScheduleByWeekQuery>(new
+    @(Html.When(JqueryBind.None)
+          .Ajax(Url.Dispatcher().Query<GetScheduleByWeekQuery>(new
+          {
+              SelectedGroupIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupIds),
+              SelectedTeacherIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds),
+              SelectedAuditoriumIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds),
+              Week = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.Week),
+              Day = Selector.Jquery.Name(dayInputName),
+              FacultyId = Selector.Incoding.Cookie(GlobalSelectors.FacultyId)
+          }).AsJson())
+          .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupIds) == string.Empty
+                                             && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds) == string.Empty
+                                             && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds) == string.Empty))
+          .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Schedule_Tmpl.cshtml").Html())
+          .OnComplete(dsl =>
+          {
+              dsl.Self().JQuery.PlugIn("dragAndDrop", new
               {
-                  SelectedGroupIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupIds),
-                  SelectedTeacherIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds),
-                  SelectedAuditoriumIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds),
-                  Week = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.Week),
-                  Day = Selector.Jquery.Name(dayInputName),
-                  FacultyId = Selector.Incoding.Cookie(GlobalSelectors.FacultyId)
-              }).AsJson())
-              .OnBegin(dsl => dsl.Break.If(() => Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupIds) == string.Empty
-                                                 && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds) == string.Empty
-                                                 && Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds) == string.Empty))
-              .OnSuccess(dsl => dsl.Self().Insert.WithTemplateByView("~/Views/Schedule/Tmpl/Schedule_Tmpl.cshtml").Html())
-              .OnComplete(dsl =>
-              {
-                  dsl.Self().JQuery.PlugIn("dragAndDrop", new
-                  {
-                      item = Selector.Jquery.Role("drag-element").ToSelector(),
-                      container = Selector.Jquery.Role("drag-container").ToSelector(),
-                      forOne = true,
-                      listContainer = Selector.Jquery.Name("list").ToSelector()
-                  });
-                  dsl.With(s => s.Id(unallocatedSearchId).Find(HtmlTag.Input)).Trigger.Invoke(JqueryBind.KeyUp);
-              })
-              .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: GlobalSelectors.ScheduleId)
-              .ToDiv(@<text>
-                         @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseSchedule)
-                      </text>))
+                  item = Selector.Jquery.Role("drag-element").ToSelector(),
+                  container = Selector.Jquery.Role("drag-container").ToSelector(),
+                  forOne = true,
+                  listContainer = Selector.Jquery.Name("list").ToSelector()
+              });
+              dsl.With(s => s.Id(unallocatedSearchId).Find(HtmlTag.Input)).Trigger.Invoke(JqueryBind.KeyUp);
+          })
+          .AsHtmlAttributes(classes: "flex-grow-1 d-flex flex-column gap-2 schedule rounded", id: GlobalSelectors.ScheduleId)
+          .ToDiv(@<text>
+                     @await Html.PartialAsync("~/Views/Shared/Placeholder_Select.cshtml", DataResources.ChooseSchedule)
+                  </text>))
     </div>
     </div>
 }

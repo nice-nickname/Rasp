@@ -70,11 +70,12 @@ public partial class ControlsHtmlHelper<T>
                        .ToTag(HtmlTag.Ul);
         }
 
-        public void SetTitle(IIncodingMetaLanguageCallbackBodyDsl dsl, Selector title)
+        public void SetTitle(IIncodingMetaLanguageCallbackBodyDsl dsl, Selector title, bool condition = true)
         {
             dsl.WithSelf(s => s.Closest(p => p.EqualsAttribute("role", "dropdown"))
                                .Find(c => c.EqualsAttribute("role", "title")))
-               .Insert.Use(title).Text();
+               .Insert.Use(title).Text()
+               .If(() => condition);
         }
     }
 }

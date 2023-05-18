@@ -14,7 +14,9 @@
                   .AsHtmlAttributes(new
                   {
                       @class = $"dropdown-item {each.For(r => r.CssClass)}",
-                      href = "javascript:void(0);"
+                      href = "javascript:void(0);",
+                      selected = each.For(r => r.Selected),
+                      value = each.For(r => r.Value)
                   })
                   .ToTag(HtmlTag.A, each.For(r => r.Text)))
         </li>
