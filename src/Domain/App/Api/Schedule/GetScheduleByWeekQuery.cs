@@ -181,9 +181,11 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                             var allClassesLikeCurrent = scheduled.Where(r => r.Order == item.Order).ToList();
 
                             if (allClassesLikeCurrent.Count > 1)
+                            {
                                 item.Group = string.Join(", ", allClassesLikeCurrent.Select(r => r.Group));
 
-                            addedMany++;
+                                addedMany++;
+                            }
                         }
 
                         day.Items.Remove(@class);
