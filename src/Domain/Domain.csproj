@@ -18,7 +18,6 @@
     <Folder Include="App\Api\Auditorium\" />
     <Folder Include="App\Api\DisciplinePlan\" />
     <Folder Include="App\Api\Class\" />
-    <Folder Include="App\Api\Schedule\" />
     <Folder Include="Common\Extentions" />
     <Folder Include="Infrastructure\Operations\ViewRenderer\" />
   </ItemGroup>

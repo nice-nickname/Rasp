@@ -1366,11 +1366,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нераспределённые занятия.
+        /// </summary>
+        public static string UnscheduledClasses {
+            get {
+                return ResourceManager.GetString("UnscheduledClasses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нежелательно.
         /// </summary>
         public static string Unwanted {
             get {
                 return ResourceManager.GetString("Unwanted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нежелательные пары.
+        /// </summary>
+        public static string UnwantedClasses {
+            get {
+                return ResourceManager.GetString("UnwantedClasses", resourceCulture);
             }
         }
         

@@ -46,6 +46,7 @@
     <_ContentIncludedByDefault Remove="Views\Edit\ItemBusyness\Tmpl\TeacherItem_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Export\ExportPage.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Export\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Dashboard\Tmpl\UnscheduledCard_Tmpl.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\_MainLayout.cshtml" />
     <_ContentIncludedByDefault Remove="Views\View\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Settings\Faculty\AddOrEdit.cshtml" />
@@ -188,6 +189,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Shared\_MainLayout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\Dashboard\Tmpl\UnscheduledCard_Tmpl.cshtml" />
   </ItemGroup>
 
 

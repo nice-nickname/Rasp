@@ -585,4 +585,10 @@
   <data name="ReturnToSearch" xml:space="preserve">
 	  <value>Вернуться на поиск</value>
   </data>
+  <data name="UnscheduledClasses" xml:space="preserve">
+	  <value>Нераспределённые занятия</value>
+  </data>
+  <data name="UnwantedClasses" xml:space="preserve">
+	  <value>Нежелательные пары</value>
+  </data>
 </root>

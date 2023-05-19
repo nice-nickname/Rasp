@@ -1,0 +1,48 @@
+﻿@model List<GetUnscheduledClassesQuery.Response>
+
+@foreach (var unscheduled in Model)
+{
+    var href = Url.Action("Index", "Schedule", new { Type = ScheduleIndexPageModel.EntityType.TEACHER, EntityId = unscheduled.TeacherId, Week = unscheduled.Week });
+
+    <a class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover text-decoration-none" href="@href">
+        <div class="w-100 rounded-top flex-shrink-0" style="height: 0.25rem; background-color: @unscheduled.Color"></div>
+
+        <div class="d-flex mx-1 mt-1 gap-2">
+            <div class="flex-grow-1" title="@unscheduled.Discipline">
+                @unscheduled.Discipline
+            </div>
+
+            <div class="flex-shrink-0" title="@unscheduled.SubDisciplineKind">
+                @unscheduled.SubDisciplineKind
+            </div>
+        </div>
+
+        <div class="d-flex mx-1">
+            @if (unscheduled.HasSubGroups)
+            {
+                <div class="flex-grow-1" title="@unscheduled.SubGroupNo @DataResources.SubGroup">
+                    @unscheduled.SubGroupNo @DataResources.SubGroup
+                </div>
+            }
+            else
+            {
+                <div class="flex-grow-1">
+                    -
+                </div>
+            }
+
+            <div class="flex-shrink-0" title="@unscheduled.Group">
+                @unscheduled.Group
+            </div>
+        </div>
+
+        <div class="d-flex mx-1">
+            <div class="flex-grow-1" title="@unscheduled.Teacher">
+                @unscheduled.Teacher
+            </div>
+            <div class="flex-shrink-0" title="@unscheduled.Department">
+                @unscheduled.DepartmentShort
+            </div>
+        </div>
+    </a>
+}
