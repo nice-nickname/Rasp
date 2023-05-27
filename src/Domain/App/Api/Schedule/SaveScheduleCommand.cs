@@ -35,7 +35,6 @@ public class SaveScheduleCommand : CommandBase
         var @class = Repository.GetById<Class>(Id) ?? new Class();
 
         var scheduledClasses = Repository.Query<Class>()
-                                         .ToList()
                                          .Where(c => c.Plan.TeacherId == TeacherId
                                                   && c.Week == Week
                                                   && c.Day == Day
