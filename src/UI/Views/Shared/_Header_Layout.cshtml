@@ -10,7 +10,7 @@
                 @DataResources.Schedule
             </a>
 
-            <a class="btn btn-light" href="#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
+            <a class="btn btn-light" href="@Url.Action("Index", "Home")#@Url.Dispatcher().AsView("~/Views/Edit/Index.cshtml").ToRelative()">
                 @DataResources.EditingData
             </a>
             
@@ -42,7 +42,7 @@
                        }
                    })
 
-            <a class="btn btn-light p-1" href="#@Url.Dispatcher().AsView("~/Views/Settings/Index.cshtml").ToRelative()">
+            <a class="btn btn-light p-1" href="@Url.Action("Index", "Home")#@Url.Dispatcher().AsView("~/Views/Settings/Index.cshtml").ToRelative()">
                 <i class="material-symbols-rounded">settings</i>
             </a>
 
