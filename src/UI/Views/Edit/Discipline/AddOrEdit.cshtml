@@ -160,7 +160,7 @@
                                 @if (subDiscipline.Type != SubDisciplineKind.OfType.EXAM)
                                 {
                                     <div class="form-group col-3">
-                                        @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", "Деление занятий между преподавателями", new { @class = "form-label" })
+                                        @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", DataResources.IsParallelType, new { @class = "form-label" })
                                         @Html.Controls().Select(control =>
                                         {
                                             control.Class = "form-control";

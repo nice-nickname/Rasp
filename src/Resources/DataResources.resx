@@ -591,4 +591,13 @@
   <data name="UnwantedClasses" xml:space="preserve">
 	  <value>Нежелательные пары</value>
   </data>
+  <data name="IsParallelType" xml:space="preserve">
+	  <value>Тип проведения</value>
+  </data>
+  <data name="IsParallelType_Individual" xml:space="preserve">
+	  <value>Индивидуально</value>
+  </data>
+  <data name="IsParallelType_Parallel" xml:space="preserve">
+	  <value>Поток</value>
+  </data>
 </root>

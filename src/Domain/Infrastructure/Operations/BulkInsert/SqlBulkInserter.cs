@@ -16,7 +16,7 @@ public class SqlBulkInserter : IBulkInserter
     public void Write(DataTable table)
     {
         using var copy = new SqlBulkCopy(this._connection);
-
+        
         copy.DestinationTableName = table.TableName;
         for (var i = 0; i < table.Columns.Count; i++)
         {

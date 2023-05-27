@@ -826,6 +826,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Тип проведения.
+        /// </summary>
+        public static string IsParallelType {
+            get {
+                return ResourceManager.GetString("IsParallelType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Индивидуально.
+        /// </summary>
+        public static string IsParallelType_Individual {
+            get {
+                return ResourceManager.GetString("IsParallelType_Individual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поток.
+        /// </summary>
+        public static string IsParallelType_Parallel {
+            get {
+                return ResourceManager.GetString("IsParallelType_Parallel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Лабораторные работы.
         /// </summary>
         public static string Lab {

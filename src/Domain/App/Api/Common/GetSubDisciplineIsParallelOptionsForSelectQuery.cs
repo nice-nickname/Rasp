@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.App.Api;
 
@@ -11,8 +12,8 @@ public class GetSubDisciplineIsParallelOptionsForSelectQuery : QueryBase<List<Dr
     {
         return new List<DropDownItem>
         {
-                new(false, "Отдельно для каждого преподавателя", !Selected),
-                new(true, "Параллельно", Selected)
+                new(false, DataResources.IsParallelType_Individual, !Selected),
+                new(true, DataResources.IsParallelType_Parallel, Selected)
         };
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
+using NHibernate.Linq;
 
 namespace Domain.Api;
 
@@ -10,6 +11,7 @@ public class GetAuditoriumsQuery : QueryBase<List<GetAuditoriumsQuery.Response>>
         var res = Repository.Query<Auditorium>()
                             .OrderBy(s => s.Building.Name)
                             .ThenBy(s => s.Code)
+                            .FetchMany(s => s.Kinds)
                             .ToList();
 
         return res.Select(r => new Response

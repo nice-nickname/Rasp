@@ -9,6 +9,8 @@ namespace Domain.Persistence;
 
 public class Class : IncEntityBase, Share.IEntityHasId
 {
+    public new virtual int Id { get; set; }
+
     public virtual int Week { get; set; }
 
     public virtual DayOfWeek Day { get; set; }
@@ -28,8 +30,6 @@ public class Class : IncEntityBase, Share.IEntityHasId
     public virtual ScheduleFormat ScheduleFormat { get; set; }
 
     public virtual DisciplinePlan Plan { get; set; }
-
-    public new virtual int Id { get; set; }
 
     public class Mapping : ClassMap<Class>
     {

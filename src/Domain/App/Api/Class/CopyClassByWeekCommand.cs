@@ -1,4 +1,5 @@
 ﻿using Domain.App.Api;
+using Domain.App.Common;
 using Domain.Persistence;
 using FluentValidation;
 using Incoding.Core.CQRS.Core;
@@ -65,27 +66,10 @@ public class CopyClassByWeekCommand : CommandBase
             sourceByPlan.Remove(match);
         }
 
-        // TODO 13.05.2023: Возможно стоит использовать Bulk insert
-        var i = 0;
-        foreach (var match in matchedClasses)
+        Dispatcher.Push(new BulkInsertClassCommand
         {
-            if (i % 20 == 0)
-            {
-                Repository.Flush();
-                Repository.Clear();
-            }
-
-            Repository.Save(new Class
-            {
-                    ScheduleFormatId = match.ScheduleFormatId,
-                    DisciplinePlanId = match.DisciplinePlanId,
-                    AuditoriumId = match.AuditoriumId,
-                    SubGroupNo = match.SubGroupNo,
-                    Week = DestinationWeek,
-                    Day = match.Day,
-                    IsUnwanted = match.IsUnwanted
-            });
-        }
+                Classes = matchedClasses
+        });
     }
 
     public class Validator : AbstractValidator<CopyClassByWeekCommand>
