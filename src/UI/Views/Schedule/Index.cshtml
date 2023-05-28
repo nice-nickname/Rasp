@@ -390,6 +390,7 @@
                       dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
 
                       dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                      dsl.WithId(dayDropdownId).Trigger.Invoke("refresh");
                   })
                   .AsHtmlAttributes(classes: "btn btn-light p-1")
                   .ToButton(@<span class="material-symbols-rounded">arrow_back</span>))
@@ -415,12 +416,14 @@
                                {
                                    Html.Controls().Dropdown.SetTitle(dsl, Selector.Jquery.Self().Find(r => r.EqualsAttribute("selected", "true")));
                                    dsl.WithName<GetClassByWeekQuery>(r => r.Week).JQuery.Attr.Val(Selector.Jquery.Self().Find(r => r.EqualsAttribute("selected", "true")));
+                                   dsl.WithId(dayDropdownId).Trigger.Invoke("refresh");
                                };
                                settings.OnClick = dsl =>
                                {
                                    dsl.WithName<GetClassByWeekQuery>(r => r.Week).JQuery.Attr.Val(Selector.Event.Data.For("value"));
                                    Html.Controls().Dropdown.SetTitle(dsl, Selector.Event.Data.For("text"));
                                    dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                                   dsl.WithId(dayDropdownId).Trigger.Invoke("refresh");
                                };
                            })
                        }
@@ -437,6 +440,7 @@
                       dsl.WithId(currentWeekId).JQuery.Dom.Use(Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week)).Html();
 
                       dsl.WithId(GlobalSelectors.UnscheduledId).Trigger.None();
+                      dsl.WithId(dayDropdownId).Trigger.Invoke("refresh");
                   })
                   .AsHtmlAttributes(classes: "btn btn-light p-1")
                   .ToButton(@<span class="material-symbols-rounded">arrow_forward</span>))
