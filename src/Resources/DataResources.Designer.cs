@@ -187,6 +187,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Вернуться.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перед тем, как начать использовать приложение, пожалуйста, войдите в свою учётную запись.
+        /// </summary>
+        public static string BeforeLoginInfo {
+            get {
+                return ResourceManager.GetString("BeforeLoginInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Корпус.
         /// </summary>
         public static string Building {

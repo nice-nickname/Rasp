@@ -600,4 +600,10 @@
   <data name="IsParallelType_Parallel" xml:space="preserve">
 	  <value>Поток</value>
   </data>
+  <data name="Back" xml:space="preserve">
+	  <value>Вернуться</value>
+  </data>
+  <data name="BeforeLoginInfo" xml:space="preserve">
+	  <value>Перед тем, как начать использовать приложение, пожалуйста, войдите в свою учётную запись</value>
+  </data>
 </root>
