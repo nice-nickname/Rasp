@@ -52,7 +52,10 @@
                             control.Url = Url.Dispatcher().Push<CopyClassByWeekCommand>(new
                             {
                                 DestinationWeek = Selector.Jquery.Name<GetClassByWeekQuery>(r => r.Week),
-                                FacultyId = facultyId
+                                FacultyId = facultyId,
+                                AuditoriumIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedAuditoriumIds),
+                                TeacherIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedTeacherIds),
+                                GroupIds = Selector.Jquery.Name<GetScheduleByWeekQuery>(r => r.SelectedGroupIds)
                             });
                             control.Class = "px-3 py-1";
                             control.OnSave = dsl =>

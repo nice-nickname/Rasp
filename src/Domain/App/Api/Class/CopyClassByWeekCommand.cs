@@ -16,6 +16,12 @@ public class CopyClassByWeekCommand : CommandBase
 
     public int DestinationWeek { get; set; }
 
+    public int?[] AuditoriumIds { get; set; }
+
+    public int?[] TeacherIds { get; set; }
+
+    public int?[] GroupIds { get; set; }
+
     protected override void Execute()
     {
         var matchedClasses = new List<Class>();
@@ -28,28 +34,28 @@ public class CopyClassByWeekCommand : CommandBase
                                  .Select(s => s.DayOfWeek)
                                  .ToHashSet();
 
-        var sourcePlans = Repository.Query(new Class.Where.ByWeek(SourceWeek).And(new Class.Where.ByFaculty(FacultyId)))
+        var sourceClasses = Repository.Query(new Class.Where.ByWeek(SourceWeek).And(new Class.Where.ByFaculty(FacultyId)))
                                     .GroupBy(s => s.DisciplinePlanId)
                                     .ToDictionary(k => k.Key, v => v.ToList());
 
         Dispatcher.Push(new DeleteEntitiesByIds<Class>(Repository.Query(new Class.Where.ByWeek(DestinationWeek))
                                                                  .Select(s => s.Id)));
 
-        var classesToPlace = Dispatcher.Query(new GetClassByWeekQuery
+        var classesByDisciplinePlan = Dispatcher.Query(new GetClassByWeekQuery
         {
                 FacultyId = FacultyId,
                 Week = DestinationWeek,
-                SelectedAuditoriumIds = Array.Empty<int?>(),
-                SelectedTeacherIds = Array.Empty<int?>(),
-                SelectedGroupIds = Array.Empty<int?>()
+                SelectedAuditoriumIds = AuditoriumIds,
+                SelectedTeacherIds = TeacherIds,
+                SelectedGroupIds = GroupIds
         });
 
-        foreach (var @class in classesToPlace)
+        foreach (var @class in classesByDisciplinePlan)
         {
-            if (!sourcePlans.ContainsKey(@class.DisciplinePlanId))
+            if (!sourceClasses.ContainsKey(@class.DisciplinePlanId))
                 continue;
 
-            var sourceByPlan = sourcePlans[@class.DisciplinePlanId];
+            var sourceByPlan = sourceClasses[@class.DisciplinePlanId];
 
             if (!sourceByPlan.Any())
                 continue;
@@ -62,8 +68,9 @@ public class CopyClassByWeekCommand : CommandBase
             if (weekends.Contains(match.Day))
                 continue;
 
-            matchedClasses.Add(match);
             sourceByPlan.Remove(match);
+            match.Week = DestinationWeek;
+            matchedClasses.Add(match);
         }
 
         Dispatcher.Push(new BulkInsertClassCommand

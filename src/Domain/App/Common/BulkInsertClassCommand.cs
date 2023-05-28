@@ -11,6 +11,8 @@ public class BulkInsertClassCommand : CommandBase
 
     protected override void Execute()
     {
+        var writer = IoCFactory.Instance.TryResolve<IBulkInserterProvider>().Provide();
+
         if (Classes == null || !Classes.Any())
             return;
 
@@ -23,13 +25,12 @@ public class BulkInsertClassCommand : CommandBase
             row[nameof(Class.Week)] = @class.Week;
             row[nameof(Class.SubGroupNo)] = @class.SubGroupNo;
             row[nameof(Class.IsUnwanted)] = @class.IsUnwanted;
-            row[nameof(Class.AuditoriumId)] = @class.AuditoriumId;
+            row[nameof(Class.AuditoriumId)] = (object)@class.AuditoriumId ?? DBNull.Value;
             row[nameof(Class.ScheduleFormatId)] = @class.ScheduleFormatId;
             row[nameof(Class.DisciplinePlanId)] = @class.DisciplinePlanId;
             dataTable.Rows.Add(row);
         }
 
-        var val = IoCFactory.Instance.TryResolve<IBulkInserterProvider>().Provide();
-        val.Write(dataTable);
+        writer.Write(dataTable);
     }
 }
