@@ -155,7 +155,10 @@
                       .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Role("list").ToSelector()))
                       .AsHtmlAttributes(classes: "rounded search w-100 h-100", id: searchInputId)
                       .ToInput(HtmlInputType.Text, string.Empty))
-                <span class="material-symbols-rounded addon-r">search</span>
+                @(Html.When(JqueryBind.Click)
+                      .OnSuccess(dsl => dsl.WithId(searchInputId).Trigger.Invoke(JqueryBind.KeyUp))
+                      .AsHtmlAttributes(classes: "btn p-1 addon-r")
+                      .ToButton(@<span class="material-symbols-rounded">search</span>))
             </div>
             <div id="@addNewButtonDivId" class="d-flex">
                 <div class="btn btn-light flex-grow-1 disabled">
