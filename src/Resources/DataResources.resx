@@ -612,4 +612,7 @@
   <data name="NoUnwanted" xml:space="preserve">
 	  <value>Нежелательных занятий нет</value>
   </data>
+  <data name="YouCantUseApplication" xml:space="preserve">
+	  <value>Вы не обладаете необходимыми правами для доступа к этому ресурсу. Обратитесь к администратору приложения для решения данной проблемы.</value>
+  </data>
 </root>

@@ -1544,5 +1544,14 @@ namespace Resources {
                 return ResourceManager.GetString("WithSubGroups", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы не обладаете необходимыми правами для доступа к этому ресурсу. Обратитесь к администратору приложения для решения данной проблемы..
+        /// </summary>
+        public static string YouCantUseApplication {
+            get {
+                return ResourceManager.GetString("YouCantUseApplication", resourceCulture);
+            }
+        }
     }
 }
