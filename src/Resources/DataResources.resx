@@ -589,7 +589,7 @@
 	  <value>Нераспределённые занятия</value>
   </data>
   <data name="UnwantedClasses" xml:space="preserve">
-	  <value>Нежелательные пары</value>
+	  <value>Нежелательные занятия</value>
   </data>
   <data name="IsParallelType" xml:space="preserve">
 	  <value>Тип проведения</value>
@@ -605,5 +605,11 @@
   </data>
   <data name="BeforeLoginInfo" xml:space="preserve">
 	  <value>Перед тем, как начать использовать приложение, пожалуйста, войдите в свою учётную запись</value>
+  </data>
+  <data name="AllUnscheduledWasScheduled" xml:space="preserve">
+	  <value>Все занятия распределены</value>
+  </data>
+  <data name="NoUnwanted" xml:space="preserve">
+	  <value>Нежелательных занятий нет</value>
   </data>
 </root>

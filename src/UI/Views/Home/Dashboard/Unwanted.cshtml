@@ -1,9 +1,10 @@
-﻿<div class="shadow rounded px-3 pt-3 d-flex flex-column gap-3 overflow-hidden" style="width: 45%; height: 704px;">
+﻿<div class="shadow rounded p-3 d-flex flex-column gap-3 overflow-hidden" style="width: 45%; height: 704px;">
     <h3>@DataResources.UnwantedClasses</h3>
 
     @(Html.When(JqueryBind.InitIncoding)
           .Ajax(Url.Dispatcher().Query<GetUnwantedClassesQuery>().AsView("~/Views/Home/Dashboard/Tmpl/UnwantedCard_Tmpl.cshtml"))
           .OnSuccess(dsl => dsl.Self().Insert.Html())
-          .AsHtmlAttributes(classes: "d-flex flex-column gap-2 overflow-hidden opacity-gradient")
+          .OnComplete(dsl => dsl.Self().Insert.Use(@<span class="m-auto">@DataResources.NoUnwanted</span>).Html().If(() => Selector.Jquery.Self().Children().Length() < 1))
+          .AsHtmlAttributes(classes: "d-flex flex-column gap-2 overflow-hidden opacity-gradient h-100")
           .ToDiv())
 </div>
