@@ -5,6 +5,7 @@
 }
 
 <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @cardBackground" role="drag-element" name="card">
+    @Html.Hidden(nameof(SaveScheduleCommand.IsUnwanted), Model.For(r => r.IsUnwanted))
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), Model.For(r => r.SubDisciplineId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
@@ -57,40 +58,53 @@
         </div>
     </div>
 
-    @Model.NotInline(r => r.IsAuditorium, @<text>
-                                              @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId), Model.For(r => r.AuditoriumId))
+    <div class="mx-1 mb-1 h-px-30 mt-auto d-flex gap-1 actions">
+        @Model.NotInline(r => r.IsAuditorium, @<text>
+                                                  @Html.Hidden(nameof(SaveScheduleCommand.AuditoriumId), Model.For(r => r.AuditoriumId))
 
-                                              @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
-                                                     {
-                                                         Button = new DropdownModel.ButtonSettings
+                                                  @await Html.PartialAsync("~/Views/Shared/DropDown_Tmpl.cshtml", new DropdownModel
                                                          {
-                                                             Classes = "w-100 btn-light btn-sm h-px-30",
-                                                             Text = Model.For(r => r.Auditorium)
-                                                         },
-                                                         Items = new List<IHtmlContent>
-                                                         {
-                                                             Html.Controls().Dropdown.List(settings =>
+                                                             Button = new DropdownModel.ButtonSettings
                                                              {
-                                                                 settings.Url = Url.Dispatcher().Query<GetAuditoriumsScheduleForDDQuery>(new
+                                                                 Classes = "w-100 btn-light btn-sm h-px-30",
+                                                                 Text = Model.For(r => r.Auditorium)
+                                                             },
+                                                             Items = new List<IHtmlContent>
+                                                             {
+                                                                 Html.Controls().Dropdown.List(settings =>
                                                                  {
-                                                                     Week = Selector.Jquery.Name<GetAuditoriumsScheduleForDDQuery>(r => r.Week),
-                                                                     Day = Model.For(r => r.Day),
-                                                                     ScheduleFormatId = Model.For(r => r.ScheduleFormatId),
-                                                                     AuditoriumId = Model.For(r => r.AuditoriumId),
-                                                                     SubDisciplineId = Model.For(r => r.SubDisciplineId),
-                                                                     GroupId = Model.For(r => r.GroupId)
-                                                                 }).AsJson();
-                                                                 settings.OnClick = dsl =>
-                                                                 {
-                                                                     var auditoriumTextId = $"auditorium-{Model.For(r => r.DisciplineId)}-{Model.For(r => r.DisciplinePlanId)}-{Model.For(r => r.SubDisciplineId)}";
+                                                                     settings.Url = Url.Dispatcher().Query<GetAuditoriumsScheduleForDDQuery>(new
+                                                                     {
+                                                                         Week = Selector.Jquery.Name<GetAuditoriumsScheduleForDDQuery>(r => r.Week),
+                                                                         Day = Model.For(r => r.Day),
+                                                                         ScheduleFormatId = Model.For(r => r.ScheduleFormatId),
+                                                                         AuditoriumId = Model.For(r => r.AuditoriumId),
+                                                                         SubDisciplineId = Model.For(r => r.SubDisciplineId),
+                                                                         GroupId = Model.For(r => r.GroupId)
+                                                                     }).AsJson();
+                                                                     settings.OnClick = dsl =>
+                                                                     {
+                                                                         var auditoriumTextId = $"auditorium-{Model.For(r => r.DisciplineId)}-{Model.For(r => r.DisciplinePlanId)}-{Model.For(r => r.SubDisciplineId)}";
 
-                                                                     dsl.WithId(auditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
-                                                                     dsl.WithSelf(r => r.Closest(q => q.Name("card")).Find(q => q.Name<SaveScheduleCommand>(w => w.AuditoriumId)))
-                                                                        .JQuery.Attr.Val(Selector.Event.Data.For("value"));
-                                                                 };
-                                                             })
-                                                         },
-                                                         Classes = "mx-1 mb-1 h-px-30 mt-auto"
-                                                     })
-                                           </text>)
+                                                                         dsl.WithId(auditoriumTextId).Insert.Use(Selector.Event.Data.For("text")).Html();
+                                                                         dsl.WithSelf(r => r.Closest(q => q.Name("card")).Find(q => q.Name<SaveScheduleCommand>(w => w.AuditoriumId)))
+                                                                            .JQuery.Attr.Val(Selector.Event.Data.For("value"));
+                                                                     };
+                                                                 })
+                                                             },
+                                                             Classes = "flex-grow-1"
+                                                         })
+                                               </text>)
+        @(Html.When(JqueryBind.Click)
+              .StopPropagation()
+              .OnSuccess(dsl =>
+              {
+                  dsl.WithSelf(s => s.Closest(c => c.Name("card")).Find(f => f.Name<SaveScheduleCommand>(c => c.IsUnwanted)))
+                     .JQuery.Attr.Val(Model.Inline(r => r.IsUnwanted, "false", "true"));
+                  dsl.WithSelf(s => s.Closest(c => c.Name("cell")))
+                     .Trigger.None();
+              })
+              .AsHtmlAttributes(classes: "btn btn-light p-1")
+              .ToButton(@<span class="material-symbols-rounded">error</span>))
+    </div>
 </div>

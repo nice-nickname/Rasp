@@ -14,6 +14,7 @@
     var dayDropdownId = Guid.NewGuid().ToString();
     var dayInputName = Guid.NewGuid().ToString();
     var dayTextId = Guid.NewGuid().ToString();
+    var searchId = Guid.NewGuid().ToString();
 
     var scheduleFormat = Html.Dispatcher().Query(new GetScheduleFormatQuery { FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId]) });
 
@@ -167,9 +168,12 @@
                 <div class="flex-grow-1 input" id="@unallocatedSearchId">
                     @(Html.When(JqueryBind.KeyUp)
                           .OnSuccess(dsl => dsl.Self().JQuery.Call("search", Selector.Jquery.Name("list").ToSelector()))
-                          .AsHtmlAttributes(classes: "rounded search w-100 h-100")
+                          .AsHtmlAttributes(classes: "rounded search w-100 h-100", id: searchId)
                           .ToInput(HtmlInputType.Text, string.Empty))
-                    <span class="material-symbols-rounded addon-r">search</span>
+                    @(Html.When(JqueryBind.Click)
+                          .OnSuccess(dsl => dsl.WithId(searchId).Trigger.Invoke(JqueryBind.KeyUp))
+                          .AsHtmlAttributes(classes: "btn p-1 addon-r")
+                          .ToButton(@<span class="material-symbols-rounded">search</span>))
                 </div>
 
                 @(Html.When(JqueryBind.Click)
@@ -223,11 +227,11 @@
                       })
                       .OnComplete(dsl => dsl.WithId(GlobalSelectors.ScheduleId).Trigger.None())
                       .When("incodingdropped")
-                      .AjaxPost(Url.Dispatcher().Push<DeleteClassCommand>(new { Id = Selector.Jquery.Self().Find(r => r.Name("card")).Find(r => r.Name<Class>(q => q.Id)) }))
+                      .AjaxPost(Url.Dispatcher().Push<DeleteClassCommand>(new { Id = Selector.Jquery.Self().Find(r => r.EqualsAttribute("incoding-dragged", "")).Find(r => r.Name<Class>(q => q.Id)) }))
                       .OnSuccess(dsl => dsl.Self().Trigger.None())
                       .AsHtmlAttributes(new
                       {
-                          @class = "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0",
+                          @class = "d-flex flex-column flex-grow-1 overflow-auto flex-basis-0 unschedule-list",
                           id = GlobalSelectors.UnscheduledId,
                           role = "drag-container",
                           name = "list"

@@ -573,7 +573,21 @@ input::-webkit-inner-spin-button {
     opacity: .1;
 }
 
+.h-px-30 .material-symbols-rounded {
+    font-size: 20px;
+}
+
+.unschedule-list .class-card .actions {
+    display: none;
+    visibility: hidden;
+}
+
+.toast {
+    transition: opacity .3s ease-in-out;
+}
+
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: none;
 }

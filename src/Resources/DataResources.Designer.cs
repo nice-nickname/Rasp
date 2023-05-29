@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Все занятия распределены.
+        /// </summary>
+        public static string AllUnscheduledWasScheduled {
+            get {
+                return ResourceManager.GetString("AllUnscheduledWasScheduled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Приложение.
         /// </summary>
         public static string Application {
@@ -250,7 +259,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выберите аудиторию.
+        ///   Looks up a localized string similar to Нет аудитории.
         /// </summary>
         public static string ChooseAuditorium {
             get {
@@ -943,6 +952,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нежелательных занятий нет.
+        /// </summary>
+        public static string NoUnwanted {
+            get {
+                return ResourceManager.GetString("NoUnwanted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Занятость.
         /// </summary>
         public static string Occupation {
@@ -1429,7 +1447,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нежелательные пары.
+        ///   Looks up a localized string similar to Нежелательные занятия.
         /// </summary>
         public static string UnwantedClasses {
             get {
@@ -1524,6 +1542,15 @@ namespace Resources {
         public static string WithSubGroups {
             get {
                 return ResourceManager.GetString("WithSubGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Вы не обладаете необходимыми правами для доступа к этому ресурсу. Обратитесь к администратору приложения для решения данной проблемы..
+        /// </summary>
+        public static string YouCantUseApplication {
+            get {
+                return ResourceManager.GetString("YouCantUseApplication", resourceCulture);
             }
         }
     }

@@ -62,7 +62,7 @@ $toast-spacing: 0.5rem;
 .btn-danger,
 .btn-danger:hover,
 .btn-danger.disabled {
-    color: #FFFFFF;
+    color: $light;
 }
 
 .class-card-warning {
@@ -94,4 +94,8 @@ $toast-spacing: 0.5rem;
     border: 1px solid transparent;
     background-clip: content-box;
     border-radius: $border-radius;
+}
+
+.unschedule-list .class-card {
+    background-color: $light !important;
 }

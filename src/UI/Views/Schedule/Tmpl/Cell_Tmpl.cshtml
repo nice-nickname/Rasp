@@ -13,7 +13,8 @@
         TeacherId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.TeacherId)),
         SubDisciplineId = Selector.Jquery.Self().Find(r => r.Name<SaveScheduleCommand>(q => q.SubDisciplineId)),
         FacultyId = Selector.Jquery.Name<SaveScheduleCommand>(r => r.FacultyId),
-        Mode = Selector.Jquery.Name<SaveScheduleCommand>(r => r.Mode)
+        Mode = Selector.Jquery.Name<SaveScheduleCommand>(r => r.Mode),
+        IsUnwanted = Selector.Jquery.Name<SaveScheduleCommand>(r => r.IsUnwanted)
     });
 
     Action<IIncodingMetaLanguageCallbackBodyDsl> reloadSchedule = dsl =>
@@ -38,6 +39,7 @@
                         TitleTextColor = ToastModel.Color.White
                     }).AsView("~/Views/Shared/Toast_Tmpl.cshtml")).Append()
                        .If(() => Selector.Result != string.Empty);
+                    
                     reloadSchedule(dsl);
                 })
                 .AsHtmlAttributes(new
