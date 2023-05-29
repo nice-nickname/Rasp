@@ -35,7 +35,7 @@
 
         let overlapElement = document.createElement('div')
         $(overlapElement).attr('role', 'overlap')
-            .mouseenter(function () {
+            .mouseenter(function() {
                 if ($(`[${INCODING_DRAGGING_ATTR}]`).length == 0)
                     $(this).addClass('hidden')
             })
@@ -46,10 +46,11 @@
             })
 
         $(container).each(function () {
-            if ($(this).prev().attr('role') != 'overlap' && $(this).prev().attr('role') != 'overlap-busy') {
+            if (!$(this).prev().is('[role=overlap]') && !$(this).prev().is('[role=overlap-busy]')
+                && !$(this).is('[role=overlap]') && !$(this).is('[role=overlap-busy]')) {
                 let overlapElementCopy = $(overlapElement).clone(true)
 
-                if (forOne && $(this).find($(params.item)).length > 0 && $(this)[0] != $(params.listContainer)[0]) 
+                if (forOne && $(this).find($(params.item)).length > 0 && $(this) != $(listContainer)) 
                     $(overlapElementCopy).attr('role', 'overlap-busy')
 
                 $(overlapElementCopy).insertBefore($(this))
@@ -136,8 +137,8 @@
                 overlap.removeClass('hidden')
                 requestAnimationFrame(() => overlap.addClass('active'))
 
-                $(item).mouseup(onMouseUp)
-                document.addEventListener('mousemove', onMouseMove, { passive: true });
+                document.addEventListener('mouseup', onMouseUp, { passive: true })
+                document.addEventListener('mousemove', onMouseMove, { passive: true })
             }
 
             function onMouseMove(ev) {
@@ -177,8 +178,6 @@
             }
 
             function onMouseUp(ev) {
-                ev.preventDefault()
-
                 if (raf)
                     cancelAnimationFrame(raf = null)
 
@@ -207,9 +206,8 @@
                             $(itemUnderDrop).before(item)
                         }
                         else {
-                            $(item).prependTo(dropContainer)
+                            $(item).appendTo(dropContainer)
                         }
-
                         dropContainer.trigger(event, $(this).data())
                     }
                 } else {
@@ -242,7 +240,7 @@
 
                 $('[role=overlap]').removeClass('active hover')
 
-                item.off('mouseup')
+                document.removeEventListener('mouseup', onMouseUp)
                 document.removeEventListener('mousemove', onMouseMove)
             }
         })
