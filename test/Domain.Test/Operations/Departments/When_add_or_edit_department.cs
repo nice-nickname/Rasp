@@ -5,13 +5,13 @@ using Machine.Specifications;
 
 namespace Domain.Test;
 
-[Subject(typeof(AddOrEditDepartmentCommand))]
-public class When_add_or_edit_department
+[Tags("UnitTest")]
+[Subject(typeof(AddOrEditDepartmentCommand), "Command")]
+public class When_executeing_add_or_edit_department
 {
     private Establish context = () =>
     {
         command = Pleasure.Generator.Invent<AddOrEditDepartmentCommand>();
-
         mockCommand = MockCommand<AddOrEditDepartmentCommand>.When(command);
     };
 

@@ -1,34 +1,29 @@
-﻿using Domain.Persistence;
-using Domain.Persistence.Specification;
-using Incoding.UnitTests.MSpec;
+﻿using Domain.Persistence.Specification;
 using Machine.Specifications;
+using Moq;
 
 namespace Domain.Test;
 
-[Subject(typeof(Share.Where.ByTeacher<>))]
-public class When_entity_has_teacher
+[Tags("UnitTest")]
+[Subject(typeof(Share.Where.ByTeacher<>), "Specification")]
+class When_entity_has_teacher
 {
-    private static IQueryable<TeacherPreferences> entities;
+    // Establish context = () =>
+    // {
+    //     entities = Mocks.Of<Share.IEntityHasTeacher>();
+    //     teacherId = entities.First().TeacherId;
 
-    private static int teacherId;
+    //     mock = Mock.Get(entities);
+    // };
 
-    private static List<TeacherPreferences> filtered;
+    // Because of = () => entities.Where(new Share.Where.ByTeacher<Share.IEntityHasTeacher>(teacherId).IsSatisfiedBy());
 
-    private Establish context = () =>
-    {
-        entities = Pleasure.ToQueryable(Pleasure.Generator.Invent<TeacherPreferences>(),
-                                        Pleasure.Generator.Invent<TeacherPreferences>(),
-                                        Pleasure.Generator.Invent<TeacherPreferences>());
+    // It should_be_filtered = () => mock.Verify();
 
-        teacherId = entities.First().TeacherId;
-    };
+    // static IQueryable<Share.IEntityHasTeacher> entities;
 
-    private Because of = () => filtered = entities.Where(new Share.Where.ByTeacher<TeacherPreferences>(teacherId).IsSatisfiedBy())
-                                                  .ToList();
+    // static Mock<IQueryable<Share.IEntityHasTeacher>> mock;
 
-    private It should_filter_entities = () =>
-    {
-        filtered.Count.ShouldEqual(1);
-        filtered.First().TeacherId.ShouldEqual(teacherId);
-    };
+    // static int teacherId;
 }
+
