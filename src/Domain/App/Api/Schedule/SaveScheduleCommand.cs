@@ -30,6 +30,8 @@ public class SaveScheduleCommand : CommandBase
 
     public DayOfWeek Day { get; set; }
 
+    public bool IsUnwanted { get; set; }
+
     protected override void Execute()
     {
         var @class = Repository.GetById<Class>(Id) ?? new Class();
@@ -108,7 +110,7 @@ public class SaveScheduleCommand : CommandBase
         @class.ScheduleFormatId = ScheduleFormatId;
         @class.SubGroupNo = SubGroupNo;
         @class.DisciplinePlanId = DisciplinePlanId;
-        @class.IsUnwanted = preference is GetTeacherPreferencesQuery.PreferenceType.UNWANTED;
+        @class.IsUnwanted = preference is GetTeacherPreferencesQuery.PreferenceType.UNWANTED || IsUnwanted;
 
         Repository.SaveOrUpdate(@class);
     }

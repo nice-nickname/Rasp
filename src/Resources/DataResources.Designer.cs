@@ -259,7 +259,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выберите аудиторию.
+        ///   Looks up a localized string similar to Нет аудитории.
         /// </summary>
         public static string ChooseAuditorium {
             get {

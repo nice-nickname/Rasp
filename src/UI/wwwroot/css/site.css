@@ -573,6 +573,15 @@ input::-webkit-inner-spin-button {
     opacity: .1;
 }
 
+.h-px-30 .material-symbols-rounded {
+    font-size: 20px;
+}
+
+.unschedule-list .class-card .actions {
+    display: none;
+    visibility: hidden;
+}
+
 /* Firefox */
 input[type=number] {
     appearance: textfield;

@@ -10837,4 +10837,8 @@ textarea.form-control-lg {
   border-radius: 6px;
 }
 
+.unschedule-list .class-card {
+  background-color: #FFFFFF !important;
+}
+
 /*# sourceMappingURL=custom_bootstrap.css.map */
