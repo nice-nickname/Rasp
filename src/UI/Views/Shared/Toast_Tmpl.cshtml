@@ -1,7 +1,23 @@
 ﻿@using Incoding.Core.Extensions
 @model ToastModel
 
-<div id="@Model.Id" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+@using (Html.When(JqueryBind.InitIncoding)
+            .OnSuccess(dsl =>
+            {
+                dsl.Self().JQuery.Attr.RemoveClass("opacity-0").TimeOut(5);
+                dsl.Self().JQuery.Attr.AddClass("opacity-0").TimeOut(5500);
+                dsl.Self().JQuery.Dom.Remove().TimeOut(6000);
+            })
+            .AsHtmlAttributes(new RouteValueDictionary
+            {
+                { "id", Model.Id },
+                { "class", "toast show opacity-0" },
+                { "role", "alert" },
+                { "aria-live", "assertive" },
+                { "aria-atomic", "true" }
+            })
+            .ToBeginTag(HtmlTag.Div))
+{
     <div class="toast-header bg-@Model.TitleColor.ToStringLower() text-@Model.TitleTextColor.ToStringLower()">
         <strong class="me-auto ">@Model.Title</strong>
         <button type="button" class="btn p-0" data-bs-dismiss="toast" aria-label="Close">
@@ -11,4 +27,4 @@
     <div class="toast-body">
         @Model.Message
     </div>
-</div>
+}

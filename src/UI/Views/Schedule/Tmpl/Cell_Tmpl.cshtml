@@ -39,6 +39,7 @@
                         TitleTextColor = ToastModel.Color.White
                     }).AsView("~/Views/Shared/Toast_Tmpl.cshtml")).Append()
                        .If(() => Selector.Result != string.Empty);
+                    
                     reloadSchedule(dsl);
                 })
                 .AsHtmlAttributes(new

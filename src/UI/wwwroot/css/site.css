@@ -582,8 +582,12 @@ input::-webkit-inner-spin-button {
     visibility: hidden;
 }
 
+.toast {
+    transition: opacity .3s ease-in-out;
+}
+
 /* Firefox */
 input[type=number] {
-    appearance: textfield;
     -moz-appearance: textfield;
+    appearance: none;
 }
