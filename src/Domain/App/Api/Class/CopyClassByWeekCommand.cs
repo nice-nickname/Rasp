@@ -69,8 +69,16 @@ public class CopyClassByWeekCommand : CommandBase
                 continue;
 
             sourceByPlan.Remove(match);
-            match.Week = DestinationWeek;
-            matchedClasses.Add(match);
+            matchedClasses.Add(new Class
+            {
+                Day = match.Day,
+                Week = DestinationWeek,
+                IsUnwanted = match.IsUnwanted,
+                SubGroupNo = match.SubGroupNo,
+                AuditoriumId = match.AuditoriumId,
+                DisciplinePlanId = match.DisciplinePlanId,
+                ScheduleFormatId = match.ScheduleFormatId,
+            });
         }
 
         Dispatcher.Push(new BulkInsertClassCommand

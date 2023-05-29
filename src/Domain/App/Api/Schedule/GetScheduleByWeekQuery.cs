@@ -2,6 +2,7 @@
 using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 using Incoding.Core.Extensions;
+using Newtonsoft.Json;
 using Resources;
 
 namespace Domain.Api;
@@ -435,6 +436,7 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
 
         public int TeacherId { get; set; }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public int SubGroupNo { get; set; }
 
         public int DisciplinePlanId { get; set; }

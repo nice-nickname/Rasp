@@ -1,5 +1,6 @@
 ﻿using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
+using Newtonsoft.Json;
 
 namespace Domain.Api;
 
@@ -81,6 +82,7 @@ public class GetExportSearchQuery : QueryBase<List<GetExportSearchQuery.Response
 
         public string Name { get; set; }
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public OfType Type { get; set; }
     }
 

@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 using UI.Infrastructure.ModelBinders;
 using UI.Infrastructure.Validators;
+using Newtonsoft.Json;
 
 namespace UI;
 
@@ -47,7 +48,7 @@ public static class Startup
 
         builder.Services.AddScoped<IViewRenderer, AspNetCoreViewRenderer>();
         builder.Services.AddTransient<IBulkInserterProvider>(_ => new SqlBulkInsertProvider(connectionString));
-
+        
         builder.Services
                .AddAuthentication(o =>
                {
@@ -273,6 +274,15 @@ public static class Startup
         {
                 { "FacultyId", Selector.Jquery.Name(GlobalSelectors.FacultyId) }
         });
+
+        JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+        {
+            Formatting = Formatting.None,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
         return app;
     }
 }
