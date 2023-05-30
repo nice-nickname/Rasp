@@ -27,7 +27,7 @@ public class LoginController : Controller
     {
         if (!(User.Identity?.IsAuthenticated ?? false))
         {
-            return RedirectToAction("Login", "LoginController");
+            return RedirectToAction("Login", "Login");
         }
 
         if (User.IsInRole("Rasp.Admin"))
