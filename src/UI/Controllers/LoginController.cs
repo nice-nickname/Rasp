@@ -9,16 +9,32 @@ public class LoginController : Controller
     [Route("/login")]
     public IActionResult Login()
     {
-        if (User.Identity?.IsAuthenticated ?? false)
+        if (!(User.Identity?.IsAuthenticated ?? false))
         {
-            return RedirectToAction("AccessDenied");
+            return View();
         }
-        return View();
+
+        if (User.IsInRole("Rasp.Admin"))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        return RedirectToAction("AccessDenied");
     }
 
     [Route("/unauthorized")]
     public IActionResult AccessDenied()
     {
+        if (!(User.Identity?.IsAuthenticated ?? false))
+        {
+            return RedirectToAction("Login", "LoginController");
+        }
+
+        if (User.IsInRole("Rasp.Admin"))
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         Response.StatusCode = StatusCodes.Status401Unauthorized;
         return View("Unauthorized");
     }

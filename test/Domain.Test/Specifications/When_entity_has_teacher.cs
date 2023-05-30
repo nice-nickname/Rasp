@@ -1,6 +1,5 @@
 ﻿using Domain.Persistence.Specification;
 using Machine.Specifications;
-using Moq;
 
 namespace Domain.Test;
 
@@ -8,22 +7,12 @@ namespace Domain.Test;
 [Subject(typeof(Share.Where.ByTeacher<>), "Specification")]
 class When_entity_has_teacher
 {
-    // Establish context = () =>
-    // {
-    //     entities = Mocks.Of<Share.IEntityHasTeacher>();
-    //     teacherId = entities.First().TeacherId;
+    Establish context = () =>
+    {
+    };
 
-    //     mock = Mock.Get(entities);
-    // };
+    Because of = () => {};
 
-    // Because of = () => entities.Where(new Share.Where.ByTeacher<Share.IEntityHasTeacher>(teacherId).IsSatisfiedBy());
-
-    // It should_be_filtered = () => mock.Verify();
-
-    // static IQueryable<Share.IEntityHasTeacher> entities;
-
-    // static Mock<IQueryable<Share.IEntityHasTeacher>> mock;
-
-    // static int teacherId;
+    It should_be_filtered = () => {};
 }
 
