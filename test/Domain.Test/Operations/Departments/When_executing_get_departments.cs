@@ -26,7 +26,7 @@ class When_executing_get_departments
 
     Because of = () => mockQuery.Execute();
 
-    It should_have_result = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected));
+    It should_return_list_of_departments = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected));
 
     private static MockMessage<GetDepartmentsQuery, List<GetDepartmentsQuery.Response>> mockQuery;
 

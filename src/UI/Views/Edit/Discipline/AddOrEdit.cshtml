@@ -220,6 +220,9 @@
                                         {
                                             SelectedIds = subDiscipline.AuditoriumIds,
                                         });
+                                        control.OnChange = dsl => dsl.WithName($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumKindIds)}")
+                                                                     .JQuery.PlugIn("selectpicker", "deselectAll")
+                                                                     .If(() => Selector.Jquery.Self() != null);
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumIds)}")
                                 </div>
@@ -236,6 +239,9 @@
                                         {
                                             Ids = subDiscipline.AuditoriumKindIds.ToArray(),
                                         }).Select(s => (DropDownItem)s);
+                                        control.OnChange = dsl => dsl.WithName($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumIds)}")
+                                                                     .JQuery.PlugIn("selectpicker", "deselectAll")
+                                                                     .If(() => Selector.Jquery.Self() != null);
                                     })
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumKindIds)}")
                                 </div>

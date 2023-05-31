@@ -70,10 +70,10 @@ class When_executing_get_departments_for_dd
     {
         Because of = () => mockQuery.Execute();
 
-        It should_have_result = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected,
-                                                                (dsl, i) => dsl.ForwardToValue(s => s.Value, expected[i].Id.ToString())
-                                                                                .Forward(s => s.Text, d => d.Code)
-                                                                                .ForwardToValue(s => s.Selected, false)));
+        It should_return_list_of_key_value_vm = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected,
+                                                                                (dsl, i) => dsl.ForwardToValue(s => s.Value, expected[i].Id.ToString())
+                                                                                                .Forward(s => s.Text, d => d.Code)
+                                                                                                .ForwardToValue(s => s.Selected, false)));
     }
 
     static MockMessage<GetDepartmentsForDDQuery, List<KeyValueVm>> mockQuery;
