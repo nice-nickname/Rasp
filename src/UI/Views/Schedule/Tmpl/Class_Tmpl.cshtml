@@ -32,10 +32,10 @@
                 </div>
             </div>
 
-            <div class="d-flex mx-1">
+            <div class="d-flex mx-1 additional-info">
                 @each.Inline(r => r.HasSubGroups,
                              @<div class="flex-grow-1" title="@each.For(r => r.SubGroupNo) @DataResources.SubGroup">
-                                 @each.For(r => r.SubGroupNo) @DataResources.SubGroup
+                                 @each.For(r => r.SubGroupNo)
                              </div>,
                              @<div class="flex-grow-1">
                                  -
