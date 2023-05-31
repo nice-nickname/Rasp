@@ -916,6 +916,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to *.
+        /// </summary>
+        public static string Necessary {
+            get {
+                return ResourceManager.GetString("Necessary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет доступных элементов.
         /// </summary>
         public static string NoItemsAvailable {
