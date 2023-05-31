@@ -1,5 +1,7 @@
 ﻿using Domain.Persistence;
+using FluentValidation;
 using Incoding.Core.CQRS.Core;
+using Resources;
 
 namespace Domain.Api;
 
@@ -31,6 +33,14 @@ public class AddOrEditAuditoriumKindCommand : CommandBase
                     Id = auditoriumKind.Id,
                     Kind = auditoriumKind.Kind
             };
+        }
+    }
+
+    public class Validator : AbstractValidator<AddOrEditAuditoriumKindCommand>
+    {
+        public Validator()
+        {
+            RuleFor(r => r.Kind).NotEmpty().WithMessage(DataResources.InvalidEmpty);
         }
     }
 }
