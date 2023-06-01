@@ -615,4 +615,7 @@
   <data name="YouCantUseApplication" xml:space="preserve">
 	  <value>Вы не обладаете необходимыми правами для доступа к этому ресурсу. Обратитесь к администратору приложения для решения данной проблемы.</value>
   </data>
+  <data name="Necessary" xml:space="preserve">
+	  <value>*</value>
+  </data>
 </root>

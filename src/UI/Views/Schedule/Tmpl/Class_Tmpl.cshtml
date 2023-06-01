@@ -6,7 +6,9 @@
                      + $"{each.For(r => r.Department)} {each.For(r => r.DepartmentCode)} {each.Inline(r => r.HasSubGroups, DataResources.WithSubGroups, DataResources.WithoutSubGroups)} "
                      + $"{each.For(r => r.SubDiscipline)} {each.For(r => r.SubDisciplineCode)}";
 
-        <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab" role="drag-element" name="card" filter="@filter">
+        var isParallelBackground = each.IsInline(r => r.IsParallel, "parallel");
+
+        <div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @isParallelBackground" role="drag-element" name="card" filter="@filter">
             @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), each.For(r => r.DisciplinePlanId))
             @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), each.For(r => r.SubDisciplineId))
             @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), each.For(r => r.SubGroupNo))
@@ -32,10 +34,10 @@
                 </div>
             </div>
 
-            <div class="d-flex mx-1">
+            <div class="d-flex mx-1 additional-info">
                 @each.Inline(r => r.HasSubGroups,
                              @<div class="flex-grow-1" title="@each.For(r => r.SubGroupNo) @DataResources.SubGroup">
-                                 @each.For(r => r.SubGroupNo) @DataResources.SubGroup
+                                 @each.For(r => r.SubGroupNo)
                              </div>,
                              @<div class="flex-grow-1">
                                  -

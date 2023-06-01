@@ -2,10 +2,11 @@
 
 @{
     var cardBackground = Model.Inline(r => r.AuditoriumId, Model.IsInline(r => r.IsUnwanted, "unwanted-warning"), "class-card-warning");
+    var isParallelBackground = Model.IsInline(r => r.IsParallel, "parallel");
 }
 
-<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @cardBackground" role="drag-element" name="card">
-    @Html.Hidden(nameof(SaveScheduleCommand.IsUnwanted), Model.For(r => r.IsUnwanted))
+<div class="h-100 bg-light rounded class-card d-flex flex-column shadow shadow-hover cursor-grab @cardBackground @isParallelBackground" role="drag-element" name="card">
+    @Html.Hidden(nameof(SaveScheduleCommand.IsUnwanted), false)
     @Html.Hidden(nameof(SaveScheduleCommand.DisciplinePlanId), Model.For(r => r.DisciplinePlanId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubDisciplineId), Model.For(r => r.SubDisciplineId))
     @Html.Hidden(nameof(SaveScheduleCommand.SubGroupNo), Model.For(r => r.SubGroupNo))
@@ -31,10 +32,10 @@
     </div>
 
     <div class="mx-1 d-flex gap-2">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1" title="@Model.For(r => r.SubGroupNo) @DataResources.SubGroup">
             @Model.Inline(r => r.HasSubGroups,
                           @<text>
-                              @Model.For(r => r.SubGroupNo) @DataResources.SubGroup
+                              @Model.For(r => r.SubGroupNo)
                            </text>,
                           @<text>
                               -
@@ -47,7 +48,7 @@
         </div>
     </div>
 
-    <div class="mx-1 d-flex gap-2">
+    <div class="mx-1 d-flex gap-2 additional-info">
         <div class="flex-grow-1 text-nowrap text-overflow-elipsis overflow-hidden minw-0 w-px-0" @Model.IsInline(r => r.IsTeacher, @$"title=""{Model.For(r => r.Group)}""")>
             @Model.IsInline(r => r.IsGroup, Model.For(r => r.Teacher))
             @Model.IsInline(r => r.IsAuditorium, Model.For(r => r.Teacher))

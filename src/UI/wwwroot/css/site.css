@@ -586,6 +586,17 @@ input::-webkit-inner-spin-button {
     transition: opacity .3s ease-in-out;
 }
 
+@media screen and (max-height: 900px) and (max-width: 1600px) {
+    .schedule { 
+        font-size: 14px;
+    }
+
+    .additional-info {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;

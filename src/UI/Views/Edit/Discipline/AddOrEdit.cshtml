@@ -52,12 +52,12 @@
             <div class="col-3">
                 @Html.ForGroup(s => s.Name).TextBox(control =>
                 {
-                    control.Label.Name = DataResources.DisciplineName;
+                    control.Label.Name = DataResources.DisciplineName + DataResources.Necessary;
                     control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
                 })
             </div>
             <div class="col-2">
-                @Html.ForGroup(s => s.Code).TextBox(control => control.Label.Name = DataResources.Abbreviation)
+                @Html.ForGroup(s => s.Code).TextBox(control => control.Label.Name = DataResources.Abbreviation + DataResources.Necessary)
             </div>
             <div class="col-2">
                 <div class="form-group">
@@ -79,7 +79,7 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    @Html.LabelFor(s => s.KindId, DataResources.DisciplineType)
+                    @Html.LabelFor(s => s.KindId, DataResources.DisciplineType + DataResources.Necessary)
                     @Html.Controls().Select(control =>
                     {
                         control.Class = "form-control";
@@ -96,7 +96,7 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    @Html.LabelFor(s => s.GroupIds, DataResources.GroupList)
+                    @Html.LabelFor(s => s.GroupIds, DataResources.GroupList + DataResources.Necessary)
                     @Html.Controls().Select(control =>
                     {
                         control.Class = "form-control";

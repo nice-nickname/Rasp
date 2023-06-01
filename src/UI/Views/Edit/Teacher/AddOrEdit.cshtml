@@ -40,7 +40,7 @@
             @Html.ForGroup(r => r.Name).TextBox(control =>
             {
                 control.AddClass("w-100");
-                control.Label.Name = DataResources.TeacherName;
+                control.Label.Name = DataResources.TeacherName + DataResources.Necessary;
             })
         </div>
 
@@ -48,7 +48,7 @@
             @Html.ForGroup(r => r.DepartmentId).DropDown(control =>
             {
                 control.AddClass("w-100");
-                control.Label.Name = DataResources.Department;
+                control.Label.Name = DataResources.Department + DataResources.Necessary;
                 control.Input.Data = Html.Dispatcher().Query(new GetDepartmentsForDDQuery
                 {
                     FacultyId = Convert.ToInt32(Context.Request.Cookies[GlobalSelectors.FacultyId])

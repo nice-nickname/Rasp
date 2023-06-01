@@ -40,20 +40,20 @@
             @Html.ForGroup(r => r.BuildingId).DropDown(control =>
             {
                 control.AddClass("w-20");
-                control.Label.Name = DataResources.Building;
+                control.Label.Name = DataResources.Building + DataResources.Necessary;
                 control.Input.Data = Html.Dispatcher().Query(new GetBuildingsForDDQuery());
             })
 
             @Html.ForGroup(r => r.Code).TextBox(control =>
             {
                 control.AddClass("w-50");
-                control.Label.Name = DataResources.Placeholder_AuditoriumNumber;
+                control.Label.Name = DataResources.Placeholder_AuditoriumNumber + DataResources.Necessary;
             })
 
             @Html.ForGroup(r => r.Capacity).TextBox(control =>
             {
                 control.AddClass("w-30");
-                control.Label.Name = DataResources.Capacity;
+                control.Label.Name = DataResources.Capacity + DataResources.Necessary;
             })
         </div>
 

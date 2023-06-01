@@ -40,13 +40,13 @@
             @Html.ForGroup(r => r.Code).TextBox(control =>
             {
                 control.AddClass("w-20");
-                control.Label.Name = DataResources.Abbreviation;
+                control.Label.Name = DataResources.Abbreviation + DataResources.Necessary;
             })
 
             @Html.ForGroup(r => r.Name).TextBox(control =>
             {
                 control.AddClass("w-80");
-                control.Label.Name = DataResources.DepartmentName;
+                control.Label.Name = DataResources.DepartmentName + DataResources.Necessary;
                 control.Input.OnChange = dsl => dsl.Self().Call("suggestInputValueByNamingCase", Selector.Jquery.Self(), nameof(Model.Code));
             })
         </div>
@@ -58,7 +58,7 @@
         <div class="mx-3 d-flex gap-3">
             @Html.ForGroup(r => r.FacultyId).DropDown(control =>
             {
-                control.Label.Name = DataResources.Faculty;
+                control.Label.Name = DataResources.Faculty + DataResources.Necessary;
                 control.Input.Data = Html.Dispatcher().Query(new GetFacultyForDDQuery());
                 control.AddClass("w-100");
             })
