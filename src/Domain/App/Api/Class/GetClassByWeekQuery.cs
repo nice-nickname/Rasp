@@ -82,7 +82,8 @@ namespace Domain.Api
                             IsGroup = Mode is ModeOf.Groups,
                             IsAuditorium = Mode is ModeOf.Auditoriums,
                             IsTeacher = Mode is ModeOf.Teachers,
-                            AuditoriumId = SelectedAuditoriumIds?.FirstOrDefault()
+                            AuditoriumId = SelectedAuditoriumIds?.FirstOrDefault(),
+                            IsParallel = disciplinePlan.SubDiscipline.IsParallelHours
                         });
 
                         scheduledBySubGroupCount++;
@@ -135,6 +136,8 @@ namespace Domain.Api
             public bool IsAuditorium { get; set; }
             
             public bool IsTeacher { get; set; }
+            
+            public bool IsParallel { get; set; }
         }
     }
 }

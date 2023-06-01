@@ -159,7 +159,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                            IsAuditorium = mode == ModeOf.Auditoriums,
                                            IsTeacher = mode == ModeOf.Teachers,
                                            StudentCount = r.Plan.Group.StudentCount,
-                                           IsUnwanted = r.IsUnwanted
+                                           IsUnwanted = r.IsUnwanted,
+                                           IsParallel = r.Plan.SubDiscipline.IsParallelHours
                                    })
                                    .ToList()
                                    .GroupBy(r => r.Day)
@@ -369,7 +370,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
                                            IsAuditorium = mode == ModeOf.Auditoriums,
                                            IsTeacher = mode == ModeOf.Teachers,
                                            StudentCount = r.Plan.Group.StudentCount,
-                                           IsUnwanted = r.IsUnwanted
+                                           IsUnwanted = r.IsUnwanted,
+                                           IsParallel = r.Plan.SubDiscipline.IsParallelHours
                                    })
                                    .ToList()
                                    .GroupBy(r => mode switch
@@ -478,6 +480,8 @@ public class GetScheduleByWeekQuery : QueryBase<List<GetScheduleByWeekQuery.Resp
         public bool IsBlocked { get; set; }
 
         public bool IsUnwanted { get; set; }
+
+        public bool IsParallel { get; set; }
 
         public DayOfWeek Day { get; set; }
     }

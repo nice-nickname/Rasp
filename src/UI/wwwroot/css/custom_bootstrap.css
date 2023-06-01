@@ -17,6 +17,16 @@
   background-size: 20px 20px;
 }
 
+.parallel {
+  background: linear-gradient(315deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%), linear-gradient(135deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%) 0 10px, linear-gradient(135deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%) 10px 0, linear-gradient(315deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%) -10px -10px;
+  background-size: 20px 20px;
+}
+
+.unwanted-warning.parallel {
+  background: linear-gradient(135deg, rgba(253, 197, 54, 0.5) 25%, transparent 26%), linear-gradient(315deg, rgba(253, 197, 54, 0.5) 25%, transparent 26%) 0 10px, linear-gradient(315deg, rgba(253, 197, 54, 0.5) 25%, transparent 26%) 10px 0, linear-gradient(135deg, rgba(253, 197, 54, 0.5) 25%, transparent 26%) -10px -10px, linear-gradient(315deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%), linear-gradient(135deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%) 0 10px, linear-gradient(135deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%) 10px 0, linear-gradient(315deg, rgba(1, 156, 83, 0.3) 25%, transparent 25%) -10px -10px;
+  background-size: 20px 20px;
+}
+
 .text-base {
   color: rgba(238, 238, 238, 0.6666666667);
 }
