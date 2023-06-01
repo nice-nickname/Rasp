@@ -10,34 +10,36 @@ public partial class Share
     {
         int Id { get; }
     }
-
-    public class ById<T> : Specification<T> where T : IEntityHasId
+    public partial class Where
     {
-        private readonly int _id;
-
-        public ById(int id)
+        public class ById<T> : Specification<T> where T : IEntityHasId
         {
-            this._id = id;
+            private readonly int _id;
+
+            public ById(int id)
+            {
+                this._id = id;
+            }
+
+            public override Expression<Func<T, bool>> IsSatisfiedBy()
+            {
+                return s => s.Id == this._id;
+            }
         }
 
-        public override Expression<Func<T, bool>> IsSatisfiedBy()
+        public class HasId<T> : Specification<T> where T : IEntityHasId
         {
-            return s => s.Id == this._id;
-        }
-    }
+            private readonly int[] _ids;
 
-    public class HasId<T> : Specification<T> where T : IEntityHasId
-    {
-        private readonly int[] _ids;
+            public HasId(IEnumerable<int> ids)
+            {
+                this._ids = ids.ToArray();
+            }
 
-        public HasId(int[] ids)
-        {
-            this._ids = ids;
-        }
-
-        public override Expression<Func<T, bool>> IsSatisfiedBy()
-        {
-            return s => this._ids.Contains(s.Id);
+            public override Expression<Func<T, bool>> IsSatisfiedBy()
+            {
+                return s => this._ids.Contains(s.Id);
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Domain.Test;
 
 [Tags("UnitTest")]
 [Subject(typeof(Share.Where.ByTeacher<>), "Specification")]
-class When_query_entity_has_teacher
+class When_querying_entity_that_has_teacher
 {
     Establish context = () =>
     {
