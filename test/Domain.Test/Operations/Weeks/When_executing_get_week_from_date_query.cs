@@ -1,10 +1,9 @@
-﻿using Domain.Api;
+﻿using System.Globalization;
+using Domain.Api;
 using Domain.App.Api;
-using Domain.Persistence.Specification;
-using Incoding.Core.Extensions.LinqSpecs;
+using Domain.Persistence;
 using Incoding.UnitTests.MSpec;
 using Machine.Specifications;
-using System.Globalization;
 
 namespace Domain.Test;
 
@@ -12,6 +11,14 @@ namespace Domain.Test;
 [Subject(typeof(GetWeekFromDateQuery), "Query")]
 class When_executing_get_week_from_date : query_spec<GetWeekFromDateQuery, int>
 {
+    static DateTime semesterStartDate;
+
+    static DateTime yearFirstDayMonday;
+
+    static int semesterWeeksCount;
+
+    static Calendar calendar;
+
     Establish context = () =>
     {
         query = new GetWeekFromDateQuery { FacultyId = 1 };
@@ -21,17 +28,19 @@ class When_executing_get_week_from_date : query_spec<GetWeekFromDateQuery, int>
         semesterStartDate = yearFirstDayMonday;
 
         mock = query => mockQuery = MockQuery<GetWeekFromDateQuery, int>
-                                        .When(query)
-                                        .StubQuery(new GetFacultySettingQuery<DateTime>
-                                        {
-                                            FacultyId = query.FacultyId,
-                                            Type = Persistence.FacultySettings.OfType.StartDate
-                                        }, semesterStartDate)
-                                        .StubQuery(new GetFacultySettingQuery<int>
-                                        {
-                                            FacultyId = query.FacultyId,
-                                            Type = Persistence.FacultySettings.OfType.CountOfWeeks
-                                        }, semesterWeeksCount);
+                                    .When(query)
+                                    .StubQuery(new GetFacultySettingQuery<DateTime>
+                                               {
+                                                       FacultyId = query.FacultyId,
+                                                       Type = FacultySettings.OfType.StartDate
+                                               },
+                                               semesterStartDate)
+                                    .StubQuery(new GetFacultySettingQuery<int>
+                                               {
+                                                       FacultyId = query.FacultyId,
+                                                       Type = FacultySettings.OfType.CountOfWeeks
+                                               },
+                                               semesterWeeksCount);
 
         calendar = CultureInfo.InvariantCulture.Calendar;
     };
@@ -66,6 +75,8 @@ class When_executing_get_week_from_date : query_spec<GetWeekFromDateQuery, int>
 
     class when_date_is_in_semester
     {
+        static int expectedWeek;
+
         Establish context = () =>
         {
             var days = Pleasure.Generator.PositiveNumber(0, 365);
@@ -78,15 +89,5 @@ class When_executing_get_week_from_date : query_spec<GetWeekFromDateQuery, int>
         Because of = () => mockQuery.Execute();
 
         It should_be_valid_week = () => mockQuery.ShouldBeIsResult(week => week.ShouldEqual(expectedWeek));
-
-        static int expectedWeek;
     }
-
-    static DateTime semesterStartDate;
-
-    static DateTime yearFirstDayMonday;
-
-    static int semesterWeeksCount;
-
-    static Calendar calendar;
 }

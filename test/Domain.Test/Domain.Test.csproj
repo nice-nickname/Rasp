@@ -19,4 +19,9 @@
     <ProjectReference Include="..\..\src\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Operations\SubDisciplines\" />
+    <Folder Include="Operations\Teachers\" />
+  </ItemGroup>
+
 </Project>

@@ -10,6 +10,12 @@ namespace Domain.Test;
 [Subject(typeof(GetDepartmentsQuery), "Query")]
 class When_executing_get_departments
 {
+    static MockMessage<GetDepartmentsQuery, List<GetDepartmentsQuery.Response>> mockQuery;
+
+    static GetDepartmentsQuery query;
+
+    static Department[] expected;
+
     Establish context = () =>
     {
         query = Pleasure.Generator.Invent<GetDepartmentsQuery>();
@@ -17,9 +23,9 @@ class When_executing_get_departments
         var departments = Pleasure.Generator.Invent<List<Department>>().ToArray();
 
         mockQuery = MockQuery<GetDepartmentsQuery, List<GetDepartmentsQuery.Response>>
-                        .When(query)
-                        .StubQuery(whereSpecification: new Share.Where.ByFaculty<Department>(query.FacultyId), 
-                                   entities: departments);
+                    .When(query)
+                    .StubQuery(whereSpecification: new Share.Where.ByFaculty<Department>(query.FacultyId),
+                               entities: departments);
 
         expected = departments.OrderBy(s => s.Code).ToArray();
     };
@@ -27,10 +33,4 @@ class When_executing_get_departments
     Because of = () => mockQuery.Execute();
 
     It should_return_list_of_departments = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected));
-
-    private static MockMessage<GetDepartmentsQuery, List<GetDepartmentsQuery.Response>> mockQuery;
-
-    private static GetDepartmentsQuery query;
-
-    private static Department[] expected;
 }

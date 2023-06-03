@@ -7,9 +7,9 @@ public partial class Share
 {
     public interface IEntityHasGroup
     {
-        public int GroupId { get; }
+        public int GroupId { get; set; }
 
-        public Group Group { get; }
+        public Group Group { get; set; }
     }
 
     public partial class Where

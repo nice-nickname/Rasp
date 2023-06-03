@@ -1,7 +1,9 @@
 ﻿using FluentMigrator;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(22, "Added TeacherPreferences.Day")]
 public class Step22 : Migration
 {

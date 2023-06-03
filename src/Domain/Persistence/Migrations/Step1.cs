@@ -1,9 +1,11 @@
 ﻿using Domain.Extensions;
 using FluentMigrator;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(1, "Added base tables")]
 public class Step1 : Migration
 {

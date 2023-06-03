@@ -26,20 +26,20 @@ public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
         var preferredBySelf = subDiscipline.Auditoriums.Select(r => r.Id).ToList();
 
         var preferredByKind = Repository.Query<AuditoriumToKinds>()
-                                    .Where(s => preferredKindIds.Contains(s.AuditoriumKindId))
-                                    .Select(s => s.AuditoriumId);
+                                        .Where(s => preferredKindIds.Contains(s.AuditoriumKindId))
+                                        .Select(s => s.AuditoriumId);
 
-        var scheduledAuditoriums = Repository.Query<Class>()
-                                             .Where(r => r.Day == Day
-                                                      && r.ScheduleFormatId == ScheduleFormatId
-                                                      && r.Week == Week
-                                                      && r.AuditoriumId != AuditoriumId)
-                                             .Select(r => r.AuditoriumId)
-                                             .ToList();
+        var busyAuditoriums = Repository.Query<Class>()
+                                        .Where(r => r.Day == Day
+                                                  && r.ScheduleFormatId == ScheduleFormatId
+                                                 && r.Week == Week
+                                                 && r.AuditoriumId != AuditoriumId)
+                                        .Select(r => r.AuditoriumId)
+                                        .ToList();
 
-        var capacity = subDiscipline.IsParallelHours 
-                            ? subDiscipline.Discipline.Groups.Sum(s => s.StudentCount) 
-                            : Repository.GetById<Group>(GroupId).StudentCount;
+        var capacity = subDiscipline.IsParallelHours
+                ? subDiscipline.Discipline.Groups.Sum(s => s.StudentCount)
+                : Repository.GetById<Group>(GroupId).StudentCount;
 
         var result = Repository.Query<Auditorium>();
 
@@ -59,9 +59,9 @@ public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
 
         return result.Select(r => new KeyValueVm
                      {
-                            Text = $"{r.Building.Name}-{r.Code}",
-                            Value = r.Id.ToString(),
-                            CssClass = scheduledAuditoriums.Contains(r.Id) ? "disabled" : string.Empty
+                             Text = $"{r.Building.Name}-{r.Code}",
+                             Value = r.Id.ToString(),
+                             CssClass = busyAuditoriums.Contains(r.Id) ? "disabled" : string.Empty
                      })
                      .ToList();
     }

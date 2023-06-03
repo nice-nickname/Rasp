@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
@@ -26,6 +27,7 @@ public class SubDisciplineKind : IncEntityBase, Share.IEntityHasId
 
     public virtual OfType Type { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<SubDisciplineKind>
     {
         public Mapping()

@@ -1,11 +1,8 @@
 ﻿using Domain.Api;
 using Domain.Common;
 using Domain.Persistence;
-using Domain.Persistence.Specification;
-using Incoding.Core.ViewModel;
 using Incoding.UnitTests.MSpec;
 using Machine.Specifications;
-using NHibernate.Hql.Ast.ANTLR.Tree;
 
 namespace Domain.Test;
 
@@ -14,28 +11,29 @@ namespace Domain.Test;
 class When_executing_get_auditoriums_for_select
 {
     private static Action<GetAuditoriumsForSelectQuery> mock;
-    
+
     private static MockMessage<GetAuditoriumsForSelectQuery, List<DropDownItem>> mockQuery;
-    
+
     static GetAuditoriumsForSelectQuery query;
 
     static Auditorium[] expected;
+
     Establish context = () =>
     {
         query = new GetAuditoriumsForSelectQuery();
         expected = new[]
         {
-            Pleasure.Generator.Invent<Auditorium>(dsl => dsl.GenerateTo(s => s.Building)
-                                                            .GenerateTo(s => s.Department)),
-            Pleasure.Generator.Invent<Auditorium>(dsl => dsl.GenerateTo(s => s.Building)
-                                                            .GenerateTo(s => s.Department)),
-            Pleasure.Generator.Invent<Auditorium>(dsl => dsl.GenerateTo(s => s.Building)
-                                                            .GenerateTo(s => s.Department)),
+                Pleasure.Generator.Invent<Auditorium>(dsl => dsl.GenerateTo(s => s.Building)
+                                                                .GenerateTo(s => s.Department)),
+                Pleasure.Generator.Invent<Auditorium>(dsl => dsl.GenerateTo(s => s.Building)
+                                                                .GenerateTo(s => s.Department)),
+                Pleasure.Generator.Invent<Auditorium>(dsl => dsl.GenerateTo(s => s.Building)
+                                                                .GenerateTo(s => s.Department)),
         };
 
         mock = query => mockQuery = MockQuery<GetAuditoriumsForSelectQuery, List<DropDownItem>>
-                                        .When(query)
-                                        .StubQuery(entities: expected);
+                                    .When(query)
+                                    .StubQuery(entities: expected);
     };
 
     class with_selected
@@ -66,16 +64,20 @@ class When_executing_get_auditoriums_for_select
 
         It should_return_drop_down_items = () =>
         {
-            mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected, (dsl, i) =>
+            mockQuery.ShouldBeIsResult(list =>
             {
-                var name = $"{expected[i].Building.Name}-{expected[i].Code}";
-                dsl.ForwardToValue(s => s.Value, expected[i].Id as object)
-                   .ForwardToValue(s => s.Text, name)
-                   .ForwardToValue(s => s.SubText, expected[i].Department.Code)
-                   .ForwardToValue(s => s.Group, expected[i].Building.Name)
-                   .ForwardToValue(s => s.Search, $"{expected[i].Building.Name} {expected[i].Department.Code} {name} ")
-                   .ForwardToValue(s => s.Selected, false);
-            }));
+                list.ShouldEqualWeakEach(expected,
+                                         (dsl, i) =>
+                                         {
+                                             var name = $"{expected[i].Building.Name}-{expected[i].Code}";
+                                             dsl.ForwardToValue(s => s.Value, expected[i].Id as object)
+                                                .ForwardToValue(s => s.Text, name)
+                                                .ForwardToValue(s => s.SubText, expected[i].Department.Code)
+                                                .ForwardToValue(s => s.Group, expected[i].Building.Name)
+                                                .ForwardToValue(s => s.Search, $"{expected[i].Building.Name} {expected[i].Department.Code} {name} ")
+                                                .ForwardToValue(s => s.Selected, false);
+                                         });
+            });
         };
     }
 }

@@ -11,22 +11,30 @@ namespace Domain.Test;
 [Subject(typeof(GetDepartmentsForDDQuery), "Query")]
 class When_executing_get_departments_for_dd
 {
+    static MockMessage<GetDepartmentsForDDQuery, List<KeyValueVm>> mockQuery;
+
+    static Action<GetDepartmentsForDDQuery> mock;
+
+    static GetDepartmentsForDDQuery query;
+
+    static Department[] expected;
+
     Establish context = () =>
     {
         mock = query => mockQuery = MockQuery<GetDepartmentsForDDQuery, List<KeyValueVm>>
-                                            .When(query)
-                                            .StubQuery(whereSpecification: new Share.Where.ByFaculty<Department>(query.FacultyId),
-                                                       entities: expected);
+                                    .When(query)
+                                    .StubQuery(whereSpecification: new Share.Where.ByFaculty<Department>(query.FacultyId),
+                                               entities: expected);
 
         query = new GetDepartmentsForDDQuery { FacultyId = 1 };
 
         expected = new[]
         {
-            Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)),
-            Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)),
-            Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)),
-            Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)
-                                                            .Tuning(s => s.Id, Pleasure.Generator.TheSameNumber()))
+                Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)),
+                Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)),
+                Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)),
+                Pleasure.Generator.Invent<Department>(dsl => dsl.Tuning(s => s.FacultyId, query.FacultyId)
+                                                                .Tuning(s => s.Id, Pleasure.Generator.TheSameNumber()))
         };
 
         mock(query);
@@ -70,17 +78,12 @@ class When_executing_get_departments_for_dd
     {
         Because of = () => mockQuery.Execute();
 
-        It should_return_list_of_key_value_vm = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected,
-                                                                                (dsl, i) => dsl.ForwardToValue(s => s.Value, expected[i].Id.ToString())
-                                                                                                .Forward(s => s.Text, d => d.Code)
-                                                                                                .ForwardToValue(s => s.Selected, false)));
+        It should_return_list_of_key_value_vm = () => mockQuery.ShouldBeIsResult(list =>
+        {
+            list.ShouldEqualWeakEach(expected,
+                                     (dsl, i) => dsl.ForwardToValue(s => s.Value, expected[i].Id.ToString())
+                                                    .Forward(s => s.Text, d => d.Code)
+                                                    .ForwardToValue(s => s.Selected, false));
+        });
     }
-
-    static MockMessage<GetDepartmentsForDDQuery, List<KeyValueVm>> mockQuery;
-
-    static Action<GetDepartmentsForDDQuery> mock;
-
-    static GetDepartmentsForDDQuery query;
-
-    static Department[] expected;
 }

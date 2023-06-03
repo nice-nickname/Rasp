@@ -1,7 +1,9 @@
 ﻿using FluentMigrator;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(5, "Fixed table ScheduleFormat")]
 public class Step5 : Migration
 {

@@ -7,16 +7,16 @@ public partial class Share
 {
     public interface IEntityHasDepartment
     {
-        int DepartmentId { get; }
+        int DepartmentId { get; set; }
 
-        Department Department { get; }
+        Department Department { get; set; }
     }
 
     public interface IEntityMayHaveDepartment
     {
-        int? DepartmentId { get; }
+        int? DepartmentId { get; set; }
 
-        Department? Department { get; }
+        Department? Department { get; set; }
     }
 
     public partial class Where

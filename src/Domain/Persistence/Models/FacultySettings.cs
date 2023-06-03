@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
@@ -24,8 +25,9 @@ public class FacultySettings : IncEntityBase, Share.IEntityHasFaculty, Share.IEn
 
     public virtual int FacultyId { get; set; }
 
-    public virtual Faculty Faculty { get; }
+    public virtual Faculty Faculty { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<FacultySettings>
     {
         public Mapping()

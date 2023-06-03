@@ -7,36 +7,18 @@ public class GetTeachersQuery : QueryBase<List<GetTeachersQuery.Response>>
 {
     protected override List<Response> ExecuteResult()
     {
-        var data = Repository.Query<Teacher>()
-                             .Select(r => new
-                             {
-                                     r.Id,
-                                     r.Name,
-                                     r.DepartmentId,
-                                     DepartmentCode = r.Department.Code,
-                                     DepartmentName = r.Department.Name
-                             })
-                             .OrderBy(s => s.Name)
-                             .ToList();
-
-        var response = new List<Response>();
-
-        foreach (var teacher in data)
-        {
-            var name = teacher.Name.Split(" ");
-
-            response.Add(new Response
-            {
-                    Id = teacher.Id,
-                    Name = teacher.Name,
-                    DepartmentId = teacher.DepartmentId,
-                    DepartmentCode = teacher.DepartmentCode,
-                    DepartmentName = teacher.DepartmentName,
-                    Initials = name.Length > 2 ? $"{name[0]} {name[1].First()}. {name[2].First()}." : teacher.Name
-            });
-        }
-
-        return response;
+        return Repository.Query<Teacher>()
+                         .Select(teacher => new Response
+                         {
+                                 Id = teacher.Id,
+                                 Name = teacher.Name,
+                                 DepartmentId = teacher.DepartmentId,
+                                 DepartmentCode = teacher.Department.Code,
+                                 DepartmentName = teacher.Department.Name,
+                                 Initials = teacher.ShortName
+                         })
+                         .OrderBy(s => s.Name)
+                         .ToList();
     }
 
     public class Response

@@ -1,11 +1,9 @@
-﻿using Domain.Api;
+﻿using System.Globalization;
+using Domain.Api;
 using Domain.App.Api;
 using Domain.Persistence;
-using Domain.Persistence.Specification;
-using Incoding.Core.ViewModel;
 using Incoding.UnitTests.MSpec;
 using Machine.Specifications;
-using System.Globalization;
 
 namespace Domain.Test;
 
@@ -13,6 +11,12 @@ namespace Domain.Test;
 [Subject(typeof(GetDateFromWeekQuery), "Query")]
 class When_executing_get_date_from_week : query_spec<GetDateFromWeekQuery, DateTime>
 {
+    static DateTime semesterStartDate;
+
+    static DateTime startOfYearOnMonday;
+
+    static Calendar calendar;
+
     Establish context = () =>
     {
         query = new GetDateFromWeekQuery { Week = Pleasure.Generator.PositiveNumber(1, 30), FacultyId = 1 };
@@ -22,12 +26,13 @@ class When_executing_get_date_from_week : query_spec<GetDateFromWeekQuery, DateT
         calendar = CultureInfo.InvariantCulture.Calendar;
 
         mock = query => mockQuery = MockQuery<GetDateFromWeekQuery, DateTime>
-                                        .When(query)
-                                        .StubQuery(new GetFacultySettingQuery<DateTime> 
-                                        { 
-                                            FacultyId = query.FacultyId,
-                                            Type = FacultySettings.OfType.StartDate
-                                        }, semesterStartDate);
+                                    .When(query)
+                                    .StubQuery(new GetFacultySettingQuery<DateTime>
+                                               {
+                                                       FacultyId = query.FacultyId,
+                                                       Type = FacultySettings.OfType.StartDate
+                                               },
+                                               semesterStartDate);
     };
 
     class when_start_is_monday
@@ -92,10 +97,4 @@ class When_executing_get_date_from_week : query_spec<GetDateFromWeekQuery, DateT
             nextWeek.ShouldEqual(startWeekPlusWeeks + query.Week - 1);
         });
     }
-
-    static DateTime semesterStartDate;
-
-    static DateTime startOfYearOnMonday;
-
-    static Calendar calendar;
 }

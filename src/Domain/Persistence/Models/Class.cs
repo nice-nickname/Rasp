@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using Domain.Persistence.Mappers;
 using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
@@ -31,6 +32,7 @@ public class Class : IncEntityBase, Share.IEntityHasId
 
     public virtual DisciplinePlan Plan { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<Class>
     {
         public Mapping()

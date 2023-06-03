@@ -8,7 +8,7 @@ public partial class Share
 {
     public interface IEntityHasId
     {
-        int Id { get; }
+        int Id { get; set; }
     }
     public partial class Where
     {

@@ -1,9 +1,11 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Extensions;
 using FluentMigrator;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(10, "Added DisciplinePlan")]
 public class Step10 : Migration
 {

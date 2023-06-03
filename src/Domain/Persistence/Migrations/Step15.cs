@@ -1,7 +1,9 @@
 ﻿using FluentMigrator;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(15, "Added Type to SubDisciplineKind")]
 public class Step15 : Migration
 {

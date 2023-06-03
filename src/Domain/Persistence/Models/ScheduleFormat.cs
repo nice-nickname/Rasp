@@ -1,4 +1,5 @@
-﻿using Domain.Persistence.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
@@ -20,6 +21,7 @@ public class ScheduleFormat : IncEntityBase, Share.IEntityHasFaculty, Share.IEnt
 
     public class Mapping : ClassMap<ScheduleFormat>
     {
+    [ExcludeFromCodeCoverage]
         public Mapping()
         {
             Table(nameof(ScheduleFormat));

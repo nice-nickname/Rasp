@@ -1,9 +1,11 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Extensions;
 using FluentMigrator;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(2, "Added tables for Disciplines")]
 public class Step2 : Migration
 {
