@@ -11,10 +11,10 @@ public class GetUnwantedClassesQuery : QueryBase<List<GetUnscheduledClassesQuery
     protected override List<GetUnscheduledClassesQuery.Response> ExecuteResult()
     {
         return Repository.Query<Class>()
-                         .Where(r => r.IsUnwanted == true)
-                         .ToList()
-                         .Where(r => r.ScheduleFormat.FacultyId == FacultyId)
+                         .Where(r => r.IsUnwanted == true &&
+                                     r.ScheduleFormat.FacultyId == FacultyId)
                          .Take(7)
+                         .ToList()
                          .Select(r => new GetUnscheduledClassesQuery.Response
                          {
                                  TeacherId = r.Plan.TeacherId,
@@ -28,10 +28,11 @@ public class GetUnwantedClassesQuery : QueryBase<List<GetUnscheduledClassesQuery
                                  SubDisciplineKind = r.Plan.SubDiscipline.Kind.Name,
                                  SubDisciplineKindShort = r.Plan.SubDiscipline.Kind.Code,
                                  Color = r.Plan.SubDiscipline.Kind.Color.ToHex(),
-                                 Department = r.Plan.SubDiscipline.Discipline.Department?.Name,
-                                 DepartmentShort = r.Plan.SubDiscipline.Discipline.Department.Code,
+                                 Department = r.Plan.SubDiscipline.Discipline.Department?.Name ?? string.Empty,
+                                 DepartmentShort = r.Plan.SubDiscipline.Discipline.Department?.Code ?? string.Empty,
                                  HasSubGroups = r.SubGroupNo > 1
                          })
+                         
                          .ToList();
     }
 }

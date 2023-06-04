@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using NHibernate;
 using NHibernate.Engine;
@@ -8,6 +9,7 @@ using NHibernate.UserTypes;
 
 namespace Domain.Persistence.Mappers;
 
+[ExcludeFromCodeCoverage]
 public class NHibernateColorType : IUserType
 {
     public bool Equals(object x, object y)

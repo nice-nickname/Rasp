@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Operations\Classes\" />
     <Folder Include="Operations\SubDisciplines\" />
-    <Folder Include="Operations\Teachers\" />
   </ItemGroup>
 
 </Project>

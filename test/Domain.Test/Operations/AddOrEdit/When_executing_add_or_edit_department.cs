@@ -7,7 +7,7 @@ namespace Domain.Test;
 
 [Tags("UnitTest")]
 [Subject(typeof(AddOrEditDepartmentCommand), "Command")]
-class When_executeing_add_or_edit_department
+class When_executing_add_or_edit_department
 {
     static MockCommand<AddOrEditDepartmentCommand> mockCommand;
 

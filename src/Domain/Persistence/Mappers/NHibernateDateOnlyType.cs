@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using NHibernate;
 using NHibernate.Engine;
 using NHibernate.SqlTypes;
@@ -7,6 +8,7 @@ using NHibernate.UserTypes;
 
 namespace Domain.Persistence.Mappers;
 
+[ExcludeFromCodeCoverage]
 public class NHibernateDateOnlyType : IUserType
 {
     public bool Equals(object? x, object? y)
