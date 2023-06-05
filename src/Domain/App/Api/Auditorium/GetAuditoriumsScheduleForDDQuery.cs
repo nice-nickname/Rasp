@@ -31,9 +31,10 @@ public class GetAuditoriumsScheduleForDDQuery : QueryBase<List<KeyValueVm>>
 
         var busyAuditoriums = Repository.Query<Class>()
                                         .Where(r => r.Day == Day
-                                                  && r.ScheduleFormatId == ScheduleFormatId
+                                                 && r.ScheduleFormatId == ScheduleFormatId
                                                  && r.Week == Week
-                                                 && r.AuditoriumId != AuditoriumId)
+                                                 && r.AuditoriumId != AuditoriumId
+                                                 && (subDiscipline.IsParallelHours ? r.Plan.SubDiscipline.Id != SubDisciplineId : true))
                                         .Select(r => r.AuditoriumId)
                                         .ToList();
 
