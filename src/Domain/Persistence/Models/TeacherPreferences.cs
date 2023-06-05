@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using Domain.Persistence.Mappers;
 using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
@@ -30,6 +31,7 @@ public class TeacherPreferences : IncEntityBase, Share.IEntityHasId, Share.IEnti
 
     public virtual ScheduleFormat ScheduleFormat { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<TeacherPreferences>
     {
         public Mapping()

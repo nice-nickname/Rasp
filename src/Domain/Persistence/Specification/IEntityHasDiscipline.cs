@@ -7,9 +7,9 @@ public partial class Share
 {
     public interface IEntityHasDiscipline
     {
-        int DisciplineId { get; }
+        int DisciplineId { get; set; }
 
-        Discipline Discipline { get; }
+        Discipline Discipline { get; set; }
     }
 
     public partial class Where

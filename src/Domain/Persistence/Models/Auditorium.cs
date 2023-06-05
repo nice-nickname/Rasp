@@ -1,4 +1,5 @@
-﻿using Domain.Persistence.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
@@ -28,6 +29,7 @@ public class Auditorium : IncEntityBase, Share.IEntityMayHaveDepartment, Share.I
         Department = new Department();
     }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<Auditorium>
     {
         public Mapping()

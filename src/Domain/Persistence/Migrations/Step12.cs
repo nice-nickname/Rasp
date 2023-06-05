@@ -1,9 +1,11 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Extensions;
 using FluentMigrator;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(12, "Added teacher preferences")]
 public class Step12 : Migration
 {

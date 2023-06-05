@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
@@ -14,6 +15,7 @@ public class Holidays : IncEntityBase, Share.IEntityHasId
 
     public virtual string? Name { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<Holidays>
     {
         public Mapping()

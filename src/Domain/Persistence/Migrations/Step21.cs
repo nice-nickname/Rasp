@@ -1,8 +1,9 @@
-﻿using FluentMigrator;
-using Incoding.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentMigrator;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(21, "Discipline.DepartmentId is now nullable")]
 public class Step21 : Migration
 {

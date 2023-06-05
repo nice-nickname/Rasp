@@ -1,8 +1,10 @@
 ﻿using Domain.Extensions;
 using FluentMigrator;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(16, "Added Holiday table")]
 public class Step16 : Migration
 {

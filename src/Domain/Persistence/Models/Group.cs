@@ -1,4 +1,5 @@
-﻿using Domain.Persistence.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
@@ -18,6 +19,7 @@ public class Group : IncEntityBase, Share.IEntityHasDepartment, Share.IEntityHas
 
     public virtual Department Department { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<Group>
     {
         public Mapping()

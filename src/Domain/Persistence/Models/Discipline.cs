@@ -1,6 +1,7 @@
 ﻿using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
@@ -32,6 +33,7 @@ public class Discipline : IncEntityBase, Share.IEntityMayHaveDepartment, Share.I
         SubDisciplines = new List<SubDiscipline>();
     }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<Discipline>
     {
         public Mapping()

@@ -24,7 +24,7 @@ public class AddOrEditFacultyCommand : CommandBase
         {
                 FacultyId = faculty.Id,
                 Type = FacultySettings.OfType.StartDate,
-                Value = DateTime.Now
+                Value = new DateTime(1, 1, 1996)
         });
         Dispatcher.Push(new AddOrEditFacultySettingCommand<int>.IfNotExist
         {

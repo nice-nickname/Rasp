@@ -1,6 +1,7 @@
 ﻿using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
@@ -16,6 +17,7 @@ public class AuditoriumBusyness : IncEntityBase, Share.IEntityHasId
 
     public virtual int AuditoriumId { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<AuditoriumBusyness>
     {
         public Mapping()

@@ -1,4 +1,5 @@
-﻿using Domain.Persistence.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
@@ -16,6 +17,7 @@ public class DisciplinePlanByWeek : IncEntityBase, Share.IEntityHasId
 
     public virtual DisciplinePlan DisciplinePlan { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<DisciplinePlanByWeek>
     {
         public Mapping()

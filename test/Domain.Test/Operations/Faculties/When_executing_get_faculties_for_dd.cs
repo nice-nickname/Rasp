@@ -10,19 +10,27 @@ namespace Domain.Test;
 [Subject(typeof(GetFacultyForDDQuery), "Query")]
 class When_executing_get_faculties_for_dd
 {
+    static MockMessage<GetFacultyForDDQuery, List<KeyValueVm>> mockQuery;
+
+    static GetFacultyForDDQuery query;
+
+    static List<Faculty> expected;
+
+    static Action<GetFacultyForDDQuery> mock;
+
     Establish context = () =>
     {
         mock = query => mockQuery = MockQuery<GetFacultyForDDQuery, List<KeyValueVm>>
-                                        .When(query)
-                                        .StubQuery(entities: expected.ToArray());
-        
+                                    .When(query)
+                                    .StubQuery(entities: expected.ToArray());
+
         query = new GetFacultyForDDQuery();
         expected = Pleasure.Generator.Invent<List<Faculty>>();
     };
 
     class when_has_selected
     {
-        Establish context = () => 
+        Establish context = () =>
         {
             query.Selected = expected.First().Id;
             mock(query);
@@ -39,16 +47,8 @@ class When_executing_get_faculties_for_dd
 
         Because of = () => mockQuery.Execute();
 
-        It should_have_result = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected, 
-                                                                  (dsl, i) => dsl.ForwardToValue(s => s.Value, expected[i].Id.ToString())
-                                                                                 .ForwardToValue(s => s.Text, $"{expected[i].Code} - {expected[i].Name}")));
+        It should_have_result = () => mockQuery.ShouldBeIsResult(list => list.ShouldEqualWeakEach(expected,
+                                                                                                  (dsl, i) => dsl.ForwardToValue(s => s.Value, expected[i].Id.ToString())
+                                                                                                                 .ForwardToValue(s => s.Text, $"{expected[i].Code} - {expected[i].Name}")));
     }
-
-    static MockMessage<GetFacultyForDDQuery, List<KeyValueVm>> mockQuery;
-
-    static GetFacultyForDDQuery query;
-
-    static List<Faculty> expected;
-
-    static Action<GetFacultyForDDQuery> mock;
 }

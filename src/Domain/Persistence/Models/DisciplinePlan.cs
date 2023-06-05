@@ -1,6 +1,7 @@
 ﻿using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
@@ -23,7 +24,8 @@ public class DisciplinePlan : IncEntityBase, Share.IEntityHasSubDiscipline, Shar
     public virtual Group Group { get; set; }
 
     public virtual IList<DisciplinePlanByWeek> WeekAssignments { get; set; }
-
+    
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<DisciplinePlan>
     {
         public Mapping()

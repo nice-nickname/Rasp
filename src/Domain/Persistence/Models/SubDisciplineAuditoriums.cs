@@ -1,4 +1,5 @@
-﻿using Domain.Persistence.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
@@ -14,6 +15,7 @@ public class SubDisciplineAuditoriums : IncEntityBase, Share.IEntityHasSubDiscip
 
     public virtual SubDiscipline SubDiscipline { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<SubDisciplineAuditoriums>
     {
         public Mapping()

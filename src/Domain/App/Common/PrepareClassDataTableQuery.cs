@@ -1,9 +1,11 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Persistence;
 using Incoding.Core.CQRS.Core;
 
 namespace Domain.App.Common;
 
+[ExcludeFromCodeCoverage]
 public class PrepareClassDataTableQuery : QueryBase<DataTable>
 {
     protected override DataTable ExecuteResult()

@@ -1,4 +1,5 @@
-﻿using Domain.Persistence.Specification;
+﻿using System.Diagnostics.CodeAnalysis;
+using Domain.Persistence.Specification;
 using FluentNHibernate.Mapping;
 using Incoding.Core.Data;
 
@@ -16,6 +17,7 @@ public class SubDisciplineTeachers : IncEntityBase, Share.IEntityHasSubDisciplin
 
     public virtual Teacher Teacher { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public class Mapping : ClassMap<SubDisciplineTeachers>
     {
         public Mapping()

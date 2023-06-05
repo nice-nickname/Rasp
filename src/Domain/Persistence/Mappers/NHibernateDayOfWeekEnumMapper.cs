@@ -1,5 +1,8 @@
-﻿namespace Domain.Persistence.Mappers;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Domain.Persistence.Mappers;
+
+[ExcludeFromCodeCoverage]
 public class NHibernateDayOfWeekEnumMapper : global::NHibernate.Type.PersistentEnumType
 {
     public NHibernateDayOfWeekEnumMapper()

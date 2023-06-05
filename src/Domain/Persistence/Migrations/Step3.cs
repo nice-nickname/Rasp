@@ -1,7 +1,9 @@
 ﻿using FluentMigrator;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Persistence;
 
+[ExcludeFromCodeCoverage]
 [Migration(3, "Fixed Teachers table. Removed column [Teacher], added missed column [Name]")]
 public class Step3 : Migration
 {
