@@ -154,11 +154,6 @@ public class AddOrEditDisciplineCommand : CommandBase
                 Repository.DeleteByIds<DisciplinePlan>(plans);
             }
 
-            if (sdKind.Type == SubDisciplineKind.OfType.EXAM)
-            {
-                continue;
-            }
-
             foreach (var plan in sd.Plans)
             {
                 var planItem = new DisciplinePlan

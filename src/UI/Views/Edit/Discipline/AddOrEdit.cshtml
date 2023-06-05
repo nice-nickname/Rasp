@@ -176,7 +176,7 @@
                                 }
                                 else
                                 {
-                                    @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", false)
+                                    @Html.Hidden($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}", true)
                                 }
                                 <div class="form-group col-7">
                                     @Html.Label($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}", DataResources.Teachers, new { @class = "form-label" })
@@ -246,26 +246,23 @@
                                     @Html.ValidationMessage($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.AuditoriumKindIds)}")
                                 </div>
                             </div>
-                            @if (subDiscipline.Type != SubDisciplineKind.OfType.EXAM)
-                            {
-                                <div class="row mt-3">
-                                    <h5>@DataResources.DisciplinePlanByWeeks</h5>
-                                    @(Html.When(JqueryBind.None)
-                                          .StopPropagation()
-                                          .Ajax(Url.Dispatcher().Query<GetDisciplinePlansWEBQuery>(new
-                                          {
-                                              GroupIds = Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds),
-                                              TeacherIds = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}"),
-                                              LastIndex = i,
-                                              SubDisciplineId = subDiscipline.Id,
-                                              Hours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}"),
-                                              IsParallelHours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}")
-                                          }).AsView("~/Views/Edit/Discipline/Tmpl/GroupsItem_Tmpl.cshtml"))
-                                          .OnSuccess(dsl => dsl.Self().Insert.Html())
-                                          .AsHtmlAttributes(new { name = "plan-container" })
-                                          .ToDiv())
-                                </div>
-                            }
+                            <div class="row mt-3">
+                                <h5>@DataResources.DisciplinePlanByWeeks</h5>
+                                @(Html.When(JqueryBind.None)
+                                      .StopPropagation()
+                                      .Ajax(Url.Dispatcher().Query<GetDisciplinePlansWEBQuery>(new
+                                      {
+                                          GroupIds = Selector.Jquery.Name<AddOrEditDisciplineCommand>(s => s.GroupIds),
+                                          TeacherIds = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.TeacherIds)}"),
+                                          LastIndex = i,
+                                          SubDisciplineId = subDiscipline.Id,
+                                          Hours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.Hours)}"),
+                                          IsParallelHours = Selector.Jquery.Name($"{nameof(Model.SubDisciplines)}[{i}].{nameof(subDiscipline.IsParallelHours)}")
+                                      }).AsView("~/Views/Edit/Discipline/Tmpl/GroupsItem_Tmpl.cshtml"))
+                                      .OnSuccess(dsl => dsl.Self().Insert.Html())
+                                      .AsHtmlAttributes(new { name = "plan-container" })
+                                      .ToDiv())
+                            </div>
                         </div>
                         i++;
                     }
